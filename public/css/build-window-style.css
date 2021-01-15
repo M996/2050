@@ -1,0 +1,257 @@
+.build-window-div {
+    position: fixed;
+    top: 100px;
+    left: 10vw;
+    height: 75vh;
+    width: 80vw;
+    z-index: 8;
+    background: rgb(60,60,80);
+    border: 3px solid black;
+    border-radius: 12px;
+    box-shadow: 6px 6px 12px black;
+    display: none;
+}
+
+.build-window-top {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 40%;
+    border-bottom: 1px solid black;
+}
+
+.build-window-image {
+    height: 14vh;
+    border-radius: 2vh;
+    border: 2px solid black;
+    box-shadow: 4px 4px 8px black;
+}
+
+.build-window-title {
+    font-family: sans-serif;
+    color: white;
+    text-shadow: 2px 2px 4px black;
+    margin-bottom: 6%;
+}
+
+.build-window-health {
+    color: rgb(80,0,0);
+    font-family: sans-serif;
+    font-weight: bold;
+    padding: 4px;
+    background: rgb(90,90,90);
+    border: 1px solid black;
+    box-shadow: 3px 3px 6px black;
+}
+
+.build-window-bottom {
+    width: 90%;
+    height: 58%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0px 5%;
+}
+
+.build-window-btn {
+    font-family: sans-serif;
+    font-weight: bold;
+    background: rgb(100,100,250);
+    padding: 20px 8px;
+    border-radius: 8px;
+    box-shadow: 3px 3px 6px black;
+    transition-duration: 250ms;
+    width: 140px;
+    min-width: 140px;
+    min-height: 75px;
+    transition-duration: 250ms;
+}
+
+.build-window-btn:hover {
+    transform: translateY(1px);
+    box-shadow: 2px 2px 4px black;
+    background: rgb(220,220,220);
+    cursor: pointer;
+}
+
+.current-build-stats {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.build-output-maintenance-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.build-output-div {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid white;
+}
+
+.build-maintenance-div {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.build-info-win {
+    color: white;
+    font-family: sans-serif;
+    margin: 4px;
+}
+
+.inline-build-window-resource {
+    height: 18px;
+    border: none;
+    margin-bottom: -2px;
+}
+
+.inline-build-window-unit {
+    height: 21px;
+    border: none;
+    margin-bottom: -2px;
+}
+
+.build-window-control-panel {
+    width: 20%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.build-win-control-destroy {
+    margin-top: 12px;
+    margin-bottom: auto;
+    font-family: sans-serif;
+    font-weight: bold;
+    background: rgb(180,10,10);
+    color: white;
+    transition-duration: 150ms;
+}
+
+.build-win-control-destroy:hover {
+    background: rgb(200,50,50);
+    transform: translateY(-1px);
+    box-shadow: 1px 1px 3px black;
+    cursor: pointer;
+    
+}
+
+.build-win-control-more {
+    font-family: sans-serif;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.build-win-control-more:hover {
+    cursor: pointer;
+    background: rgb(200,200,200);
+}
+
+.build-win-control-upgrade {
+    font-family: sans-serif;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 24%;
+}
+
+.build-win-control-upgrade:hover {
+    cursor: pointer;
+    background: rgb(200,200,200);
+}
+
+.build-win-control-close {
+    margin-bottom: 12px;
+    margin-top: auto;
+    font-family: sans-serif;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.build-win-control-close:hover {
+    cursor: pointer;
+    background: rgb(200,200,200);
+}
+
+.build-btns-container {
+    height: 96%;
+    width: 79%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-left: 1px solid grey;
+    padding-left: 1%;
+    overflow-x: scroll;
+    position: relative;
+}
+
+.build-condition-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.build-info-active {
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-shadow: 2px 2px 4px black;
+    margin: 4px;
+}
+
+.build-btn-grouper {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 20px;
+}
+
+.target-building-info-text {
+    font-family: sans-serif;
+    color: white;
+    line-height: 2.5;
+    margin-left: 10%;
+}
+
+#construct-res-tooltip {
+    position: absolute;
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    height: 55px;
+    top: 0;
+    background: rgb(20,20,20);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    display: none;
+    flex-flow: row wrap;
+}
+
+.inline-build-window-structure {
+    height: 36px;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: -2px;
+}

@@ -1,0 +1,853 @@
+::-webkit-scrollbar {              /* height of horizontal scrollbar ← You're missing this */
+              /* width of vertical scrollbar */
+}
+
+.ui-resource-container {
+  position: fixed;
+  z-index: 6;
+  width: 100vw;
+  height: 6vh;
+  background: rgb(40,40,40);
+  min-height: 40px;
+}
+
+.top-resource-div {
+  display: flex;
+  width: 100vw;
+  height: 50%;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.bottom-resource-div {
+  display: flex;
+  width: 100vw;
+  height: 50%;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.resource-icon {
+  height: 2.5vh;
+  margin-left: 22px;
+  margin-right: 2px;
+  min-height: 17px;
+}
+
+.resource-icon:hover {
+  cursor: pointer;
+}
+
+.resource-amount-text {
+  color: white;
+  font-weight: bold;
+  font-family: sans-serif;
+  margin-right: 4px;
+}
+
+.resource-gain-text {
+  color: white;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+.end-resource-container {
+    margin-right: 8px;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Resource Icon Container */
+.capital-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.capital-tooltip .tooltip-capital {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.capital-tooltip:hover .tooltip-capital {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.influence-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.influence-tooltip .tooltip-influence {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.influence-tooltip:hover .tooltip-influence {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.oil-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.oil-tooltip .tooltip-oil {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.oil-tooltip:hover .tooltip-oil {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.mineral-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.mineral-tooltip .tooltip-mineral {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.mineral-tooltip:hover .tooltip-mineral {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.processedmineral-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.processedmineral-tooltip .tooltip-processedmineral {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.processedmineral-tooltip:hover .tooltip-processedmineral {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.nuclear-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.nuclear-tooltip .tooltip-nuclear {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.nuclear-tooltip:hover .tooltip-nuclear {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.exoticmatter-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.exoticmatter-tooltip .tooltip-exoticmatter {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.exoticmatter-tooltip:hover .tooltip-exoticmatter {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.energy-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.energy-tooltip .tooltip-energy {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.energy-tooltip:hover .tooltip-energy {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.food-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.food-tooltip .tooltip-food {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.food-tooltip:hover .tooltip-food {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.manpower-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.manpower-tooltip .tooltip-manpower {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.manpower-tooltip:hover .tooltip-manpower {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.metal-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.metal-tooltip .tooltip-metal {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.metal-tooltip:hover .tooltip-metal {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.processedmetal-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.processedmetal-tooltip .tooltip-processedmetal {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.processedmetal-tooltip:hover .tooltip-processedmetal {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.preciousmetal-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.preciousmetal-tooltip .tooltip-preciousmetal {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.preciousmetal-tooltip:hover .tooltip-preciousmetal {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+/* Resource Icon Container */
+.antimatter-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text for resource */
+.antimatter-tooltip .tooltip-antimatter {
+  visibility: hidden;
+  width: 8vw;
+  min-width: 110px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 7;
+}
+
+/* Show the tooltip text when you mouse over the resource container */
+.antimatter-tooltip:hover .tooltip-antimatter {
+  visibility: visible;
+}
+
+/* ========================================================================================================= */
+
+.city-interaction {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 46vh;
+    left: 0px;
+    width: 24vw;
+    height: 52vh;
+    border: 2px solid black;
+    border-top-right-radius: 12px;
+    background: rgb(40,40,40);
+    min-width: 300px;
+    min-height: 490px;
+}
+
+.tooltip-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  width: 24vw;
+  height: 52;
+  border-bottom-left-radius: 0px;
+  min-width: 300px;
+  min-height: 490px;
+}
+
+#tooltip-text {
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 24vw;
+  height: 36vh;
+  top: 0;
+  background-color: rgba(220,220,220,0.92);
+  text-align: center;
+  padding: 4px;
+  position: absolute;
+  z-index: 4;
+  min-width: 290px;
+  min-height: 285px;
+}
+
+.building-info-grouper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+}
+
+.title-health-grouper {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#building-health {
+  margin-top: 8px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(80,0,0);
+}
+
+#tooltip-title {
+  margin-bottom: 8px;
+  font-family: sans-serif;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#tooltip-image {
+  width: 30%;
+}
+
+#tooltip-description {
+  font-family: sans-serif;
+  line-height: 1.8;
+  font-size: 12px;
+}
+
+.production-maintenance-tool-container {
+  display: flex;
+  width: 23vw;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+
+#production-tip {
+  width: 50%;
+  border-right: 2px solid black;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+#maintenance-tip {
+  width: 50%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+#city-name {
+    margin-top: 0px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid white;
+    text-align: center;
+    color: white;
+    font-family: serif;
+    min-width: 20vw;
+    max-width: 24vw;
+    min-width: 290px;
+}
+
+.ui-btn-div {
+    width: 24vw;
+    margin-top: 2px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 290px;
+}
+
+.ui-btn-div button {
+    background: rgb(40,40,40);
+    border: none;
+    width: 12vw;
+    color: grey;
+    font-size: 16px;
+    font-weight: bold;
+    transition-duration: 450ms;
+}
+
+.ui-btn-div button:hover {
+    background: rgb(52,52,52);
+    cursor: pointer;
+}
+
+.ownership-div {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 80%;
+    margin-left: 8px;
+}
+
+
+#city-population {
+    color: rgb(200,200,200);
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-gdp-per-capita {
+    color: rgb(200,200,200);
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin: 2px;
+}
+
+#city-resource-income {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+#city-resource-produced {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-ownership {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-occupation {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-latitude {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-buildings {
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    width: 23vw;
+    height: 12vh;
+    min-width: 290px;
+    min-height: 85px;
+}
+
+#city-corporation {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin-left: 6px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#city-defense {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-unrest {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#city-pop-income {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#total-income {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin: 2px;
+    margin-top: 4px;
+}
+
+.city-img {
+    width: 22vw;
+    min-width: 280px;
+}
+
+.city-stats-view {
+    height: 19vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgb(60,60,60);
+    width: 24vw;
+    min-width: 290px;
+    min-height: 152px;
+}
+
+.left-city-view {
+    width: 50%;
+    border-right: 1px solid grey;
+    height: 18vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left: 8px;
+}
+
+.right-city-view {
+    width: 50%;
+    height: 18vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.city-building-img {
+  height: 5vh;
+  border-radius: 1vh;
+  border: 2px solid grey;
+    margin-left: 4px;
+    margin-right: 16px;
+}
+
+.city-building-img:hover {
+  cursor: pointer;
+}
+
+.current-month {
+  margin-right: 4px;
+  background: rgb(60,60,60);
+  height: 100%;
+  text-align: center;
+  width: 6vw;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(200,200,200);
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.current-year {
+  margin-right: 4px;
+  background: rgb(60,60,60);
+  height: 100%;
+  text-align: center;
+  width: 6vw;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(200,200,200);
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.maintenance-tip-string {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.building-res-icn {
+  height: 18px;
+  margin-left: 6px;
+}
+
+.tile-res-icn {
+  height: 14px;
+}

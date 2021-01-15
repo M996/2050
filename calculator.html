@@ -1,0 +1,203 @@
+    <div style="display:flex; justify-content:center; width: 100vw;">
+    <div style="display:block"> 
+    <input placeholder="City 1" id="city-1" type="number">
+    <br>
+    <input placeholder="City 2" id="city-2" type="number">
+    <br>
+    <input placeholder="City 3" id="city-3" type="number">
+    <br>
+    <input placeholder="Ethnicity 1 Percentage" id="eth-1" type="number" step="0.0001">
+    <br>
+    <input placeholder="Ethnicity 2 Percentage" id="eth-2" type="number" step="0.0001">
+    <br>
+    <input placeholder="Ethnicity 3 Percentage" id="eth-3" type="number" step="0.0001">
+    <br>
+    <input placeholder="Ethnicity 4 Percentage" id="eth-4" type="number" step="0.0001">
+    <br>
+    <button onclick="calculate()">Calculate</button>
+    <br>
+    <p id="total-population"></p>
+    <br>
+    <p id="ethnicity-amount-1"></p>
+    <br>
+    <p id="ethnicity-amount-2"></p>
+    <br>
+    <p id="ethnicity-amount-3"></p>
+    <br>
+    <p id="ethnicity-amount-4"></p>
+    <br>
+    <script>
+        const calculate = function() {
+            cityPop1 = document.querySelector("#city-1").value;
+            cityPop1 = Number(cityPop1);
+            cityPop2 = document.querySelector("#city-2").value;
+            cityPop2 = Number(cityPop2);
+            cityPop3 = document.querySelector("#city-3").value;
+            cityPop3 = Number(cityPop3);
+            ethPercent1 = document.querySelector("#eth-1").value;
+            ethPercent1 = Number(ethPercent1);
+            ethPercent2 = document.querySelector("#eth-2").value;
+            ethPercent2 = Number(ethPercent2);
+            ethPercent3 = document.querySelector("#eth-3").value;
+            ethPercent3 = Number(ethPercent3);
+            ethPercent4 = document.querySelector("#eth-4").value;
+            ethPercent4 = Number(ethPercent4);
+            
+            cityPopTotal = cityPop1 + cityPop2 + cityPop3;
+            document.querySelector("#total-population").textContent = "Total Population: " + cityPopTotal;
+            
+            ethAmount1 = cityPopTotal * ethPercent1;
+            document.querySelector("#ethnicity-amount-1").textContent = "Ethnicity 1 Amount: " + ethAmount1;
+            ethAmount2 = cityPopTotal * ethPercent2;
+            document.querySelector("#ethnicity-amount-2").textContent = "Ethnicity 2 Amount: " + ethAmount2;
+            ethAmount3 = cityPopTotal * ethPercent3;
+            document.querySelector("#ethnicity-amount-3").textContent = "Ethnicity 3 Amount: " + ethAmount3;
+            ethAmount4 = cityPopTotal * ethPercent4;
+            document.querySelector("#ethnicity-amount-4").textContent = "Ethnicity 4 Amount: " + ethAmount4;
+        }
+    </script>
+    </div> 
+    <br>
+    <br>
+    <br>
+    <div style="display:block"> 
+<input placeholder="City 1" id="city-country-pop1" type="number">
+<br>
+<input placeholder="City 2" id="city-country-pop2" type="number">
+<br>
+<input placeholder="City 3" id="city-country-pop3" type="number">
+<br>
+<input placeholder="City 4" id="city-country-pop4" type="number">
+<br>
+<input placeholder="City 5" id="city-country-pop5" type="number">
+<br>
+<input placeholder="City 6" id="city-country-pop6" type="number">
+<br>
+<input placeholder="City 7" id="city-country-pop7" type="number">
+<br>
+<input placeholder="City 8" id="city-country-pop8" type="number">
+<br>
+<input placeholder="City 9" id="city-country-pop9" type="number">
+<br>
+<input placeholder="City 10" id="city-country-pop10" type="number">
+<br>
+<input placeholder="City 11" id="city-country-pop11" type="number">
+<br>
+<input placeholder="City 12" id="city-country-pop12" type="number">
+<br>
+<input placeholder="City 13" id="city-country-pop13" type="number">
+<br>
+<input placeholder="City 14" id="city-country-pop14" type="number">
+<br>
+<input placeholder="City 15" id="city-country-pop15" type="number">
+<br>
+<input placeholder="City 16" id="city-country-pop16" type="number">
+<br>
+<input placeholder="City 17" id="city-country-pop17" type="number">
+<br>
+<input placeholder="City 18" id="city-country-pop18" type="number">
+<br>
+<input placeholder="City 19" id="city-country-pop19" type="number">
+<br>
+<input placeholder="City 20" id="city-country-pop20" type="number">
+<br>
+<input placeholder="City 21" id="city-country-pop21" type="number">
+<br>
+<input placeholder="City 22" id="city-country-pop22" type="number">
+<br>
+<input placeholder="City 23" id="city-country-pop23" type="number">
+<br>
+<input placeholder="City 24" id="city-country-pop24" type="number">
+<br>
+<input placeholder="City 25" id="city-country-pop25" type="number">
+<br>
+<input placeholder="City 26" id="city-country-pop26" type="number">
+<br>
+<button onclick="calculateTotalPop()">Calculate Country Population</button>
+<br>
+<p id="total-population-country"></p>
+
+<script>
+    const calculateTotalPop = function() {
+        cityPop1 = document.querySelector("#city-country-pop1").value;
+        cityPop1 = Number(cityPop1);
+        cityPop2 = document.querySelector("#city-country-pop2").value;
+        cityPop2 = Number(cityPop2);
+        cityPop3 = document.querySelector("#city-country-pop3").value;
+        cityPop3 = Number(cityPop3);
+        cityPop4 = document.querySelector("#city-country-pop4").value;
+        cityPop4 = Number(cityPop4);
+        cityPop5 = document.querySelector("#city-country-pop5").value;
+        cityPop5 = Number(cityPop5);
+        cityPop6 = document.querySelector("#city-country-pop6").value;
+        cityPop6 = Number(cityPop6);
+        cityPop7 = document.querySelector("#city-country-pop7").value;
+        cityPop7 = Number(cityPop7);
+        cityPop8 = document.querySelector("#city-country-pop8").value;
+        cityPop8 = Number(cityPop8);
+        cityPop9 = document.querySelector("#city-country-pop9").value;
+        cityPop9 = Number(cityPop9);
+        cityPop10 = document.querySelector("#city-country-pop10").value;
+        cityPop10 = Number(cityPop10);
+        cityPop11 = document.querySelector("#city-country-pop11").value;
+        cityPop11 = Number(cityPop11);
+        cityPop12 = document.querySelector("#city-country-pop12").value;
+        cityPop12 = Number(cityPop12);
+        cityPop13 = document.querySelector("#city-country-pop13").value;
+        cityPop13 = Number(cityPop13);
+        cityPop14 = document.querySelector("#city-country-pop14").value;
+        cityPop14 = Number(cityPop14);
+        cityPop15 = document.querySelector("#city-country-pop15").value;
+        cityPop15 = Number(cityPop15);
+        cityPop16 = document.querySelector("#city-country-pop16").value;
+        cityPop16 = Number(cityPop16);
+        cityPop17 = document.querySelector("#city-country-pop17").value;
+        cityPop17 = Number(cityPop17);
+        cityPop18 = document.querySelector("#city-country-pop18").value;
+        cityPop18 = Number(cityPop18);
+        cityPop19 = document.querySelector("#city-country-pop19").value;
+        cityPop19 = Number(cityPop19);
+        cityPop20 = document.querySelector("#city-country-pop20").value;
+        cityPop20 = Number(cityPop20);
+        cityPop21 = document.querySelector("#city-country-pop21").value;
+        cityPop21 = Number(cityPop21);
+        cityPop22 = document.querySelector("#city-country-pop22").value;
+        cityPop22 = Number(cityPop22);
+        cityPop23 = document.querySelector("#city-country-pop23").value;
+        cityPop23 = Number(cityPop23);
+        cityPop24 = document.querySelector("#city-country-pop24").value;
+        cityPop24 = Number(cityPop24);
+        cityPop25 = document.querySelector("#city-country-pop25").value;
+        cityPop25 = Number(cityPop25);
+        cityPop26 = document.querySelector("#city-country-pop26").value;
+        cityPop26 = Number(cityPop26);
+        
+        cityPopTotalCountry = cityPop1 + cityPop2 + cityPop3 + cityPop4 + cityPop5 + cityPop6 + cityPop7 + cityPop8 + cityPop9 + cityPop10 + cityPop11 + cityPop12 + cityPop13 + cityPop14 + cityPop15 + cityPop16 + cityPop17 + cityPop18 + cityPop19 + cityPop20 + cityPop21 + cityPop22 + cityPop23 + cityPop24 + cityPop25 + cityPop26
+        document.querySelector("#total-population-country").textContent = "Country Population: " + cityPopTotalCountry;
+    }
+</script>
+    </div>
+<br>
+<br>
+<div style="display:block"> 
+<input placeholder="City Population to Food" id="city-country-food" type="number">
+<br>
+<input placeholder="Current Food Expense" id="city-country-food-income" type="number">
+<br>
+<button onclick="calculateFoodAmount()">Calculate Food needed for City</button>
+<br>
+<p id="food-amount1"></p>
+
+<script>
+    const calculateFoodAmount = function() {
+        cityPopFood1 = document.querySelector("#city-country-food").value;
+        cityPopFood1 = Number(cityPopFood1);
+        foodAmount = cityPopFood1 * 0.00000003;
+        currentFood = document.querySelector("#city-country-food-income").value;
+        currentFood = Number(currentFood);
+        newFoodAmount = currentFood + foodAmount;
+        document.querySelector("#food-amount1").textContent = "New Food Amount: " + newFoodAmount.toFixed(4);
+    }
+</script>
+</div>
+</div>
