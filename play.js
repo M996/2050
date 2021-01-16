@@ -58,10 +58,15 @@
             // Reset all recorded costs from last month, we want to make sure that when the month rolls over the recorded expenses are recent
             country.capitalExpense = country.buildingCapitalExpense;
             country.energyExpense = country.buildingEnergyExpense;
+            country.monthlyProcessedMetal = 0;
+            country.monthlyProcessedMinerals = 0;
+            country.processedMetalExpense = 0;
+            country.processedMineralsExpense = 0;
             country.manpowerExpense = 0;
             country.mineralExpense = 0;
             country.metalExpense = 0;
             country.oilExpense = 0;
+            country.oceanRigOil = 0;
             country.preciousMetalExpense = 0;
             country.nuclearMaterialExpense = 0;
             country.antiMatterExpense = 0;
@@ -97,7 +102,7 @@
                 }
                 
             } else {
-              capitalChange = country.monthlyCapital;
+              capitalChange = country.monthlyCapital - country.buildingCapitalExpense;
               capitalAmount = country.capitalStored + capitalChange;
               if (capitalAmount > country.capitalStorageCapacity) {
                 country.capitalStored = country.capitalStorageCapacity;
@@ -110,12 +115,12 @@
             }
             
             // Energy: Fixed Expenses ================================================
-            fixedEnergyChange = country.monthlyEnergy - country.buildingEnergyExpense;
-            fixedEnergyAmount = country.energyStored + fixedEnergyChange;
-            if (fixedEnergyAmount > country.energyStorageCapacity) {
+            energyChange = country.monthlyEnergy - country.buildingEnergyExpense;
+            energyAmount = country.energyStored + energyChange;
+            if (energyAmount > country.energyStorageCapacity) {
                 country.energyStored = country.energyStorageCapacity;
             } else {
-                country.energyStored = fixedEnergyAmount;
+                country.energyStored = energyAmount;
             }
             // the purpose of this section is to add the base energy all nations get (+2) and subtract the fixed
             // energy cost of certain buildings, usually military bases. Most of the energy budget however should
@@ -216,27 +221,17 @@
             
             country.buildingProcess2.forEach(function(processID) {
               if (map2BuildingProcess[processID].active) {
-                if (map2BuildingProcess[processID].outputMaterial === '') {
-                  if (map2BuildingProcess[processID].damageType === '') {
-                    
+                // the building is constructing something, help it
+                maintenanceAmountIndex = 0;
+                transactPass = true;
+                map2BuildingProcess[processID].maintenanceMaterial.forEach(function(material) {
+                  // this switch case will determine if we have enough of this resource stored to cover our costs, if we do not then it will
+                  // change transactPass to false, and the building will not produce anything this month, but if we do then it will produce
+                  if (material == 'capital') {
+                    // if we do not have enough capital to produce something, I literally don't care. Just force the country
+                    // to take out a loan.
                   } else {
-                    // the building is a weapon, treat it as one
-                  }
-                } else {
-                  // the building is constructing something, help it
-                  maintenanceAmountIndex = 0;
-                  transactPass = true;
-                  map2BuildingProcess[processID].maintenanceMaterial.forEach(function(material) {
-                    // this switch case will determine if we have enough of this resource stored to cover our costs, if we do not then it will
-                    // change transactPass to false, and the building will not produce anything this month, but if we do then it will produce
                     switch(material) {
-                      case 'capital':
-                        if (country.capitalStored > map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex]) {
-                          
-                        } else {
-                          transactPass = false;
-                        }
-                      break;
                       case 'oil':
                         if (country.oilStored > map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex]) {
                           
@@ -315,68 +310,1282 @@
                         }
                       break;
                     }
+                  }
+                  maintenanceAmountIndex++;
+                });
+                if (transactPass) {
+                  // if we have confirmed that this nation has enough resources to run this building process then run it and produce
+                  // whatever it is this building is trying to produce
+                  maintenanceAmountIndex = 0;
+                  map2BuildingProcess[processID].maintenanceMaterial.forEach(function(material) {
+                    switch(material) {
+                      case 'capital':
+                        country.capitalStored = country.capitalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.capitalExpense = country.capitalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        capitalChange = capitalChange - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'oil':
+                        country.oilStored = country.oilStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.oilExpense = country.oilExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'manpower':
+                        country.manpowerStored = country.manpowerStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.manpowerExpense = country.manpowerExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'minerals':
+                        country.mineralStored = country.mineralStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.mineralExpense = country.mineralExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'processed-minerals':
+                        country.processedMineralsStored = country.processedMineralsStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.processedMineralsExpense = country.processedMineralsExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'metal':
+                        country.metalStored = country.metalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.metalExpense = country.metalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'processed-metal':
+                        country.processedMetalStored = country.processedMetalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.processedMetalExpense = country.processedMetalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'energy':
+                        country.energyStored = country.energyStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.energyExpense = country.energyExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        energyChange = energyChange - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'previous-metal':
+                        country.preciousMetalStored = country.preciousMetalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.preciousMetalExpense = country.preciousMetalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'nuclear-material':
+                        country.nuclearMaterialStored = country.nuclearMaterialStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.nuclearMaterialExpense = country.nuclearMaterialExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'super-high-tensile-material':
+                        country.superHighTensileStored = country.superHighTensileStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.superHighTensileExpense = country.superHighTensileExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                      case 'agricultural-material':
+                        country.agriculturalMaterialStored = country.agriculturalMaterialStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                      break;
+                    }
                     maintenanceAmountIndex++;
                   });
-                  if (transactPass) {
-                    // if we have confirmed that this nation has enough resources to run this building process then run it and produce
-                    // whatever it is this building is trying to produce
-                    maintenanceAmountIndex = 0;
-                    map2BuildingProcess[processID].maintenanceMaterial.forEach(function(material) {
-                      switch(material) {
-                        case 'capital':
-                          country.capitalStored = country.capitalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.capitalExpense = country.capitalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                  
+                  // make the process produce something here
+                  switch(map2BuildingProcess[processID].outputMaterial) {
+                    // Buildings ===========================================================================================
+                    case 'ground-defense-laser-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                          // if we have 4 months left, reduce the months left to 3 inside botht eh building process, and the city
                         break;
-                        case 'oil':
-                          country.oilStored = country.oilStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.oilExpense = country.oilExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
                         break;
-                        case 'manpower':
-                          country.manpowerStored = country.manpowerStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.manpowerExpense = country.manpowerExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
                         break;
-                        case 'minerals':
-                          country.mineralStored = country.mineralStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.mineralExpense = country.mineralExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'processed-minerals':
-                          country.processedMineralsStored = country.processedMineralsStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.processedMineralsExpense = country.processedMineralsExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'metal':
-                          country.metalStored = country.metalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.metalExpense = country.metalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'processed-metal':
-                          country.processedMetalStored = country.processedMetalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.processedMetalExpense = country.processedMetalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'energy':
-                          country.energyStored = country.energyStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.energyExpense = country.energyExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'previous-metal':
-                          country.preciousMetalStored = country.preciousMetalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.preciousMetalExpense = country.preciousMetalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'nuclear-material':
-                          country.nuclearMaterialStored = country.nuclearMaterialStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.nuclearMaterialExpense = country.nuclearMaterialExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'super-high-tensile-material':
-                          country.superHighTensileStored = country.superHighTensileStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.superHighTensileExpense = country.superHighTensileExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
-                        case 'agricultural-material':
-                          country.agriculturalMaterialStored = country.agriculturalMaterialStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                          country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
-                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 50;
+                          map2BuildingProcess[processID].damageType = 'directed-energy';
+                          map2BuildingProcess[processID].damageAmount = 1000;
+                          map2BuildingProcess[processID].tracking = 0.35;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.5,0.6];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "ground-defense-laser-2";
+                      break;
                       }
-                      maintenanceAmountIndex++;
-                    });
-                    
-                    // make the process produce something here
-                    
+                    break;
+                    case 'ground-defense-laser-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                          // if we have 4 months left, reduce the months left to 3 inside botht eh building process, and the city
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 20;
+                          map2BuildingProcess[processID].damageType = 'directed-energy';
+                          map2BuildingProcess[processID].damageAmount = 500;
+                          map2BuildingProcess[processID].tracking = 0.25;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.4,0.4];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "ground-defense-laser-1";
+                      break;
+                      }
+                    break;
+                  case 'nuclear-power-plant-3':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 220;
+                          map2BuildingProcess[processID].outputMaterial = 'energy';
+                          map2BuildingProcess[processID].outputAmount = 20;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['nuclear-material','capital'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.8,0.5];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "nuclear-power-plant-3";
+                      break;
+                      }
+                    break;
+                  case 'nuclear-power-plant-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 185;
+                          map2BuildingProcess[processID].outputMaterial = 'energy';
+                          map2BuildingProcess[processID].outputAmount = 16;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['nuclear-material','capital'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.9,0.6];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "nuclear-power-plant-2";
+                      break;
+                      }
+                    break;
+                  case 'nuclear-power-plant-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 150;
+                          map2BuildingProcess[processID].outputMaterial = 'energy';
+                          map2BuildingProcess[processID].outputAmount = 12;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['nuclear-material','capital'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.9,0.8];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "nuclear-power-plant-1";
+                      break;
+                      }
+                    break;
+                  case 'missile-silo':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 9:
+                          map2BuildingProcess[processID].monthsLeft = 8;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-8";
+                        break;
+                        case 8:
+                          map2BuildingProcess[processID].monthsLeft = 7;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-7";
+                        break;
+                        case 7:
+                          map2BuildingProcess[processID].monthsLeft = 6;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-6";
+                        break;
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 150;
+                          map2BuildingProcess[processID].maintenanceMaterial = [];
+                          map2BuildingProcess[processID].maintenanceAmount = [];
+                          country.buildingEnergyExpense = country.buildingEnergyExpense + 0.75;
+                          country.buildingCapitalExpense = country.buildingCapitalExpense + 1.5;
+                          // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "missile-silo";
+                      break;
+                      }
+                    break;
+                    case 'ocean-rig':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 80;
+                          
+                          provinceResource = map2Provinces[map2Cities[buildingCity].provinceID].resource;
+                          if (provinceResource == "<img src='public/images/oilicon.png' class='tile-res-icn'>") {
+                            oilAmount = map2Provinces[map2Cities[buildingCity].provinceID].resourceAmount;
+                          }
+                          map2BuildingProcess[processID].outputMaterial = 'oil';
+                          map2BuildingProcess[processID].outputAmount = oilAmount;
+                          
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.8];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "ocean-rig";
+                      break;
+                      }
+                    break;
+                  case 'space-elevator':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 12:
+                          map2BuildingProcess[processID].monthsLeft = 11;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-11";
+                        break;
+                        case 11:
+                          map2BuildingProcess[processID].monthsLeft = 10;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-10";
+                        break;
+                        case 10:
+                          map2BuildingProcess[processID].monthsLeft = 9;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-9";
+                        break;
+                        case 9:
+                          map2BuildingProcess[processID].monthsLeft = 8;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-8";
+                        break;
+                        case 8:
+                          map2BuildingProcess[processID].monthsLeft = 7;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-7";
+                        break;
+                        case 7:
+                          map2BuildingProcess[processID].monthsLeft = 6;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-6";
+                        break;
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 20;
+                          map2BuildingProcess[processID].maintenanceMaterial = [];
+                          map2BuildingProcess[processID].maintenanceAmount = [];
+                          country.buildingEnergyExpense = country.buildingEnergyExpense + 1.2;
+                          country.buildingCapitalExpense = country.buildingCapitalExpense + 2.2;
+                          // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "space-elevator";
+                      break;
+                      }
+                    break;
+                    case 'port':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 150;
+                          map2BuildingProcess[processID].maintenanceMaterial = [];
+                          map2BuildingProcess[processID].maintenanceAmount = [];
+                          country.buildingCapitalExpense = country.buildingCapitalExpense + 0.2;
+                          // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "port";
+                      break;
+                      }
+                    break;
+                  case 'military-base':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 150;
+                          map2BuildingProcess[processID].maintenanceMaterial = [];
+                          map2BuildingProcess[processID].maintenanceAmount = [];
+                          country.buildingEnergyExpense = country.buildingEnergyExpense + 0.25;
+                          country.buildingCapitalExpense = country.buildingCapitalExpense + 1;
+                          // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "military-base";
+                      break;
+                      }
+                    break;
+                  case 'power-plant-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 120;
+                          map2BuildingProcess[processID].outputMaterial = 'energy';
+                          map2BuildingProcess[processID].outputAmount = 8;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['oil','capital'];
+                          map2BuildingProcess[processID].maintenanceAmount = [1,0.1];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "power-plant-2";
+                      break;
+                      }
+                    break;
+                  case 'power-plant-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 120;
+                          map2BuildingProcess[processID].outputMaterial = 'energy';
+                          map2BuildingProcess[processID].outputAmount = 5;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['oil','capital'];
+                          map2BuildingProcess[processID].maintenanceAmount = [1,0.1];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "power-plant-1";
+                      break;
+                      }
+                    break;
+                  case 'metal-processing-plant-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 180;
+                          map2BuildingProcess[processID].outputMaterial = 'processed-metal';
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','metal','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.4,1.4,0.4];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "metal-processing-plant-2";
+                      break;
+                      }
+                    break;
+                  case 'metal-processing-plant-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 150;
+                          map2BuildingProcess[processID].outputMaterial = 'processed-metal';
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','metal','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.5,1.5,0.4];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "metal-processing-plant-1";
+                      break;
+                      }
+                    break;
+                  case 'orbital-launch-pad':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 40;
+                          map2BuildingProcess[processID].maintenanceMaterial = [];
+                          map2BuildingProcess[processID].maintenanceAmount = [];
+                          country.buildingEnergyExpense = country.buildingEnergyExpense + 1.2;
+                          country.buildingCapitalExpense = country.buildingCapitalExpense + 2.2;
+                          // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "orbital-launch-pad";
+                      break;
+                      }
+                    break;
+                  case 'mineral-processing-plant-3':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 140;
+                          map2BuildingProcess[processID].outputMaterial = 'processed-minerals';
+                          map2BuildingProcess[processID].outputAmount = 0.7;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','minerals','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.4,1.4,0.2];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "mineral-processing-plant-3";
+                      break;
+                      }
+                    break;
+                  case 'mineral-processing-plant-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 120;
+                          map2BuildingProcess[processID].outputMaterial = 'processed-minerals';
+                          map2BuildingProcess[processID].outputAmount = 0.6;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','minerals','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.5,1.5,0.2];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "mineral-processing-plant-2";
+                      break;
+                      }
+                    break;
+                  case 'mineral-processing-plant-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 140;
+                          map2BuildingProcess[processID].outputMaterial = 'processed-minerals';
+                          map2BuildingProcess[processID].outputAmount = 0.5;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','minerals','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.6,1.4,0.2];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "mineral-processing-plant-1";
+                      break;
+                      }
+                    break;
+                    case 'railgun-3':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 8:
+                          map2BuildingProcess[processID].monthsLeft = 7;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-7";
+                        break;
+                        case 7:
+                          map2BuildingProcess[processID].monthsLeft = 6;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-6";
+                        break;
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 10;
+                          map2BuildingProcess[processID].damageType = 'kinetic';
+                          map2BuildingProcess[processID].damageAmount = 160;
+                          map2BuildingProcess[processID].range = 260;
+                          map2BuildingProcess[processID].tracking = 0.1;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.6,0.85];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "railgun-3";
+                      break;
+                      }
+                    break;
+                  case 'railgun-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 8:
+                          map2BuildingProcess[processID].monthsLeft = 7;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-7";
+                        break;
+                        case 7:
+                          map2BuildingProcess[processID].monthsLeft = 6;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-6";
+                        break;
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 10;
+                          map2BuildingProcess[processID].damageType = 'kinetic';
+                          map2BuildingProcess[processID].damageAmount = 130;
+                          map2BuildingProcess[processID].range = 220;
+                          map2BuildingProcess[processID].tracking = 0.06;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.75,0.8];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "railgun-2";
+                      break;
+                      }
+                    break;
+                  case 'railgun-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 8:
+                          map2BuildingProcess[processID].monthsLeft = 7;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-7";
+                        break;
+                        case 7:
+                          map2BuildingProcess[processID].monthsLeft = 6;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-6";
+                        break;
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 10;
+                          map2BuildingProcess[processID].damageType = 'kinetic';
+                          map2BuildingProcess[processID].damageAmount = 100;
+                          map2BuildingProcess[processID].range = 180;
+                          map2BuildingProcess[processID].tracking = 0.04;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [0.9,0.85];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "railgun-1";
+                      break;
+                      }
+                    break;
+                  case 'missile-system-3':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 25;
+                          map2BuildingProcess[processID].damageType = 'explosive';
+                          map2BuildingProcess[processID].damageAmount = 160;
+                          map2BuildingProcess[processID].range = 180;
+                          map2BuildingProcess[processID].tracking = 0.1;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [1,0.2];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "missile-system-3";
+                      break;
+                      }
+                    break;
+                  case 'missile-system-2':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 25;
+                          map2BuildingProcess[processID].damageType = 'explosive';
+                          map2BuildingProcess[processID].damageAmount = 140;
+                          map2BuildingProcess[processID].range = 150;
+                          map2BuildingProcess[processID].tracking = 0.08;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [1,0.25];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "missile-system-2";
+                      break;
+                      }
+                    break;
+                  case 'missile-system-1':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 25;
+                          map2BuildingProcess[processID].damageType = 'explosive';
+                          map2BuildingProcess[processID].damageAmount = 120;
+                          map2BuildingProcess[processID].range = 120;
+                          map2BuildingProcess[processID].tracking = 0.04;
+                          map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
+                          map2BuildingProcess[processID].maintenanceAmount = [1,0.25];
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "missile-system-1";
+                      break;
+                      }
+                    break;
+                  case 'research-facility':
+                      switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 9:
+                          map2BuildingProcess[processID].monthsLeft = 8;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-8";
+                        break;
+                        case 8:
+                          map2BuildingProcess[processID].monthsLeft = 7;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-7";
+                        break;
+                        case 7:
+                          map2BuildingProcess[processID].monthsLeft = 6;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-6";
+                        break;
+                        case 6:
+                          map2BuildingProcess[processID].monthsLeft = 5;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-5";
+                        break;
+                        case 5:
+                          map2BuildingProcess[processID].monthsLeft = 4;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-4";
+                        break;
+                        case 4:
+                          map2BuildingProcess[processID].monthsLeft = 3;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-3";
+                        break;
+                        case 3:
+                          map2BuildingProcess[processID].monthsLeft = 2;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-2";
+                        break;
+                        case 2:
+                          map2BuildingProcess[processID].monthsLeft = 1;
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "built-in-1";
+                        break;
+                        case 1:
+                          buildingCity = map2BuildingProcess[processID].city;
+                          buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
+                          map2BuildingProcess[processID].outputMaterial = '';
+                          map2Cities[buildingCity].buildingHealth[buildingArrayIndex] = 40;
+                          map2BuildingProcess[processID].maintenanceMaterial = [];
+                          map2BuildingProcess[processID].maintenanceAmount = [];
+                          country.buildingCapitalExpense = country.buildingCapitalExpense + 0.85;
+                          // we don't need to set the 'hasResearchFacility' to true for this country, because once per year
+                          // every city owned by this country will be searched to see if it has a research facility, so its
+                          // existence is good enough
+                          map2Cities[buildingCity].buildings[buildingArrayIndex] = "research-facility";
+                      break;
+                      }
+                    break;
+                  
+                  // Materials =============================================================================================
+                  
+                   //country.oceanRigOil = country.oceanRigOil + oilAmount;
+                   // the code above should be used to keep an accurate track of how much oil is being produced by a country
+                   // because oil can be produced both in provinces and also in ocean rigs
+                   
+                   // Units =================================================================================================
+                   
+                   
                   }
                 }
               }
@@ -403,26 +1612,25 @@
             
             
             if (country.isPlayer) {
-                totalCapitalChange = (country.monthlyCapital - country.capitalExpense);
-                totalCapitalChange = totalCapitalChange.toFixed(2)
-                totalCapitalChange = Number(totalCapitalChange);
+                capitalChange = capitalChange.toFixed(2)
+                capitalChange = Number(capitalChange);
                 if (capitalChange < 0) {
-                  document.querySelector("#country-capital-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + capitalChange.toLocaleString() + "</span>";
+                  document.querySelector("#country-capital-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + capitalChange.toLocaleString() + "</span>";
                 } else {
                   document.querySelector("#country-capital-growth").innerHTML = "+" + capitalChange.toLocaleString();
                 }
                 document.querySelector("#country-capital-amount").textContent = country.capitalStored.toFixed(0);
                 
                 if (influenceChange < 0) {
-                  document.querySelector("#country-influence-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + influenceChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-influence-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + influenceChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-influence-growth").innerHTML = "+" + influenceChange.toFixed(2);
                 }
                 document.querySelector("#country-influence-amount").textContent = country.influenceStored;
                 
-                oilChange = (country.monthlyOil - country.oilExpense);
+                oilChange = ((country.monthlyOil + country.oceanRigOil) - country.oilExpense);
                 if (oilChange < 0) {
-                  document.querySelector("#country-oil-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + oilChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-oil-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + oilChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-oil-growth").innerHTML = "+" + oilChange.toFixed(2);
                 }
@@ -431,16 +1639,25 @@
                 mineralChange = (country.monthlyMinerals - country.mineralExpense);
                 mineralChange = Number(mineralChange);
                 if (mineralChange < 0) {
-                  document.querySelector("#country-mineral-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + mineralChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-mineral-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + mineralChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-mineral-growth").innerHTML = "+" + mineralChange.toFixed(2);
                 }
                 document.querySelector("#country-mineral-amount").textContent = country.mineralStored.toFixed(0);
                 
+                processedMineralsChange = (country.monthlyProcessedMinerals - country.processedMineralsExpense);
+                processedMineralsChange = Number(processedMineralsChange);
+                if (processedMineralsChange < 0) {
+                  document.querySelector("#country-processed-mineral-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + processedMineralsChange.toFixed(2) + "</span>";
+                } else {
+                  document.querySelector("#country-processed-mineral-growth").innerHTML = "+" + processedMineralsChange.toFixed(2);
+                }
+                document.querySelector("#country-processed-mineral-amount").textContent = country.processedMineralsStored.toFixed(0);
+                
                 nuclearChange = (country.monthlyNuclearMaterial - country.nuclearMaterialExpense);
                 nuclearChange = Number(nuclearChange);
                 if (nuclearChange < 0) {
-                  document.querySelector("#country-nuclear-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + nuclearChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-nuclear-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + nuclearChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-nuclear-growth").innerHTML = "+" + nuclearChange.toFixed(2);
                 }
@@ -449,22 +1666,21 @@
                 exoticChange = (country.monthlyExoticMatter - country.exoticMatterExpense);
                 exoticChange = Number(exoticChange);
                 if (exoticChange < 0) {
-                  document.querySelector("#country-exotic-matter-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + exoticChange.toFixed(3) + "</span>";
+                  document.querySelector("#country-exotic-matter-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + exoticChange.toFixed(3) + "</span>";
                 } else {
                   document.querySelector("#country-exotic-matter-growth").innerHTML = "+" + exoticChange.toFixed(3);
                 }
                 document.querySelector("#country-exotic-matter-amount").textContent = country.exoticMatterStored.toFixed(1);
                 
-                energyChange = (country.monthlyEnergy - country.energyExpense);
                 if (energyChange < 0) {
-                  document.querySelector("#country-energy-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + energyChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-energy-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + energyChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-energy-growth").innerHTML = "+" + energyChange.toFixed(2);
                 }
                 document.querySelector("#country-energy-amount").textContent = country.energyStored.toFixed(0);
                 
                 if (foodChange < 0) {
-                  document.querySelector("#country-food-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + foodChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-food-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + foodChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-food-growth").innerHTML = "+" + foodChange.toFixed(2);
                 }
@@ -476,7 +1692,7 @@
                 manpowerStoredDisplay = country.manpowerStored.toFixed(0);
                 manpowerStoredDisplay = Number(manpowerStoredDisplay);
                 if (manpowerChange < 0) {
-                  document.querySelector("#country-manpower-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + manpowerChange.toLocaleString() + "</span>";
+                  document.querySelector("#country-manpower-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + manpowerChange.toLocaleString() + "</span>";
                 } else {
                   document.querySelector("#country-manpower-growth").innerHTML = "+" + manpowerChange.toLocaleString();
                 }
@@ -485,11 +1701,22 @@
                 metalChange = (country.monthlyMetal - country.metalExpense);
                 metalChange = Number(metalChange);
                 if (metalChange < 0) {
-                  document.querySelector("#country-metal-growth").innerHTML = "<span style='color:rgb(255,50,50);'>-" + metalChange.toFixed(2) + "</span>";
+                  document.querySelector("#country-metal-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + metalChange.toFixed(2) + "</span>";
                 } else {
                   document.querySelector("#country-metal-growth").innerHTML = "+" + metalChange.toFixed(2);
                 }
                 document.querySelector("#country-metal-amount").textContent = country.metalStored.toFixed(0);
+                
+                processedMetalChange = (country.monthlyProcessedMetal - country.processedMetalExpense);
+                processedMetalChange = Number(processedMetalChange);
+                if (processedMetalChange < 0) {
+                  document.querySelector("#country-processed-metal-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + processedMetalChange.toFixed(2) + "</span>";
+                } else {
+                  document.querySelector("#country-processed-metal-growth").innerHTML = "+" + processedMetalChange.toFixed(2);
+                }
+                document.querySelector("#country-processed-metal-amount").textContent = country.processedMetalStored.toFixed(0);
+                
+                nuclearChange = (country.monthlyNuclearMaterial - country.nuclearMaterialExpense);
                 
                 preciousMetalChange = (country.monthlyPreciousMetal - country.preciousMetalExpense);
                 preciousMetalChange = Number(preciousMetalChange);

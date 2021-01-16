@@ -210,7 +210,10 @@ require 'header.php';
 
 <script src="provinces2.js"></script>
 <script src="cities2.js"></script>
+<script src="buildingProcess1.js"></script>
 <script src="buildingProcess2.js"></script>
+<script src="buildingProcess3.js"></script>
+<script src="buildingProcess4.js"></script>
 <script src="main2.js"></script>
 
 <script src="play.js"></script>

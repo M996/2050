@@ -79,19 +79,19 @@ const showToolTip = function(building, title, image, description, health) {
     break;
   case 'missile-system-1':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -1.1 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.25 <img src="public/images/energyicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.04 <img src="public/images/processedmetalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -1.1 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.25 <img src="public/images/energyicon.png" class="building-res-icn"></span></span>';
     break;
   case 'missile-system-2':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -1 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.25 <img src="public/images/energyicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.03 <img src="public/images/processedmetalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -1 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.25 <img src="public/images/energyicon.png" class="building-res-icn"></span></span>';
     break;
   case 'missile-system-3':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -1 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.25 <img src="public/images/energyicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.02 <img src="public/images/processedmetalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -1 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.2 <img src="public/images/energyicon.png" class="building-res-icn"></span></span>';
     break;
   case 'orbital-launch-pad':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -2.2 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -1 <img src="public/images/energyicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.03 <img src="public/images/processedmetalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -2.2 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -1.2 <img src="public/images/energyicon.png" class="building-res-icn"></span></span>';
     break;
   // Skyhooks will not have a tooltip, you just click on them and they open up the build window right away
   case 'missile-silo':
@@ -320,6 +320,9 @@ const moreBuildings2 = function(cityID) {
       <button class="build-window-btn" onclick="constructBuilding2(` + cityID + `, 'ocean-rig')" onmouseover="buildingCostToolTip(
       ['processed-metal','capital','energy'],[1.8,3.8,1.8],6,0)">Oil Rig</button>
     </div>`;
+    document.querySelector(".build-window-image").src = "public/images/build-new.png";
+    document.querySelector(".build-window-title").textContent = "Construct Oil Rig";
+    document.querySelector(".build-window-div").style.display = "block";
   } else {
     document.querySelector(".build-btns-container").innerHTML = `<div id="construct-res-tooltip">
     </div>
@@ -383,7 +386,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
     // this is the new ID for the new build process that wil be created.
     
     newBuildingIndex = map2Cities[cityID].buildings.length;
-    newBuildingIndex++;
+    // Because javascript arrays start at 0 instead of 1, we do not need to increment this value when we insert it into buildingArrayIndex
     
     switch(buildingModel) {
       case "ground-defense-laser-2":
@@ -392,6 +395,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -422,6 +426,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -429,7 +434,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "damageAmount": 0,
           "range": 0,
           "tracking": 0,
-          "outputMaterial": 'ground-defense-laser-2',
+          "outputMaterial": 'ground-defense-laser-1',
           "outputAmount": 1,
           "maintenanceMaterial": ['processed-metal','processed-minerals','capital','energy'],
           "maintenanceAmount": [0.2,0.2,1.2,1],
@@ -448,6 +453,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -474,6 +480,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -500,6 +507,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -526,6 +534,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -552,6 +561,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -578,6 +588,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -604,6 +615,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -630,6 +642,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -656,6 +669,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -682,6 +696,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -708,6 +723,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -734,6 +750,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -760,6 +777,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -786,6 +804,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -812,6 +831,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -838,6 +858,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -864,6 +885,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -890,6 +912,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -916,6 +939,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -942,6 +966,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -968,6 +993,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -994,6 +1020,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -1020,6 +1047,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
           "id": newBuildProcessID,
           "city": cityID,
           "buildingArrayIndex": newBuildingIndex,
+          "virus": 0,
           "destroyed": false,
           "active": true,
           "targetCity": undefined,
@@ -1065,6 +1093,35 @@ const constructBuilding2 = function(cityID, buildingModel) {
 
 
 const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID) {
+  buildingModel = map2Cities[cityID].buildings[buildingArrayIndex];
+  // determine what country owns this city
+  if (buildingModel == 'military-base') {
+    currentOwner = map2Cities[cityID].ownerID;
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 0.25);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 1);
+  } else if (buildingModel == 'missile-silo') {
+    currentOwner = map2Cities[cityID].ownerID;
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 0.75);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 1.5);
+  } else if (buildingModel == 'port') {
+    currentOwner = map2Cities[cityID].ownerID;
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.2);
+  } else if (buildingModel == 'space-elevator') {
+    currentOwner = map2Cities[cityID].ownerID;
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 1.2);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 2.2);
+  } else if (buildingModel == 'orbital-launch-pad') {
+    currentOwner = map2Cities[cityID].ownerID;
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 1.2);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 2.2);
+  } else if (buildingModel == 'research-facility') {
+    currentOwner = map2Cities[cityID].ownerID;
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.85);
+  }
+  // if a building the produces units and also has fixed expenses base was destroyed, erase the fixed expenses
+  // from that county's total energy and capital expenses
+  
+  // if a port was destroyed, erase the fixed expenses from that county's total capital expenses
   map2Cities[cityID].buildings.splice(buildingArrayIndex, 1);
   map2Cities[cityID].buildingOwner.splice(buildingArrayIndex, 1);
   map2Cities[cityID].buildingProcess.splice(buildingArrayIndex, 1);

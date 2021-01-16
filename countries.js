@@ -16,6 +16,7 @@ let countries = [
         // Economy ===================================
         "monthlyEnergy": 2,
         "buildingEnergyExpense": 0.5,
+        // barracks and missile silos increase the monthly energy expense
         "energyExpense": 0,
         // barracks increase the monthly energy expense
         "energyStored": 10,
@@ -24,7 +25,7 @@ let countries = [
         "monthlyCapital": 31.13,
         "buildingCapitalExpense": 3.2,
         "capitalExpense": 0,
-        // ports and barracks increase the monthly capital expense
+        // ports, barracks, and missile silos increase the monthly capital expense
         // base Capital for all countries is +2
         "capitalStored": 100,
         "capitalStorageCapacity": 1867.8,
@@ -63,6 +64,7 @@ let countries = [
         // base for all countries is 0
         "oilStored": 10,
         "oilStorageCapacity": 99,
+        "oceanRigOil": 0,
         "monthlyPreciousMetal": 0,
         "preciousMetalExpense": 0,
         "preciousMetalStored": 0,
@@ -81,10 +83,12 @@ let countries = [
         "exoticMatterStorageCapacity": 99,
         // production of processed metals and minerals comes from building processes
         "processedMetalExpense": 0,
-        "processedMetalStored": 10,
+        "monthlyProcessedMetal": 0,
+        "processedMetalStored": 20,
         "processedMetalStorageCapacity": 99,
         "processedMineralsExpense": 0,
-        "processedMineralsStored": 5,
+        "monthlyProcessedMinerals": 0,
+        "processedMineralsStored": 20,
         "processedMineralsStorageCapacity": 99,
         "monthlyAgriculturalMaterial": 0,
         "agriculturalMaterialExpense": 0,
@@ -139,11 +143,15 @@ let countries = [
         "enemies": [1],
         // "enemies" denotes countries that are actively at war with this country right now
         "infantry": [],
+        "marines": [],
+        "guerrillas": [],
+        "spaceInfantry": [],
+        "spaceMarines": [],
         "tanks": [],
         "aircraft": [],
         "destroyers": [],
         "submarines": [],
-        "carriers": [],
+        "aircraftCarriers": [],
         "orbitalWeaponsPlatforms": [],
         "taskShips": [],
         // used to keep track of all units owned by this country. 2 land, 1 air, 3 sea, 2 space, and 2 cyber eventually
@@ -209,7 +217,7 @@ let countries = [
         // max 3
         "missileSystemLevel": 3,
         // max 3
-        "groundDefenseLaserLevel": 2,
+        "groundDefenseLaserLevel": 1,
         // max 2 min 0
         "infantryLevel": 5,
         // max 5
@@ -233,7 +241,7 @@ let countries = [
         "hasWormhole": true,
         "expansionLikelyOptions": ["offensive", "maritime"],
         "expansionPath": "none",
-        "chanceofNewTechDiscovery": 0,
+        "hasResearchFacility": false,
         // Multiplayer ========================================================================
         "barterPoints": 100,
         "points": 0
