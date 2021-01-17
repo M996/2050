@@ -770,6 +770,7 @@
                           country.buildingEnergyExpense = country.buildingEnergyExpense + 1.2;
                           country.buildingCapitalExpense = country.buildingCapitalExpense + 2.2;
                           // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          countries[currentOwner].numberOfSpaceElevators = countries[currentOwner].numberOfSpaceElevators + 1;
                           map2Cities[buildingCity].buildings[buildingArrayIndex] = "space-elevator";
                       break;
                       }
@@ -803,6 +804,7 @@
                           map2BuildingProcess[processID].maintenanceAmount = [];
                           country.buildingCapitalExpense = country.buildingCapitalExpense + 0.2;
                           // make sure the increase fixed expenses for this type of building, military bases and ports also have fixed expenses
+                          countries[currentOwner].numberOfPorts = countries[currentOwner].numberOfPorts + 1;
                           map2Cities[buildingCity].buildings[buildingArrayIndex] = "port";
                       break;
                       }
@@ -1572,6 +1574,7 @@
                           // we don't need to set the 'hasResearchFacility' to true for this country, because once per year
                           // every city owned by this country will be searched to see if it has a research facility, so its
                           // existence is good enough
+                          countries[currentOwner].numberOfResearchFacilities = countries[currentOwner].numberOfResearchFacilities + 1;
                           map2Cities[buildingCity].buildings[buildingArrayIndex] = "research-facility";
                       break;
                       }

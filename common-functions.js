@@ -7,6 +7,18 @@ let nuclearValue = 3.0;
 // nuclear provinces on earth are found in Australia, Canada, Kazakhstan, and South Africa. It can also be obtained by seasteading.
 // Some estimates say we only have enough Uranium for the next 100 years on Earth, Uranium depletion in some provinces?
 
+// A bit about Antimatter: Antimatter will require structures to be built and suspended inside of gas giants. Instead of creating
+// a map of a Gas Giant, we simply make Gas Giants clickable on the System Screen, and AntiMatter factories can be built suspended
+// in the Gas Giant to produce antimatter. A 'Gas Giant' screen comes up displaying the number of antiMatter factories for each country
+// that is actively harveting antiMatter in that Gas Giant, and Space Infantry are needed to find and seize control of antiMatter factories.
+// Originally, I was going to have the moons of Gas Giants produce the antiMatter, but unfortunately no moons in our system have
+// any hydrogen or dueterium in the atmosphere, so harvesting it directly in the Gas Giant is neccesary. Use this text when describing
+// Gas Giant combat:
+
+// Due to the dense atmosphere, limited visibility, and unpredictable movements of the factories as they float across the Gas Giant's
+// surface, we cannot use ranged weapons to destroy the factories from above. We will have to send infantry down to find and
+// seize control of these valuable factories.
+
 
 
 
@@ -300,8 +312,16 @@ const moreBuildings2 = function(cityID) {
   }
   
   if (countries[currentOwnerID].hasSpaceElevator) {
-    spaceElevatorButton = `<button class="build-window-btn" onclick="constructBuilding2(` + cityID + `, 'space-elevator')" onmouseover="buildingCostToolTip(
+    if (map2Cities[cityID].isAsteroidHabitat) {
+      spaceElevatorButton = ``;
+    } else if (map2Cities[cityID].isSolarCylinder) {
+      spaceElevatorButton = ``;
+    } else {
+      spaceElevatorButton = `<button class="build-window-btn" onclick="constructBuilding2(` + cityID + `, 'space-elevator')" onmouseover="buildingCostToolTip(
     ['super-high-tensile-material','capital','energy','processed-metal'],[0.5,6,5.5,3],12,1)">Space Elevator</button>`;
+    // Space Elevators can only be built if you have unlocked the Space Elevator Technology, and this city is not on an Asteroid
+    // or a Solar Cylinder. If you have the tech and are on a planet or a moon you can build a Space Elevator
+    }
   } else {
     spaceElevatorButton = ``;
   }
@@ -1106,10 +1126,12 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID)
   } else if (buildingModel == 'port') {
     currentOwner = map2Cities[cityID].ownerID;
     countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.2);
+    countries[currentOwner].numberOfPorts = countries[currentOwner].numberOfPorts - 1;
   } else if (buildingModel == 'space-elevator') {
     currentOwner = map2Cities[cityID].ownerID;
     countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 1.2);
     countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 2.2);
+    countries[currentOwner].numberOfSpaceElevators = countries[currentOwner].numberOfSpaceElevators - 1;
   } else if (buildingModel == 'orbital-launch-pad') {
     currentOwner = map2Cities[cityID].ownerID;
     countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 1.2);
@@ -1117,6 +1139,7 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID)
   } else if (buildingModel == 'research-facility') {
     currentOwner = map2Cities[cityID].ownerID;
     countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.85);
+    countries[currentOwner].numberOfResearchFacilities = countries[currentOwner].numberOfResearchFacilities - 1;
   }
   // if a building the produces units and also has fixed expenses base was destroyed, erase the fixed expenses
   // from that county's total energy and capital expenses
@@ -1298,7 +1321,8 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
 
 const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg, buildingOwner, buildingProcess, buildingHealth) {
   
-  buildButtons = '';
+  buildButtons = `<div id="construct-res-tooltip">
+    </div>`;
   // initialize an empty string for the build buttons, what build buttons are displayed to the player is determined by unlocked technologies
   switch(buildingModel) {
     // this switch case is used to deermine the name and picture of a building based on its model, as well as all production options
@@ -1537,34 +1561,193 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         </div>`;
     break;
   case 'orbital-launch-pad':
-      buildingName = 'Orbital Launch Pad';
-      buildingImg = 'public/images/launchpad.png';
-      if (countries[buildingOwner].hasSolarPowerStation) {
+      thisCity = map2BuildingProcess[buildingProcess].city;
+      // check if this city is an Asteroid Habitat, a Moon City, or a Solar Cylinder. Launch Pad prices will vary based on
+      // what type of city is producing the unit
+      if (map2Cities[thisCity].isAsteroidHabitat) {
+        // THIS LAUNCH PAD IS ON A NASTEROID, THUS COSTS TILL BE LOWER MCUH LIKE IF IT WERE ON A SOLAR CYLINDER
+        // MOON CITIES WILL BE A BIT MORE EXPENSIVE AND ORDINARY PLANETS WILL BE THE MOST EXPENSIVE
+        buildingName = 'Orbital Launch Pad';
+        buildingImg = 'public/images/launchpad.png';
+        if (countries[buildingOwner].hasSolarPowerStation) {
+          if (countries[buildingOwner].hasSpaceInfantry) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+          } else {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
+                          </div>`;
+          }
+        } else if (countries[buildingOwner].hasSpaceInfantry) {
+          buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+        }
         buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4)">Solar Power Station</button>
-                        </div>`;
-      }
-      if (countries[buildingOwner].hasSpaceInfantry) {
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)">Communication Satellite</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)">Task Ship</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)">Space Debris Extractor</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.5,1],4)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1.5,1],4,0)">Orbital Weapons Platform</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
+                          </div>`;
+        
+      } else if (map2Cities[thisCity].isMoonCity) {
+        // THIS LAUNCH PAD IS ON A MOON CITY
+        buildingName = 'Orbital Launch Pad';
+        buildingImg = 'public/images/launchpad.png';
+        if (countries[buildingOwner].hasSolarPowerStation) {
+          if (countries[buildingOwner].hasSpaceInfantry) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[1.6,2.4,1.4],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1.6,2.4,1.4],4,0)">Solar Power Station</button>
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2,0)">Space Infantry</button>
+                          </div>`;
+          } else {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[1.6,2.4,1.4],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1.6,2.4,1.4],4,0)">Solar Power Station</button>
+                          </div>`;
+          }
+        } else if (countries[buildingOwner].hasSpaceInfantry) {
+          buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2,0)">Space Infantry</button>
+                          </div>`;
+        }
         buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2)">Space Infantry</button>
-                        </div>`;
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.8,0.4,1,0.8],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.8,0.4,1,0.8],3,0)">Communication Satellite</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[2.4,0.1,3,2],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[2.4,0.1,3,2],5,0)">Task Ship</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[1.5,1.5,1.5],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1.5,1.5,1.5],3,0)">Space Debris Extractor</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[2,3,2],4)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,3,2],4,0)">Orbital Weapons Platform</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5,0)">Weather Amplification Satellite</button>
+                          </div>`;
+        
+      } else if (map2Cities[thisCity].isSolarCylinder) {
+        // THIS LAUNCH PAD IS ON A SOLAR CYLINDER
+        buildingName = 'Orbital Launch Pad';
+        buildingImg = 'public/images/launchpad.png';
+        if (countries[buildingOwner].hasSolarPowerStation) {
+          if (countries[buildingOwner].hasSpaceInfantry) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+          } else {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
+                          </div>`;
+          }
+        } else if (countries[buildingOwner].hasSpaceInfantry) {
+          buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+        }
+        buildButtons += `<div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)">Communication Satellite</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)">Task Ship</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)">Space Debris Extractor</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.5,1],4)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1.5,1],4,0)">Orbital Weapons Platform</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
+                          </div>`;
+        
+      } else {
+        // THIS LUNCH PAD IS NOT ON AN ASTEROID, MOON CITY, OR SOLAR CYLINDER
+        buildingName = 'Orbital Launch Pad';
+        buildingImg = 'public/images/launchpad.png';
+        if (countries[buildingOwner].hasSolarPowerStation) {
+          if (countries[buildingOwner].hasSpaceInfantry) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[4,6,3.5],4,0)">Solar Power Station</button>
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2,0)">Space Infantry</button>
+                          </div>`;
+          } else {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[4,6,3.5],4,0)">Solar Power Station</button>
+                          </div>`;
+          }
+        } else if (countries[buildingOwner].hasSpaceInfantry) {
+          buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2,0)">Space Infantry</button>
+                          </div>`;
+        }
+        buildButtons += `<div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[1.5,1,3,2],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[1.5,1,3,2],3,0)">Communication Satellite</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'skyhook',1,['super-high-tensile-material','capital','energy','processed-metal'],[0.3,4,3,1],10)"
+                          onmouseover="buildingCostToolTip(['super-high-tensile-material','capital','energy','processed-metal'],[0.3,4,3,1],10,0)">Skyhook</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[6,0.1,8,5],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[6,0.1,8,5],5,0)">Task Ship</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[4,4,3],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[4,4,3],3,0)">Space Debris Extractor</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[5,6,4],4)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[5,6,4],4,0)">Orbital Weapons Platform</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5,0)">Weather Amplification Satellite</button>
+                          </div>`;
       }
-      buildButtons += `<div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
-                        <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
-                        </div>
-                        <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[1.5,1,3,2],3)">Communication Satellite</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'skyhook',1,['super-high-tensile-material','capital','energy','processed-metal'],[0.3,4,3,1],10)">Skyhook</button>
-                        </div>
-                        <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[6,0.1,8,5],5)">Task Ship</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[4,4,3],3)">Space Debris Extractor</button>
-                        </div>
-                        <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[5,6,4],4)">Orbital Weapons Platform</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5)">Weather Amplification Satellite</button>
-                        </div>`;
+       
     break;
   case 'skyhook':
       buildingName = 'Sky Hook';
@@ -1596,19 +1779,79 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         </div>`;
     break;
   case 'space-elevator':
+    thisCity = map2BuildingProcess[buildingProcess].city;
+      // check if this city is an Asteroid Habitat, a Moon City, or a Solar Cylinder. Launch Pad prices will vary based on
+      // what type of city is producing the unit
+     if (map2Cities[thisCity].isMoonCity) {
+      // CHECK TO SEE IF THIS SPACE ELEVATOR IS ON A MOON CITY, UNIT COSTS WILL BE AFFECTED 
+        buildingName = 'Space Elevator';
+        buildingImg = 'public/images/space-elevator.png';
+       if (countries[buildingOwner].hasSpaceInfantry) {
+        if (countries[buildingOwner].hasSpaceInfantry) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+          } else {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
+                          </div>`;
+          }
+        } else if (countries[buildingOwner].hasSpaceInfantry) {
+          buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+        }
+        buildButtons += `<div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
+                          <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)">Communication Satellite</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)">Task Ship</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)">Space Debris Extractor</button>
+                          </div>
+                          <div class="build-btn-grouper">
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.4,1],4)"
+                          onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1.5,1],4,0)">Orbital Weapons Platform</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
+                          onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
+                          </div>`;
+        
+      } else {
+        // THIS SPACE ELEVATOR IS NOT ON A MOON CITY
       buildingName = 'Space Elevator';
       buildingImg = 'public/images/space-elevator.png';
-      if (countries[buildingOwner].hasSolarPowerStation) {
+       if (countries[buildingOwner].hasSolarPowerStation) {
+          if (countries[buildingOwner].hasSpaceInfantry) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,1.5,0.8],4,0)">Solar Power Station</button>
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+          } else {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4)"
+                            onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,1.5,0.8],4,0)">Solar Power Station</button>
+                          </div>`;
+          }
+        } else if (countries[buildingOwner].hasSpaceInfantry) {
+          buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2,0)">Space Infantry</button>
+                          </div>`;
+        }
         buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4)">Solar Power Station</button>
-                        </div>`;
-      }
-      if (countries[buildingOwner].hasSpaceInfantry) {
-        buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2)">Space Infantry</button>
-                        </div>`;
-      }
-      buildButtons += `<div class="build-btn-grouper">
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 1)">Activate</button>
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
@@ -1624,6 +1867,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[2,1.5,1],4)">Orbital Weapons Platform</button>
                         <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.6,0.2,0.6,0.4],5)">Weather Amplification Satellite</button>
                         </div>`;
+      }
     break;
   }
   // finish this switch case for all buildings, the output materials on below, and the maintenance materials one

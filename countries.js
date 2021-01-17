@@ -129,8 +129,8 @@ let countries = [
         "northeastLeagueOverlord": false,
         "un": false,
         "unOverlord": [],
-        "cil": false,
-        "cilOverlord": [],
+        "wil": false,
+        "wilOverlord": [],
         // The 'cil' or Central Independence League is similar to the UN but much more capable militarily.
         // It is present at game start on World 4 and can be played as, with the goal of protecting small
         // and defending countries. Protecting countries succesfully yields increased authority which can
@@ -241,7 +241,23 @@ let countries = [
         "hasWormhole": true,
         "expansionLikelyOptions": ["offensive", "maritime"],
         "expansionPath": "none",
-        "hasResearchFacility": false,
+        "numberOfPorts": 0,
+        // ports must be kept track of so that we can know if this country is able to participate in intrernational trade
+        // with other countries on the same planet for raw resources such as food, processed minerals and metal, raw minerals
+        // and metal, precious metals and oil
+        "numberOfResearchFacilities": 0,
+        // research facilities must be kept track of so that we can determine if this country is able to acquire new technology
+        // on its own without buying those technologies from a corporation
+        "numberOfSkyhooks": 0,
+        "numberOfSpaceElevators": 0,
+        // space elevators and skyhooks must be kept track of so that we can know if this country is able to participate in
+        // space trade of raw resources such as minerals, metal, precious metal, and food
+        "numberOfSolarSatellites": 0,
+        "numberOfComSatellites": 0,
+        "numberOfWeatherSatellites": 0,
+        // we need to keep track of the number of solar satellites so the country can sell energy globally, the com satellites
+        // are to maintain communications with distant units, cities, and keep up morale, and the weather satellites
+        // are to control the weather in cretain provinces like keeping ice out of an ocean tile or increasing food production
         // Multiplayer ========================================================================
         "barterPoints": 100,
         "points": 0
