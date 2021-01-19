@@ -58,6 +58,8 @@
             // Reset all recorded costs from last month, we want to make sure that when the month rolls over the recorded expenses are recent
             country.capitalExpense = country.buildingCapitalExpense;
             country.energyExpense = country.buildingEnergyExpense;
+            country.monthlyEnergy = 2;
+            // every country gets a base of 2 energy, fixed capital and energy expenses for buildings are also taken into account here
             country.monthlyProcessedMetal = 0;
             country.monthlyProcessedMinerals = 0;
             country.processedMetalExpense = 0;
@@ -65,12 +67,17 @@
             country.manpowerExpense = 0;
             country.mineralExpense = 0;
             country.metalExpense = 0;
-            country.oilExpense = 0;
             country.oceanRigOil = 0;
+            country.syntheticOilProduced = 0;
+            country.oilExpense = 0;
             country.preciousMetalExpense = 0;
             country.nuclearMaterialExpense = 0;
             country.antiMatterExpense = 0;
             country.exoticMatterExpense = 0;
+            // here we are only setting the values of resources affected by buildings back to zero. We would not
+            // set monthlyFood back to zero, because food is produced primarily by provinces and the quantity of
+            // food produced monthly by provinces should only be readjusted when a province is gained or lost or
+            // the product of a province changes, so it will be changed rarely, not monthly
             
             
             // Capital ==========================================================
@@ -126,6 +133,11 @@
             // energy cost of certain buildings, usually military bases. Most of the energy budget however should
             // be consumed by things building produce, and active military units, not buildings themselves
             
+            // this is not the only code that affects energy. Further down this page inside of building processes
+            // energy is further added and subtracted. Negative effects a country suffers from having an energy
+            // defecit should be calculated after building proceeses are taken into account, just above the code
+            // that displays these numbers to the player if that country is player controlled
+            
             
             // Influence =============================================================
             influenceChange = country.monthlyInfluence - country.influenceExpense;
@@ -138,11 +150,135 @@
             
             // Food ==================================================================
             foodChange = country.monthlyFood - country.foodExpense;
+            // monthlyFood and foodExpense is calculated whenever a province changes hands, or whenever a new year begins
+            
+            // If Agricultural Materials are being produced in this country, and at least 1 unit is stored
+            // then take the amount of food being produced and divide it by 3. If this number comes out to
+            // be 1, then determine if you have at least 1 AG stored. If you do then subtract the 1 AG and
+            // add 1 food produced to this country instead. If you have a larger Agricultural base (for instance you
+            // produce 6 food per month) then check to see if you have 2 AG being stored. If you do then
+            // subtract those 2 AG and add 2 food to the country instead. This continues to a maximum of
+            // 6 extra food production. If at any point you have a large agricultural base but are not producing
+            // as much AG as you can consume, then instead whatever smaller amount of AG is being produced will be
+            // turned into food. Effectively, up to a limit of 6 food per month, AG is used to produce 1
+            // food for every 3 food already produced, making it a 33% increase in total food production.
+            if (country.agriculturalMaterialStored >= 1) {
+              agricultureBase = country.monthlyFood / 3;
+              agricultureBase = Math.floor(agricultureBase);
+              switch(agricultureBase) {
+                case 1:
+                  if (country.agriculturalMaterialStored >= 1) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
+                    foodChange = foodChange + 1;
+                  } 
+                break;
+                case 2:
+                  if (country.agriculturalMaterialStored >= 2) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 2;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 2;
+                    foodChange = foodChange + 2;
+                  } else if (country.agriculturalMaterialStored === 1) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
+                    foodChange = foodChange + 1;
+                  } 
+                break;
+                case 3:
+                  if (country.agriculturalMaterialStored >= 3) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 3;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 3;
+                    foodChange = foodChange + 3;
+                  } else if (country.agriculturalMaterialStored === 2) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 2;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 2;
+                    foodChange = foodChange + 2;
+                  } else if (country.agriculturalMaterialStored === 1) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
+                    foodChange = foodChange + 1;
+                  } 
+                break;
+                case 4:
+                  if (country.agriculturalMaterialStored >= 4) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 4;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 4;
+                    foodChange = foodChange + 4;
+                  } else if (country.agriculturalMaterialStored === 3) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 3;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 3;
+                    foodChange = foodChange + 3;
+                  } else if (country.agriculturalMaterialStored === 2) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 2;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 2;
+                    foodChange = foodChange + 2;
+                  } else if (country.agriculturalMaterialStored === 1) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
+                    console.log("Food Before 1 AG: " + foodChange);
+                    foodChange = foodChange + 1;
+                    console.log("Food After 1 AG: " + foodChange);
+                  } 
+                break;
+                case 5:
+                  if (country.agriculturalMaterialStored >= 5) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 5;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 5;
+                    foodChange = foodChange + 5;
+                  } else if (country.agriculturalMaterialStored === 4) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 4;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 4;
+                    foodChange = foodChange + 4;
+                  } else if (country.agriculturalMaterialStored === 3) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 3;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 3;
+                    foodChange = foodChange + 3;
+                  } else if (country.agriculturalMaterialStored === 2) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 2;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 2;
+                    foodChange = foodChange + 2;
+                  } else if (country.agriculturalMaterialStored === 1) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
+                    foodChange = foodChange + 1;
+                  } 
+                break;
+                default:
+                  if (country.agriculturalMaterialStored >= 6) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 6;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 6;
+                    foodChange = foodChange + 6;
+                  } else if (country.agriculturalMaterialStored === 5) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 5;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 5;
+                    foodChange = foodChange + 5;
+                  } else if (country.agriculturalMaterialStored === 4) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 4;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 4;
+                    foodChange = foodChange + 4;
+                  } else if (country.agriculturalMaterialStored === 3) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 3;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 3;
+                    foodChange = foodChange + 3;
+                  } else if (country.agriculturalMaterialStored === 2) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 2;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 2;
+                    foodChange = foodChange + 2;
+                  } else if (country.agriculturalMaterialStored === 1) {
+                    country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
+                    country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
+                    foodChange = foodChange + 1;
+                  } 
+                break;
+              }
+            }
             foodAmount = country.foodStored + foodChange;
             if (foodAmount > country.foodStorageCapacity) {
                 country.foodStored = country.foodStorageCapacity;
+            } else if (foodAmount < -10 ){
+                country.foodStored = -10;
             } else {
-                country.foodStored = foodAmount;
+              country.foodStored = foodAmount;
             }
             
             // Manpower ================================================================
@@ -353,7 +489,7 @@
                         country.energyExpense = country.energyExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
                         energyChange = energyChange - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
                       break;
-                      case 'previous-metal':
+                      case 'precious-metal':
                         country.preciousMetalStored = country.preciousMetalStored - map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
                         country.preciousMetalExpense = country.preciousMetalExpense + map2BuildingProcess[processID].maintenanceAmount[maintenanceAmountIndex];
                       break;
@@ -1582,10 +1718,74 @@
                   
                   // Materials =============================================================================================
                   
-                   //country.oceanRigOil = country.oceanRigOil + oilAmount;
-                   // the code above should be used to keep an accurate track of how much oil is being produced by a country
-                   // because oil can be produced both in provinces and also in ocean rigs
-                   
+                      case 'oil':
+                        country.oilStored = country.oilStored + map2BuildingProcess[processID].outputAmount;
+                        // If the amount of oil being produced by this building is gerater than 1, then it must be an
+                        // oil rig, if this is the case, record the resource under oil rig, if the amount being produced
+                        // is less than or equal to 1, then attribute the oil to synthetic Oil production. However,
+                        // if the country producing the synthetic oil is Brazil then add +1 to all synthetic oil production.
+                        if (map2BuildingProcess[processID].outputAmount > 1) {
+                          country.oceanRigOil = country.oceanRigOil + map2BuildingProcess[processID].outputAmount;
+                        } else {
+                          if (country.name != 'Brazil') {
+                            country.syntheticOilProduced = country.syntheticOilProduced + map2BuildingProcess[processID].outputAmount;
+                          } else {
+                            country.syntheticOilProduced = country.syntheticOilProduced + (map2BuildingProcess[processID].outputAmount + 1);
+                            country.oilStored++;
+                          }
+                        }
+                        if (country.oilStored > country.oilStorageCapacity) {
+                          country.oilStored = country.oilStorageCapacity;
+                        }
+                      break;
+                      case 'processed-minerals':
+                        country.processedMineralsStored = country.processedMineralsStored + map2BuildingProcess[processID].outputAmount;
+                        country.monthlyProcessedMinerals = country.monthlyProcessedMinerals + map2BuildingProcess[processID].outputAmount;
+                        if (country.processedMineralsStored > country.processedMineralsStorageCapacity) {
+                          country.processedMineralsStored = country.processedMineralsStorageCapacity;
+                        }
+                      break;
+                      case 'processed-metal':
+                        country.processedMetalStored++;
+                        country.monthlyProcessedMetal++;
+                        if (country.processedMetalStored > country.processedMetalStorageCapacity) {
+                          country.processedMetalStored = country.processedMetalStorageCapacity;
+                        }
+                      break;
+                      case 'energy':
+                        country.energyStored = country.energyStored + map2BuildingProcess[processID].outputAmount;
+                        country.monthlyEnergy = country.monthlyEnergy + map2BuildingProcess[processID].outputAmount;
+                        energyChange = energyChange + map2BuildingProcess[processID].outputAmount;
+                        if (country.energyStored > country.energyStorageCapacity) {
+                          country.energyStored = country.energyStorageCapacity;
+                        }
+                      break;
+                      case 'super-high-tensile-material':
+                        switch(map2BuildingProcess[processID].monthsLeft) {
+                          case 3:
+                            map2BuildingProcess[processID].monthsLeft = 2;
+                          break;
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            country.superHighTensileStored = country.superHighTensileStored + map2BuildingProcess[processID].outputAmount;
+                            country.monthlySuperHighTensile = country.monthlySuperHighTensile + map2BuildingProcess[processID].outputAmount;
+                            if (country.superHighTensileStored > country.superHighTensileStorageCapacity) {
+                              country.superHighTensileStored = country.superHighTensileStorageCapacity;
+                            }
+                            map2BuildingProcess[processID].monthsLeft = 3;
+                          break;
+                        }
+                      break;
+                      case 'agricultural-material':
+                        country.agriculturalMaterialStored++;
+                        country.monthlyAgriculturalMaterial++;
+                        if (country.agriculturalMaterialStored > country.superHighTensileStorageCapacity) {
+                          country.agriculturalMaterialStored = country.agriculturalMaterialStorageCapacity;
+                        }
+                      break;
+                  
                    // Units =================================================================================================
                    
                    
@@ -1612,9 +1812,90 @@
             
             
             
+            // COUNTRY IS STARVING
+            if (country.foodStored < 0) {
+              enterFamine(country.id);
+              if (country.isPlayer) {
+                // if this country is the players that is currently in a famine, then update the population
+                // numbers of the city they are looking at in real time just because that is nice to look at.
+                textPopString = document.querySelector('#city-population').textContent;
+                if (textPopString) {
+                  textPopAmount = textPopString.match(/\d+/g);
+                  fullNumber = '';
+                  textPopAmount.forEach(function(numberString) {
+                  fullNumber += numberString;
+                  });
+                  fullNumber = Number(fullNumber);
+                  fullNumber = fullNumber * 0.996;
+                  fullNumber = Math.round(fullNumber);
+                  fullNumber = fullNumber.toLocaleString();
+                  document.querySelector('#city-population').textContent = "Population: " + fullNumber;
+                }
+              }
+            } else {
+              if (country.isStarving) {
+                endFamine(country.id);
+              }
+            }
+            
+            
+            
+            
+            
             
             
             if (country.isPlayer) {
+              
+              // the functions below will figure out if the image currently on the user's screen is of a building
+              // being constructed, if it's construction has made any progress, and if it has, update the image accordingly
+              cityIndex = document.querySelector("#city-index").textContent;
+              planetIndex = document.querySelector("#planet-index").textContent;
+              
+              buildingElement4 = document.querySelector("#building-select-4");
+              if (buildingElement4) {
+                buildingElement4 = document.querySelector("#building-select-4").src;
+                builtWordIndex = buildingElement4.search("built");
+                if (builtWordIndex != -1) {
+                  updateImage(4, buildingElement4, cityIndex, planetIndex);
+                }
+              }
+              
+              buildingElement3 = document.querySelector("#building-select-3");
+              if (buildingElement3) {
+                buildingElement3 = document.querySelector("#building-select-3").src;
+                builtWordIndex = buildingElement3.search("built");
+                if (builtWordIndex != -1) {
+                  updateImage(3, buildingElement3, cityIndex, planetIndex);
+                }
+              }
+              
+              buildingElement2 = document.querySelector("#building-select-2");
+              if (buildingElement3) {
+                buildingElement2 = document.querySelector("#building-select-2").src;
+                builtWordIndex = buildingElement2.search("built");
+                if (builtWordIndex != -1) {
+                  updateImage(2, buildingElement2, cityIndex, planetIndex);
+                }
+              }
+              
+              buildingElement1 = document.querySelector("#building-select-1");
+              if (buildingElement1) {
+                buildingElement1 = document.querySelector("#building-select-1").src;
+                builtWordIndex = buildingElement1.search("built");
+                if (builtWordIndex != -1) {
+                  updateImage(1, buildingElement1, cityIndex, planetIndex);
+                }
+              }
+              
+              buildingElement0 = document.querySelector("#building-select-0");
+              if (buildingElement0) {
+                buildingElement0 = document.querySelector("#building-select-0").src;
+                builtWordIndex = buildingElement0.search("built");
+                if (builtWordIndex != -1) {
+                  updateImage(0, buildingElement0, cityIndex, planetIndex);
+                }
+              }
+              
                 capitalChange = capitalChange.toFixed(2)
                 capitalChange = Number(capitalChange);
                 if (capitalChange < 0) {
@@ -1631,7 +1912,7 @@
                 }
                 document.querySelector("#country-influence-amount").textContent = country.influenceStored;
                 
-                oilChange = ((country.monthlyOil + country.oceanRigOil) - country.oilExpense);
+                oilChange = ((country.monthlyOil + country.oceanRigOil + country.syntheticOilProduced) - country.oilExpense);
                 if (oilChange < 0) {
                   document.querySelector("#country-oil-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + oilChange.toFixed(2) + "</span>";
                 } else {
@@ -1687,11 +1968,16 @@
                 } else {
                   document.querySelector("#country-food-growth").innerHTML = "+" + foodChange.toFixed(2);
                 }
-                document.querySelector("#country-food-amount").textContent = country.foodStored.toFixed(0);
+                if (country.foodStored > 0) {
+                  document.querySelector("#country-food-amount").innerHTML =  country.foodStored.toFixed(0);
+                } else {
+                  document.querySelector("#country-food-amount").innerHTML = "<span style='color:rgb(255,50,50);'>" + country.foodStored.toFixed(0); + "</span>";
+                }
+                
                 
                 manpowerChange = (manpowerChange - country.manpowerExpense);
+                manpowerChange = manpowerChange.toFixed(0);
                 manpowerChange = Number(manpowerChange);
-                manpowerChange.toFixed(0)
                 manpowerStoredDisplay = country.manpowerStored.toFixed(0);
                 manpowerStoredDisplay = Number(manpowerStoredDisplay);
                 if (manpowerChange < 0) {
@@ -1719,7 +2005,6 @@
                 }
                 document.querySelector("#country-processed-metal-amount").textContent = country.processedMetalStored.toFixed(0);
                 
-                nuclearChange = (country.monthlyNuclearMaterial - country.nuclearMaterialExpense);
                 
                 preciousMetalChange = (country.monthlyPreciousMetal - country.preciousMetalExpense);
                 preciousMetalChange = Number(preciousMetalChange);
@@ -1777,6 +2062,16 @@
                 document.querySelector(".current-month").textContent = 'December';
             break;
             case 'December':
+              
+              // annual calculations will take place here
+              // Do not forget that population growth should not take place if the isStarving property is set to TRUE
+              
+              // things to calculate:
+              // GDPPerCapitaGrowth
+              // PopulationGrowth
+              // ideology spread?
+              // Ethnic group spread?
+              // points?
               
               countries.forEach(function(country) {
                 if (country.isBankrupt) {

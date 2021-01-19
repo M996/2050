@@ -50,7 +50,7 @@ let map2Cities = [
     "corporationID": 0,
     "corporateResourceModifier": 0.167,
     "buildingSlots": 3,
-    "buildings": ['military-base', 'orbital-launch-pad', 'metal-processing-plant-1'],
+    "buildings": ['military-base', 'space-elevator', 'metal-processing-plant-1'],
     "buildingOwner": [0,0,0],
     "buildingProcess": [0,1,2],
     "buildingHealth": [150, 150, 150]

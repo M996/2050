@@ -14,13 +14,12 @@ let countries = [
         // isOtherPlayer is used to determine whether a country is controlled by another player in a multiplayer game
         // if it is not, the string is empty, if it is this string could hold their IP address
         // Economy ===================================
-        "monthlyEnergy": 2,
+        "monthlyEnergy": 0,
         "buildingEnergyExpense": 0.5,
         // barracks and missile silos increase the monthly energy expense
         "energyExpense": 0,
         // barracks increase the monthly energy expense
         "energyStored": 10,
-        // base Energy for all countries is +2
         "energyStorageCapacity": 100,
         "monthlyCapital": 31.13,
         "buildingCapitalExpense": 3.2,
@@ -40,11 +39,13 @@ let countries = [
         // base Influence for all countries is +3
         "influenceStored": 0,
         "influenceStorageCapacity": 999,
-        "monthlyFood": 12,
+        "monthlyFood": 4,
+        // monthlyFood for Tehlike Empire is 12
         "foodExpense": 2.6892,
         // base Food for all countries is +2. Food is consumed at a rate of 0.00000003 per population
-        "foodStored": 50,
+        "foodStored": -10,
         "foodStorageCapacity": 100,
+        "isStarving": false,
         "buildingProcess1": [],
         "buildingProcess2": [0,1,2,3,4,5,6,7,8,9,10],
         "buildingProcess3": [],
@@ -60,11 +61,12 @@ let countries = [
         "metalStored": 50,
         "metalStorageCapacity": 99,
         "monthlyOil": 3,
+        "oceanRigOil": 0,
+        "syntheticOilProduced": 0,
         "oilExpense": 0,
         // base for all countries is 0
         "oilStored": 10,
         "oilStorageCapacity": 99,
-        "oceanRigOil": 0,
         "monthlyPreciousMetal": 0,
         "preciousMetalExpense": 0,
         "preciousMetalStored": 0,
@@ -157,12 +159,13 @@ let countries = [
         // used to keep track of all units owned by this country. 2 land, 1 air, 3 sea, 2 space, and 2 cyber eventually
         "casusBelliName": ['conquest-1'],
         "casusBelliID": [1],
-        // here we can see that the Tehlike Empire has a conquest casus belli on Paneria (country ID = 1)
+        "casusBelliProvinceID": [4],
+        // here we can see that the Tehlike Empire has a conquest casus belli on Paneria (country ID = 1) on the province of Aden
         "totalPopulation": 67230000,
-        "manpowerStored": 3000000,
-        "manpowerStorageCapacity": 3361500,
-        // manpower capacity is equal to 5% of total population
-        "monthlyManpower": 28012,
+        "manpowerStored": 2000000,
+        "manpowerStorageCapacity": 2016900,
+        // manpower capacity is equal to 3% of total population
+        "monthlyManpower": 16808,
         // monthly manpower is equal to 1/120th of the total manpower storage capacity
         "manpowerExpense": 0,
         "annualPopulationGrowth": 0.02,

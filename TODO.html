@@ -1,13 +1,20 @@
-- Add Build Tooltips to all buildable units in common functions starting on line 1339
-
-- On line 1581 in play.js make it so that building processes build things, then when you are done, copy the building process foreach loop
+- On line 1790 in play.js make it so that building processes build units, then when you are done, copy the building process foreach loop
 - for the other 3 planets and associated production arrays. Make sure to also add functionality for weapon buildings
+
+- split common-function into multiple files like common-whatever-functions, then do the same for play.js if possible, or just
+- export some functions in play.js into a common-functions file
 
 - Add corporations
 
 - Add corporation screen
 
 - Modify the Bankruptcy function in common-functions so that all corporate stock gets sold on Bankruptcy
+
+- Add message alerts to a sidebar letting the player know production stopped when they run out of a resource and
+- what resource is needed to continue production. Also create player alerts when they enter or leav bankruptcy, and
+- enter or leave starvation
+
+- Create AI triggers to start producing or buying a resource when they are producing something and that resource runs out
 
 - Make it so that once a year when technology is being calculated the code checks every country to see if they have a research facility
 - and sets their 'hasResearchFacility' property to true or false if they have one in any owned city

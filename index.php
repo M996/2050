@@ -35,7 +35,7 @@ require 'header.php';
       <p class="resource-gain-text" id="country-oil-growth">+0</p>
       <div class="mineral-tooltip">
         <img src="public/images/mineralicon.png" class="resource-icon">
-        <span class="tooltip-mineral">Minerals</span>
+        <span class="tooltip-mineral">Raw Minerals</span>
       </div>
       <p class="resource-amount-text" id="country-mineral-amount">0</p>
       <p class="resource-gain-text" id="country-mineral-growth">+0</p>
@@ -82,7 +82,7 @@ require 'header.php';
       <p class="resource-gain-text" id="country-food-growth">+0</p>
       <div class="metal-tooltip">
         <img src="public/images/metalicon.png" class="resource-icon">
-        <span class="tooltip-metal">Metal</span>
+        <span class="tooltip-metal">Raw Metal</span>
       </div>
       <p class="resource-amount-text" id="country-metal-amount">0</p>
       <p class="resource-gain-text" id="country-metal-growth">+0</p>
@@ -155,6 +155,8 @@ require 'header.php';
   </div>
     <canvas class="main-world-map" id="main-world-2-canvas"></canvas>
     <div class="city-interaction">
+      <div id="city-index" style="display:none"></div>
+      <div id="planet-index" style="display:none"></div>
       <div class="tooltip-container">
         <div id="tooltip-text">
           <div class="building-info-grouper">
@@ -209,7 +211,10 @@ require 'header.php';
 <script src="corporations.js"></script>
 
 <script src="provinces2.js"></script>
+<script src="cities1.js"></script>
 <script src="cities2.js"></script>
+<script src="cities3.js"></script>
+<script src="cities4.js"></script>
 <script src="buildingProcess1.js"></script>
 <script src="buildingProcess2.js"></script>
 <script src="buildingProcess3.js"></script>
