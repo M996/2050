@@ -25,6 +25,7 @@ let nuclearValue = 3.0;
 
 
 
+
 // This function is called when the city interactions window is open and at least one of the buildings in the city
 // have the word 'built' in them. This tells us that a building is being actively built on the player's screen and
 // this function is called the find the planet, city, and building index of that structure which is being built so
@@ -72,6 +73,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       break;
       default:
       document.querySelector('.city-interaction').style.display = 'none';
+      document.querySelector('.unit-interaction').style.display = 'none';
       break;
     }
   } else if (planetIndex == 2) {
@@ -115,6 +117,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       break;
       default:
       document.querySelector('.city-interaction').style.display = 'none';
+      document.querySelector('.unit-interaction').style.display = 'none';
       break;
     }
   } else if (planetIndex == 3) {
@@ -158,6 +161,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       break;
       default:
       document.querySelector('.city-interaction').style.display = 'none';
+      document.querySelector('.unit-interaction').style.display = 'none';
       break;
     }
   } else {
@@ -201,9 +205,51 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       break;
       default:
       document.querySelector('.city-interaction').style.display = 'none';
+      document.querySelector('.unit-interaction').style.display = 'none';
       break;
     }
   }
+}
+
+
+
+
+
+
+const buildQueuePlusOneMap2 = function(processID) {
+  map2BuildingProcess[processID].loop++;
+  buildNumber = document.querySelector("#build-number").textContent;
+  buildNumber++;
+  document.querySelector("#build-number").textContent = buildNumber;
+}
+
+
+
+const buildQueuePlusFiveMap2 = function(processID) {
+  map2BuildingProcess[processID].loop = map2BuildingProcess[processID].loop + 5;
+  buildNumber = document.querySelector("#build-number").textContent;
+  buildNumber = Number(buildNumber);
+  buildNumber = buildNumber + 5;
+  document.querySelector("#build-number").textContent = buildNumber;
+}
+
+
+
+const buildQueuePlusTenMap2 = function(processID) {
+  map2BuildingProcess[processID].loop = map2BuildingProcess[processID].loop + 10;
+  buildNumber = document.querySelector("#build-number").textContent;
+  buildNumber = Number(buildNumber);
+  buildNumber = buildNumber + 10;
+  document.querySelector("#build-number").textContent = buildNumber;
+}
+
+
+
+const buildQueueMinusOneMap2 = function(processID) {
+  map2BuildingProcess[processID].loop--;
+  buildNumber = document.querySelector("#build-number").textContent;
+  buildNumber--;
+  document.querySelector("#build-number").textContent = buildNumber;
 }
 
 
@@ -503,10 +549,12 @@ const moreBuildings2 = function(cityID) {
     } else if (map2Cities[cityID].isSolarCylinder) {
       spaceElevatorButton = ``;
     } else {
-      spaceElevatorButton = `<button class="build-window-btn" onclick="constructBuilding2(` + cityID + `, 'space-elevator')" onmouseover="buildingCostToolTip(
-    ['super-high-tensile-material','capital','energy','processed-metal'],[0.5,6,5.5,3],12,1)">Space Elevator</button>`;
-    // Space Elevators can only be built if you have unlocked the Space Elevator Technology, and this city is not on an Asteroid
-    // or a Solar Cylinder. If you have the tech and are on a planet or a moon you can build a Space Elevator
+      if (map2Cities[cityID].equatorial) {
+        spaceElevatorButton = `<button class="build-window-btn" onclick="constructBuilding2(` + cityID + `, 'space-elevator')" onmouseover="buildingCostToolTip(
+        ['super-high-tensile-material','capital','energy','processed-metal'],[0.5,6,5.5,3],12,1)">Space Elevator</button>`;
+        // Space Elevators can only be built if you have unlocked the Space Elevator Technology, and this city is not on an Asteroid
+        // or a Solar Cylinder, and this city is near the equator. If you are on a planet or a moon you can build the Space Elevator
+      }
     }
   } else {
     spaceElevatorButton = ``;
@@ -1289,6 +1337,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
     // and lastly we update the planet's build process id so that next time we are starting from the right number
     closeBuildWindow();
     document.querySelector(".city-interaction").style.display = "none";
+    document.querySelector('.unit-interaction').style.display = 'none';
   }
 }
 
@@ -1343,6 +1392,7 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID)
   // now we delete the building process which is to be run for this country, so that play.js will not run it
   document.querySelector(".build-window-div").style.display = "none";
   document.querySelector(".city-interaction").style.display = "none";
+  document.querySelector('.unit-interaction').style.display = 'none';
 }
 
 
@@ -1362,6 +1412,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].outputAmount = 8;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'metal-processing-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1375,6 +1426,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 1.4;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'mineral-processing-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1389,6 +1441,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount = [0.4,1.4,0.2]; 
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'mineral-processing-plant-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1402,6 +1455,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 1.4;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'nuclear-power-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1414,6 +1468,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 0.6;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'nuclear-power-plant-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1427,6 +1482,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 0.5;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'railgun-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1441,6 +1497,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 0.75;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'railgun-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1456,6 +1513,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 0.6;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'missile-system-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1470,6 +1528,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[2] = 0.03;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'missile-system-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1483,6 +1542,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[2] = 0.02;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   case 'ground-defense-laser-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1497,6 +1557,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       map2BuildingProcess[currentProcessID].maintenanceAmount[1] = 0.6;
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
+      document.querySelector('.unit-interaction').style.display = 'none';
     break;
   }
 }
@@ -1511,7 +1572,10 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
   
   buildButtons = `<div id="construct-res-tooltip">
     </div>`;
-  // initialize an empty string for the build buttons, what build buttons are displayed to the player is determined by unlocked technologies
+    // initialize an empty string for the build buttons, what build buttons are displayed to the player is determined by unlocked technologies
+  buildLoopButtons = false;
+  // build loop buttons are the buttons that allow you to queue up multiple units in a building, if this variable is set to true then
+  // display the build loop buttons to the player
   switch(buildingModel) {
     // this switch case is used to deermine the name and picture of a building based on its model, as well as all production options
     // associated with that building ie. what you can build
@@ -1520,6 +1584,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
       buildButtons += ``;
     break;
     case 'port':
+      buildLoopButtons = true;
       buildingName = 'Port';
       buildingImg = 'public/images/portBuilding.png';
       if (countries[buildingOwner].hasMarines) {
@@ -1542,6 +1607,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         </div>`;
     break;
     case 'military-base':
+      buildLoopButtons = true;
       buildingName = 'Military Base';
       buildingImg = 'public/images/barracks.png';
       buildButtons += `<div class="build-btn-grouper">
@@ -1729,6 +1795,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         </div>`;
     break;
   case 'missile-silo':
+    buildLoopButtons = true;
       buildingName = 'Nuclear Missile Silo';
       buildingImg = 'public/images/nuclear-silo.png';
       buildButtons += `<div class="build-btn-grouper">
@@ -1769,6 +1836,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         </div>`;
     break;
   case 'orbital-launch-pad':
+    buildLoopButtons = true;
       thisCity = map2BuildingProcess[buildingProcess].city;
       // check if this city is an Asteroid Habitat, a Moon City, or a Solar Cylinder. Launch Pad prices will vary based on
       // what type of city is producing the unit
@@ -1817,6 +1885,14 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
                           </div>`;
+        if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
         
       } else if (map2Cities[thisCity].isMoonCity) {
         // THIS LAUNCH PAD IS ON A MOON CITY
@@ -1862,6 +1938,15 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5,0)">Weather Amplification Satellite</button>
                           </div>`;
+                          
+        if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
         
       } else if (map2Cities[thisCity].isSolarCylinder) {
         // THIS LAUNCH PAD IS ON A SOLAR CYLINDER
@@ -1907,6 +1992,14 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
                           </div>`;
+        if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
         
       } else {
         // THIS LUNCH PAD IS NOT ON AN ASTEROID, MOON CITY, OR SOLAR CYLINDER
@@ -1954,10 +2047,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5,0)">Weather Amplification Satellite</button>
                           </div>`;
+        if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[3,300,4,4],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[3,300,4,4],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
+        
       }
        
     break;
   case 'skyhook':
+    buildLoopButtons = true;
       buildingName = 'Sky Hook';
       buildingImg = 'public/images/skyhook.png';
       if (countries[buildingOwner].hasSolarPowerStation) {
@@ -1992,8 +2095,18 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.25,1.2,0.75],5)"
                         onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.8,0.25,1.2,0.75],5,0)">Weather Amplification Satellite</button>
                         </div>`;
+      if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
+        
     break;
   case 'space-elevator':
+    buildLoopButtons = true;
     thisCity = map2BuildingProcess[buildingProcess].city;
       // check if this city is an Asteroid Habitat, a Moon City, or a Solar Cylinder. Launch Pad prices will vary based on
       // what type of city is producing the unit
@@ -2041,6 +2154,14 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
                           </div>`;
+        if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.4,1],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,300,1.4,1],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
         
       } else {
         // THIS SPACE ELEVATOR IS NOT ON A MOON CITY
@@ -2088,6 +2209,15 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.6,0.2,0.6,0.4],5)"
                         onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.6,0.2,0.6,0.4],5,0)">Weather Amplification Satellite</button>
                         </div>`;
+        if (countries[buildingOwner].hasSpaceInfantry) {
+          if (countries[buildingOwner].hasMarines) {
+            buildButtons += `<div class="build-btn-grouper">
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1],2)"
+                            onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2,1)">Space Marines</button>
+                          </div>`;
+          }
+        }
+        
       }
     break;
   }
@@ -2148,6 +2278,9 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
         break;
       case 'space-infantry':
           outputMaterial = `<img class="inline-build-window-unit" src="public/images/spaceinfantryicon.png">`;
+        break;
+      case 'space-marines':
+          outputMaterial = `<img class="inline-build-window-unit" src="public/images/spacemarinesicon.png">`;
         break;
       case 'solar-power-station':
           outputMaterial = `<img class="inline-build-window-unit" src="public/images/solarsatelliteicon.png">`;
@@ -2322,6 +2455,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
     document.querySelector('.build-window-image').src = buildingImg;
     document.querySelector('.build-window-health').textContent = "Health: " + buildingHealth;
     document.querySelector('.build-btns-container').innerHTML = buildButtons;
+    
+    if (buildLoopButtons) {
+      document.querySelector('.build-info-loop').style.display = 'block';
+      document.querySelector('.build-info-loop-buttons').style.display = 'block';
+      document.querySelector("#build-number").textContent = map2BuildingProcess[buildingProcess].loop;
+      document.querySelector('#add-1').setAttribute("onclick","buildQueuePlusOneMap2(" + buildingProcess + ")");
+      document.querySelector('#add-5').setAttribute("onclick","buildQueuePlusFiveMap2(" + buildingProcess + ")");
+      document.querySelector('#add-10').setAttribute("onclick","buildQueuePlusTenMap2(" + buildingProcess + ")");
+      document.querySelector('#minus-1').setAttribute("onclick","buildQueueMinusOneMap2(" + buildingProcess + ")");
+    } else {
+      document.querySelector('.build-info-loop').style.display = 'none';
+      document.querySelector('.build-info-loop-buttons').style.display = 'none';
+    }
+    // display the build loop buttons if this building is the kind that can recruit units
     
     
     // Here we will define what city the building is in and pass its array position and building process id so it can be deleted
@@ -2515,6 +2662,7 @@ const manipulateBuildingProcess2 = function(buildProcessID, outputMat, outputAmo
   map2BuildingProcess[buildProcessID].maintenanceMaterial = mainMat;
   map2BuildingProcess[buildProcessID].maintenanceAmount = mainAmount;
   map2BuildingProcess[buildProcessID].monthsLeft = buildTime;
+  map2BuildingProcess[buildProcessID].loop = 0;
   document.querySelector(".build-window-div").style.display = "none";
 }
 

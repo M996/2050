@@ -59,6 +59,14 @@ mainCanvas2.add(citySelector);
         document.getElementById('province-info-btn').setAttribute('onclick','showProvince(' + city.id + ',' + city.provinceID +')')
         // Fill in City Info =============================================================================================
         document.querySelector('.city-interaction').style.display = 'flex';
+        // this causes the city interactions window to display
+        
+        // Here we have to figure out what units are currently positioned in this stiy before we open the unit interactions window
+        
+        // figure out what units are positioned in the city
+        
+        document.querySelector(".unit-interaction").style.display = "flex";
+        // this cuases the unit view for that city to display
         if (city.coastal === false) {
             coastalPic = '';
         } else {

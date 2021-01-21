@@ -132,6 +132,13 @@ require 'header.php';
       <div class="build-condition-info-container">
         <p class="build-window-health"></p>
         <p class="build-info-active">Active</p>
+        <p class="build-info-loop">Build Amount: <span id="build-number"></span></p>
+        <div class="build-info-loop-buttons">
+          <button class="build-add-btn" id="minus-1">-1</button>
+          <button class="build-add-btn" id="add-1">+1</button>
+          <button class="build-add-btn" id="add-5">+5</button>
+          <button class="build-add-btn" id="add-10">+10</button>
+        </div>
       </div>
     </div>
     <div class="build-window-bottom">
@@ -201,6 +208,30 @@ require 'header.php';
         <div id="city-buildings"></div>
       </div>
     </div>
+    <div class="unit-interaction">
+      <div class="top-unit-view">
+        <button class="unit-group-btn" id="land-unit-group">Land</button>
+        <button class="unit-group-btn" id="naval-unit-group">Naval</button>
+        <button class="unit-group-btn" id="space-unit-group">Space</button>
+      </div>
+      <div class="bottom-unit-view">
+        <div class="unit-div">
+          <p class="unit-name">Infantry</p>
+          <img class="unit-icon" src="public/images/infantryicon.png">
+          <p class="unit-amount">1,000,000</p>
+        </div>
+        <div class="unit-div">
+          <p class="unit-name">Tanks</p>
+          <img class="unit-icon" src="public/images/tankicon.png">
+          <p class="unit-amount">100</p>
+        </div>
+        <div class="unit-div">
+          <p class="unit-name">Aircraft</p>
+          <img class="unit-icon" src="public/images/mannedaircrafticon.png">
+          <p class="unit-amount">1</p>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
@@ -210,7 +241,27 @@ require 'header.php';
 <script src="countries.js"></script>
 <script src="corporations.js"></script>
 
+<script src="public/units/aircraft.js"></script>
+<script src="public/units/carrier.js"></script>
+<script src="public/units/commsatellite.js"></script>
+<script src="public/units/destroyer.js"></script>
+<script src="public/units/ICBM.js"></script>
+<script src="public/units/infantry.js"></script>
+<script src="public/units/marines.js"></script>
+<script src="public/units/skyhook.js"></script>
+<script src="public/units/solarpowerstation.js"></script>
+<script src="public/units/spaceinfantry.js"></script>
+<script src="public/units/spacemarines.js"></script>
+<script src="public/units/submarine.js"></script>
+<script src="public/units/tank.js"></script>
+<script src="public/units/taskship.js"></script>
+<script src="public/units/weaponsplatform.js"></script>
+<script src="public/units/weathersatellite.js"></script>
+
+<script src="provinces1.js"></script>
 <script src="provinces2.js"></script>
+<script src="provinces3.js"></script>
+<script src="provinces4.js"></script>
 <script src="cities1.js"></script>
 <script src="cities2.js"></script>
 <script src="cities3.js"></script>
@@ -219,6 +270,9 @@ require 'header.php';
 <script src="buildingProcess2.js"></script>
 <script src="buildingProcess3.js"></script>
 <script src="buildingProcess4.js"></script>
+<script src="main1.js"></script>
 <script src="main2.js"></script>
+<script src="main3.js"></script>
+<script src="main4.js"></script>
 
 <script src="play.js"></script>

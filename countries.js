@@ -13,6 +13,8 @@ let countries = [
         "isDead": false,
         // isOtherPlayer is used to determine whether a country is controlled by another player in a multiplayer game
         // if it is not, the string is empty, if it is this string could hold their IP address
+        
+        
         // Economy ===================================
         "monthlyEnergy": 0,
         "buildingEnergyExpense": 0.5,
@@ -39,11 +41,10 @@ let countries = [
         // base Influence for all countries is +3
         "influenceStored": 0,
         "influenceStorageCapacity": 999,
-        "monthlyFood": 4,
-        // monthlyFood for Tehlike Empire is 12
+        "monthlyFood": 12,
         "foodExpense": 2.6892,
         // base Food for all countries is +2. Food is consumed at a rate of 0.00000003 per population
-        "foodStored": -10,
+        "foodStored": 10,
         "foodStorageCapacity": 100,
         "isStarving": false,
         "buildingProcess1": [],
@@ -100,6 +101,8 @@ let countries = [
         "superHighTensileExpense": 0,
         "superHighTensileStored": 0,
         "superHighTensileStorageCapacity": 99,
+        
+        
         // Diplomatic ========================================================================
         "diplomaticInfluence": 0,
         "currentLandPower": 0,
@@ -107,6 +110,11 @@ let countries = [
         "currentSpacePower": 0,
         // the current power level of a country will be used by the ai to determine if it should
         // go to war with another country
+        "spaceDebrisExtractors1": 0,
+        "spaceDebrisExtractors2": 0,
+        "spaceDebrisExtractors3": 0,
+        "spaceDebrisExtractors4": 0,
+        // Space Debris Extractors remove space debris from the planet's orbital cloud
         "hasPort": true,
         "hasSpacePort": false,
         "ideology": "Turenga",
@@ -141,6 +149,8 @@ let countries = [
         "allies": [],
         "rivals": [1],
         "embargoes": [],
+        
+        
         // Military ==========================================================================
         "enemies": [1],
         // "enemies" denotes countries that are actively at war with this country right now
@@ -156,7 +166,92 @@ let countries = [
         "aircraftCarriers": [],
         "orbitalWeaponsPlatforms": [],
         "taskShips": [],
-        // used to keep track of all units owned by this country. 2 land, 1 air, 3 sea, 2 space, and 2 cyber eventually
+        // used to keep track of all units owned by this country. 3 land, 4 sea, 10 space, and 2 cyber eventually
+        
+        // Units Stats ======================
+        "infantryMaxHealth": 60,
+        "infantrySmallArmsDamage": 8,
+        "infantryExplosiveDamage": 4,
+        "infantrySmallArmsArmor": 0.2,
+        "infantryExplosiveArmor": 0.1,
+        "infantryDirectedEnergyArmor": 0.5,
+        "infantryKineticArmor": 0.5,
+        "infantrySpeed": 30,
+        "infantryCapitalMaintenance": 0.2,
+        "infantryEnergyMaintenance": 0.04,
+        
+        "tankMaxHealth": 120,
+        "tankSmallArmsDamage": 5,
+        "tankExplosiveDamage": 20,
+        "tankSmallArmsArmor": 0.8,
+        "tankExplosiveArmor": 0.2,
+        "tankDirectedEnergyArmor": 0.2,
+        "tankKineticArmor": 0.1,
+        "tankSpeed": 50,
+        "tankMaxManpower": 4000,
+        "tankProcessedMetalMaintenance": 0.04,
+        "tankCapitalMaintenance": 0.6,
+        "tankEnergyMaintenance": 0.18,
+        
+        "aircraftEvasion": 0.9,
+        "aircraftExplosiveDamage": 60,
+        "aircraftSmallArmsArmor": 0.2,
+        "aircraftExplosiveArmor": 0.1,
+        "aircraftDirectedEnergyArmor": 0.1,
+        "aircraftKineticArmor": 0.0,
+        "aircraftSpeed": 120,
+        "aircraftCapitalMaintenance": 0.65,
+        "aircraftEnergyMaintenance": 0.2,
+        "aircraftAttackPreference": 'units',
+        
+        "destroyerMaxHealth": 400,
+        "destroyerExplosiveDamage": 60,
+        "destroyerSmallArmsArmor": 1,
+        "destroyerExplosiveArmor": 0.3,
+        "destroyerDirectedEnergyArmor": 0.4,
+        "destroyerKineticArmor": 0.1,
+        "destroyerSpeed": 45,
+        "destroyerMaxManpower": 8000,
+        "destroyerProcessedMetalMaintenance": 0.08,
+        "destroyerCapitalMaintenance": 1.4,
+        "destroyerEnergyMaintenance": 0.35,
+        
+        "carrierMaxHealth": 720,
+        "carrierSmallArmsArmor": 1,
+        "carrierExplosiveArmor": 0.3,
+        "carrierDirectedEnergyArmor": 0.4,
+        "carrierKineticArmor": 0.1,
+        "carrierSpeed": 45,
+        "aircraftCapacity": 8,
+        "carrierCapitalMaintenance": 2.2,
+        "carrierEnergyMaintenance": 0.6,
+        
+        "submarineEvasion": 0.8,
+        "submarineExplosiveDamage": 400,
+        "submarineSmallArmsArmor": 1,
+        "submarineExplosiveArmor": 0.1,
+        "submarineDirectedEnergyArmor": 1,
+        "submarineKineticArmor": 0.1,
+        "submarineSpeed": 25,
+        "submarineCapitalMaintenance": 1.8,
+        "submarineEnergyMaintenance": 0.4,
+        
+        "taskShipMaxHealth": 10,
+        "taskShipEvasion": 0.95,
+        // evasion may differ depending on whether a craft is in low orbit, high orbit, or geostationary orbit
+        "taskShipDirectedEnergyDamage": 50,
+        "taskShipDirectedEnergyTracking": 0.5,
+        "taskShipKineticDamage": 10,
+        "taskShipKineticTracking": 0.1,
+        "taskShipSmallArmsArmor": 0.0,
+        "taskShipExplosiveArmor": 0.0,
+        "taskShipDirectedEnergyArmor": 0.98,
+        "taskShipKineticArmor": 0.1,
+        "taskShipProcessedMetalMaintenance": 0.02,
+        "taskShipProcessedMineralsMaintenance": 0.02,
+        "taskShipCapitalMaintenance": 2.6,
+        "taskShipEnergyMaintenance": 1.8,
+        
         "casusBelliName": ['conquest-1'],
         "casusBelliID": [1],
         "casusBelliProvinceID": [4],
@@ -170,6 +265,12 @@ let countries = [
         "manpowerExpense": 0,
         "annualPopulationGrowth": 0.02,
         "morale": 0.3000,
+        // Damage done to a unit after armor is accounted for is first subtracted from the unit health and then subtracted
+        // from the collective morale poll for all units in the battle. After the battle is over the
+        // 'morale' property for that battle will become the new morale amount for all units that participated in that battle.
+        // Certain types of units will do extra morale damage such as marines, Space Infantry and Space Marines.
+        "landCombatWidth": 20,
+        "navalCombatWidth": 20,
         "landQuality": 0,
         "navalQuality": 0,
         "spaceQuality": 0,
@@ -179,9 +280,13 @@ let countries = [
         "viruses": [],
         "spies": [1],
         // "spies" will be active agents in countries listed in the array above, each number corresponds to another country
+        
+        
         // Corporate =============================================================================
         "stockOwnedCorporations": [0],
         "stockAmountOwned": [96],
+        
+        
         // National Ideas ========================================================================
         "destroyerCapitalMaintenance": -0.15,
         "incomeFromTradeModifier": 0.1,
@@ -190,6 +295,8 @@ let countries = [
         "manpowerGainModifier": 0.2,
         "infantrySmallArmDamage": 0.15,
         "timeToAnnexProvince": -1,
+        
+        
         // Internal ==============================================================================
         "government": "Turengan-Empire",
         "averageGdpPerCapita": 1.32,

@@ -1,3 +1,10 @@
+tellTime = function(t1) {
+  t2 = new Date().getTime();
+  console.log(t2-t1);
+}
+// this function will tell us how long all economic calculations took for all countries
+
+
 // World Clock: The function below should contain all logic the world needs executed on a timer
   // Each in-game tick is 1.2 seconds, there are 16 ticks per month, which is 19.2 seconds
   // 12 months in a year totalling 230.4 seconds or 3.84 minutes, and 200 years per game for a total of
@@ -54,7 +61,14 @@
         tickTime++;
     break;
     case 16:
+      
+      
+      t1 = new Date().getTime();
+      // this variable is the start time for this month's calculations. At the bottom of this tick, this variable will be used
+      // to determine how long this entire foreach loop took to run for all countries combined
+      
         countries.forEach(function(country) {
+        if (!country.isDead) {
             // Reset all recorded costs from last month, we want to make sure that when the month rolls over the recorded expenses are recent
             country.capitalExpense = country.buildingCapitalExpense;
             country.energyExpense = country.buildingEnergyExpense;
@@ -1785,9 +1799,287 @@
                           country.agriculturalMaterialStored = country.agriculturalMaterialStorageCapacity;
                         }
                       break;
-                  
+                    
                    // Units =================================================================================================
-                   
+                   case 'marine':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            marineHealth = country.infantryMaxHealth * 1.1;
+                            marineUnits.push(
+                              {
+                                "id": marineIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                                "health": marineHealth,
+                                "morale": country.morale,
+                                "currentManpower": 8000,
+                              }
+                            );
+                            country.marines.push(marineIndex);
+                            map2Cities[thisCity].marines.push(marineIndex);
+                            map2Cities[thisCity].marinesOwnerID.push(country.id);
+                            marineIndex++;
+                          break;
+                    }
+                  break;
+                case 'carrier':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                      case 9:
+                            map2BuildingProcess[processID].monthsLeft = 8;
+                          break;
+                        case 8:
+                            map2BuildingProcess[processID].monthsLeft = 7;
+                          break;
+                        case 7:
+                            map2BuildingProcess[processID].monthsLeft = 6;
+                          break;
+                        case 6:
+                            map2BuildingProcess[processID].monthsLeft = 5;
+                          break;
+                        case 5:
+                            map2BuildingProcess[processID].monthsLeft = 4;
+                          break;
+                        case 4:
+                            map2BuildingProcess[processID].monthsLeft = 3;
+                          break;
+                        case 3:
+                            map2BuildingProcess[processID].monthsLeft = 2;
+                          break;
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            carrierUnits.push(
+                              {
+                                "id": carrierIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                                "health": country.carrierMaxHealth,
+                                "morale": country.morale,
+                                "carrying": 0,
+                                "aircraftCarrying": 0,
+                                "currentManpower": 12000,
+                              } 
+                            );
+                            country.aircraftCarriers.push(carrierIndex);
+                            map2Cities[thisCity].aircraftCarriers.push(carrierIndex);
+                            map2Cities[thisCity].aircraftCarriersOwnerID.push(country.id);
+                            carrierIndex++;
+                          break;
+                    }
+                  break;
+                case 'destroyer':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 5:
+                            map2BuildingProcess[processID].monthsLeft = 4;
+                          break;
+                        case 4:
+                            map2BuildingProcess[processID].monthsLeft = 3;
+                          break;
+                        case 3:
+                            map2BuildingProcess[processID].monthsLeft = 2;
+                          break;
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            destroyerUnits.push(
+                              {
+                                "id": destroyerIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                                "health": country.destroyerMaxHealth,
+                                "morale": country.morale,
+                                "carrying": 0,
+                                "currentManpower": 6000,
+                              } 
+                            );
+                            country.destroyers.push(destroyerIndex);
+                            map2Cities[thisCity].destroyers.push(destroyerIndex);
+                            map2Cities[thisCity].destroyersOwnerID.push(country.id);
+                            destroyerIndex++;
+                          break;
+                    }
+                  break;
+                case 'submarine':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                        case 6:
+                            map2BuildingProcess[processID].monthsLeft = 5;
+                          break;
+                        case 5:
+                            map2BuildingProcess[processID].monthsLeft = 4;
+                          break;
+                        case 4:
+                            map2BuildingProcess[processID].monthsLeft = 3;
+                          break;
+                        case 3:
+                            map2BuildingProcess[processID].monthsLeft = 2;
+                          break;
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            submarineUnits.push(
+                              {
+                                "id": submarineIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                                "health": 60,
+                                "morale": country.morale,
+                                "currentManpower": 3000,
+                              }
+                            );
+                            country.submarines.push(submarineIndex);
+                            map2Cities[thisCity].submarines.push(submarineIndex);
+                            map2Cities[thisCity].submarinesOwnerID.push(country.id);
+                            submarineIndex++;
+                          break;
+                    }
+                  break;
+                case 'infantry':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            infantryUnits.push(
+                              {
+                                "id": infantryIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                                "health": country.infantryMaxHealth,
+                                "morale": country.morale,
+                                "currentManpower": 10000,
+                              }
+                            );
+                            country.infantry.push(infantryIndex);
+                            map2Cities[thisCity].infantry.push(infantryIndex);
+                            map2Cities[thisCity].infantryOwnerID.push(country.id);
+                            infantryIndex++;
+                          break;
+                    }
+                  break;
+                case 'tank':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                          case 3:
+                            map2BuildingProcess[processID].monthsLeft = 2;
+                          break;
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            tankUnits.push(
+                              {
+                                "id": tankIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                                "health": country.tankMaxHealth,
+                                "morale": country.morale,
+                                "currentManpower": 4000,
+                              }
+                            );
+                            country.tanks.push(tankIndex);
+                            map2Cities[thisCity].tanks.push(tankIndex);
+                            map2Cities[thisCity].tanksOwnerID.push(country.id);
+                            tankIndex++;
+                          break;
+                    }
+                  break;
+                case 'aircraft':
+                    switch(map2BuildingProcess[processID].monthsLeft) {
+                          case 4:
+                            map2BuildingProcess[processID].monthsLeft = 3;
+                          break;
+                          case 3:
+                            map2BuildingProcess[processID].monthsLeft = 2;
+                          break;
+                          case 2:
+                            map2BuildingProcess[processID].monthsLeft = 1;
+                          break;
+                          case 1:
+                            thisCity = map2BuildingProcess[processID].city;
+                            aircraftUnits.push(
+                              {
+                                "id": aircraftIndex,
+                                "ownerID": country.id,
+                                "planetID": 2,
+                                "cityID": thisCity,
+                                "carrierID": null,
+                                "isDead": false,
+                                "xpos": 0,
+                                "ypos": 0,
+                              }
+                            );
+                            country.aircraft.push(aircraftIndex);
+                            map2Cities[thisCity].planes.push(aircraftIndex);
+                            map2Cities[thisCity].planesOwnerID.push(country.id);
+                            aircraftIndex++;
+                          break;
+                    }
+                  break;
+                case 'ICBM':
+                    
+                  break;
+                case 'space-infantry':
+                    
+                  break;
+                case 'space-marines':
+                    
+                  break;
+                case 'solar-power-station':
+                  // add 1 to numberOfSolarSatellite
+                break;
+                case 'space-debris-extractor':
+                  // add 1 to the space debris extractor count for this country
+                break;
+                case 'comms-satellite':
+                  // add 1 to numberOfComSatellites
+                break;
+                case 'task-ship':
+                  
+                break;
+                case 'skyhook':
+                  // add 1 to numberOfSkyhooks
+                break;
+                case 'weapons-platform':
+                  
+                break;
+                case 'weather-amp-satellite':
+                  // add 1 to numberOfWeatherSatellites
+                break;
                    
                   }
                 }
@@ -1837,10 +2129,6 @@
                 endFamine(country.id);
               }
             }
-            
-            
-            
-            
             
             
             
@@ -2024,6 +2312,7 @@
                 }
                 document.querySelector("#country-antimatter-amount").textContent = country.antiMatterStored.toFixed(1);
             }
+        }
         });
         
         currentMonth = document.querySelector(".current-month").textContent;
@@ -2107,6 +2396,8 @@
             break;
         }
         tickTime = 1;
+        tellTime(t1);
+        // how long did all this take to process? This will tell us the time in milliseconds
     break; 
   }
 }, 1200);
