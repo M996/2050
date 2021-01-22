@@ -9,11 +9,18 @@
     width: 26vw;
     height: 20vh;
     border: 2px solid black;
-    border-top-right-radius: 12px;
+    border-bottom: none;
     background: rgb(40,40,40);
     min-width: 300px;
     min-height: 200px;
 }
+
+@media all and (max-width: 1235px) {
+    .unit-interaction{
+        left: 300px;
+    }
+}
+/* This code is sop that the unit interaction screen does not overlap the city interaction screen in small windows */
 
 .top-unit-view {
     height: 35%;
@@ -38,6 +45,36 @@
 .unit-group-btn:hover {
     transform: translateY(1px);
     background: rgb(45,45,45);
+    cursor: pointer;
+}
+
+.unit-move-btn {
+    padding: 10px 6px;
+    margin-bottom: 6px;
+    border: 2px solid grey;
+    border-radius: 3px;
+    background: rgb(60,40,120);
+    color: white;
+    transition-duration: 100ms;
+}
+
+.unit-move-btn:hover {
+    background: rgb(60,40,100);
+    cursor: pointer;
+}
+
+.close-interactions-btn {
+    padding: 8px 4px;
+    margin-bottom: 10px;
+    background: rgb(160,20,20);
+    color: white;
+    transition-duration: 100ms;
+}
+
+.close-interactions-btn:hover {
+    border: none;
+    margin: 2px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
@@ -67,6 +104,7 @@
 
 .unit-icon {
     width: 3.2vw;
+    min-width: 40px;
 }
 
 .unit-amount {
@@ -74,4 +112,83 @@
     font-family: sans-serif;
     margin-top: 2px;
     color: white;
+}
+
+.unit-move-interaction {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    position: fixed;
+    bottom: 21vh;
+    left: 24vw;
+    width: 26vw;
+    height: 20vh;
+    border: 2px solid black;
+    border-top-right-radius: 12px;
+    background: rgb(40,40,40);
+    min-width: 300px;
+    min-height: 200px;
+    border-bottom: none;
+}
+
+.unit-type-move-container {
+    width: 90%;
+    padding: 4px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid grey;
+}
+
+.unit-move-icon {
+    width: 4vw;
+    min-width: 32px;
+}
+
+.unit-move-options {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.unit-move-range {
+    width: 90%;
+}
+
+.unit-move-options-btns {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.unit-move-option-btn {
+    padding: 4px 8px;
+    box-shadow: 2px 2px 4px black;
+    margin-bottom: 6px;
+    border: 2px solid grey;
+    border-radius: 3px;
+    background: rgb(60,40,120);
+    color: white;
+    transition-duration: 100ms;
+}
+
+.unit-move-option-btn:hover {
+    background: rgb(60,40,100);
+    transform: translateY(1px);
+    cursor: pointer;
+}
+
+.current-move-amount {
+    color: white;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 10%;
+    margin-top: 2px;
 }

@@ -26,6 +26,18 @@ let nuclearValue = 3.0;
 
 
 
+const closeInteractions = function() {
+  document.querySelector(".unit-interaction").style.display = "none";
+  document.querySelector(".city-interaction").style.display = "none";
+  document.querySelector(".unit-move-interaction").style.display = "none";
+}
+
+
+
+
+
+
+
 // This function is called when the city interactions window is open and at least one of the buildings in the city
 // have the word 'built' in them. This tells us that a building is being actively built on the player's screen and
 // this function is called the find the planet, city, and building index of that structure which is being built so
@@ -74,6 +86,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
       break;
     }
   } else if (planetIndex == 2) {
@@ -118,6 +131,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
       break;
     }
   } else if (planetIndex == 3) {
@@ -162,6 +176,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
       break;
     }
   } else {
@@ -206,6 +221,7 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
       break;
     }
   }
@@ -1338,6 +1354,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
     closeBuildWindow();
     document.querySelector(".city-interaction").style.display = "none";
     document.querySelector('.unit-interaction').style.display = 'none';
+    document.querySelector(".unit-move-interaction").style.display = "none";
   }
 }
 
@@ -1393,6 +1410,7 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID)
   document.querySelector(".build-window-div").style.display = "none";
   document.querySelector(".city-interaction").style.display = "none";
   document.querySelector('.unit-interaction').style.display = 'none';
+  document.querySelector(".unit-move-interaction").style.display = "none";
 }
 
 
@@ -1413,6 +1431,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'metal-processing-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1427,6 +1446,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'mineral-processing-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1442,6 +1462,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'mineral-processing-plant-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1456,6 +1477,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'nuclear-power-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1469,6 +1491,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'nuclear-power-plant-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1483,6 +1506,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'railgun-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1498,6 +1522,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'railgun-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1514,6 +1539,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'missile-system-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1529,6 +1555,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'missile-system-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1543,6 +1570,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   case 'ground-defense-laser-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1558,6 +1586,7 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
+      document.querySelector(".unit-move-interaction").style.display = "none";
     break;
   }
 }

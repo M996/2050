@@ -208,35 +208,266 @@ require 'header.php';
         <div id="city-buildings"></div>
       </div>
     </div>
+    
+    <div class="city-combat-screen">
+      <div class="enemy-stats">
+        <div class="enemy-name-info-container">
+          <p class="enemy-name">Tuetoro</p>
+        </div>
+        <div class="enemy-units-info">
+          <div class="unit-display-container">
+            <div class="enemy-infantry-info">
+              <img class="combat-unit-img" id="enemy-unit" src="public/images/infantryicon.png">
+              <p class="enemy-infantry-manpower" id="enemy-infantry">10,000</p>
+            </div>
+            <div class="enemy-infantry-info">
+              <img class="combat-unit-img" id="enemy-unit" src="public/images/tankicon.png">
+              <p class="enemy-tank-manpower" id="enemy-tank">100</p>
+            </div>
+            <div class="enemy-infantry-info">
+              <img class="combat-unit-img" id="enemy-unit" src="public/images/guerrillaicon.png">
+              <p class="enemy-tank-manpower" id="enemy-guerrilla">10,000</p>
+            </div>
+            <div class="enemy-infantry-info">
+              <img class="combat-unit-img" id="enemy-unit" src="public/images/marinesicon.png">
+              <p class="enemy-tank-manpower" id="enemy-marines">8,000</p>
+            </div>
+            <div class="enemy-infantry-info">
+              <img class="combat-unit-img" id="enemy-unit" src="public/images/spaceinfantryicon.png">
+              <p class="enemy-tank-manpower" id="enemy-space-infantry">500</p>
+            </div>
+            <div class="enemy-infantry-info">
+              <img class="combat-unit-img" id="enemy-unit" src="public/images/spacemarinesicon.png">
+              <p class="enemy-tank-manpower" id="enemy-space-marines">300</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="combat-action-screen">
+        <div class="enemy-morale-div"><div class="current-enemy-morale"></div></div>
+        <!-- The morale bars appear here and are filled in with the values of an army's current morale status -->
+        <div class="combat-window">
+          
+          <div class="combat-roll-window">
+            <div class="enemy-rolls-div">
+              <p class="enemy-roll">8</p>
+              <p class="enemy-bonus">0</p>
+            </div>
+            <div class="allied-rolls-div">
+              <p class="ally-bonus">1</p>
+              <p class="ally-roll">7</p>
+            </div>
+          </div>
+          <div class="combat-units-window">
+            <div class="enemy-combat-units">
+              <div class="enemy-row">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="enemy-row">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="enemy-row">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="enemy-row">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="enemy-row">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+                <img class="enemy-unit" src="public/images/infantryicon.png">
+              </div>
+            </div>
+            <div class="ally-combat-units">
+              <div class="ally-row">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="ally-row">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="ally-row">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="ally-row">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+              </div>
+              <div class="ally-row">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+                <img class="ally-unit" src="public/images/infantryicon.png">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ally-morale-div"><div class="current-ally-morale"></div></div>
+      </div>
+      <div class="ally-stats">
+        <div class="ally-name-info-container">
+          <p class="ally-name">Tehlike Empire</p>
+        </div>
+        <div class="ally-units-info">
+          <div class="unit-display-container">
+            <div class="ally-infantry-info">
+              <img class="combat-unit-img" id="ally-unit" src="public/images/infantryicon.png">
+              <p class="ally-infantry-manpower">10,000</p>
+            </div>
+            <div class="ally-infantry-info">
+              <img class="combat-unit-img" id="ally-unit" src="public/images/tankicon.png">
+              <p class="ally-tank-manpower">100</p>
+            </div>
+            <div class="ally-infantry-info">
+              <img class="combat-unit-img" id="ally-unit" src="public/images/guerrillaicon.png">
+              <p class="ally-tank-manpower">10,000</p>
+            </div>
+            <div class="ally-infantry-info">
+              <img class="combat-unit-img" id="ally-unit" src="public/images/marinesicon.png">
+              <p class="ally-tank-manpower">8,000</p>
+            </div>
+            <div class="ally-infantry-info">
+              <img class="combat-unit-img" id="ally-unit" src="public/images/spaceinfantryicon.png">
+              <p class="ally-tank-manpower">500</p>
+            </div>
+            <div class="ally-infantry-info">
+              <img class="combat-unit-img" id="ally-unit" src="public/images/spacemarinesicon.png">
+              <p class="ally-tank-manpower">300</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="unit-move-interaction">
+      <div class="unit-type-move-container">
+        <img class="unit-move-icon" src="public/images/infantryicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-infantry-slider" onchange="updateArmyInfantry(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="infantry-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="infantryArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="infantryArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container">
+        <img class="unit-move-icon" src="public/images/tankicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-tank-slider" onchange="updateArmyTanks(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="tank-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="tankArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="tankArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container">
+        <img class="unit-move-icon" src="public/images/guerrillaicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-guerrilla-slider" onchange="updateArmyGuerrilla(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="guerrilla-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="guerrillaArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="guerrillaArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container">
+        <img class="unit-move-icon" src="public/images/marinesicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-marines-slider" onchange="updateArmyMarines(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="marines-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="marinesArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="marinesArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container">
+        <img class="unit-move-icon" src="public/images/spaceinfantryicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-space-infantry-slider" onchange="updateArmySpaceInfantry(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="space-infantry-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="spaceInfantryArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="spaceInfantryArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container">
+        <img class="unit-move-icon" src="public/images/spacemarinesicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-space-marines-slider" onchange="updateArmySpaceMarines(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="space-marines-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="spaceMarinesArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="spaceMarinesArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    </div>
     <div class="unit-interaction">
       <div class="top-unit-view">
-        <button class="unit-group-btn" id="land-unit-group">Land</button>
-        <button class="unit-group-btn" id="naval-unit-group">Naval</button>
-        <button class="unit-group-btn" id="space-unit-group">Space</button>
+        <button class="unit-move-btn" id="move-army" onclick="openMoveArmiesWindow()">Move</button>
+        <button class="unit-group-btn" id="land-unit-group" onclick="displayLandArmies()">Land</button>
+        <button class="unit-group-btn" id="naval-unit-group" onclick="displayNavalFleets()">Naval</button>
+        <button class="unit-group-btn" id="space-unit-group" onclick="displaySpaceFleets()">Space</button>
+        <button class="close-interactions-btn" onclick="closeInteractions()">X</button>
       </div>
       <div class="bottom-unit-view">
         <div class="unit-div">
           <p class="unit-name">Infantry</p>
+          <input type="hidden" id="infantry-selected" value="0">
           <img class="unit-icon" src="public/images/infantryicon.png">
-          <p class="unit-amount">1,000,000</p>
+          <p class="unit-amount">10,000</p>
         </div>
         <div class="unit-div">
           <p class="unit-name">Tanks</p>
+          <input type="hidden" id="tank-selected" value="0">
           <img class="unit-icon" src="public/images/tankicon.png">
           <p class="unit-amount">100</p>
         </div>
         <div class="unit-div">
           <p class="unit-name">Aircraft</p>
+          <input type="hidden" id="aircraft-selected" value="0">
           <img class="unit-icon" src="public/images/mannedaircrafticon.png">
-          <p class="unit-amount">1</p>
+          <p class="unit-amount">10</p>
         </div>
       </div>
     </div>
+    
   </div>
 </body>
 
 <script src="fabric-4.3.0.min.js"></script>
 <script src="common-functions.js"></script>
+<script src="military-functions.js"></script>
 <script src="unions.js"></script>
 <script src="countries.js"></script>
 <script src="corporations.js"></script>

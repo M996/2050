@@ -35,6 +35,7 @@ if ($url != 'http://localhost/Skeleton-Custom/index.php' || $url != 'https://web
   <link rel="stylesheet" type="text/css" href="public/css/header-style.css">
   <link rel="stylesheet" type="text/css" href="public/css/build-window-style.css">
   <link rel="stylesheet" type="text/css" href="public/css/unit-window-style.css">
+  <link rel="stylesheet" type="text/css" href="public/css/combat-window-style.css">
   <link rel="shortcut icon" href="public/images/mainlogo.ico">
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 </head>
