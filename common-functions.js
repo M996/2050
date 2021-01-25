@@ -22,6 +22,11 @@ let nuclearValue = 3.0;
 
 
 
+let currentPlayerID = 0;
+// currentPlayerID is the id of the country the player is currently playing as.
+
+
+
 
 
 

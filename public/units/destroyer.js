@@ -17,6 +17,6 @@ let destroyerUnits = [
       "health": 400,
       "morale": 0.3000,
       "carrying": 0,
-      "currentManpower": 8000,
+      "currentManpower": 5500,
     },
 ]

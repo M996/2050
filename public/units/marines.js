@@ -18,11 +18,12 @@ let marineUnits = [
       // smallArmsDamage is eqaul to 110% infantry
       // explosiveDamage is equal to 110% infantry
       // moraleDamage is equal to 120% of infantry
+      // speed is equal to 80% of infantry
       // smallArmsArmor is equal to +0.05 infantry
       // explosiveArmor is equal to +0.10 infantry
       // directEnergyArmor and kineticArmor is infantryArmor for this value -0.1
       // marines only count for 0.5 carrying capacity on destroyers and carriers instead of 1
-      // marines cost 120% maintenance of infantry
+      // marines cost 140% maintenance of infantry
       "currentManpower": 8000,
     },
 ]

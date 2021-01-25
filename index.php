@@ -363,7 +363,7 @@ require 'header.php';
     </div>
     
     <div class="unit-move-interaction">
-      <div class="unit-type-move-container">
+      <div class="unit-type-move-container" id="move-infantry">
         <img class="unit-move-icon" src="public/images/infantryicon.png">
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-infantry-slider" onchange="updateArmyInfantry(this.value)">
@@ -374,7 +374,7 @@ require 'header.php';
           </div>
         </div>
       </div>
-      <div class="unit-type-move-container">
+      <div class="unit-type-move-container" id="move-tank">
         <img class="unit-move-icon" src="public/images/tankicon.png">
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-tank-slider" onchange="updateArmyTanks(this.value)">
@@ -385,7 +385,18 @@ require 'header.php';
           </div>
         </div>
       </div>
-      <div class="unit-type-move-container">
+      <div class="unit-type-move-container" id="move-aircraft">
+        <img class="unit-move-icon" src="public/images/mannedaircrafticon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-aircraft-slider" onchange="updateArmyAircraft(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="tank-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="aircraftArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="aircraftArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container" id="move-guerrilla">
         <img class="unit-move-icon" src="public/images/guerrillaicon.png">
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-guerrilla-slider" onchange="updateArmyGuerrilla(this.value)">
@@ -396,7 +407,40 @@ require 'header.php';
           </div>
         </div>
       </div>
-      <div class="unit-type-move-container">
+      <div class="unit-type-move-container" id="move-destroyer">
+        <img class="unit-move-icon" src="public/images/destroyericon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-destroyer-slider" onchange="updateArmyDestroyer(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="destroyer-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="destroyerArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="destroyerArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container" id="move-submarine">
+        <img class="unit-move-icon" src="public/images/submarineicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-submarines-slider" onchange="updateArmySubmarine(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="submarine-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="submarineArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="submarineArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container" id="move-carrier">
+        <img class="unit-move-icon" src="public/images/carriericon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-carrier-slider" onchange="updateArmyCarrier(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="carrier-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="carrierArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="carrierArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container" id="move-marines">
         <img class="unit-move-icon" src="public/images/marinesicon.png">
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-marines-slider" onchange="updateArmyMarines(this.value)">
@@ -407,7 +451,7 @@ require 'header.php';
           </div>
         </div>
       </div>
-      <div class="unit-type-move-container">
+      <div class="unit-type-move-container" id="move-space-infantry">
         <img class="unit-move-icon" src="public/images/spaceinfantryicon.png">
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-space-infantry-slider" onchange="updateArmySpaceInfantry(this.value)">
@@ -418,7 +462,7 @@ require 'header.php';
           </div>
         </div>
       </div>
-      <div class="unit-type-move-container">
+      <div class="unit-type-move-container" id="move-space-marines">
         <img class="unit-move-icon" src="public/images/spacemarinesicon.png">
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-space-marines-slider" onchange="updateArmySpaceMarines(this.value)">
@@ -426,6 +470,17 @@ require 'header.php';
             <p class="current-move-amount"><span id="space-marines-move-amount">0</span> Units</p>
             <button class="unit-move-option-btn" onclick="spaceMarinesArmyNull()">None</button>
             <button class="unit-move-option-btn" onclick="spaceMarinesArmyMax()">All</button>
+          </div>
+        </div>
+      </div>
+      <div class="unit-type-move-container" id="move-task-ship">
+        <img class="unit-move-icon" src="public/images/taskshipicon.png">
+        <div class="unit-move-options">
+          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-task-ship-slider" onchange="updateArmyTaskShip(this.value)">
+          <div class="unit-move-options-btns">
+            <p class="current-move-amount"><span id="task-ship-move-amount">0</span> Units</p>
+            <button class="unit-move-option-btn" onclick="taskShipArmyNull()">None</button>
+            <button class="unit-move-option-btn" onclick="taskShipArmyMax()">All</button>
           </div>
         </div>
       </div>
@@ -442,22 +497,28 @@ require 'header.php';
       </div>
       <div class="bottom-unit-view">
         <div class="unit-div">
-          <p class="unit-name">Infantry</p>
+          <p class="unit-name" onclick="infantryCitySelection()">Infantry</p>
           <input type="hidden" id="infantry-selected" value="0">
-          <img class="unit-icon" src="public/images/infantryicon.png">
+          <img class="unit-icon" id="infantry-unit-icon" src="public/images/infantryicon.png" onclick="infantryCitySelection()">
           <p class="unit-amount">10,000</p>
+          <img class="embark-img-infantry" src="public/images/port.png">
+          <button class="embark-button" id="embark-button-infantry" onclick="embarkInfantry()">Embark</button>
         </div>
         <div class="unit-div">
-          <p class="unit-name">Tanks</p>
+          <p class="unit-name" onclick="tankCitySelection()">Tanks</p>
           <input type="hidden" id="tank-selected" value="0">
-          <img class="unit-icon" src="public/images/tankicon.png">
+          <img class="unit-icon" id="tank-unit-icon" src="public/images/tankicon.png" onclick="tankCitySelection()">
           <p class="unit-amount">100</p>
+          <img class="embark-img-tank" src="public/images/port.png">
+          <button class="embark-button" id="embark-button-tanks" onclick="embarkTanks()">Embark</button>
         </div>
         <div class="unit-div">
-          <p class="unit-name">Aircraft</p>
+          <p class="unit-name" onclick="aircraftCitySelection()">Aircraft</p>
           <input type="hidden" id="aircraft-selected" value="0">
-          <img class="unit-icon" src="public/images/mannedaircrafticon.png">
+          <img class="unit-icon" id="aircraft-unit-icon" src="public/images/mannedaircrafticon.png" onclick="aircraftCitySelection()">
           <p class="unit-amount">10</p>
+          <img class="embark-img-aircraft" src="public/images/port.png">
+          <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft()">Embark</button>
         </div>
       </div>
     </div>

@@ -93,6 +93,57 @@ mainCanvas2.add(citySelector);
         // above we have determined the population of the city, calculated it with the gdp per capita of its province
         // and determined how much capital income this city will generate from raw population
         
+        
+        
+        if (currentPlayerID != -1) {
+         hasMilitaryIntel = false;
+         countries[currentPlayerID].hasMilitaryIntel.forEach(function(spiedEnemyID) {
+          if (spiedEnemyID === city.ownerID) {
+           hasMilitaryIntel = true;
+          }
+         });
+        }
+        // determine ahead of time, if the current player has military intel on the country they are trying to spy on
+        // however if the currentPlayerID is -1 then they are a spectator so it doesn't matter
+        
+        if (city.ownerID === currentPlayerID) {
+         controlMilitaryIntelligence();
+         displayLandArmies();
+        } else if (currentPlayerID === -1) {
+         // this id signifies that the player is a spectator
+         displayMilitaryIntelligence();
+         displayLandArmies();
+        } else if (hasMilitaryIntel) {
+         displayMilitaryIntelligence();
+         displayLandArmies();
+        } else {
+         isLandNeighbor = false;
+         map2Provinces[city.provinceID].landNeighbors.forEach(function(neighborID) {
+          countries[currentPlayerID].ownedProvinces2.forEach(function(playerProvinceID) {
+            if (neighborID === playerProvinceID) {
+             isLandNeighbor = true;
+             displayMilitaryIntelligence();
+             displayLandArmies();
+             // first run a forEach loop for every neighboring province of the city you just selected, then inside of that loop
+             // run another loop for every province currently owned by the player. If at any point a province owned by the player
+             // is the same as the neighbor of the province that was selected, we can then display the military units inside of
+             // that city on the screen, because the player has line of sight to them
+            }
+           });
+          });
+         if (isLandNeighbor === false) {
+          hideMilitaryIntelligence();
+          hideLandArmies();
+          // if everything else has failed and this province is also not a land neighbor to any player owned province, then
+          // hide all military information from the player about this province
+         }
+        }
+        // now that we have populated both the city index and the planet index above, we can call displayLandArmies() in order to
+        // populate the unit interactions window as long as the city is owned by the player (or they are a spectator), the player
+        // has military intel or the city is in a province that borders the player
+        
+        
+        
         // now below we will determine what resource this province produces, how much, what the city's share is
         // and therefore how much income from that resource we can depend on
         cityResource = map2Provinces[city.provinceID].resource;

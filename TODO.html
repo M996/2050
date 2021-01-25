@@ -1,5 +1,5 @@
-- make unit interactions window accurately count how many units are in the city, and make unit movement window only display
-- units that have been selected
+- make unit interactions window accurately count how many units are in the city when it first opens in main.js
+- and make unit movement window only display units that have been selected
 
 - only display military units in a city if it is owned by the player
 
@@ -22,7 +22,7 @@
 - Modify the Bankruptcy function in common-functions so that all corporate stock gets sold on Bankruptcy
 
 - Add message alerts to a sidebar letting the player know production stopped when they run out of a resource and
-- what resource is needed to continue production. Also create player alerts when they enter or leav bankruptcy, and
+- what resource is needed to continue production. Also create player alerts when they enter or leave bankruptcy, and
 - enter or leave starvation
 
 - Create AI triggers to start producing or buying a resource when they are producing something and that resource runs out
@@ -87,3 +87,7 @@ Hack Banks
 
 Support Dissidents
 - +3 unrest to any enemy province which already has at least 2 unrest
+
+Military Intel
+- Possible merge this with another virus, but basically this just adds the id of the country infected
+- to the attacker country's "hasMilitaryIntel" array

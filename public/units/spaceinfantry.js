@@ -19,11 +19,12 @@ let spaceInfantryUnits = [
       // smallArmsDamage is equal to 150% infantry
       // explosiveDamage is equal to 0.0
       // moraleDamage is equal to 150% of infantry
+      // speed is equal to 40% of infantry
       // smallArmsArmor is equal to +0.30 infantry
       // explosiveArmor is equal to +0.15 infantry
       // directedEnergyArmor is equal to +0.3 infantry
       // kineticArmor is equal to +0.20 infantry
-      // space infantry cost 140% maintenance of infantry multiplied by the orbital unit maintenance multiplier
-      "currentManpower": 500,
+      // space infantry cost 160% maintenance of infantry multiplied by the orbital unit maintenance multiplier
+      "currentManpower": 412,
     },
 ]

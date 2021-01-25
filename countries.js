@@ -280,6 +280,8 @@ let countries = [
         "viruses": [],
         "spies": [1],
         // "spies" will be active agents in countries listed in the array above, each number corresponds to another country
+        "hasMilitaryIntel": [1],
+        // hasMilitaryIntel is an array of all the countries that this country has military intel on currently
         
         
         // Corporate =============================================================================
