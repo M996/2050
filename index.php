@@ -500,7 +500,7 @@ require 'header.php';
           <p class="unit-name" onclick="infantryCitySelection()">Infantry</p>
           <input type="hidden" id="infantry-selected" value="0">
           <img class="unit-icon" id="infantry-unit-icon" src="public/images/infantryicon.png" onclick="infantryCitySelection()">
-          <p class="unit-amount">10,000</p>
+          <p class="unit-amount" id="infantry-interact-amount">10,000</p>
           <img class="embark-img-infantry" src="public/images/port.png">
           <button class="embark-button" id="embark-button-infantry" onclick="embarkInfantry()">Embark</button>
         </div>
@@ -508,7 +508,7 @@ require 'header.php';
           <p class="unit-name" onclick="tankCitySelection()">Tanks</p>
           <input type="hidden" id="tank-selected" value="0">
           <img class="unit-icon" id="tank-unit-icon" src="public/images/tankicon.png" onclick="tankCitySelection()">
-          <p class="unit-amount">100</p>
+          <p class="unit-amount" id="tank-interact-amount">100</p>
           <img class="embark-img-tank" src="public/images/port.png">
           <button class="embark-button" id="embark-button-tanks" onclick="embarkTanks()">Embark</button>
         </div>
@@ -516,7 +516,7 @@ require 'header.php';
           <p class="unit-name" onclick="aircraftCitySelection()">Aircraft</p>
           <input type="hidden" id="aircraft-selected" value="0">
           <img class="unit-icon" id="aircraft-unit-icon" src="public/images/mannedaircrafticon.png" onclick="aircraftCitySelection()">
-          <p class="unit-amount">10</p>
+          <p class="unit-amount" id="aircraft-interact-amount">10</p>
           <img class="embark-img-aircraft" src="public/images/port.png">
           <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft()">Embark</button>
         </div>
@@ -535,20 +535,17 @@ require 'header.php';
 
 <script src="public/units/aircraft.js"></script>
 <script src="public/units/carrier.js"></script>
-<script src="public/units/commsatellite.js"></script>
 <script src="public/units/destroyer.js"></script>
 <script src="public/units/ICBM.js"></script>
 <script src="public/units/infantry.js"></script>
 <script src="public/units/marines.js"></script>
 <script src="public/units/skyhook.js"></script>
-<script src="public/units/solarpowerstation.js"></script>
 <script src="public/units/spaceinfantry.js"></script>
 <script src="public/units/spacemarines.js"></script>
 <script src="public/units/submarine.js"></script>
 <script src="public/units/tank.js"></script>
 <script src="public/units/taskship.js"></script>
 <script src="public/units/weaponsplatform.js"></script>
-<script src="public/units/weathersatellite.js"></script>
 
 <script src="provinces1.js"></script>
 <script src="provinces2.js"></script>
@@ -562,6 +559,7 @@ require 'header.php';
 <script src="buildingProcess2.js"></script>
 <script src="buildingProcess3.js"></script>
 <script src="buildingProcess4.js"></script>
+<script src="runBuildingProcesses2.js"></script>
 <script src="main1.js"></script>
 <script src="main2.js"></script>
 <script src="main3.js"></script>

@@ -5,6 +5,7 @@
 // not as good as a space elevator or having an asteroid habitat, but any major ground power should have one
 // if they want to be taken seriously and not threatened by space empires
 
+skyHookIndex = 0;
 let skyhookUnits = [
     {
       "id": 0,

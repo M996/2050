@@ -4,6 +4,7 @@
 // space infantry or space marines can succesfully capture a habitat like these, and since moon cities
 // cannot be destroyed, they are also vital to transport to moons to do combat
 
+spaceInfantryIndex = 0;
 let spaceInfantryUnits = [
     {
       "id": 0,
@@ -11,6 +12,9 @@ let spaceInfantryUnits = [
       "planetID": 2,
       "cityID": null,
       "isDead": false,
+      "fleet": null,
+      "army": null,
+      "spaceFleet": null,
       "xpos": 0,
       "ypos": 0,
       "health": 48,

@@ -9,6 +9,8 @@ let infantryUnits = [
       "planetID": 2,
       "cityID": null,
       "isDead": false,
+      "fleet": null,
+      "army": null,
       "xpos": 0,
       "ypos": 0,
       "health": 60,

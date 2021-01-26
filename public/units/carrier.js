@@ -9,6 +9,7 @@ let carrierUnits = [
       "planetID": 2,
       "cityID": null,
       "isDead": false,
+      "fleet": null,
       "xpos": 0,
       "ypos": 0,
       "health": 720,

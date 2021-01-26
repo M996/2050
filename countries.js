@@ -17,14 +17,14 @@ let countries = [
         
         // Economy ===================================
         "monthlyEnergy": 0,
-        "buildingEnergyExpense": 0.5,
+        "buildingEnergyExpense": 0.75,
         // barracks and missile silos increase the monthly energy expense
         "energyExpense": 0,
         // barracks increase the monthly energy expense
         "energyStored": 10,
         "energyStorageCapacity": 100,
         "monthlyCapital": 31.13,
-        "buildingCapitalExpense": 3.2,
+        "buildingCapitalExpense": 4,
         "capitalExpense": 0,
         // ports, barracks, and missile silos increase the monthly capital expense
         // base Capital for all countries is +2
@@ -48,7 +48,7 @@ let countries = [
         "foodStorageCapacity": 100,
         "isStarving": false,
         "buildingProcess1": [],
-        "buildingProcess2": [0,1,2,3,4,5,6,7,8,9,10],
+        "buildingProcess2": [2,8,40],
         "buildingProcess3": [],
         "buildingProcess4": [],
         "monthlyMinerals": 1,
@@ -110,11 +110,6 @@ let countries = [
         "currentSpacePower": 0,
         // the current power level of a country will be used by the ai to determine if it should
         // go to war with another country
-        "spaceDebrisExtractors1": 0,
-        "spaceDebrisExtractors2": 0,
-        "spaceDebrisExtractors3": 0,
-        "spaceDebrisExtractors4": 0,
-        // Space Debris Extractors remove space debris from the planet's orbital cloud
         "hasPort": true,
         "hasSpacePort": false,
         "ideology": "Turenga",
@@ -166,6 +161,8 @@ let countries = [
         "aircraftCarriers": [],
         "orbitalWeaponsPlatforms": [],
         "taskShips": [],
+        "skyHooks": [],
+        "ICBMs": [],
         // used to keep track of all units owned by this country. 3 land, 4 sea, 10 space, and 2 cyber eventually
         
         // Units Stats ======================
@@ -251,6 +248,10 @@ let countries = [
         "taskShipProcessedMineralsMaintenance": 0.02,
         "taskShipCapitalMaintenance": 2.6,
         "taskShipEnergyMaintenance": 1.8,
+        
+        "skyHookProcessedMineralsMaintenance": 0.1,
+        "skyHookCapitalMaintenance": 3.2,
+        "skyHookEnergyMaintenance": 3,
         
         "casusBelliName": ['conquest-1'],
         "casusBelliID": [1],
@@ -364,12 +365,26 @@ let countries = [
         "numberOfSpaceElevators": 0,
         // space elevators and skyhooks must be kept track of so that we can know if this country is able to participate in
         // space trade of raw resources such as minerals, metal, precious metal, and food
-        "numberOfSolarSatellites": 0,
-        "numberOfComSatellites": 0,
-        "numberOfWeatherSatellites": 0,
+        "numberOfSolarSatellites1": 0,
+        "numberOfSolarSatellites2": 0,
+        "numberOfSolarSatellites3": 0,
+        "numberOfSolarSatellites4": 0,
+        "numberOfComSatellites1": 0,
+        "numberOfComSatellites2": 0,
+        "numberOfComSatellites3": 0,
+        "numberOfComSatellites4": 0,
+        "numberOfWeatherSatellites1": 0,
+        "numberOfWeatherSatellites2": 0,
+        "numberOfWeatherSatellites3": 0,
+        "numberOfWeatherSatellites4": 0,
         // we need to keep track of the number of solar satellites so the country can sell energy globally, the com satellites
         // are to maintain communications with distant units, cities, and keep up morale, and the weather satellites
         // are to control the weather in cretain provinces like keeping ice out of an ocean tile or increasing food production
+        "spaceDebrisExtractors1": 0,
+        "spaceDebrisExtractors2": 0,
+        "spaceDebrisExtractors3": 0,
+        "spaceDebrisExtractors4": 0,
+        // Space Debris Extractors remove space debris from the planet's orbital cloud
         // Multiplayer ========================================================================
         "barterPoints": 100,
         "points": 0

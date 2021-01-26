@@ -1,16 +1,9 @@
-- make unit interactions window accurately count how many units are in the city when it first opens in main.js
-- and make unit movement window only display units that have been selected
+- Create actions for buildings to take if they are weapons
 
-- only display military units in a city if it is owned by the player
+- Make it so a maximum of only 10 ICBMs can be kept in a single city. Also limit solar satellites to a reasonable number,
+- perhaps that number is limited by controlling portions of geostationary space that you can go to war over
 
-- Make unit production loop the production process as many times as loops are designated, fully resetting each time, and make them
-- end all production if no more unit loops are set to happen.
-
-- On line 2054 in play.js make it so that building processes build units, then when you are done, copy the building process foreach loop
-- for the other 3 planets and associated production arrays. Make sure to also add functionality for weapon buildings
-
-- split common-function into multiple files like common-whatever-functions, then do the same for play.js if possible, or just
-- export some functions in play.js into a common-functions file
+- split common-function into multiple files like common-whatever-functions
 
 - Add in monthly maintenance costs for all owned units after resource production but before total resource tabulation that goes to
 - the player's screen
@@ -25,18 +18,20 @@
 - what resource is needed to continue production. Also create player alerts when they enter or leave bankruptcy, and
 - enter or leave starvation
 
+- Create Land Combat
+
+- Create Naval Combat
+
+- Create Provinces borders and province view (goal March 2021)
+
+- Add unrest/rebel mechanics and rebel popping
+
+- add Unions
+
 - Create AI triggers to start producing or buying a resource when they are producing something and that resource runs out
 
 - Make it so that once a year when technology is being calculated the code checks every country to see if they have a research facility
 - and sets their 'hasResearchFacility' property to true or false if they have one in any owned city
-
-- add Unions
-
-- Add province shapes and assign them to provinces
-
-- Add province interactions screen
-
-- Add unrest/rebel mechanics and rebel popping
 
 - Add diplomatic interactions screen for countries
 
@@ -48,15 +43,11 @@
 
 - make the screen movable by clicking and dragging
 
-- Add military units
-
 - Create Zoom buttons that let you zoom in and out of the map.
 
 ======================================= DLC ===================================================================
 
-Space Marines
-
-Weather Amplification Satellites (make this at least a rate technology)
+Weather Amplification Satellites (make this at least a rare technology)
 
 Unmanned aircraft symbol becomes differnt from manned aircraft?
 

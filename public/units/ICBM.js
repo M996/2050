@@ -6,6 +6,7 @@
 // be based on the evasion rate of task ships which serves as the base evasion rate for
 // all orbital units
 
+ICBMIndex = 0;
 let ICBMUnits = [
     {
       "id": 0,

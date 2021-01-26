@@ -280,7 +280,7 @@ const controlMilitaryIntelligence = function() {
     document.querySelector("#unit-move-tank-slider").value = 0;
     document.querySelector("#unit-move-aircraft-slider").value = 0;
     document.querySelector("#unit-move-destroyer-slider").value = 0;
-    document.querySelector("#unit-move-marine-slider").value = 0;
+    document.querySelector("#unit-move-marines-slider").value = 0;
     document.querySelector("#unit-move-submarines-slider").value = 0;
     document.querySelector("#unit-move-carrier-slider").value = 0;
     document.querySelector("#unit-move-task-ship-slider").value = 0;
@@ -373,24 +373,24 @@ const displayNavalFleets = function() {
         <div class="unit-div">
           <p class="unit-name" onclick="destroyerCitySelection()">Destroyers</p>
           <img class="unit-icon" id="destroyer-unit-icon" src="public/images/destroyericon.png" onclick="destroyerCitySelection()">
-          <p class="unit-amount">` + cityDestroyerAmount + `</p>
+          <p class="unit-amount" id="destroyer-interact-amount">` + cityDestroyerAmount + `</p>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="marinesCitySelection()">Marines</p>
           <img class="unit-icon" id="marines-unit-icon" src="public/images/marinesicon.png" onclick="marinesCitySelection()">
-          <p class="unit-amount">` + cityMarineAmount.toLocaleString() + `</p>
+          <p class="unit-amount" id="marines-interact-amount">` + cityMarineAmount.toLocaleString() + `</p>
           <img class="embark-img-marines" src="public/images/port.png">
           <button class="embark-button" id="embark-button-marines" onclick="embarkMarines()">Embark</button>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="submarineCitySelection()">Submarines</p>
           <img class="unit-icon" id="submarine-unit-icon" src="public/images/submarineicon.png" onclick="submarineCitySelection()">
-          <p class="unit-amount">` + citySubmarineAmount + `</p>
+          <p class="unit-amount" id="submarine-interact-amount">` + citySubmarineAmount + `</p>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="carrierCitySelection()">Carriers</p>
           <img class="unit-icon" id="carrier-unit-icon" src="public/images/carriericon.png" onclick="carrierCitySelection()">
-          <p class="unit-amount">` + cityCarrierAmount + `</p>
+          <p class="unit-amount" id="carrier-interact-amount">` + cityCarrierAmount + `</p>
         </div>`;
         cityDestroyerAmount = 0;
         cityMarineAmount = 0;
@@ -427,19 +427,19 @@ const displaySpaceFleets = function() {
         <div class="unit-div">
           <p class="unit-name" onclick="taskShipCitySelection()">Task Ships</p>
           <img class="unit-icon" id="task-ship-unit-icon" src="public/images/taskshipicon.png" onclick="taskShipCitySelection()">
-          <p class="unit-amount">` + cityTaskShipAmount + `</p>
+          <p class="unit-amount" id="task-ship-interact-amount">` + cityTaskShipAmount + `</p>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="spaceInfantryCitySelection()">Space Infantry</p>
           <img class="unit-icon" id="space-infantry-unit-icon" src="public/images/spaceinfantryicon.png" onclick="spaceInfantryCitySelection()">
-          <p class="unit-amount">` + citySpaceInfantryAmount.toLocaleString() + `</p>
+          <p class="unit-amount" id="space-infantry-interact-amount">` + citySpaceInfantryAmount.toLocaleString() + `</p>
           <img class="embark-img-space-infantry" src="public/images/spaceEmbark.png">
           <button class="embark-button" id="embark-button-space-infantry" onclick="embarkSpaceInfantry()">Embark</button>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="spaceMarinesCitySelection()">Space Marines</p>
           <img class="unit-icon" id="space-marines-unit-icon" src="public/images/spacemarinesicon.png" onclick="spaceMarinesCitySelection()">
-          <p class="unit-amount">` + citySpaceMarineAmount.toLocaleString() + `</p>
+          <p class="unit-amount" id="space-marine-interact-amount">` + citySpaceMarineAmount.toLocaleString() + `</p>
           <img class="embark-img-space-marines" src="public/images/spaceEmbark.png">
           <button class="embark-button" id="embark-button-space-marines" onclick="embarkSpaceMarines()">Embark</button>
         </div>`;
@@ -474,21 +474,21 @@ const displayLandArmies = function() {
         <div class="unit-div">
           <p class="unit-name" onclick="infantryCitySelection()">Infantry</p>
           <img class="unit-icon" id="infantry-unit-icon" src="public/images/infantryicon.png" onclick="infantryCitySelection()">
-          <p class="unit-amount">` + cityInfantryAmount.toLocaleString() + `</p>
+          <p class="unit-amount" id="infantry-interact-amount">` + cityInfantryAmount.toLocaleString() + `</p>
           <img class="embark-img-infantry" src="public/images/port.png">
           <button class="embark-button" id="embark-button-infantry" onclick="embarkInfantry()">Embark</button>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="tankCitySelection()">Tanks</p>
           <img class="unit-icon" id="tank-unit-icon" src="public/images/tankicon.png" onclick="tankCitySelection()">
-          <p class="unit-amount">` + cityTankAmount.toLocaleString() + `</p>
+          <p class="unit-amount" id="tank-interact-amount">` + cityTankAmount.toLocaleString() + `</p>
           <img class="embark-img-tank" src="public/images/port.png">
           <button class="embark-button" id="embark-button-tanks" onclick="embarkTanks()">Embark</button>
         </div>
         <div class="unit-div">
           <p class="unit-name" onclick="aircraftCitySelection()">Aircraft</p>
           <img class="unit-icon" id="aircraft-unit-icon" src="public/images/mannedaircrafticon.png" onclick="aircraftCitySelection()">
-          <p class="unit-amount">` + cityAircraftAmount.toLocaleString() + `</p>
+          <p class="unit-amount" id="aircraft-interact-amount">` + cityAircraftAmount.toLocaleString() + `</p>
           <img class="embark-img-aircraft" src="public/images/port.png">
           <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft()">Embark</button>
         </div>`;

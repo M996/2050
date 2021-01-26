@@ -2691,13 +2691,22 @@ const selectTargetCity = function(cityID) {
 
 
 const manipulateBuildingProcess2 = function(buildProcessID, outputMat, outputAmount, mainMat, mainAmount, buildTime) {
+  // Add a 'Cancel Production button' and force the user to cancel current production, wipe the build process
+  // and remove the build process from the country build process list. All of this must be done before the user
+  // can be allowed to start a new build process, otherwise, pop up some kind of message saying they can't build
   map2BuildingProcess[buildProcessID].outputMaterial = outputMat;
   map2BuildingProcess[buildProcessID].outputAmount = outputAmount;
   map2BuildingProcess[buildProcessID].maintenanceMaterial = mainMat;
   map2BuildingProcess[buildProcessID].maintenanceAmount = mainAmount;
   map2BuildingProcess[buildProcessID].monthsLeft = buildTime;
-  map2BuildingProcess[buildProcessID].loop = 0;
+  map2BuildingProcess[buildProcessID].loop = 1;
+  // set the build process to produce the thing we want at the price determined by information passed in from the onclick
+  countryID = map2Cities[map2BuildingProcess[buildProcessID].city].ownerID;
+  // find the country by determing the city and then the owner of the city
+  countries[countryID].buildingProcess2.push(buildProcessID);
+  // add this new build process to the country's build process queue for this planet
   document.querySelector(".build-window-div").style.display = "none";
+  // finally close the build window
 }
 
 
