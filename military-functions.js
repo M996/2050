@@ -231,6 +231,17 @@ function iterateDestroyerAmount(destroyerID) {
     cityDestroyerAmount = cityDestroyerAmount + currentAmount;
 }
 
+function iterateSubmarineAmount(submarineID) {
+    currentManpower = submarineUnits[submarineID].currentManpower;
+    currentAmount = currentManpower / 1500;
+    // submarines have a maximum of 2 ships per unit, and 6000 manpower per unit
+    currentAmount = Math.round(currentAmount);
+    if (currentAmount == 0) {
+        currentAmount = 1;
+    }
+    citySubmarineAmount = citySubmarineAmount + currentAmount;
+}
+
 function iterateSpaceInfantryAmount(spaceInfantryID) {
     currentManpower = spaceInfantryUnits[spaceInfantryID].currentManpower;
     citySpaceInfantryAmount = citySpaceInfantryAmount + currentManpower;
@@ -359,7 +370,8 @@ const displayNavalFleets = function() {
         marineArray = map2Cities[cityID].marines;
         marineArray.forEach(iterateMarineAmount);
         
-        citySubmarineAmount = map2Cities[cityID].submarines.length;
+        submarineArray = map2Cities[cityID].submarines;
+        submarineArray.forEach(iterateSubmarineAmount);
         
         cityCarrierAmount = map2Cities[cityID].aircraftCarriers.length;
         
@@ -668,6 +680,65 @@ const embarkSpaceMarines = function() {
     document.querySelector(".embark-img-space-marines").style.display = "block";
     // change the space marines embark button so that it now becomes a disembark button
     console.log("Embark as many space marines as task ships will allow");
+}
+
+
+
+// Weaponized Buildings ===============================================================================================================
+
+// weaponized buildings first check to see if they are targeting cities, in which case they shoot a city they have already been
+// designated to target.
+
+// Then they check to see if they are targeting enemy armies. If so, they run through the list of all
+// currently active enemy armies and compare the 'xpos' value of each army to the 'xpos' of the city they are in. If the difference
+// between the two values is less than the 'range' property on the building process of that building and the same is true for the
+// 'ypos' values, then the enemy army is within range. Next check if the province ID the enemy army is in, is the same as a land
+// neighbor or coastal neighbor of the province the building is in. If it is, then this building has line of sight to the enemy army
+// The building will then shoot it, and stop checking for more armies within range since it has been expended this month.
+
+// If the building is not set to target cities or armies, it must be set to target orbital units. In this case, it will choose
+// a random enemy space fleet if one exists, and attempt to a unit within it with one shot. The likelihood of this succedding
+// is dependent upon the 'tracking' property of the building process minus enemy 'taskShipEvasion' property plus 1.
+
+
+selectedWeaponizedBuilding2 = undefined;
+// This variable is the process id for this planet that the player last clicked on containing a building
+// capable of targeting other cities to attack. Once the player clicks on 'Target City' in the build window
+// this variable will change to contain the build process for the building they selected, when they ctrl + click
+// on a city it will then set that build process, and thus that building (for instance railgun) to target
+// that city.
+const targetCities2 = function(buildProcessID) {
+  selectedWeaponizedBuilding2 = map2BuildingProcess[buildProcessID].id;
+  document.querySelector('.build-btns-container').innerHTML = `<p class="target-building-info-text">Now 'Ctrl + Click' on a city within
+  targeting range of this building.
+  <br>
+  When war is declared, this building will auto-attack buildings within that city.</p>
+  <br>
+  <button class="build-win-control-close" onclick="closeBuildWindow()">Close & Target</button>`;
+}
+const selectTargetCity2 = function(cityID) {
+  map2BuildingProcess[selectedWeaponizedBuilding2].targetCity = cityID;
+  cityName = map2Cities[map2BuildingProcess[selectedWeaponizedBuilding2].city].name;
+  console.log(map2BuildingProcess[selectedWeaponizedBuilding2]);
+  // come back here later and make it so that a window pops up upon targeting a city giving some kind of confirmation the
+  // city has been targeted and telling which building will now target it.
+}
+
+
+
+const targetEnemyArmies2 = function(buildProcessID) {
+  map2BuildingProcess[buildProcessID].targetCity = undefined;
+  // setting the target city to undefined will tell the building to attack enemy armies within both range and visibility
+    closeBuildWindow();
+}
+
+
+
+
+const targetEnemySpace2 = function(buildProcessID) {
+  map2BuildingProcess[buildProcessID].targetCity = -1;
+  // setting the target city to -1 will tell the building to attack enemy space fleets
+    closeBuildWindow();
 }
 
 

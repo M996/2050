@@ -46,7 +46,7 @@ mainCanvas2.add(citySelector);
     // relevant information for that city.
     cityDots.on('mouseup', function() {
         if (event.ctrlKey) {
-         selectTargetCity(city.id);
+         selectTargetCity2(city.id);
         } else if (1 == 2) {
          // 1 == 2 is only placeholder code. The purpose of this code block is to create a function by which people using
          // a touch screen are still able to target enemy cities, thus allowing mobile gameplay
@@ -117,11 +117,11 @@ mainCanvas2.add(citySelector);
          displayMilitaryIntelligence();
          displayLandArmies();
         } else {
-         isLandNeighbor = false;
+         isNeighbor = false;
          map2Provinces[city.provinceID].landNeighbors.forEach(function(neighborID) {
           countries[currentPlayerID].ownedProvinces2.forEach(function(playerProvinceID) {
             if (neighborID === playerProvinceID) {
-             isLandNeighbor = true;
+             isNeighbor = true;
              displayMilitaryIntelligence();
              displayLandArmies();
              // first run a forEach loop for every neighboring province of the city you just selected, then inside of that loop
@@ -131,7 +131,16 @@ mainCanvas2.add(citySelector);
             }
            });
           });
-         if (isLandNeighbor === false) {
+         map2Provinces[city.provinceID].coastalNeighbors.forEach(function(neighborID) {
+          countries[currentPlayerID].ownedProvinces2.forEach(function(playerProvinceID) {
+            if (neighborID === playerProvinceID) {
+             isNeighbor = true;
+             displayMilitaryIntelligence();
+             displayLandArmies();
+            }
+           });
+          });
+         if (isNeighbor === false) {
           hideMilitaryIntelligence();
           hideLandArmies();
           // if everything else has failed and this province is also not a land neighbor to any player owned province, then
@@ -274,7 +283,7 @@ mainCanvas2.add(citySelector);
             break;
            case 'railgun-3': 
                buildingsDomElement += '<div class="building-container" onmouseover="showToolTip(`railgun-3`, `Railgun`, `public/images/railgun.png`, `(Tier 3) Long Range weapon which can be used to attack enemy armies and cities.`, `' + city.buildingHealth[buildingArrayIndex] + '`)" onmouseout="hideToolTip()">';
-               buildingsDomElement += '<img src="public/images/railgun.png" onclick="openBuildWindow2(`' + buildingArrayIndex + '`, `railgun-3`, `public/images/railgun.png`, `' + city.buildingOwner[buildingArrayIndex] + '`, ' + city.buildingOwner[buildingArrayIndex] + ', ' + city.buildingProcess[buildingArrayIndex] + ', ' + city.buildingHealth[buildingArrayIndex] + ')" class="city-building-img" id="building-select-' + buildingArrayIndex + '"></div>';
+               buildingsDomElement += '<img src="public/images/railgun.png" onclick="openBuildWindow2(`' + buildingArrayIndex + '`, `railgun-3`, `public/images/railgun.png`, `' + city.buildingOwner[buildingArrayIndex] + '`, ' + city.buildingProcess[buildingArrayIndex] + ', ' + city.buildingHealth[buildingArrayIndex] + ')" class="city-building-img" id="building-select-' + buildingArrayIndex + '"></div>';
             break;
            case 'missile-system-1': 
                 buildingsDomElement += '<div class="building-container" onmouseover="showToolTip(`missile-system-1`, `Missile System`, `public/images/missiles.png`, `(Tier 1) Long Range weapon which can be used to attack enemy armies and cities.`, `' + city.buildingHealth[buildingArrayIndex] + '`)" onmouseout="hideToolTip()">';
@@ -286,7 +295,7 @@ mainCanvas2.add(citySelector);
             break;
            case 'missile-system-3': 
                 buildingsDomElement += '<div class="building-container" onmouseover="showToolTip(`missile-system-3`, `Missile System`, `public/images/missiles.png`, `(Tier 3) Long Range weapon which can be used to attack enemy armies and cities.`, `' + city.buildingHealth[buildingArrayIndex] + '`)" onmouseout="hideToolTip()">';
-                buildingsDomElement += '<img src="public/images/missiles.png" onclick="openBuildWindow2(`' + buildingArrayIndex + '`, `missile-system-3`, `public/images/missiles.png`, `' + city.buildings[buildingArrayIndex] + '`, ' + city.buildingOwner[buildingArrayIndex] + ', ' + city.buildingProcess[buildingArrayIndex] + ', ' + city.buildingHealth[buildingArrayIndex] + ')" class="city-building-img" id="building-select-' + buildingArrayIndex + '"></div>';
+                buildingsDomElement += '<img src="public/images/missiles.png" onclick="openBuildWindow2(`' + buildingArrayIndex + '`, `missile-system-3`, `public/images/missiles.png`, `' + city.buildingOwner[buildingArrayIndex] + '`, ' + city.buildingProcess[buildingArrayIndex] + ', ' + city.buildingHealth[buildingArrayIndex] + ')" class="city-building-img" id="building-select-' + buildingArrayIndex + '"></div>';
             break;
            case 'orbital-launch-pad': 
                 buildingsDomElement += '<div class="building-container" onmouseover="showToolTip(`orbital-launch-pad`, `Orbital Launch Pad`, `public/images/launchpad.png`, `Used to build and launch Orbital Units into near-planet orbit.`, `' + city.buildingHealth[buildingArrayIndex] + '`)" onmouseout="hideToolTip()">';

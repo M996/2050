@@ -29,7 +29,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -41,14 +41,14 @@ let map2BuildingProcess = [
         "active": true,
         "targetCity": undefined,
         "damageType": "",
-        "damageAmount": 0,
+        "damageAmount": 100,
         "range": 0,
         "tracking": 0,
         "outputMaterial": "",
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -67,7 +67,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": ["capital", "metal", "energy"],
         "maintenanceAmount": [0.5,1.5,0.4],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
         // metal processing plants should always be built with this pre-set object since their build queue never changes
         // same with power plants
@@ -88,7 +88,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -107,7 +107,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -126,7 +126,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -145,7 +145,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -164,7 +164,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -183,7 +183,7 @@ let map2BuildingProcess = [
         "outputAmount": 5,
         "maintenanceMaterial": ["oil","capital"],
         "maintenanceAmount": [1,0.1],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -202,7 +202,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -221,7 +221,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -240,7 +240,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -259,7 +259,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -278,7 +278,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -297,7 +297,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -316,7 +316,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -335,7 +335,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -354,7 +354,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -373,7 +373,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -392,7 +392,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -411,7 +411,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -430,7 +430,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -449,7 +449,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -468,7 +468,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -487,7 +487,7 @@ let map2BuildingProcess = [
         "outputAmount": 5,
         "maintenanceMaterial": ["oil","capital"],
         "maintenanceAmount": [1,0.1],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -506,7 +506,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -525,7 +525,7 @@ let map2BuildingProcess = [
         "outputAmount": 5,
         "maintenanceMaterial": ["oil","capital"],
         "maintenanceAmount": [1,0.1],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -544,7 +544,7 @@ let map2BuildingProcess = [
         "outputAmount": 5,
         "maintenanceMaterial": ["oil","capital"],
         "maintenanceAmount": [1,0.1],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -563,7 +563,7 @@ let map2BuildingProcess = [
         "outputAmount": 5,
         "maintenanceMaterial": ["oil","capital"],
         "maintenanceAmount": [1,0.1],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -582,7 +582,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -601,7 +601,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -620,7 +620,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -639,7 +639,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -658,7 +658,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -677,7 +677,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -696,7 +696,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -715,7 +715,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -734,7 +734,7 @@ let map2BuildingProcess = [
         "outputAmount": 5,
         "maintenanceMaterial": ["oil","capital"],
         "maintenanceAmount": [1,0.1],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -753,7 +753,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
     {
@@ -772,7 +772,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
      {
@@ -791,7 +791,7 @@ let map2BuildingProcess = [
         "outputAmount": 1,
         "maintenanceMaterial": [],
         "maintenanceAmount": [],
-        "loop": 0,
+        "loop": 1,
         "monthsLeft": 1
     },
 ]

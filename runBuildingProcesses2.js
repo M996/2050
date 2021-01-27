@@ -1,4 +1,4 @@
-// every line on this page is about 2 tabs too far, post this inside of Atom to get it properly formatted
+// every line on this page is about 1 tab too far, post this inside of Atom to get it properly formatted
         const runBuildingProcesses2 = function(country) {    
             country.buildingProcess2.forEach(function(processID) {
               if (map2BuildingProcess[processID].active) {
@@ -1197,6 +1197,7 @@
                           map2BuildingProcess[processID].maintenanceMaterial = ['capital','energy'];
                           map2BuildingProcess[processID].maintenanceAmount = [1,0.2];
                           map2Cities[buildingCity].buildings[buildingArrayIndex] = "missile-system-3";
+                          console.log(map2BuildingProcess[processID]);
                       break;
                       }
                     break;
@@ -1699,7 +1700,7 @@
                                   fullUnitAmount += numberString;
                                 });
                                 fullUnitAmount = Number(fullUnitAmount);
-                                fullUnitAmount = fullUnitAmount + 1;
+                                fullUnitAmount = fullUnitAmount + 2;
                                 document.getElementById("submarine-interact-amount").textContent = fullUnitAmount.toLocaleString();
                               } 
                             }
@@ -1829,7 +1830,7 @@
                             
                             if (map2BuildingProcess[processID].loop > 1) {
                               map2BuildingProcess[processID].loop--;
-                              map2BuildingProcess[processID].monthsLeft = 5;
+                              map2BuildingProcess[processID].monthsLeft = 3;
                             } else {
                               map2BuildingProcess[processID].outputMaterial = "";
                               map2BuildingProcess[processID].outputAmount = 1;
@@ -1891,7 +1892,7 @@
                             
                             if (map2BuildingProcess[processID].loop > 1) {
                               map2BuildingProcess[processID].loop--;
-                              map2BuildingProcess[processID].monthsLeft = 5;
+                              map2BuildingProcess[processID].monthsLeft = 4;
                             } else {
                               map2BuildingProcess[processID].outputMaterial = "";
                               map2BuildingProcess[processID].outputAmount = 1;
@@ -2149,7 +2150,7 @@
                             map2BuildingProcess[processID].monthsLeft = 1;
                           break;
                           case 1:
-                            country.spaceDebrisExtractors2++;
+                            country.numberOfComSatellites2++;
                             
                             if (map2BuildingProcess[processID].loop > 1) {
                               map2BuildingProcess[processID].loop--;
@@ -2248,6 +2249,7 @@
                           break;
                           case 1:
                             thisCity = map2BuildingProcess[processID].city;
+                            skyHookHealth = country.taskShipMaxHealth * 1.5;
                             skyhookUnits.push(
                               {
                                 "id": skyHookIndex,
@@ -2256,11 +2258,13 @@
                                 "isDead": false,
                                 "xpos": 0,
                                 "ypos": 0,
-                                "health": 15,
+                                "health": skyHookHealth,
                               }
                             );
                             country.skyHooks.push(skyHookIndex);
                             country.numberOfSkyhooks++;
+                            // we need to keep track of how many skyhooks a country has because if this number drops below zero
+                            // it may effect how much maintenance is pad on orbital units
                             skyHookIndex++;
                             
                             if (map2BuildingProcess[processID].loop > 1) {
@@ -2293,6 +2297,7 @@
                           break;
                           case 1:
                             thisCity = map2BuildingProcess[processID].city;
+                            weaponsPlatformHealth = country.taskShipMaxHealth * 1.5;
                             weaponsPlatformUnits.push(
                               {
                                 "id": weaponsPlatformIndex,
@@ -2303,7 +2308,7 @@
                                 "spaceFleet": null,
                                 "xpos": 0,
                                 "ypos": 0,
-                                "health": 15,
+                                "health": weaponsPlatformHealth,
                                 "kinetic": false,
                                 "missile": false,
                                 "nuclear": false,

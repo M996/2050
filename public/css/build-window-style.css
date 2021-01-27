@@ -272,3 +272,22 @@
     cursor: pointer;
     background: rgb(160,160,160);
 }
+
+.weapon-target {
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
+}
+
+.cancel-production-btn {
+    margin: 4px;
+    border-radius: 8px;
+    background: rgb(120,0,0);
+    color: white;
+}
+
+.cancel-production-btn:hover {
+    background: rgb(160,0,0);
+}

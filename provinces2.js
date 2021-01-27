@@ -40,6 +40,8 @@ let map2Provinces = [
         "autonomy": 0.00,
         "landNeighbors": [2,3,4,5],
         "coastalNeighbors": [1,9,15]
+        // a province is only a coastal naighbor if it is a sea province they are touching, or another land province
+        // which has a coastal city touching the same sea province that this one has a city on
     },
     {
         "id": 1,
