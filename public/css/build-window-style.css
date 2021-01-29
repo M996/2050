@@ -46,12 +46,12 @@
 }
 
 .build-window-bottom {
-    width: 90%;
+    width: 94%;
     height: 58%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin: 0px 5%;
+    margin-left: 4%;
 }
 
 .build-window-btn {
@@ -290,4 +290,69 @@
 
 .cancel-production-btn:hover {
     background: rgb(160,0,0);
+}
+
+.nuclear-storage-div {
+    height: 100%;
+    min-width: 95px;
+    width: 95px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid black;
+}
+
+.nuke-info {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+}
+
+#nuke-missile-amount {
+    font-weight: bold;
+    background: black;
+    padding: 1px;
+}
+
+.nuclear-storage-target {
+    width: 100%;
+    margin-top: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nuke-target-btn {
+    font-family: sans-serif;
+    box-shadow: 2px 2px 4px black;
+    background: rgb(140,50,50);
+    color: rgb(200,200,200);
+    padding: 4px 8px;
+    font-weight: bold;
+    transition-duration: 200ms;
+}
+
+.nuke-target-btn:hover {
+    box-shadow: 3px 3px 6px black;
+    transform: translateY(-1px);
+    background: rgb(160,50,50);
+    color: white;
+    cursor: pointer;
+}
+
+.nuke-launch-btn {
+    font-family: sans-serif;
+    box-shadow: 1px 1px 3px black;
+    background: rgb(250,50,50);
+    color: rgb(200,200,200);
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+.nuke-launch-btn:hover {
+    box-shadow: 3px 3px 6px black;
+    transform: translateY(-2px);
+    background: rgb(255,40,40);
+    color: white;
+    cursor: pointer;
 }

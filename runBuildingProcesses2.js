@@ -1960,6 +1960,7 @@ const runBuildingProcesses2 = function(country) {
                   break;
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
+                    buildingArrayIndex = map2BuildingProcess[processID].buildingArrayIndex;
                     ICBMUnits.push(
                       {
                         "id": ICBMIndex,
@@ -2439,11 +2440,13 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
+                                                                                map2Cities[targetCityID].ICBMs.forEach(function(ICBMID) {
+                                                                                    ICBMUnits[ICBMID].isDead = true;
+                                                                                    // make all of the ICBMs in this city be dead so the country no longer
+                                                                                    // has to pay maintenance and we can ignore these objects
+                                                                                });
+                                                                                map2Cities[targetCityID].ICBMs = [];
+                                                                                // no more ICBMs are left in this city
                                                                         }
                                                                 }
                                                         break;
@@ -2458,11 +2461,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2477,11 +2475,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2496,11 +2489,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2515,11 +2503,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2534,11 +2517,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2553,11 +2531,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2572,11 +2545,6 @@ const runBuildingProcesses2 = function(country) {
                                                                         if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                                        }
-                                                                                }
                                                                         }
                                                                 }
                                                         break;
@@ -2598,13 +2566,6 @@ const runBuildingProcesses2 = function(country) {
                                                                 buildingImageParentDiv.style.display = "none";
                                                                 // select the parent element of the image associated with the building we are targeting,
                                                                 // then make them both disappear as we have been targeting them for destruction
-                                                                if (countries[enemyCityOwner].isPlayer) {
-                                                                        if (map2Cities[targetCityID].buildings.length < map2Cities[targetCityID].buildingSlots) {
-                                                                                // If the city is being actively observed and it is a city belonging to the player
-                                                                                // then display a new building slot so they can actively rebuild what was destroyed
-                                                                                document.querySelector("#city-buildings").innerHTML = document.querySelector("#city-buildings").innerHTML + '<div class="building-container"><img src="public/images/build-new.png" onclick="moreBuildings2(' + targetCityID + ')" class="city-building-img"></div>';
-                                                                        }
-                                                                }
                                                         }
                                                 }
                                         }

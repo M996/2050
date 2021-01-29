@@ -48,7 +48,7 @@ let countries = [
         "foodStorageCapacity": 100,
         "isStarving": false,
         "buildingProcess1": [],
-        "buildingProcess2": [1,2,8,40],
+        "buildingProcess2": [1,2,4,8,40],
         "buildingProcess3": [],
         "buildingProcess4": [],
         "monthlyMinerals": 1,
@@ -74,7 +74,7 @@ let countries = [
         "preciousMetalStorageCapacity": 99,
         "monthlyNuclearMaterial": 0,
         "nuclearMaterialExpense": 0,
-        "nuclearMaterialStored": 0,
+        "nuclearMaterialStored": 10,
         "nuclearMaterialStorageCapacity": 99,
         "monthlyAntiMatter": 0,
         "antiMatterExpense": 0,
@@ -87,11 +87,11 @@ let countries = [
         // production of processed metals and minerals comes from building processes
         "processedMetalExpense": 0,
         "monthlyProcessedMetal": 0,
-        "processedMetalStored": 20,
+        "processedMetalStored": 40,
         "processedMetalStorageCapacity": 99,
         "processedMineralsExpense": 0,
         "monthlyProcessedMinerals": 0,
-        "processedMineralsStored": 20,
+        "processedMineralsStored": 80,
         "processedMineralsStorageCapacity": 99,
         "monthlyAgriculturalMaterial": 0,
         "agriculturalMaterialExpense": 0,
@@ -244,10 +244,13 @@ let countries = [
         "taskShipExplosiveArmor": 0.0,
         "taskShipDirectedEnergyArmor": 0.98,
         "taskShipKineticArmor": 0.1,
-        "taskShipProcessedMetalMaintenance": 0.02,
-        "taskShipProcessedMineralsMaintenance": 0.02,
+        "taskShipNuclearMaintenance": 0.2,
+        // Nuclear Salt Water technology disables energy maintenance and replaces it with Nuclear Maintenance
+        "taskShipAntimatterMaintenance": 0.08,
+        // Antimatter Reactor Technology disables Nuclear Maintenance and replaces it with Antimatter Maintenance
         "taskShipCapitalMaintenance": 2.6,
         "taskShipEnergyMaintenance": 1.8,
+        // maintenance costs shouldn't actually be this high because they will be reduced based on ownership of skyhooks and space elevators
         
         "skyHookProcessedMineralsMaintenance": 0.1,
         "skyHookCapitalMaintenance": 3.2,

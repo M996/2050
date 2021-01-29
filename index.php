@@ -158,6 +158,17 @@ require 'header.php';
       </div>
       <div class="build-btns-container">
       </div>
+      <div class="nuclear-storage-div">
+        <div class="nuclear-storage-info">
+          <p class="nuke-info">Nuclear ICBMs: <span id="nuke-missile-amount">0</span></p>
+        </div>
+        <div class="nuclear-storage-target">
+          <button class="nuke-target-btn">Target City</button>
+        </div>
+        <div class="nuclear-storage-target">
+          <button class="nuke-launch-btn">Launch</button>
+        </div>
+      </div>
     </div>
   </div>
     <canvas class="main-world-map" id="main-world-2-canvas"></canvas>

@@ -44,7 +44,7 @@ let map2Cities = [
     "submarinesOwnerID": [0],
     "aircraftCarriers": [0],
     "aircraftCarriersOwnerID": [0],
-    "ICBMs": [0],
+    "ICBMs": [],
     "equatorial": true,
     "coastal": true,
     "population": 11700000,
@@ -99,7 +99,7 @@ let map2Cities = [
     "submarinesOwnerID": [],
     "aircraftCarriers": [],
     "aircraftCarriersOwnerID": [],
-    "ICBMs": [],
+    "ICBMs": [0],
     "equatorial": true,
     "coastal": true,
     "population": 10800000,
@@ -111,7 +111,7 @@ let map2Cities = [
     "buildings": ['port', 'mineral-processing-plant-1'],
     "buildingOwner": [0,0],
     "buildingProcess": [3,4],
-    "buildingHealth": [150, 80]
+    "buildingHealth": [150,80]
   },
   {
     "id": 2,

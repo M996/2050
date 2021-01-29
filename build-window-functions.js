@@ -9,6 +9,8 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
   cancelProductionButton = ``;
   // the cancel production button is a button that stops the building from constructing whatever it is currently building
   // however it does not turn the building off or disable it in any way
+  nuclearStorageDiv = false;
+  // The nuclear storage div only appears if the building is a Missile Silo, and displays stored nuclear ICBMs
   switch(buildingModel) {
     // this switch case is used to deermine the name and picture of a building based on its model, as well as all production options
     // associated with that building ie. what you can build
@@ -23,20 +25,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
       buildingImg = 'public/images/portBuilding.png';
       if (countries[buildingOwner].hasMarines) {
          buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'marine',1,['processed-metal','manpower','capital','energy'],[0.4,5500,0.8,0.4],2)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'marine',1,['processed-metal','manpower','capital','energy'],[0.4,5500,0.8,0.4],2,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,5500,0.8,0.4],2,0)">Marine</button>
                         </div>`;
       }
       if (countries[buildingOwner].hasCarriers) {
         buildButtons += `<div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'carrier',1,['processed-metal','manpower','capital','energy'],[2.2,6000,2.4,1],9)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'carrier',1,['processed-metal','manpower','capital','energy'],[2.2,6000,2.4,1],9,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[2.2,6000,2.4,1],9,0)">Aircraft Carrier</button>
                       </div>`;
       } 
       buildButtons += `<div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'destroyer',1,['processed-metal','manpower','capital','energy'],[1.8,4000,1.6,0.75],5)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'destroyer',1,['processed-metal','manpower','capital','energy'],[1.8,4000,1.6,0.75],5,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.8,4000,1.6,0.75],5,0)">Destroyer</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'submarine',1,['processed-metal','manpower','capital','energy'],[1.2,2000,1.8,0.8],6)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'submarine',1,['processed-metal','manpower','capital','energy'],[1.2,2000,1.8,0.8],6,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.2,2000,1.8,0.8],6,0)">Submarine</button>
                         </div>`;
     break;
@@ -50,13 +52,13 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'infantry',1,['processed-metal','manpower','capital','energy'],[0.4,6000,0.6,0.3],2)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'infantry',1,['processed-metal','manpower','capital','energy'],[0.4,6000,0.6,0.3],2,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,6000,0.6,0.3],2,0)">Infantry</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'tank',1,['processed-metal','manpower','capital','energy'],[1.4,3000,1.5,0.6],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'tank',1,['processed-metal','manpower','capital','energy'],[1.4,3000,1.5,0.6],3,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.4,3000,1.5,0.6],3,0)">Tank Division</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'aircraft',1,['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,1.5,1.2],4)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'aircraft',1,['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,1.5,1.2],4,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,1.5,1.2],4,0)">Aircraft</button>
                         </div>`;
     break;
@@ -96,16 +98,16 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'processed-minerals',0.5,['capital','minerals','energy'],[0.6,1.5,0.2],1)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'processed-minerals',0.5,['capital','minerals','energy'],[0.6,1.5,0.2],1,1)"
                         onmouseover="buildingCostToolTip(['capital','minerals','energy'],[0.6,1.5,0.2],1,0)">Processed Minerals</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'super-high-tensile-material',0.5,['processed-minerals','energy'],[2,1],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'super-high-tensile-material',0.5,['processed-minerals','energy'],[2,1],3,1)"
                         onmouseover="buildingCostToolTip(['processed-minerals','energy'],[2,1],3,0)">Super High Tensile Material</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'agricultural-material',1,['processed-minerals','energy'],[1,1],1)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'agricultural-material',1,['processed-minerals','energy'],[1,1],1,1)"
                         onmouseover="buildingCostToolTip(['processed-minerals','energy'],[1,1],1,0)">Agricultural Material</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'oil',0.5,['processed-minerals','energy'],[0.5,0.8],1)"
-                        onmouseover="buildingCostToolTip(['processed-minerals','energy'],[0.5,0.8],1,0)">Synthetic Oil</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'oil',0.5,['processed-minerals','energy'],[0.25,0.8],1,1)"
+                        onmouseover="buildingCostToolTip(['processed-minerals','energy'],[0.25,0.8],1,0)">Synthetic Oil</button>
                       </div>`;
     break;
     case 'mineral-processing-plant-2':
@@ -116,16 +118,16 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'processed-minerals',0.6,['capital','minerals','energy'],[0.5,1.5,0.2],1)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'processed-minerals',0.6,['capital','minerals','energy'],[0.5,1.5,0.2],1,1)"
                         onmouseover="buildingCostToolTip(['capital','minerals','energy'],[0.5,1.5,0.2],1,0)">Processed Minerals</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'super-high-tensile-material',0.5,['processed-minerals','energy'],[2,1],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'super-high-tensile-material',0.5,['processed-minerals','energy'],[2,1],3,1)"
                         onmouseover="buildingCostToolTip(['processed-minerals','energy'],[2,1],3,0)">Super High Tensile Material</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'agricultural-material',1,['processed-minerals','energy'],[1,1],1)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'agricultural-material',1,['processed-minerals','energy'],[1,1],1,1)"
                         onmouseover="buildingCostToolTip(['processed-minerals','energy'],[1,1],1,0)">Agricultural Material</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'oil',0.5,['processed-minerals','energy'],[0.5,0.8],1)"
-                        onmouseover="buildingCostToolTip(['processed-minerals','energy'],[0.5,0.8],1,0)">Synthetic Oil</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'oil',0.5,['processed-minerals','energy'],[0.25,0.8],1,1)"
+                        onmouseover="buildingCostToolTip(['processed-minerals','energy'],[0.25,0.8],1,0)">Synthetic Oil</button>
                       </div>`;
     break;
   case 'mineral-processing-plant-3':
@@ -136,16 +138,16 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'processed-minerals',0.7,['capital','minerals','energy'],[0.4,1.4,0.2],1)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'processed-minerals',0.7,['capital','minerals','energy'],[0.4,1.4,0.2],1,1)"
                         onmouseover="buildingCostToolTip(['capital','minerals','energy'],[0.4,1.4,0.2],1,0)">Processed Minerals</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'super-high-tensile-material',0.5,['processed-minerals','energy'],[2,1],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'super-high-tensile-material',0.5,['processed-minerals','energy'],[2,1],3,1)"
                         onmouseover="buildingCostToolTip(['processed-minerals','energy'],[2,1],3,0)">Super High Tensile Material</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'agricultural-material',1,['processed-minerals','energy'],[1,1],1)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'agricultural-material',1,['processed-minerals','energy'],[1,1],1,1)"
                         onmouseover="buildingCostToolTip(['processed-minerals','energy'],[1,1],1,0)">Agricultural Material</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'oil',0.5,['processed-minerals','energy'],[0.5,0.8],1)"
-                        onmouseover="buildingCostToolTip(['processed-minerals','energy'],[0.5,0.8],1,0)">Synthetic Oil</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'oil',0.5,['processed-minerals','energy'],[0.25,0.6],1,1)"
+                        onmouseover="buildingCostToolTip(['processed-minerals','energy'],[0.25,0.6],1,0)">Synthetic Oil</button>
                       </div>`;
     break;
     case 'nuclear-power-plant-1':
@@ -259,9 +261,12 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
       buildingName = 'Nuclear Missile Silo';
       buildingImg = 'public/images/nuclear-silo.png';
       buildButtons += `<div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'ICBM',1,['nuclear-material','processed-minerals','capital','energy'],[0.25,0.2,2,1.5],6)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'ICBM',1,['nuclear-material','processed-minerals','capital','energy'],[0.25,0.2,2,1.5],6,0)"
                         onmouseover="buildingCostToolTip(['nuclear-material','processed-minerals','capital','energy'],[0.25,0.2,2,1.5],6,0)">ICBM</button>
                       </div>`;
+      nuclearStorageDiv = true;
+      cityID = document.querySelector("#city-index").textContent;
+      document.querySelector("#nuke-missile-amount").textContent = map2Cities[cityID].ICBMs.length;
     break;
   case 'ground-defense-laser-1':
       buildingName = 'Ground Defense Laser';
@@ -309,20 +314,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
         if (countries[buildingOwner].hasSolarPowerStation) {
           if (countries[buildingOwner].hasSpaceInfantry) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
           } else {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
                           </div>`;
           }
         } else if (countries[buildingOwner].hasSpaceInfantry) {
           buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
         }
@@ -331,25 +336,25 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)">Communication Satellite</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)">Task Ship</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)">Space Debris Extractor</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.5,1],4)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.5,1],4,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1.5,1],4,0)">Orbital Weapons Platform</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
                           </div>`;
         if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -362,20 +367,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
         if (countries[buildingOwner].hasSolarPowerStation) {
           if (countries[buildingOwner].hasSpaceInfantry) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[1.6,2.4,1.4],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[1.6,2.4,1.4],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1.6,2.4,1.4],4,0)">Solar Power Station</button>
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2,0)">Space Infantry</button>
                           </div>`;
           } else {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[1.6,2.4,1.4],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[1.6,2.4,1.4],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1.6,2.4,1.4],4,0)">Solar Power Station</button>
                           </div>`;
           }
         } else if (countries[buildingOwner].hasSpaceInfantry) {
           buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1,500,1.6,1.2],2,0)">Space Infantry</button>
                           </div>`;
         }
@@ -384,26 +389,26 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.8,0.4,1,0.8],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.8,0.4,1,0.8],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.8,0.4,1,0.8],3,0)">Communication Satellite</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[2.4,0.1,3,2],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[2.4,0.1,3,2],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[2.4,0.1,3,2],5,0)">Task Ship</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[1.5,1.5,1.5],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[1.5,1.5,1.5],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1.5,1.5,1.5],3,0)">Space Debris Extractor</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[2,3,2],4)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[2,3,2],4,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,3,2],4,0)">Orbital Weapons Platform</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.8,0.15,1,0.8],5,0)">Weather Amplification Satellite</button>
                           </div>`;
                           
         if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -416,20 +421,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
         if (countries[buildingOwner].hasSolarPowerStation) {
           if (countries[buildingOwner].hasSpaceInfantry) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
           } else {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
                           </div>`;
           }
         } else if (countries[buildingOwner].hasSpaceInfantry) {
           buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
         }
@@ -438,25 +443,25 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)">Communication Satellite</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)">Task Ship</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)">Space Debris Extractor</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.5,1],4)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.5,1],4,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1.5,1],4,0)">Orbital Weapons Platform</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
                           </div>`;
         if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -469,20 +474,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
         if (countries[buildingOwner].hasSolarPowerStation) {
           if (countries[buildingOwner].hasSpaceInfantry) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[4,6,3.5],4,0)">Solar Power Station</button>
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2,0)">Space Infantry</button>
                           </div>`;
           } else {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[4,6,3.5],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[4,6,3.5],4,0)">Solar Power Station</button>
                           </div>`;
           }
         } else if (countries[buildingOwner].hasSpaceInfantry) {
           buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.6,500,2.5,2],2,0)">Space Infantry</button>
                           </div>`;
         }
@@ -491,27 +496,27 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[1.5,1,3,2],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[1.5,1,3,2],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[1.5,1,3,2],3,0)">Communication Satellite</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'skyhook',1,['super-high-tensile-material','capital','energy','processed-metal'],[0.3,4,3,1],10)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'skyhook',1,['super-high-tensile-material','capital','energy','processed-metal'],[0.3,4,3,1],10,0)"
                           onmouseover="buildingCostToolTip(['super-high-tensile-material','capital','energy','processed-metal'],[0.3,4,3,1],10,0)">Skyhook</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[6,0.1,8,5],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[6,0.1,8,5],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[6,0.1,8,5],5,0)">Task Ship</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[4,4,3],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[4,4,3],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[4,4,3],3,0)">Space Debris Extractor</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[5,6,4],4)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[5,6,4],4,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[5,6,4],4,0)">Orbital Weapons Platform</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1,0.25,2,1.5],5,0)">Weather Amplification Satellite</button>
                           </div>`;
         if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[3,300,4,4],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[3,300,4,4],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[3,300,4,4],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -527,13 +532,13 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
       buildingImg = 'public/images/skyhook.png';
       if (countries[buildingOwner].hasSolarPowerStation) {
         buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[3,3,2],4)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[3,3,2],4,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[3,3,2],4,0)">Solar Power Station</button>
                         </div>`;
       }
       if (countries[buildingOwner].hasSpaceInfantry) {
         buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.8,500,1.6,1],2)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.8,500,1.6,1],2,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,500,1.6,1],2,0)">Space Infantry</button>
                         </div>`;
       }
@@ -542,25 +547,25 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.8,0.5,1.5,1.2],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.8,0.5,1.5,1.2],3,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.8,0.5,1.5,1.2],3,0)">Communication Satellite</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[4,0.1,4,2.5],5)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[4,0.1,4,2.5],5,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[4,0.1,4,2.5],5,0)">Task Ship</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[2,2,1.5],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[2,2,1.5],3,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,2,1.5],3,0)">Space Debris Extractor</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[3,3,2],4)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[3,3,2],4,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[3,3,2],4,0)">Orbital Weapons Platform</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.25,1.2,0.75],5)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.8,0.25,1.2,0.75],5,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.8,0.25,1.2,0.75],5,0)">Weather Amplification Satellite</button>
                         </div>`;
       if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.5,300,2.2,2],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -580,20 +585,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
        if (countries[buildingOwner].hasSpaceInfantry) {
         if (countries[buildingOwner].hasSpaceInfantry) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
           } else {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,1.2,0.7],4,0)">Solar Power Station</button>
                           </div>`;
           }
         } else if (countries[buildingOwner].hasSpaceInfantry) {
           buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.5,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
         }
@@ -602,25 +607,25 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                           <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.4,0.2,0.6,0.4],3,0)">Communication Satellite</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.2,0.05,1.6,1],5,0)">Task Ship</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[0.8,0.8,0.8],3,0)">Space Debris Extractor</button>
                           </div>
                           <div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.4,1],4)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[1,1.4,1],4,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1.5,1],4,0)">Orbital Weapons Platform</button>
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5)"
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)"
                           onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.4,0.1,0.5,0.4],5,0)">Weather Amplification Satellite</button>
                           </div>`;
         if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.4,1],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.4,1],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,300,1.4,1],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -633,20 +638,20 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
        if (countries[buildingOwner].hasSolarPowerStation) {
           if (countries[buildingOwner].hasSpaceInfantry) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,1.5,0.8],4,0)">Solar Power Station</button>
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
           } else {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'solar-power-station',1,['processed-metal','capital','energy'],[2,1.5,0.8],4,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,1.5,0.8],4,0)">Solar Power Station</button>
                           </div>`;
           }
         } else if (countries[buildingOwner].hasSpaceInfantry) {
           buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-infantry',1,['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,500,0.8,0.6],2,0)">Space Infantry</button>
                           </div>`;
         }
@@ -655,27 +660,27 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.5,0.25,0.8,0.5],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'comms-satellite',1,['processed-metal','processed-minerals','capital','energy'],[0.5,0.25,0.8,0.5],3,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','capital','energy'],[0.5,0.25,0.8,0.5],3,0)">Communication Satellite</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'skyhook',1,['super-high-tensile-material','capital','energy','processed-metal'],[0.3,1,1,0.5],10)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'skyhook',1,['super-high-tensile-material','capital','energy','processed-metal'],[0.3,1,1,0.5],10,0)"
                         onmouseover="buildingCostToolTip(['super-high-tensile-material','capital','energy','processed-metal'],[0.3,1,1,0.5],10,0)">Skyhook</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.5,0.05,2,1.5],5)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'task-ship',1,['processed-metal','precious-metal','capital','energy'],[1.5,0.05,2,1.5],5,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[1.5,0.05,2,1.5],5,0)">Task Ship</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[1,1,1],3)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-debris-extractor',1,['processed-metal','capital','energy'],[1,1,1],3,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[1,1,1],3,0)">Space Debris Extractor</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[2,1.5,1],4)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weapons-platform',1,['processed-metal','capital','energy'],[2,1.5,1],4,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','capital','energy'],[2,1.5,1],4,0)">Orbital Weapons Platform</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.6,0.2,0.6,0.4],5)"
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'weather-amp-satellite',1,['processed-metal','precious-metal','capital','energy'],[0.6,0.2,0.6,0.4],5,0)"
                         onmouseover="buildingCostToolTip(['processed-metal','precious-metal','capital','energy'],[0.6,0.2,0.6,0.4],5,0)">Weather Amplification Satellite</button>
                         </div>`;
         if (countries[buildingOwner].hasSpaceInfantry) {
           if (countries[buildingOwner].hasMarines) {
             buildButtons += `<div class="build-btn-grouper">
-                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1],2)"
+                            <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'space-marines',1,['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1],2,0)"
                             onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.8,300,1.5,1.2],2,1)">Space Marines</button>
                           </div>`;
           }
@@ -935,6 +940,12 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
     document.querySelector('.build-window-image').src = buildingImg;
     document.querySelector('.build-window-health').textContent = "Health: " + buildingHealth;
     document.querySelector('.build-btns-container').innerHTML = buildButtons;
+    
+    if (nuclearStorageDiv) {
+      document.querySelector('.nuclear-storage-div').style.display = "flex";
+    } else {
+      document.querySelector('.nuclear-storage-div').style.display = "none";
+    }
     
     if (buildLoopButtons) {
       document.querySelector('.build-info-loop').style.display = 'block';

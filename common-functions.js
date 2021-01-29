@@ -1407,6 +1407,13 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID,
     currentOwner = map2Cities[cityID].ownerID;
     countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 0.75);
     countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 1.5);
+    map2Cities[cityID].ICBMs.forEach(function(ICBMID) {
+      ICBMUnits[ICBMID].isDead = true;
+      // make all of the ICBMs in this city be dead so the country no longer
+      // has to pay maintenance and we can ignore these objects
+    });
+    map2Cities[cityID].ICBMs = [];
+    // no more ICBMs are left in this city
   } else if (buildingModel == 'port') {
     currentOwner = map2Cities[cityID].ownerID;
     countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.2);
@@ -1632,11 +1639,11 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
 
 
 
-const manipulateBuildingProcess2 = function(buildProcessID, outputMat, outputAmount, mainMat, mainAmount, buildTime) {
+const manipulateBuildingProcess2 = function(buildProcessID, outputMat, outputAmount, mainMat, mainAmount, buildTime, mineralPlant) {
   // Add a 'Cancel Production button' and force the user to cancel current production, wipe the build process
   // and remove the build process from the country build process list. All of this must be done before the user
   // can be allowed to start a new build process, otherwise, pop up some kind of message saying they can't build
-  if (map2BuildingProcess[buildProcessID].outputMaterial == '') {
+  if (mineralPlant == 1) {
     map2BuildingProcess[buildProcessID].outputMaterial = outputMat;
     map2BuildingProcess[buildProcessID].outputAmount = outputAmount;
     map2BuildingProcess[buildProcessID].maintenanceMaterial = mainMat;
@@ -1646,20 +1653,34 @@ const manipulateBuildingProcess2 = function(buildProcessID, outputMat, outputAmo
     // set the build process to produce the thing we want at the price determined by information passed in from the onclick
     countryID = map2Cities[map2BuildingProcess[buildProcessID].city].ownerID;
     // find the country by determing the city and then the owner of the city
-    isCurrentBuildProcess = false;
-    for( i = 0; i < countries[countryID].buildingProcess2.length; i++){ 
-      if (countries[countryID].buildingProcess2[i] === buildProcessID) {
-        isCurrentBuildProcess = true;
-      }
-    }
-    if (!isCurrentBuildProcess) {
-      countries[countryID].buildingProcess2.push(buildProcessID);
-      // If the current build process for this building is not currently and actively being worked
-      // on by this country (ie it is in the Country's build queue) then add this new build process
-      // to the country's build process queue for this planet
-    }
     document.querySelector(".build-window-div").style.display = "none";
     // finally close the build window
+  } else {
+    if (map2BuildingProcess[buildProcessID].outputMaterial == '') {
+      map2BuildingProcess[buildProcessID].outputMaterial = outputMat;
+      map2BuildingProcess[buildProcessID].outputAmount = outputAmount;
+      map2BuildingProcess[buildProcessID].maintenanceMaterial = mainMat;
+      map2BuildingProcess[buildProcessID].maintenanceAmount = mainAmount;
+      map2BuildingProcess[buildProcessID].monthsLeft = buildTime;
+      map2BuildingProcess[buildProcessID].loop = 1;
+      // set the build process to produce the thing we want at the price determined by information passed in from the onclick
+      countryID = map2Cities[map2BuildingProcess[buildProcessID].city].ownerID;
+      // find the country by determing the city and then the owner of the city
+      isCurrentBuildProcess = false;
+      for( i = 0; i < countries[countryID].buildingProcess2.length; i++){ 
+        if (countries[countryID].buildingProcess2[i] === buildProcessID) {
+          isCurrentBuildProcess = true;
+        }
+      }
+      if (!isCurrentBuildProcess) {
+        countries[countryID].buildingProcess2.push(buildProcessID);
+        // If the current build process for this building is not currently and actively being worked
+        // on by this country (ie it is in the Country's build queue) then add this new build process
+        // to the country's build process queue for this planet
+      }
+      document.querySelector(".build-window-div").style.display = "none";
+      // finally close the build window
+    }
   }
 }
 

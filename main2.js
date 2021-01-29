@@ -302,7 +302,7 @@ mainCanvas2.add(citySelector);
                 buildingsDomElement += '<img src="public/images/launchpad.png" onclick="openBuildWindow2(`' + buildingArrayIndex + '`, `orbital-launch-pad`, `public/images/launchpad.png`, ' + city.buildingOwner[buildingArrayIndex] + ', ' + city.buildingProcess[buildingArrayIndex] + ', ' + city.buildingHealth[buildingArrayIndex] + ')" class="city-building-img" id="building-select-' + buildingArrayIndex + '"></div>';
             break;
            case 'missile-silo': 
-               buildingsDomElement += '<div class="building-container" onmouseover="showToolTip2(`missile-silo`, `Nuclear Silo`, `public/images/nuclear-silo.png`, `Can hold up to 10 Nuclear ICBMs.`, `' + buildingArrayIndex + '`, ' + city.id + ')" onmouseout="hideToolTip()">';
+               buildingsDomElement += '<div class="building-container" onmouseover="showToolTip2(`missile-silo`, `Nuclear Silo`, `public/images/nuclear-silo.png`, `Can build and store Nuclear Missiles.`, `' + buildingArrayIndex + '`, ' + city.id + ')" onmouseout="hideToolTip()">';
                buildingsDomElement += '<img src="public/images/nuclear-silo.png" onclick="openBuildWindow2(`' + buildingArrayIndex + '`, `missile-silo`, `public/images/nuclear-silo.png`, ' + city.buildingOwner[buildingArrayIndex] + ', ' + city.buildingProcess[buildingArrayIndex] + ', ' + city.buildingHealth[buildingArrayIndex] + ')" class="city-building-img" id="building-select-' + buildingArrayIndex + '"></div>';
             break;
            case 'ground-defense-laser-1': 
