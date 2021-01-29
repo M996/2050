@@ -719,7 +719,6 @@ const targetCities2 = function(buildProcessID) {
 const selectTargetCity2 = function(cityID) {
   map2BuildingProcess[selectedWeaponizedBuilding2].targetCity = cityID;
   cityName = map2Cities[map2BuildingProcess[selectedWeaponizedBuilding2].city].name;
-  console.log(map2BuildingProcess[selectedWeaponizedBuilding2]);
   // come back here later and make it so that a window pops up upon targeting a city giving some kind of confirmation the
   // city has been targeted and telling which building will now target it.
 }

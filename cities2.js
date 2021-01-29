@@ -111,7 +111,7 @@ let map2Cities = [
     "buildings": ['port', 'mineral-processing-plant-1'],
     "buildingOwner": [0,0],
     "buildingProcess": [3,4],
-    "buildingHealth": [150, 100]
+    "buildingHealth": [150, 80]
   },
   {
     "id": 2,

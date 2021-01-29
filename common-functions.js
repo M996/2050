@@ -278,7 +278,7 @@ const buildQueueMinusOneMap2 = function(processID) {
 
 
 
-const showToolTip = function(building, title, image, description, health) {
+const showToolTip2 = function(building, title, image, description, buildingArrayIndex, cityID) {
   
   // This switch case assigns outputs and maintenance costs to buildings as displayed in the tooltip
   switch(building) {
@@ -384,6 +384,8 @@ const showToolTip = function(building, title, image, description, health) {
       maintenance = '<span class="maintenance-tip-string"> -2.2 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -1.2 <img src="public/images/energyicon.png" class="building-res-icn"></span>';
     break;
   }
+  
+  health = map2Cities[cityID].buildingHealth[buildingArrayIndex];
   
   document.querySelector('#tooltip-title').textContent = title;
   document.querySelector('#tooltip-image').src = image;
@@ -1394,7 +1396,7 @@ const constructBuilding2 = function(cityID, buildingModel) {
 
 
 
-const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID) {
+const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID, userDestroyed) {
   buildingModel = map2Cities[cityID].buildings[buildingArrayIndex];
   // determine what country owns this city
   if (buildingModel == 'military-base') {
@@ -1433,14 +1435,20 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID)
   map2Cities[cityID].buildingHealth.splice(buildingArrayIndex, 1);
   map2BuildingProcess[buildingProcessID].destroyed = true;
   currentCountryID = map2Cities[cityID].ownerID;
-  buildProcessCountryIndex = countries[currentCountryID].buildingProcess2.indexOf(buildingProcessID);
-  // here we are finding the building process inside of this countrie's building processes to be run
-  countries[currentCountryID].buildingProcess2.splice(buildProcessCountryIndex, 1);
-  // now we delete the building process which is to be run for this country, so that play.js will not run it
-  document.querySelector(".build-window-div").style.display = "none";
-  document.querySelector(".city-interaction").style.display = "none";
-  document.querySelector('.unit-interaction').style.display = 'none';
-  document.querySelector(".unit-move-interaction").style.display = "none";
+  for( i = 0; i < countries[currentCountryID].buildingProcess2.length; i++){ 
+    if ( countries[currentCountryID].buildingProcess2[i] === buildingProcessID) { 
+      countries[currentCountryID].buildingProcess2.splice(i, 1);
+      // here we are finding the building process inside of this country's building processes to be run
+      // then once we find the building process we delete it
+    }
+  }
+  if (userDestroyed) {
+    // determine if the destroy button in the build window was pressed or if this building was destroyed by an enemy
+    document.querySelector(".build-window-div").style.display = "none";
+    document.querySelector(".city-interaction").style.display = "none";
+    document.querySelector('.unit-interaction').style.display = 'none';
+    document.querySelector(".unit-move-interaction").style.display = "none";
+  }
 }
 
 
@@ -1638,8 +1646,18 @@ const manipulateBuildingProcess2 = function(buildProcessID, outputMat, outputAmo
     // set the build process to produce the thing we want at the price determined by information passed in from the onclick
     countryID = map2Cities[map2BuildingProcess[buildProcessID].city].ownerID;
     // find the country by determing the city and then the owner of the city
-    countries[countryID].buildingProcess2.push(buildProcessID);
-    // add this new build process to the country's build process queue for this planet
+    isCurrentBuildProcess = false;
+    for( i = 0; i < countries[countryID].buildingProcess2.length; i++){ 
+      if (countries[countryID].buildingProcess2[i] === buildProcessID) {
+        isCurrentBuildProcess = true;
+      }
+    }
+    if (!isCurrentBuildProcess) {
+      countries[countryID].buildingProcess2.push(buildProcessID);
+      // If the current build process for this building is not currently and actively being worked
+      // on by this country (ie it is in the Country's build queue) then add this new build process
+      // to the country's build process queue for this planet
+    }
     document.querySelector(".build-window-div").style.display = "none";
     // finally close the build window
   }

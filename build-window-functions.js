@@ -953,7 +953,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
     
     // Here we will define what city the building is in and pass its array position and building process id so it can be deleted
     thisCity = map2BuildingProcess[buildingProcess].city;
-    document.querySelector(".build-win-control-destroy").setAttribute("onclick","buildingDestroy2(" + thisCity + ", " + buildingArrayIndex + ", " + map2BuildingProcess[buildingProcess].id + ")");
+    document.querySelector(".build-win-control-destroy").setAttribute("onclick","buildingDestroy2(" + thisCity + ", " + buildingArrayIndex + ", " + map2BuildingProcess[buildingProcess].id + ", true)");
     document.querySelector(".build-win-control-more").setAttribute("onclick","moreBuildings2(" + thisCity + ")");
     
     

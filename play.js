@@ -390,7 +390,7 @@ tellTime = function(t1) {
                   textPopAmount = textPopString.match(/\d+/g);
                   fullNumber = '';
                   textPopAmount.forEach(function(numberString) {
-                  fullNumber += numberString;
+                    fullNumber += numberString;
                   });
                   fullNumber = Number(fullNumber);
                   fullNumber = fullNumber * 0.996;
