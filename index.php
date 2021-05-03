@@ -171,6 +171,15 @@ require 'header.php';
       </div>
     </div>
   </div>
+  <div class="city-target-confirmation-window">
+    <p class="city-target-info">
+      You are now targeting <span id="weapon-targeted-city">City</span> from <span id="weapon-targeting-city">Your City</span>.
+    </p>
+    <p class="city-target-unable">
+      You cannot target <span id="weapon-non-targeted-city">City</span> because it is out of range.
+    </p>
+    <button onclick="closeTargetingWindow()" class="close-targeting-btn">Close</button>
+  </div>
     <canvas class="main-world-map" id="main-world-2-canvas"></canvas>
     <div class="city-interaction">
       <div id="city-index" style="display:none"></div>
@@ -541,6 +550,7 @@ require 'header.php';
 <script src="common-functions.js"></script>
 <script src="build-window-functions.js"></script>
 <script src="military-functions.js"></script>
+<script src="ranged-weapon-functions.js"></script>
 <script src="unions.js"></script>
 <script src="countries.js"></script>
 <script src="corporations.js"></script>

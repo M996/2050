@@ -5,7 +5,7 @@ const mainCanvas2 = new fabric.Canvas('main-world-2-canvas', {
     width: 7200,
 });
 mainCanvas2.renderAll();
-// first we must designate the canvas as being equal to a canvas elemnt in our HTML by selecting in ID, then we set its height end width
+// first we must designate the canvas as being equal to a canvas element in our HTML by selecting an ID, then we set its height and width
 // in this case, we want the height and width to be equal to the height and width of the actual images we will be working with.
 
 fabric.Image.fromURL('maps/game-map-2-full-size.png', (mainImg2) => {
@@ -14,6 +14,11 @@ fabric.Image.fromURL('maps/game-map-2-full-size.png', (mainImg2) => {
 })
 // now we will pull an image from a URL (relative or absolute) then set that image as  the background of our canvas, and re-render the
 // entire canvas.
+
+mainCanvas2.renderOnAddRemove = false;
+// disabling this option will stop the canvas from re-rendering every time a new shape is added or removed
+// setting .objectCaching could also increase performance but may cause other difficulties so it is not currently
+// being done, disabling /objectCaching in the future could be experimented with
 
 citySelector = new fabric.Circle({
   left: 0,

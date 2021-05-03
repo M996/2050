@@ -356,3 +356,41 @@
     color: white;
     cursor: pointer;
 }
+
+.city-target-confirmation-window {
+    position: fixed;
+    z-index: 7;
+    right: 30vw;
+    width: 20vw;
+    top: 38vh;
+    background: rgb(40,40,40);
+    display: none;
+    flex-direction: column;
+    border-radius: 1vw;
+    padding: 8px;
+}
+
+.city-target-info {
+    display: none;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.city-target-unable {
+    display: none;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.close-targeting-btn {
+    background: rgb(200,100,100);
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.close-targeting-btn:hover {
+    cursor: pointer;
+}

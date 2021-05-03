@@ -2405,6 +2405,9 @@ const runBuildingProcesses2 = function(country) {
                   break;
             }
         break;
+        
+        // ==== ouputMaterial is set to EMPTY STRING ===================================================================================    
+        
         default:
                 if (map2BuildingProcess[processID].damageAmount > 0) {
                         // the building is a weapon, treat it as such
@@ -2416,6 +2419,35 @@ const runBuildingProcesses2 = function(country) {
                                 // the weapon is targeting enemy cities
                                 targetCityID = map2BuildingProcess[processID].targetCity;
                                 enemyCityOwner = map2Cities[targetCityID].ownerID;
+                                
+                                // ==== HERE is where we should add an if statement to figure out if we are at war ======
+                                // to do this, we must look at the city owner and see if they are in the 'enemies' list of the country
+                                // who owns this building that is attacking
+                                
+                                // once we know we are attacking the city, then red-flash here to let the players visually know that an attack
+                                // came from this city
+                                firingCityID = map2BuildingProcess[processID].city;
+                                firingCityXPOS = (map2Cities[firingCityID].xpos - 9);
+                                firingCityYPOS = (map2Cities[firingCityID].ypos - 9);
+                                
+                                fireFlashCircle = new fabric.Circle({
+                                    radius: 15,
+                                    left: firingCityXPOS,
+                                    top: firingCityYPOS,
+                                    fill: 'red',
+                                    opacity: 0.4,
+                                    selectable: false,
+                                });
+                                
+                                mainCanvas2.add(fireFlashCircle);
+                                fireFlashCircle.sendToBack();
+                                mainCanvas2.requestRenderAll();
+                                
+                                setTimeout(function(){
+                                    mainCanvas2.remove(fireFlashCircle);
+                                    mainCanvas2.requestRenderAll();
+                                }, 220); // problem, creating multiple fire flashes only deletes one, make it delete all of them and have it happen on tick 1
+                                // wait a fraction of a second, then delete the fire flash, so it just looks like a quick explosion
                                 
                                 if (map2Cities[targetCityID].buildings.length > 0) {
                                         // there are still buildings in this city, so destroy them before attacking

@@ -136,7 +136,7 @@ let countries = [
         "unOverlord": [],
         "wil": false,
         "wilOverlord": [],
-        // The 'cil' or Central Independence League is similar to the UN but much more capable militarily.
+        // The 'wil' or World Independence League is similar to the UN but much more capable militarily.
         // It is present at game start on World 4 and can be played as, with the goal of protecting small
         // and defending countries. Protecting countries succesfully yields increased authority which can
         // be used to levy taxes and centralize power until the CIL has formed a one world government.
