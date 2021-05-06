@@ -12,7 +12,29 @@ tellTime = function(t1) {
   tickTime = 1;
   worldClock = window.setInterval(function(){
     switch(tickTime) { 
-    case 1: 
+    case 1:
+        for (i = fireFlashesCity; i > 0; i--) {
+          mainCanvas2.remove(window["fireFlashCityCircle"+i]);
+          mainCanvas2.requestRenderAll();
+          fireFlashesCity--;
+        }
+        // the window["fireFlashCityCircle"+fireFlashes] variable being used above is a way to add a number onto the end of a
+        // javascript variable. When a weapon is fired it creates a 'flash circle' that you see on the map around cities
+        // and naval units. Each circle has a unique number at the end of the name (fireFlashCityCircle1, fireFlashCityCircle2, etc.)
+        // the code above is de-spawning each circle after the first tick of the new month, by working through them in reverse
+        
+        for (i = fireFlashesSpace; i > 0; i--) {
+          mainCanvas2.remove(window["fireFlashSpaceCircle"+i]);
+          mainCanvas2.requestRenderAll();
+          fireFlashesSpace--;
+        }
+        
+        for (i = fireFlashesUnit; i > 0; i--) {
+          mainCanvas2.remove(window["fireFlashUnitCircle"+i]);
+          mainCanvas2.requestRenderAll();
+          fireFlashesUnit--;
+        }
+        
         tickTime++;
     break; 
     case 2:
@@ -229,9 +251,7 @@ tellTime = function(t1) {
                   } else if (country.agriculturalMaterialStored === 1) {
                     country.agriculturalMaterialStored = country.agriculturalMaterialStored - 1;
                     country.agriculturalMaterialExpense = country.agriculturalMaterialExpense + 1;
-                    console.log("Food Before 1 AG: " + foodChange);
                     foodChange = foodChange + 1;
-                    console.log("Food After 1 AG: " + foodChange);
                   } 
                 break;
                 case 5:

@@ -548,6 +548,7 @@ require 'header.php';
 
 <script src="fabric-4.3.0.min.js"></script>
 <script src="common-functions.js"></script>
+<script src="political-functions.js"></script>
 <script src="build-window-functions.js"></script>
 <script src="military-functions.js"></script>
 <script src="ranged-weapon-functions.js"></script>

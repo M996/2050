@@ -2409,229 +2409,306 @@ const runBuildingProcesses2 = function(country) {
         // ==== ouputMaterial is set to EMPTY STRING ===================================================================================    
         
         default:
+            // default is usually going to be a weaponized building
                 if (map2BuildingProcess[processID].damageAmount > 0) {
                         // the building is a weapon, treat it as such
                         if (map2BuildingProcess[processID].targetCity === undefined) {
                                 // the weapon is targeting enemy armies
+                                
+                                if (country.enemies.length) {
+                                    // if the length of the '.enemies' array is greater than zero, then this country is in an
+                                    // active war and can search for enemy units to target
+                                    
+                                    firingCityID = map2BuildingProcess[processID].city;
+                                    firingCityXPOS = (map2Cities[firingCityID].xpos - 6);
+                                    firingCityYPOS = (map2Cities[firingCityID].ypos - 6);
+                                    
+                                    fireFlashesUnit++;
+                                    window["fireFlashUnitCircle"+fireFlashesUnit] = new fabric.Circle({
+                                        radius: 12,
+                                        left: firingCityXPOS,
+                                        top: firingCityYPOS,
+                                        fill: 'red',
+                                        opacity: 0.6,
+                                        stroke: 'white',
+                                        strokeWidth: 1,
+                                        selectable: false,
+                                    });
+                                    
+                                    
+                                    mainCanvas2.add(window["fireFlashUnitCircle"+fireFlashesUnit]);
+                                    window["fireFlashUnitCircle"+fireFlashesUnit].sendToBack();
+                                    mainCanvas2.requestRenderAll();
+                                    
+                                    // add attacks against enemy armies here. We should iterate through a list of all enemies
+                                    // and all of their land and sea units, then take wach unit's x axis and compare it to this
+                                    // city's x axis to see if they are within range, if they are then compare their y axis,
+                                    // if this is also within range then check to make sure that they are in our province or
+                                    // a neighboring province (this may be optional and we may simply attack regardless of whether
+                                    // we hyave line of sight to them? Not sure but we should probably only attack if we have line
+                                    // of sight so they should probably be in a neighboring province, we may want to use a while loop
+                                    // to iterate through land and sea bordering provinces for better performance). Once we have
+                                    // determined an enemy unit is within range, then deal damage to that unit, fireflash from this city
+                                    // (taken care of in the code above) and make a small animation play on the unit that was struck
+                                    // code to determine if an enemy unit is within range can be found in ranged-weapon-functions.js
+                                    
+                                }
+                                
                         } else if (map2BuildingProcess[processID].targetCity === -1) {
                                 // the weapon is targeting enemy space fleets
+                                
+                                if (country.enemies.length) {
+                                    firingCityID = map2BuildingProcess[processID].city;
+                                    firingCityXPOS = (map2Cities[firingCityID].xpos - 11);
+                                    firingCityYPOS = (map2Cities[firingCityID].ypos - 11);
+                                    
+                                    fireFlashesSpace++;
+                                    window["fireFlashSpaceCircle"+fireFlashesSpace] = new fabric.Circle({
+                                        radius: 16,
+                                        left: firingCityXPOS,
+                                        top: firingCityYPOS,
+                                        fill: 'rgb(255,100,70)',
+                                        opacity: 0.4,
+                                        stroke: 'white',
+                                        strokeWidth: 2,
+                                        selectable: false,
+                                    });
+                                    
+                                    mainCanvas2.add(window["fireFlashSpaceCircle"+fireFlashesSpace]);
+                                    window["fireFlashSpaceCircle"+fireFlashesSpace].sendToBack();
+                                    mainCanvas2.requestRenderAll();
+                                    
+                                    // similarly to the code above, we have already determined if this country is at war, and
+                                    // already have a fireflash go off whenever an attack happens, now we just need to iterate through
+                                    // all enemy space fleets and run a percentage chance of hitting them based on our tracking
+                                    // and their evasion. This does not have to be specific to an orbital units position but
+                                    // altitude might have an impact
+                                    
+                                }
+                                
                         } else {
                                 // the weapon is targeting enemy cities
                                 targetCityID = map2BuildingProcess[processID].targetCity;
                                 enemyCityOwner = map2Cities[targetCityID].ownerID;
                                 
-                                // ==== HERE is where we should add an if statement to figure out if we are at war ======
-                                // to do this, we must look at the city owner and see if they are in the 'enemies' list of the country
-                                // who owns this building that is attacking
+                                cityIsEnemy = country.enemies.includes(enemyCityOwner);
+                                // includes() will look to see if the owner of this targeted city is in the 'enemies' list of the country object that has
+                                // been passed into the runBuildProcess function, if they are in the 'enemies' array of the country, this means they are
+                                // actively at war, so go ahead and attack this city
                                 
-                                // once we know we are attacking the city, then red-flash here to let the players visually know that an attack
-                                // came from this city
-                                firingCityID = map2BuildingProcess[processID].city;
-                                firingCityXPOS = (map2Cities[firingCityID].xpos - 9);
-                                firingCityYPOS = (map2Cities[firingCityID].ypos - 9);
-                                
-                                fireFlashCircle = new fabric.Circle({
-                                    radius: 15,
-                                    left: firingCityXPOS,
-                                    top: firingCityYPOS,
-                                    fill: 'red',
-                                    opacity: 0.4,
-                                    selectable: false,
-                                });
-                                
-                                mainCanvas2.add(fireFlashCircle);
-                                fireFlashCircle.sendToBack();
-                                mainCanvas2.requestRenderAll();
-                                
-                                setTimeout(function(){
-                                    mainCanvas2.remove(fireFlashCircle);
+                                if (cityIsEnemy) {
+                                    
+                                    // once we know we are attacking the city, then red-flash here to let the players visually know that an attack
+                                    // came from this city
+                                    firingCityID = map2BuildingProcess[processID].city;
+                                    firingCityXPOS = (map2Cities[firingCityID].xpos - 9);
+                                    firingCityYPOS = (map2Cities[firingCityID].ypos - 9);
+                                    
+                                    fireFlashesCity++;
+                                    window["fireFlashCityCircle"+fireFlashesCity] = new fabric.Circle({
+                                        radius: 15,
+                                        left: firingCityXPOS,
+                                        top: firingCityYPOS,
+                                        fill: 'red',
+                                        opacity: 0.4,
+                                        stroke: 'black',
+                                        strokeWidth: 1,
+                                        selectable: false,
+                                    });
+                                    
+                                    mainCanvas2.add(window["fireFlashCityCircle"+fireFlashesCity]);
+                                    window["fireFlashCityCircle"+fireFlashesCity].sendToBack();
                                     mainCanvas2.requestRenderAll();
-                                }, 220); // problem, creating multiple fire flashes only deletes one, make it delete all of them and have it happen on tick 1
-                                // wait a fraction of a second, then delete the fire flash, so it just looks like a quick explosion
-                                
-                                if (map2Cities[targetCityID].buildings.length > 0) {
-                                        // there are still buildings in this city, so destroy them before attacking
-                                        // the general population
-                                        buildingIndex = -1;
-                                        alreadyHit = false;
-                                        // if we find a high priority building we will attack that first, otherwise
-                                        // we keep track of which building was the last one in the list and attack that one instead
-                                        map2Cities[targetCityID].buildings.forEach(function(buildingName) {
-                                                if (!alreadyHit) {
-                                                        // if the building hasn't already selected a high priority target and dmaged it then keep looking
-                                                        buildingIndex++;
-                                                        switch(buildingName) {
-                                                        case "missile-silo":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
+                                    // the window["fireFlashCityCircle"+fireFlashes] variable being used above is a way to add a number onto the end of a
+                                    // javascript variable. The above process will increment fireFlashes by 1 every time a weapon is fired, this variable
+                                    // is declared in common-function, then the new number is added onto the fireFlashCircle variable
+                                    // examples: (fireFlashCircle1, fireFlashCircle2, fireFlashCircle3 and so on) these uniquely named variables are then
+                                    // used to remove the circles spawned in tick 1 of the following month thus creating the flash effect when a weapon fires
+                                    
+                                    if (map2Cities[targetCityID].buildings.length > 0) {
+                                            // there are still buildings in this city, so destroy them before attacking
+                                            // the general population
+                                            buildingIndex = -1;
+                                            alreadyHit = false;
+                                            // if we find a high priority building we will attack that first, otherwise
+                                            // we keep track of which building was the last one in the list and attack that one instead
+                                            map2Cities[targetCityID].buildings.forEach(function(buildingName) {
+                                                    if (!alreadyHit) {
+                                                            // if the building hasn't already selected a high priority target and dmaged it then keep looking
+                                                            buildingIndex++;
+                                                            switch(buildingName) {
+                                                            case "missile-silo":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                                    map2Cities[targetCityID].ICBMs.forEach(function(ICBMID) {
+                                                                                        ICBMUnits[ICBMID].isDead = true;
+                                                                                        // make all of the ICBMs in this city be dead so the country no longer
+                                                                                        // has to pay maintenance and we can ignore these objects
+                                                                                    });
+                                                                                    map2Cities[targetCityID].ICBMs = [];
+                                                                                    // no more ICBMs are left in this city
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "railgun-3":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "railgun-2":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "railgun-1":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "missile-system-3":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "missile-system-2":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
                                                                                 buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                 buildingImageParentDiv.style.display = "none";
-                                                                                map2Cities[targetCityID].ICBMs.forEach(function(ICBMID) {
-                                                                                    ICBMUnits[ICBMID].isDead = true;
-                                                                                    // make all of the ICBMs in this city be dead so the country no longer
-                                                                                    // has to pay maintenance and we can ignore these objects
-                                                                                });
-                                                                                map2Cities[targetCityID].ICBMs = [];
-                                                                                // no more ICBMs are left in this city
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "railgun-3":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "railgun-2":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "railgun-1":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "missile-system-3":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "missile-system-2":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "missile-system-1":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        case "space-elevator":
-                                                                alreadyHit = true;
-                                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                                buildingImageParentDiv.style.display = "none";
-                                                                        }
-                                                                }
-                                                        break;
-                                                        }
-                                                }
-                                                
-                                        });
-                                        if (!alreadyHit) {
-                                                // if the building was unable to find any high priority targets then just attack
-                                                // whatever is the last building to have been built
-                                                weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
-                                                weaponDamageAmount = Math.round(weaponDamageAmount);
-                                                map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
-                                                if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
-                                                        enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
-                                                        buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
-                                                        if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                                buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
-                                                                buildingImageParentDiv.style.display = "none";
-                                                                // select the parent element of the image associated with the building we are targeting,
-                                                                // then make them both disappear as we have been targeting them for destruction
-                                                        }
-                                                }
-                                        }
-                                } else {
-                                        // else if the number of buildings left in this city is less than or equal to zero
-                                        if (map2Cities[targetCityID].isRig) {
-                                        map2Cities[targetCityID].population = 1;
-                                        } else {
-                                          oldPopulation = map2Cities[targetCityID].population;
-                                          map2Cities[targetCityID].population = (map2Cities[targetCityID].population * 0.999);
-                                          map2Cities[targetCityID].population = Math.round(map2Cities[targetCityID].population);
-                                          populationChange = oldPopulation - map2Cities[targetCityID].population;
-                                          countries[enemyCityOwner].totalPopulation = countries[enemyCityOwner].totalPopulation - populationChange;
-                                          // if there are no buildings left to destroy, then just start killing population with
-                                          // the ranged weapons
-                                          if (document.querySelector("#city-index").textContent == targetCityID) {
-                                                // if the city we are actively looking at right now is the one having its population reduced
-                                                // then use the same code used during famines to display the population reduction in real time
-                                                textPopString = document.querySelector('#city-population').textContent;
-                                                if (textPopString) {
-                                                  textPopAmount = textPopString.match(/\d+/g);
-                                                  fullNumber = '';
-                                                  textPopAmount.forEach(function(numberString) {
-                                                    fullNumber += numberString;
-                                                  });
-                                                  fullNumber = Number(fullNumber);
-                                                  fullNumber = fullNumber * 0.999;
-                                                  fullNumber = Math.round(fullNumber);
-                                                  fullNumber = fullNumber.toLocaleString();
-                                                  document.querySelector('#city-population').textContent = "Population: " + fullNumber;
-                                                }
-                                          }
-                                        }
-                                } 
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "missile-system-1":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            case "space-elevator":
+                                                                    alreadyHit = true;
+                                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                                    buildingImageParentDiv.style.display = "none";
+                                                                            }
+                                                                    }
+                                                            break;
+                                                            }
+                                                    }
+                                                    
+                                            });
+                                            if (!alreadyHit) {
+                                                    // if the building was unable to find any high priority targets then just attack
+                                                    // whatever is the last building to have been built
+                                                    weaponDamageAmount = map2BuildingProcess[processID].damageAmount * 0.1;
+                                                    weaponDamageAmount = Math.round(weaponDamageAmount);
+                                                    map2Cities[targetCityID].buildingHealth[buildingIndex] = map2Cities[targetCityID].buildingHealth[buildingIndex] - weaponDamageAmount;
+                                                    if (map2Cities[targetCityID].buildingHealth[buildingIndex] < 1) {
+                                                            enemyBuildingProcessID = map2Cities[targetCityID].buildingProcess[buildingIndex];
+                                                            buildingDestroy2(targetCityID, buildingIndex, enemyBuildingProcessID, false);
+                                                            if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                                    buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
+                                                                    buildingImageParentDiv.style.display = "none";
+                                                                    // select the parent element of the image associated with the building we are targeting,
+                                                                    // then make them both disappear as we have been targeting them for destruction
+                                                            }
+                                                    }
+                                            }
+                                    } else {
+                                            // else if the number of buildings left in this city is less than or equal to zero
+                                            if (map2Cities[targetCityID].isRig) {
+                                            map2Cities[targetCityID].population = 1;
+                                            } else {
+                                              oldPopulation = map2Cities[targetCityID].population;
+                                              map2Cities[targetCityID].population = (map2Cities[targetCityID].population * 0.999);
+                                              map2Cities[targetCityID].population = Math.round(map2Cities[targetCityID].population);
+                                              populationChange = oldPopulation - map2Cities[targetCityID].population;
+                                              countries[enemyCityOwner].totalPopulation = countries[enemyCityOwner].totalPopulation - populationChange;
+                                              // if there are no buildings left to destroy, then just start killing population with
+                                              // the ranged weapons
+                                              if (document.querySelector("#city-index").textContent == targetCityID) {
+                                                    // if the city we are actively looking at right now is the one having its population reduced
+                                                    // then use the same code used during famines to display the population reduction in real time
+                                                    textPopString = document.querySelector('#city-population').textContent;
+                                                    if (textPopString) {
+                                                      textPopAmount = textPopString.match(/\d+/g);
+                                                      fullNumber = '';
+                                                      textPopAmount.forEach(function(numberString) {
+                                                        fullNumber += numberString;
+                                                      });
+                                                      fullNumber = Number(fullNumber);
+                                                      fullNumber = fullNumber * 0.999;
+                                                      fullNumber = Math.round(fullNumber);
+                                                      fullNumber = fullNumber.toLocaleString();
+                                                      document.querySelector('#city-population').textContent = "Population: " + fullNumber;
+                                                    }
+                                              }
+                                            }
+                                    }
+                                }
                         }
                 }
         break;
