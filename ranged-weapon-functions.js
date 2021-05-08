@@ -68,16 +68,16 @@ const selectTargetCity2 = function(cityID) {
     targetingCityID = map2BuildingProcess[selectedWeaponizedBuilding2].city;
     targetingCityXPOS = map2Cities[targetingCityID].xpos;
     targetedCityXPOS = map2Cities[cityID].xpos;
-    // determine the distance one city is from another in absolute terms on the x axis of the canvas
-    absoluteCityDistanceX = Math.abs(targetingCityXPOS - targetedCityXPOS);
+    // determine the distance one city is from another in absolute terms on the y axis of the canvas
+    absoluteCityDistanceY = Math.abs(targetingCityYPOS - targetedCityYPOS);
     
-    if (absoluteCityDistanceX <= targetingWeaponRange) {
+    if (absoluteCityDistanceY <= targetingWeaponRange) {
         targetingCityYPOS = map2Cities[targetingCityID].ypos;
         targetedCityYPOS = map2Cities[cityID].ypos;
-        // determine the distance one city is from another in absolute terms on the y axis of the canvas
-        absoluteCityDistanceY = Math.abs(targetingCityYPOS - targetedCityYPOS);
+        // determine the distance one city is from another in absolute terms on the x axis of the canvas
+        absoluteCityDistanceX = Math.abs(targetingCityXPOS - targetedCityXPOS);
         
-        if (absoluteCityDistanceY <= targetingWeaponRange) {
+        if (absoluteCityDistanceX <= targetingWeaponRange) {
             // we have now determined that the city being targeted is less distance away from the targeting city than the maximum
             // range of the weapon, both forwards and backwards in both the x and y axis, that means we can now target that city
             map2BuildingProcess[selectedWeaponizedBuilding2].targetCity = cityID;

@@ -147,7 +147,7 @@ let countries = [
         
         
         // Military ==========================================================================
-        "enemies": [1],
+        "enemies": [],
         // "enemies" denotes countries that are actively at war with this country right now
         "infantry": [],
         "marines": [],

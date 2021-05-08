@@ -42,7 +42,20 @@ let currentPlayerID = 0;
 const closeInteractions = function() {
   document.querySelector(".unit-interaction").style.display = "none";
   document.querySelector(".city-interaction").style.display = "none";
-  document.querySelector(".unit-move-interaction").style.display = "none";
+  document.querySelector(".unit-move-interaction-land").style.display = "none";
+  document.querySelector(".unit-move-interaction-space").style.display = "none";
+  document.querySelector(".unit-move-interaction-naval").style.display = "none";
+  document.querySelector(".unit-move-interaction-air").style.display = "none";
+  document.querySelector("#move-space-marines").style.display = "none";
+  document.querySelector("#move-space-infantry").style.display = "none";
+  document.querySelector("#move-task-ship").style.display = "none";
+  document.querySelector("#move-carrier").style.display = "none";
+  document.querySelector("#move-submarine").style.display = "none";
+  document.querySelector("#move-marines").style.display = "none";
+  document.querySelector("#move-destroyer").style.display = "none";
+  document.querySelector("#move-aircraft").style.display = "none";
+  document.querySelector("#move-tank").style.display = "none";
+  document.querySelector("#move-infantry").style.display = "none";
 }
 
 

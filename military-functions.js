@@ -16,8 +16,22 @@ spaceMarineSelected = false;
 
 
 const openMoveArmiesWindow = function() {
+    spaceUnitPrecedence = false;
+    navalUnitPrecedence = false;
+    landUnitPrecedence = false;
+    // these variables determine which window opens based on which windows take precedence over the others
+    
+    // if you have task ships selected then you will always view the space tab no matter what, if you have
+    // any naval units selected then you will always view the naval tab, unless task ships are selected
+    // and if you have ground units selected they will only be moveable if you have none of the other types
+    // of units selected and aircraft are only moveable if no other type of unit anywhere is selected
     
     if (infantrySelected) {
+        
+        landUnitPrecedence = true;
+        // if any land units at all are selected, they take precedence and so the
+        // other unit windows will not open at all
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -36,6 +50,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (tankSelected) {
+        
+        landUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -72,6 +89,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (destroyerSelected) {
+        
+        navalUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -90,6 +110,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (marineSelected) {
+        
+        landUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -97,8 +120,8 @@ const openMoveArmiesWindow = function() {
             // add the same code for planet 1 in this function and displayLandArmies
         } else if (planetIndex == 2) {
             marineUnitAmount = map2Cities[cityID].marines.length;
-            document.querySelector("#unit-move-marine-slider").max = marineUnitAmount;
-            document.querySelector("#unit-move-marine-slider").value = marineUnitAmount;
+            document.querySelector("#unit-move-marines-slider").max = marineUnitAmount;
+            document.querySelector("#unit-move-marines-slider").value = marineUnitAmount;
         } else if (planetIndex == 3) {
             // add the same code for planet 3 in this function and displayLandArmies
         } else if (planetIndex == 4) {
@@ -108,6 +131,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (submarineSelected) {
+        
+        navalUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -126,6 +152,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (carrierSelected) {
+        
+        navalUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -144,6 +173,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (taskShipSelected) {
+        
+        spaceUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -162,6 +194,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (spaceInfantrySelected) {
+        
+        landUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -180,6 +215,9 @@ const openMoveArmiesWindow = function() {
     }
     
     if (spaceMarineSelected) {
+        
+        landUnitPrecedence = true;
+        
         cityID = document.querySelector("#city-index").textContent;
         planetIndex = document.querySelector("#planet-index").textContent;
         
@@ -196,9 +234,41 @@ const openMoveArmiesWindow = function() {
         }
         document.querySelector("#move-space-marines").style.display = "flex";
     }
-    
-    
-    document.querySelector(".unit-move-interaction").style.display = "flex";
+    // make individual unit windows close when you click on the 'move' button a second time
+    // and make units stop appearing in the unit windows if they have not been selected
+    // finally, units get auto-put into armies and fleets when they are moved up or down
+    // on the slider, and add a new button to move armies out of the city
+    if (spaceUnitPrecedence) {
+        document.querySelector(".unit-move-interaction-space").style.display = "flex";
+    } else if (navalUnitPrecedence) {
+        document.querySelector(".unit-move-interaction-naval").style.display = "flex";
+    } else if (landUnitPrecedence) {
+        document.querySelector(".unit-move-interaction-land").style.display = "flex";
+        
+    } else {
+        document.querySelector(".unit-move-interaction-air").style.display = "flex";
+    }
+    document.getElementById('move-army').setAttribute('onclick','closeMoveArmiesWindow()');
+    $("#move-army").toggleClass("move-btn-open");
+}
+
+
+const closeMoveArmiesWindow = function() {
+  document.querySelector(".unit-move-interaction-land").style.display = "none";
+  document.querySelector(".unit-move-interaction-space").style.display = "none";
+  document.querySelector(".unit-move-interaction-naval").style.display = "none";
+  document.querySelector(".unit-move-interaction-air").style.display = "none";
+  document.querySelector("#move-space-marines").style.display = "none";
+  document.querySelector("#move-space-infantry").style.display = "none";
+  document.querySelector("#move-task-ship").style.display = "none";
+  document.querySelector("#move-carrier").style.display = "none";
+  document.querySelector("#move-submarine").style.display = "none";
+  document.querySelector("#move-marines").style.display = "none";
+  document.querySelector("#move-destroyer").style.display = "none";
+  document.querySelector("#move-aircraft").style.display = "none";
+  document.querySelector("#move-tank").style.display = "none";
+  document.querySelector("#move-infantry").style.display = "none";
+  document.getElementById('move-army').setAttribute('onclick','openMoveArmiesWindow()');
 }
 
 
@@ -356,6 +426,8 @@ const hideLandArmies = function() {
 const displayNavalFleets = function() {
     cityID = document.querySelector("#city-index").textContent;
     planetIndex = document.querySelector("#planet-index").textContent;
+
+    
     
     if (planetIndex == 1) {
         
@@ -379,7 +451,7 @@ const displayNavalFleets = function() {
         
     } else if (planetIndex == 4) {
         
-    }
+    } 
     
     document.querySelector(".bottom-unit-view").innerHTML = `
         <div class="unit-div">
@@ -404,6 +476,24 @@ const displayNavalFleets = function() {
           <img class="unit-icon" id="carrier-unit-icon" src="public/images/carriericon.png" onclick="carrierCitySelection()">
           <p class="unit-amount" id="carrier-interact-amount">` + cityCarrierAmount + `</p>
         </div>`;
+        
+    if (marineSelected) {
+        document.querySelector("#embark-button-marines").style.display = "block";
+        document.querySelector("#marines-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (destroyerSelected) {
+        document.querySelector("#destroyer-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (submarineSelected) {
+        document.querySelector("#submarine-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (carrierSelected) {
+        document.querySelector("#carrier-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+        
         cityDestroyerAmount = 0;
         cityMarineAmount = 0;
         citySubmarineAmount = 0;
@@ -416,6 +506,8 @@ const displayNavalFleets = function() {
 const displaySpaceFleets = function() {
     cityID = document.querySelector("#city-index").textContent;
     planetIndex = document.querySelector("#planet-index").textContent;
+
+    
     
     if (planetIndex == 1) {
         
@@ -434,7 +526,7 @@ const displaySpaceFleets = function() {
     } else if (planetIndex == 4) {
         
     }
-    
+
     document.querySelector(".bottom-unit-view").innerHTML = `
         <div class="unit-div">
           <p class="unit-name" onclick="taskShipCitySelection()">Task Ships</p>
@@ -455,6 +547,21 @@ const displaySpaceFleets = function() {
           <img class="embark-img-space-marines" src="public/images/spaceEmbark.png">
           <button class="embark-button" id="embark-button-space-marines" onclick="embarkSpaceMarines()">Embark</button>
         </div>`;
+        
+    if (spaceInfantrySelected) {
+        document.querySelector("#embark-button-space-infantry").style.display = "block";
+        document.querySelector("#space-infantry-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (spaceMarineSelected) {
+        document.querySelector("#embark-button-space-marines").style.display = "block";
+        document.querySelector("#space-marines-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (taskShipSelected) {
+        document.querySelector("#task-ship-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+        
         cityTaskShipAmount = 0;
         citySpaceInfantryAmount = 0;
         citySpaceMarineAmount = 0;
@@ -463,6 +570,7 @@ const displaySpaceFleets = function() {
 const displayLandArmies = function() {
     cityID = document.querySelector("#city-index").textContent;
     planetIndex = document.querySelector("#planet-index").textContent;
+
     
     if (planetIndex == 1) {
         
@@ -504,6 +612,22 @@ const displayLandArmies = function() {
           <img class="embark-img-aircraft" src="public/images/port.png">
           <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft()">Embark</button>
         </div>`;
+        
+    if (infantrySelected) {
+        document.querySelector("#embark-button-infantry").style.display = "block";
+        document.querySelector("#infantry-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (tankSelected) {
+        document.querySelector("#embark-button-tanks").style.display = "block";
+        document.querySelector("#tank-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (aircraftSelected) {
+        document.querySelector("#embark-button-aircraft").style.display = "block";
+        document.querySelector("#aircraft-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+        
         cityInfantryAmount = 0;
         cityTankAmount = 0;
         cityAircraftAmount = 0;
@@ -519,11 +643,17 @@ const infantryCitySelection = function() {
         // gets clicked on and display the embark button because infantry are embarkable units
         document.querySelector("#embark-button-infantry").style.display = "block";
         document.querySelector("#infantry-unit-icon").style.boxShadow = "0px 0px 12px white";
+        infantryUnitAmount = map2Cities[cityID].infantry.length;
+        document.querySelector("#unit-move-infantry-slider").max = infantryUnitAmount;
+        document.querySelector("#unit-move-infantry-slider").value = infantryUnitAmount;
+        document.querySelector("#move-infantry").style.display = "flex";
     } else {
         infantrySelected = false;
         document.querySelector("#embark-button-infantry").style.display = "none";
         document.querySelector("#infantry-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-infantry").style.display = "none";
+        document.querySelector("#move-infantry").style.display = "none";
+        document.querySelector("#unit-move-infantry-slider").value = 0;
         console.log("Deselect this infantry unit, remove them from the move window, and remove them from embarkment");
     }
 }
@@ -533,12 +663,17 @@ const tankCitySelection = function() {
         tankSelected = true;
         document.querySelector("#embark-button-tanks").style.display = "block";
         document.querySelector("#tank-unit-icon").style.boxShadow = "0px 0px 12px white";
+        tankUnitAmount = map2Cities[cityID].tanks.length;
+        document.querySelector("#unit-move-tank-slider").max = tankUnitAmount;
+        document.querySelector("#unit-move-tank-slider").value = tankUnitAmount;
+        document.querySelector("#move-tank").style.display = "flex";
     } else {
         tankSelected = false;
         document.querySelector("#embark-button-tanks").style.display = "none";
         document.querySelector("#tank-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-tank").style.display = "none";
-        console.log("Deselect this tank unit, remove them from the move window");
+        document.querySelector("#move-tank").style.display = "none";
+        document.querySelector("#unit-move-tank-slider").value = 0;
     }
 }
 
@@ -547,12 +682,17 @@ const aircraftCitySelection = function() {
         aircraftSelected = true;
         document.querySelector("#embark-button-aircraft").style.display = "block";
         document.querySelector("#aircraft-unit-icon").style.boxShadow = "0px 0px 12px white";
+        aircraftUnitAmount = map2Cities[cityID].planes.length;
+        document.querySelector("#unit-move-aircraft-slider").max = aircraftUnitAmount;
+        document.querySelector("#unit-move-aircraft-slider").value = aircraftUnitAmount;
+        document.querySelector("#move-aircraft").style.display = "flex";
     } else {
         aircraftSelected = false;
         document.querySelector("#embark-button-aircraft").style.display = "none";
         document.querySelector("#aircraft-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-aircraft").style.display = "none";
-        console.log("Deselect this aircraft unit, remove them from the move window");
+        document.querySelector("#move-aircraft").style.display = "none";
+        document.querySelector("#unit-move-aircraft-slider").value = 0;
     }
 }
 
@@ -561,12 +701,17 @@ const marinesCitySelection = function() {
         marineSelected = true
         document.querySelector("#embark-button-marines").style.display = "block";
         document.querySelector("#marines-unit-icon").style.boxShadow = "0px 0px 12px white";
+        marineUnitAmount = map2Cities[cityID].marines.length;
+        document.querySelector("#unit-move-marines-slider").max = marineUnitAmount;
+        document.querySelector("#unit-move-marines-slider").value = marineUnitAmount;
+        document.querySelector("#move-marines").style.display = "flex";
     } else {
         marineSelected = false;
         document.querySelector("#embark-button-marines").style.display = "none";
         document.querySelector("#marines-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-marines").style.display = "none";
-        console.log("Deselect this marines unit, remove them from the move window");
+        document.querySelector("#move-marines").style.display = "none";
+        document.querySelector("#unit-move-marines-slider").value = 0;
     }
 }
 
@@ -575,12 +720,17 @@ const spaceInfantryCitySelection = function() {
         spaceInfantrySelected = true;
         document.querySelector("#embark-button-space-infantry").style.display = "block";
         document.querySelector("#space-infantry-unit-icon").style.boxShadow = "0px 0px 12px white";
+        spaceInfantryUnitAmount = map2Cities[cityID].spaceInfantry.length;
+        document.querySelector("#unit-move-space-infantry-slider").max = spaceInfantryUnitAmount;
+        document.querySelector("#unit-move-space-infantry-slider").value = spaceInfantryUnitAmount;
+        document.querySelector("#move-space-infantry").style.display = "flex";
     } else {
         spaceInfantrySelected = false;
         document.querySelector("#embark-button-space-infantry").style.display = "none";
         document.querySelector("#space-infantry-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-space-infantry").style.display = "none";
-        console.log("Deselect this space infantry unit, remove them from the move window");
+        document.querySelector("#move-space-infantry").style.display = "none";
+        document.querySelector("#unit-move-space-infantry-slider").value = 0;
     }
 }
 
@@ -589,12 +739,17 @@ const spaceMarinesCitySelection = function() {
         spaceMarineSelected = true;
         document.querySelector("#embark-button-space-marines").style.display = "block";
         document.querySelector("#space-marines-unit-icon").style.boxShadow = "0px 0px 12px white";
+        spaceMarinesUnitAmount = map2Cities[cityID].spaceMarines.length;
+        document.querySelector("#unit-move-space-marines-slider").max = spaceMarinesUnitAmount;
+        document.querySelector("#unit-move-space-marines-slider").value = spaceMarinesUnitAmount;
+        document.querySelector("#move-space-marines").style.display = "flex";
     } else {
         spaceMarineSelected = false;
         document.querySelector("#embark-button-space-marines").style.display = "none";
         document.querySelector("#space-marines-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-space-marines").style.display = "none";
-        console.log("Deselect this space marines unit, remove them from the move window");
+        document.querySelector("#move-space-marines").style.display = "none";
+        document.querySelector("#unit-move-space-marines-slider").value = 0;
     }
 }
 
@@ -602,10 +757,15 @@ const destroyerCitySelection = function() {
     if (!destroyerSelected) {
         destroyerSelected = true;
         document.querySelector("#destroyer-unit-icon").style.boxShadow = "0px 0px 12px white";
+        destroyerUnitAmount = map2Cities[cityID].destroyers.length;
+        document.querySelector("#unit-move-destroyer-slider").max = destroyerUnitAmount;
+        document.querySelector("#unit-move-destroyer-slider").value = destroyerUnitAmount;
+        document.querySelector("#move-destroyer").style.display = "flex";
     } else {
         destroyerSelected = false;
         document.querySelector("#destroyer-unit-icon").style.boxShadow = "none";
-        console.log("Deselect this destroyer unit, remove them from the move window");
+        document.querySelector("#move-destroyer").style.display = "none";
+        document.querySelector("#unit-move-destroyer-slider").value = 0;
     }
 }
 
@@ -613,10 +773,15 @@ const submarineCitySelection = function() {
     if (!submarineSelected) {
         submarineSelected = true;
         document.querySelector("#submarine-unit-icon").style.boxShadow = "0px 0px 12px white";
+        submarineUnitAmount = map2Cities[cityID].submarines.length;
+        document.querySelector("#unit-move-submarines-slider").max = submarineUnitAmount;
+        document.querySelector("#unit-move-submarines-slider").value = submarineUnitAmount;
+        document.querySelector("#move-submarine").style.display = "flex";
     } else {
         submarineSelected = false;
         document.querySelector("#submarine-unit-icon").style.boxShadow = "none";
-        console.log("Deselect this submarine unit, remove them from the move window");
+        document.querySelector("#move-submarine").style.display = "none";
+        document.querySelector("#unit-move-submarines-slider").value = 0;
     }
 }
 
@@ -624,10 +789,15 @@ const carrierCitySelection = function() {
     if (!carrierSelected) {
         carrierSelected = true;
         document.querySelector("#carrier-unit-icon").style.boxShadow = "0px 0px 12px white";
+        carrierUnitAmount = map2Cities[cityID].aircraftCarriers.length;
+        document.querySelector("#unit-move-carrier-slider").max = carrierUnitAmount;
+        document.querySelector("#unit-move-carrier-slider").value = carrierUnitAmount;
+        document.querySelector("#move-carrier").style.display = "flex";
     } else {
         carrierSelected = false;
         document.querySelector("#carrier-unit-icon").style.boxShadow = "none";
-        console.log("Deselect this aircraft carrier unit, remove them from the move window");
+        document.querySelector("#move-carrier").style.display = "none";
+        document.querySelector("#unit-move-carrier-slider").value = 0;
     }
 }
 
@@ -635,10 +805,15 @@ const taskShipCitySelection = function() {
     if (!taskShipSelected) {
         taskShipSelected = true;
         document.querySelector("#task-ship-unit-icon").style.boxShadow = "0px 0px 12px white";
+        taskShipUnitAmount = map2Cities[cityID].taskShips.length;
+        document.querySelector("#unit-move-task-ship-slider").max = taskShipUnitAmount;
+        document.querySelector("#unit-move-task-ship-slider").value = taskShipUnitAmount;
+        document.querySelector("#move-task-ship").style.display = "flex";
     } else {
         taskShipSelected = false;
         document.querySelector("#task-ship-unit-icon").style.boxShadow = "none";
-        console.log("Deselect this task ship unit, remove them from the move window");
+        document.querySelector("#move-task-ship").style.display = "none";
+        document.querySelector("#unit-move-task-ship-slider").value = 0;
     }
 }
 
@@ -684,6 +859,24 @@ const embarkSpaceMarines = function() {
 
 
 
+
+const infantryArmyNull = function() {
+    
+}
+
+
+
+
+const infantryArmyMax = function() {
+    
+}
+
+
+
+
+const updateArmyInfantry = function() {
+    
+}
 
 
 

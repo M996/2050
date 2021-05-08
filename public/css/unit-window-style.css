@@ -127,7 +127,7 @@
     color: white;
 }
 
-.unit-move-interaction {
+.unit-move-interaction-land {
     display: none;
     flex-direction: column;
     align-items: flex-start;
@@ -143,6 +143,67 @@
     background: rgb(40,40,40);
     min-width: 300px;
     min-height: 200px;
+    opacity: 0.96;
+    border-bottom: none;
+}
+
+.unit-move-interaction-naval {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    position: fixed;
+    bottom: 21vh;
+    left: 24vw;
+    width: 26vw;
+    height: 20vh;
+    border: 2px solid black;
+    border-top-right-radius: 12px;
+    background: rgb(40,40,55);
+    min-width: 300px;
+    min-height: 200px;
+    opacity: 0.96;
+    border-bottom: none;
+}
+
+.unit-move-interaction-space {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    position: fixed;
+    bottom: 21vh;
+    left: 24vw;
+    width: 26vw;
+    height: 20vh;
+    border: 2px solid black;
+    border-top-right-radius: 12px;
+    background: rgb(50,35,50);
+    min-width: 300px;
+    min-height: 200px;
+    opacity: 0.96;
+    border-bottom: none;
+}
+
+.unit-move-interaction-air {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    position: fixed;
+    bottom: 21vh;
+    left: 24vw;
+    width: 26vw;
+    height: 20vh;
+    border: 2px solid black;
+    border-top-right-radius: 12px;
+    background: rgb(55,55,65);
+    min-width: 300px;
+    min-height: 200px;
+    opacity: 0.96;
     border-bottom: none;
 }
 
@@ -191,6 +252,10 @@
     transition-duration: 100ms;
 }
 
+.move-btn-open {
+    background: rgb(80,80,140);
+}
+
 .unit-move-option-btn:hover {
     background: rgb(60,40,100);
     transform: translateY(1px);
@@ -220,8 +285,24 @@
 }
 
 .embark-button:hover {
-    background: rgb(0,0,200);
+    background: radial-gradient(rgb(0,0,150), rgb(0,0,150), rgb(0,0,150), rgb(40,40,40), rgb(40,40,40));
     cursor: pointer;
+}
+
+#embark-button-space-infantry {
+    background: radial-gradient(rgb(150,0,0), rgb(150,0,0), rgb(150,0,0), rgb(40,40,40), rgb(40,40,40));
+}
+
+#embark-button-space-infantry:hover {
+    background: radial-gradient(rgb(100,0,0), rgb(100,0,0), rgb(100,0,0), rgb(40,40,40), rgb(40,40,40));
+}
+
+#embark-button-space-marines {
+    background: radial-gradient(rgb(150,0,0), rgb(150,0,0), rgb(150,0,0), rgb(40,40,40), rgb(40,40,40));
+}
+
+#embark-button-space-marines:hover {
+    background: radial-gradient(rgb(100,0,0), rgb(100,0,0), rgb(100,0,0), rgb(40,40,40), rgb(40,40,40));
 }
 
 .embark-img-infantry {
