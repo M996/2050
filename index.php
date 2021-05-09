@@ -451,20 +451,6 @@ require 'header.php';
       </div>
     </div>
     
-    <div class="unit-move-interaction-space">
-      <div class="unit-type-move-container" id="move-task-ship">
-        <img class="unit-move-icon" src="public/images/taskshipicon.png">
-        <div class="unit-move-options">
-          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-task-ship-slider" onchange="updateArmyTaskShip(this.value)">
-          <div class="unit-move-options-btns">
-            <p class="current-move-amount"><span id="task-ship-move-amount">0</span> Units</p>
-            <button class="unit-move-option-btn" onclick="taskShipArmyNull()">None</button>
-            <button class="unit-move-option-btn" onclick="taskShipArmyMax()">All</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <div class="unit-move-interaction-air">
       <div class="unit-type-move-container" id="move-aircraft">
         <img class="unit-move-icon" src="public/images/mannedaircrafticon.png">

@@ -16,7 +16,6 @@ spaceMarineSelected = false;
 
 
 const openMoveArmiesWindow = function() {
-    spaceUnitPrecedence = false;
     navalUnitPrecedence = false;
     landUnitPrecedence = false;
     // these variables determine which window opens based on which windows take precedence over the others
@@ -172,26 +171,6 @@ const openMoveArmiesWindow = function() {
         document.querySelector("#move-carrier").style.display = "flex";
     }
     
-    if (taskShipSelected) {
-        
-        spaceUnitPrecedence = true;
-        
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
-        
-        if (planetIndex == 1) {
-            // add the same code for planet 1 in this function and displayLandArmies
-        } else if (planetIndex == 2) {
-            taskShipUnitAmount = map2Cities[cityID].taskShips.length;
-            document.querySelector("#unit-move-task-ship-slider").max = taskShipUnitAmount;
-            document.querySelector("#unit-move-task-ship-slider").value = taskShipUnitAmount;
-        } else if (planetIndex == 3) {
-            // add the same code for planet 3 in this function and displayLandArmies
-        } else if (planetIndex == 4) {
-            // add the same code for planet 4 in this function and displayLandArmies
-        }
-        document.querySelector("#move-task-ship").style.display = "flex";
-    }
     
     if (spaceInfantrySelected) {
         
@@ -238,9 +217,7 @@ const openMoveArmiesWindow = function() {
     // and make units stop appearing in the unit windows if they have not been selected
     // finally, units get auto-put into armies and fleets when they are moved up or down
     // on the slider, and add a new button to move armies out of the city
-    if (spaceUnitPrecedence) {
-        document.querySelector(".unit-move-interaction-space").style.display = "flex";
-    } else if (navalUnitPrecedence) {
+    if (navalUnitPrecedence) {
         document.querySelector(".unit-move-interaction-naval").style.display = "flex";
     } else if (landUnitPrecedence) {
         document.querySelector(".unit-move-interaction-land").style.display = "flex";
@@ -255,12 +232,10 @@ const openMoveArmiesWindow = function() {
 
 const closeMoveArmiesWindow = function() {
   document.querySelector(".unit-move-interaction-land").style.display = "none";
-  document.querySelector(".unit-move-interaction-space").style.display = "none";
   document.querySelector(".unit-move-interaction-naval").style.display = "none";
   document.querySelector(".unit-move-interaction-air").style.display = "none";
   document.querySelector("#move-space-marines").style.display = "none";
   document.querySelector("#move-space-infantry").style.display = "none";
-  document.querySelector("#move-task-ship").style.display = "none";
   document.querySelector("#move-carrier").style.display = "none";
   document.querySelector("#move-submarine").style.display = "none";
   document.querySelector("#move-marines").style.display = "none";
@@ -286,57 +261,97 @@ citySpaceInfantryAmount = 0;
 citySpaceMarineAmount = 0;
 
 function iterateMarineAmount(marineID) {
-    currentManpower = marineUnits[marineID].currentManpower;
-    cityMarineAmount = cityMarineAmount + currentManpower;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].marinesOwnerID[marineID]) {
+        // first we look to see if this unit statyioned in the city is also owned by the country
+        // that owns the city, we will only count it in the military screen if it is an owned unit
+        // not an allied or neutral unit that an ally has parked in this city
+        currentManpower = marineUnits[marineID].currentManpower;
+        cityMarineAmount = cityMarineAmount + currentManpower;
+    }
 }
 
 function iterateDestroyerAmount(destroyerID) {
-    currentManpower = destroyerUnits[destroyerID].currentManpower;
-    currentAmount = currentManpower / 2000;
-    // destroyers have a maximum of 4 ships per unit, and 8000 manpower per unit
-    currentAmount = Math.round(currentAmount);
-    if (currentAmount == 0) {
-        currentAmount = 1;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].destroyersOwnerID[destroyerID]) {
+        currentManpower = destroyerUnits[destroyerID].currentManpower;
+        currentAmount = currentManpower / 2000;
+        // destroyers have a maximum of 4 ships per unit, and 8000 manpower per unit
+        currentAmount = Math.round(currentAmount);
+        if (currentAmount == 0) {
+            currentAmount = 1;
+        }
+        cityDestroyerAmount = cityDestroyerAmount + currentAmount;
     }
-    cityDestroyerAmount = cityDestroyerAmount + currentAmount;
 }
 
 function iterateSubmarineAmount(submarineID) {
-    currentManpower = submarineUnits[submarineID].currentManpower;
-    currentAmount = currentManpower / 1500;
-    // submarines have a maximum of 2 ships per unit, and 6000 manpower per unit
-    currentAmount = Math.round(currentAmount);
-    if (currentAmount == 0) {
-        currentAmount = 1;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].submarinesOwnerID[submarineID]) {
+        currentManpower = submarineUnits[submarineID].currentManpower;
+        currentAmount = currentManpower / 1500;
+        // submarines have a maximum of 2 ships per unit, and 6000 manpower per unit
+        currentAmount = Math.round(currentAmount);
+        if (currentAmount == 0) {
+            currentAmount = 1;
+        }
+        citySubmarineAmount = citySubmarineAmount + currentAmount;
     }
-    citySubmarineAmount = citySubmarineAmount + currentAmount;
 }
 
 function iterateSpaceInfantryAmount(spaceInfantryID) {
-    currentManpower = spaceInfantryUnits[spaceInfantryID].currentManpower;
-    citySpaceInfantryAmount = citySpaceInfantryAmount + currentManpower;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].spaceInfantryOwnerID[spaceInfantryID]) {
+        currentManpower = spaceInfantryUnits[spaceInfantryID].currentManpower;
+        citySpaceInfantryAmount = citySpaceInfantryAmount + currentManpower;
+    }
 }
 
 function iterateSpaceMarineAmount(spaceMarineID) {
-    currentManpower = spaceMarineUnits[spaceMarineID].currentManpower;
-    citySpaceMarineAmount = citySpaceMarineAmount + currentManpower;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].spaceMarinesOwnerID[spaceMarineID]) {
+        currentManpower = spaceMarineUnits[spaceMarineID].currentManpower;
+        citySpaceMarineAmount = citySpaceMarineAmount + currentManpower;
+    }
 }
 
 function iterateInfantryAmount(infantryID) {
-    currentManpower = infantryUnits[infantryID].currentManpower;
-    cityInfantryAmount = cityInfantryAmount + currentManpower;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].infantryOwnerID[infantryID]) {
+        currentManpower = infantryUnits[infantryID].currentManpower;
+        cityInfantryAmount = cityInfantryAmount + currentManpower;
+    }
 }
 
 function iterateTankAmount(tankID) {
-    currentManpower = tankUnits[tankID].currentManpower;
-    currentAmount = currentManpower / 40;
-    // destroyers have a maximum of 4 ships per unit, and 8000 manpower per unit
-    currentAmount = Math.round(currentAmount);
-    if (currentAmount == 0) {
-        currentAmount = 1;
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;
+    if (cityOwner === map2Cities[cityID].tanksOwnerID[tankID]) {
+        currentManpower = tankUnits[tankID].currentManpower;
+        currentAmount = currentManpower / 40;
+        // destroyers have a maximum of 4 ships per unit, and 8000 manpower per unit
+        currentAmount = Math.round(currentAmount);
+        if (currentAmount == 0) {
+            currentAmount = 1;
+        }
+        cityTankAmount = cityTankAmount + currentAmount;
     }
-    cityTankAmount = cityTankAmount + currentAmount;
 }
+
+function iterateCarrierAmount(carrierID) {
+    cityID = document.querySelector("#city-index").textContent;
+    cityOwner = map2Cities[cityID].ownerID;    
+    if (cityOwner === map2Cities[cityID].aircraftCarriersOwnerID[carrierID]) {
+        cityCarrierAmount++;
+    }
+}
+
 
 
 
@@ -364,7 +379,6 @@ const controlMilitaryIntelligence = function() {
     document.querySelector("#unit-move-marines-slider").value = 0;
     document.querySelector("#unit-move-submarines-slider").value = 0;
     document.querySelector("#unit-move-carrier-slider").value = 0;
-    document.querySelector("#unit-move-task-ship-slider").value = 0;
     document.querySelector("#unit-move-space-infantry-slider").value = 0;
     document.querySelector("#unit-move-space-marines-slider").value = 0;
     // make sure that all unit-movement sliders are also reset to zero
@@ -426,8 +440,6 @@ const hideLandArmies = function() {
 const displayNavalFleets = function() {
     cityID = document.querySelector("#city-index").textContent;
     planetIndex = document.querySelector("#planet-index").textContent;
-
-    
     
     if (planetIndex == 1) {
         
@@ -445,37 +457,57 @@ const displayNavalFleets = function() {
         submarineArray = map2Cities[cityID].submarines;
         submarineArray.forEach(iterateSubmarineAmount);
         
-        cityCarrierAmount = map2Cities[cityID].aircraftCarriers.length;
+        carrierArray = map2Cities[cityID].aircraftCarriers;
+        carrierArray.forEach(iterateCarrierAmount);
+
         
     } else if (planetIndex == 3) {
         
     } else if (planetIndex == 4) {
         
-    } 
+    }
     
-    document.querySelector(".bottom-unit-view").innerHTML = `
+    cityMilitaryDisplayString = ``;
+    
+    if (cityDestroyerAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="destroyerCitySelection()">Destroyers</p>
           <img class="unit-icon" id="destroyer-unit-icon" src="public/images/destroyericon.png" onclick="destroyerCitySelection()">
           <p class="unit-amount" id="destroyer-interact-amount">` + cityDestroyerAmount + `</p>
-        </div>
+        </div>`;
+    }
+    
+    if (cityMarineAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="marinesCitySelection()">Marines</p>
           <img class="unit-icon" id="marines-unit-icon" src="public/images/marinesicon.png" onclick="marinesCitySelection()">
           <p class="unit-amount" id="marines-interact-amount">` + cityMarineAmount.toLocaleString() + `</p>
           <img class="embark-img-marines" src="public/images/port.png">
           <button class="embark-button" id="embark-button-marines" onclick="embarkMarines()">Embark</button>
-        </div>
+        </div>`;
+    }
+    
+    if (citySubmarineAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="submarineCitySelection()">Submarines</p>
           <img class="unit-icon" id="submarine-unit-icon" src="public/images/submarineicon.png" onclick="submarineCitySelection()">
           <p class="unit-amount" id="submarine-interact-amount">` + citySubmarineAmount + `</p>
-        </div>
+        </div>`;
+    }
+    
+    if (cityCarrierAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="carrierCitySelection()">Carriers</p>
           <img class="unit-icon" id="carrier-unit-icon" src="public/images/carriericon.png" onclick="carrierCitySelection()">
           <p class="unit-amount" id="carrier-interact-amount">` + cityCarrierAmount + `</p>
         </div>`;
+    }
+    
+    document.querySelector(".bottom-unit-view").innerHTML = cityMilitaryDisplayString;
         
     if (marineSelected) {
         document.querySelector("#embark-button-marines").style.display = "block";
@@ -508,7 +540,6 @@ const displaySpaceFleets = function() {
     planetIndex = document.querySelector("#planet-index").textContent;
 
     
-    
     if (planetIndex == 1) {
         
     } else if (planetIndex == 2) {
@@ -519,34 +550,40 @@ const displaySpaceFleets = function() {
         spaceMarineArray = map2Cities[cityID].spaceMarines;
         spaceMarineArray.forEach(iterateSpaceMarineAmount);
         
-        cityTaskShipAmount = map2Cities[cityID].taskShips.length;
-        
     } else if (planetIndex == 3) {
         
     } else if (planetIndex == 4) {
         
     }
-
-    document.querySelector(".bottom-unit-view").innerHTML = `
+    
+    cityMilitaryDisplayString = `
         <div class="unit-div">
-          <p class="unit-name" onclick="taskShipCitySelection()">Task Ships</p>
-          <img class="unit-icon" id="task-ship-unit-icon" src="public/images/taskshipicon.png" onclick="taskShipCitySelection()">
-          <p class="unit-amount" id="task-ship-interact-amount">` + cityTaskShipAmount + `</p>
-        </div>
+          <button class="space-control-btn" onclick="openSpaceControlGUI()">Space<br>Control</button>
+        </div>`;
+    
+    if (citySpaceInfantryAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="spaceInfantryCitySelection()">Space Infantry</p>
           <img class="unit-icon" id="space-infantry-unit-icon" src="public/images/spaceinfantryicon.png" onclick="spaceInfantryCitySelection()">
           <p class="unit-amount" id="space-infantry-interact-amount">` + citySpaceInfantryAmount.toLocaleString() + `</p>
-          <img class="embark-img-space-infantry" src="public/images/spaceEmbark.png">
+          <img class="embark-img-space-infantry" src="public/images/port.png">
           <button class="embark-button" id="embark-button-space-infantry" onclick="embarkSpaceInfantry()">Embark</button>
-        </div>
+        </div>`;
+    }
+    
+    if (citySpaceMarineAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
-          <p class="unit-name" onclick="spaceMarinesCitySelection()">Space Marines</p>
+          <p class="unit-name" onclick="spaceMarinesCitySelection()">Orbital Marines</p>
           <img class="unit-icon" id="space-marines-unit-icon" src="public/images/spacemarinesicon.png" onclick="spaceMarinesCitySelection()">
           <p class="unit-amount" id="space-marine-interact-amount">` + citySpaceMarineAmount.toLocaleString() + `</p>
-          <img class="embark-img-space-marines" src="public/images/spaceEmbark.png">
+          <img class="embark-img-space-marines" src="public/images/port.png">
           <button class="embark-button" id="embark-button-space-marines" onclick="embarkSpaceMarines()">Embark</button>
         </div>`;
+    }
+
+    document.querySelector(".bottom-unit-view").innerHTML = cityMilitaryDisplayString;
         
     if (spaceInfantrySelected) {
         document.querySelector("#embark-button-space-infantry").style.display = "block";
@@ -562,7 +599,6 @@ const displaySpaceFleets = function() {
         document.querySelector("#task-ship-unit-icon").style.boxShadow = "0px 0px 12px white";
     }
         
-        cityTaskShipAmount = 0;
         citySpaceInfantryAmount = 0;
         citySpaceMarineAmount = 0;
 }
@@ -570,7 +606,7 @@ const displaySpaceFleets = function() {
 const displayLandArmies = function() {
     cityID = document.querySelector("#city-index").textContent;
     planetIndex = document.querySelector("#planet-index").textContent;
-
+    
     
     if (planetIndex == 1) {
         
@@ -590,21 +626,32 @@ const displayLandArmies = function() {
         
     }
     
-    document.querySelector(".bottom-unit-view").innerHTML = `
+    cityMilitaryDisplayString = ``;
+    
+    if (cityInfantryAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="infantryCitySelection()">Infantry</p>
           <img class="unit-icon" id="infantry-unit-icon" src="public/images/infantryicon.png" onclick="infantryCitySelection()">
           <p class="unit-amount" id="infantry-interact-amount">` + cityInfantryAmount.toLocaleString() + `</p>
           <img class="embark-img-infantry" src="public/images/port.png">
           <button class="embark-button" id="embark-button-infantry" onclick="embarkInfantry()">Embark</button>
-        </div>
+        </div>`;
+    }
+    
+    if (cityTankAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="tankCitySelection()">Tanks</p>
           <img class="unit-icon" id="tank-unit-icon" src="public/images/tankicon.png" onclick="tankCitySelection()">
           <p class="unit-amount" id="tank-interact-amount">` + cityTankAmount.toLocaleString() + `</p>
           <img class="embark-img-tank" src="public/images/port.png">
           <button class="embark-button" id="embark-button-tanks" onclick="embarkTanks()">Embark</button>
-        </div>
+        </div>`;
+    }
+    
+    if (cityAircraftAmount > 0) {
+        cityMilitaryDisplayString += `
         <div class="unit-div">
           <p class="unit-name" onclick="aircraftCitySelection()">Aircraft</p>
           <img class="unit-icon" id="aircraft-unit-icon" src="public/images/mannedaircrafticon.png" onclick="aircraftCitySelection()">
@@ -612,6 +659,9 @@ const displayLandArmies = function() {
           <img class="embark-img-aircraft" src="public/images/port.png">
           <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft()">Embark</button>
         </div>`;
+    }
+    
+    document.querySelector(".bottom-unit-view").innerHTML = cityMilitaryDisplayString;
         
     if (infantrySelected) {
         document.querySelector("#embark-button-infantry").style.display = "block";

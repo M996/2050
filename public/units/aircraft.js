@@ -14,7 +14,7 @@ let aircraftUnits = [
       "id": 0,
       "ownerID": 0,
       "planetID": 2,
-      "cityID": null,
+      "cityID": 0,
       "carrierID": null,
       // aircraft can be carried inside either a city OR an aircraft carrier
       "isDead": false,

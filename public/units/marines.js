@@ -8,7 +8,7 @@ let marineUnits = [
       "id": 0,
       "ownerID": 0,
       "planetID": 2,
-      "cityID": null,
+      "cityID": 0,
       "isDead": false,
       "fleet": null,
       "army": null,

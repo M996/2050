@@ -289,22 +289,6 @@
     cursor: pointer;
 }
 
-#embark-button-space-infantry {
-    background: radial-gradient(rgb(150,0,0), rgb(150,0,0), rgb(150,0,0), rgb(40,40,40), rgb(40,40,40));
-}
-
-#embark-button-space-infantry:hover {
-    background: radial-gradient(rgb(100,0,0), rgb(100,0,0), rgb(100,0,0), rgb(40,40,40), rgb(40,40,40));
-}
-
-#embark-button-space-marines {
-    background: radial-gradient(rgb(150,0,0), rgb(150,0,0), rgb(150,0,0), rgb(40,40,40), rgb(40,40,40));
-}
-
-#embark-button-space-marines:hover {
-    background: radial-gradient(rgb(100,0,0), rgb(100,0,0), rgb(100,0,0), rgb(40,40,40), rgb(40,40,40));
-}
-
 .embark-img-infantry {
     display: none;
     position: absolute;
@@ -344,7 +328,7 @@
 .embark-img-space-infantry {
     display: none;
     position: absolute;
-    top: 5%;
+    top: 20%;
     bottom: auto;
     width: 24px;
     height: auto;
@@ -353,8 +337,28 @@
 .embark-img-space-marines {
     display: none;
     position: absolute;
-    top: 5%;
+    top: 20%;
     bottom: auto;
     width: 24px;
     height: auto;
+}
+
+.space-control-btn {
+    width: 5vw;
+    height: 5vh;
+    background: rgb(80,0,60);
+    border-radius: 12px;
+    border: 3px solid grey;
+    color: white;
+    font-weight: bold;
+    font-family: monospace;
+    line-height: 1.4;
+    transition-duration: 400ms;
+}
+
+.space-control-btn:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 4px black;
+    background: rgb(80,0,20);
 }
