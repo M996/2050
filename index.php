@@ -449,6 +449,9 @@ require 'header.php';
           </div>
         </div>
       </div>
+      <div class="unit-option-btns">
+        <button class="unit-option-btn-primary" onclick="moveLandArmy()">Move</button>
+      </div>
     </div>
     
     <div class="unit-move-interaction-air">
@@ -462,6 +465,11 @@ require 'header.php';
             <button class="unit-move-option-btn" onclick="aircraftArmyMax()">All</button>
           </div>
         </div>
+      </div>
+      <div class="unit-option-btns">
+        <button class="unit-option-btn-primary" onclick="moveAircraft()">Move</button>
+        <button class="unit-option-btn-secondary" onclick="aircraftTargeting(0)">Target<br>Armies</button>
+        <button class="unit-option-btn-secondary" onclick="aircraftTargeting(1)">Target<br>Cities</button>
       </div>
     </div>
     
@@ -499,12 +507,15 @@ require 'header.php';
           </div>
         </div>
       </div>
+      <div class="unit-option-btns">
+        <button class="unit-option-btn-primary" onclick="moveNavalFleet()">Move</button>
+      </div>
     </div>
       
     </div>
     <div class="unit-interaction">
       <div class="top-unit-view">
-        <button class="unit-move-btn" id="move-army" onclick="openMoveArmiesWindow()">Move</button>
+        <button class="unit-open-btn" id="move-army" onclick="openMoveArmiesWindow()">Open</button>
         <button class="unit-group-btn" id="land-unit-group" onclick="displayLandArmies()">Land</button>
         <button class="unit-group-btn" id="naval-unit-group" onclick="displayNavalFleets()">Naval</button>
         <button class="unit-group-btn" id="space-unit-group" onclick="displaySpaceFleets()">Space</button>
@@ -564,6 +575,8 @@ require 'header.php';
 <script src="public/units/tank.js"></script>
 <script src="public/units/taskship.js"></script>
 <script src="public/units/weaponsplatform.js"></script>
+<script src="public/units/landarmies.js"></script>
+<script src="public/units/navalfleet.js"></script>
 
 <script src="provinces1.js"></script>
 <script src="provinces2.js"></script>

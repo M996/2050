@@ -12,8 +12,6 @@ let marineUnits = [
       "isDead": false,
       "fleet": null,
       "army": null,
-      "xpos": 0,
-      "ypos": 0,
       "health": 66,
       "morale": 0.3000,
       // maxHealth is equal to 110% infantry maxHealth

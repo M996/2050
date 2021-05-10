@@ -22,6 +22,16 @@ let nuclearValue = 3.0;
 
 
 
+infantryFleetVolume = 1;
+tankFleetVolume = 1.5;
+marineFleetVolume = 0.5;
+spaceInfantryFleetVolume = 0.5;
+spaceMarineFleetVolume = 0.5;
+// these variables determine how much space each type of unit takes up inside of a fleet
+// and therefore how many of each unit type a single fleet can carry
+
+
+
 let fireFlashesCity = 0;
 let fireFlashesUnit = 0;
 let fireFlashesSpace = 0;
@@ -40,15 +50,17 @@ let currentPlayerID = 0;
 
 
 const closeInteractions = function() {
+  
+  cityID = document.querySelector("#city-index").textContent;
+  planetIndex = document.querySelector("#planet-index").textContent;
+  
   document.querySelector(".unit-interaction").style.display = "none";
   document.querySelector(".city-interaction").style.display = "none";
   document.querySelector(".unit-move-interaction-land").style.display = "none";
-  document.querySelector(".unit-move-interaction-space").style.display = "none";
   document.querySelector(".unit-move-interaction-naval").style.display = "none";
   document.querySelector(".unit-move-interaction-air").style.display = "none";
   document.querySelector("#move-space-marines").style.display = "none";
   document.querySelector("#move-space-infantry").style.display = "none";
-  document.querySelector("#move-task-ship").style.display = "none";
   document.querySelector("#move-carrier").style.display = "none";
   document.querySelector("#move-submarine").style.display = "none";
   document.querySelector("#move-marines").style.display = "none";
@@ -56,6 +68,14 @@ const closeInteractions = function() {
   document.querySelector("#move-aircraft").style.display = "none";
   document.querySelector("#move-tank").style.display = "none";
   document.querySelector("#move-infantry").style.display = "none";
+  
+  disembarkInfantry(cityID, planetIndex);
+  disembarkTanks(cityID, planetIndex);
+  disembarkAircraft(cityID, planetIndex);
+  disembarkMarines(cityID, planetIndex);
+  disembarkSpaceInfantry(cityID, planetIndex);
+  disembarkSpaceMarines(cityID, planetIndex);
+  
 }
 
 

@@ -9,8 +9,6 @@ let weaponsPlatformUnits = [
       "planetID": 2,
       "isDead": false,
       "spaceFleet": null,
-      "xpos": 0,
-      "ypos": 0,
       "health": 15,
       // orbital weapons platform have 150% taskship health
       "kinetic": false,

@@ -13,6 +13,13 @@ taskShipSelected = false;
 spaceInfantrySelected = false;
 spaceMarineSelected = false;
 
+infantryEmbarked = false;
+tankEmbarked = false;
+aircraftEmbarked = false;
+marineEmbarked = false;
+spaceInfantryEmbarked = false;
+spaceMarineEmbarked = false;
+
 
 
 const openMoveArmiesWindow = function() {
@@ -25,14 +32,14 @@ const openMoveArmiesWindow = function() {
     // and if you have ground units selected they will only be moveable if you have none of the other types
     // of units selected and aircraft are only moveable if no other type of unit anywhere is selected
     
+    cityID = document.querySelector("#city-index").textContent;
+    planetIndex = document.querySelector("#planet-index").textContent;
+    
     if (infantrySelected) {
         
         landUnitPrecedence = true;
         // if any land units at all are selected, they take precedence and so the
         // other unit windows will not open at all
-        
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -48,12 +55,12 @@ const openMoveArmiesWindow = function() {
         document.querySelector("#move-infantry").style.display = "flex";
     }
     
+
+    
     if (tankSelected) {
         
         landUnitPrecedence = true;
         
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -69,9 +76,9 @@ const openMoveArmiesWindow = function() {
         document.querySelector("#move-tank").style.display = "flex";
     }
     
+    
+    
     if (aircraftSelected) {
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -87,12 +94,11 @@ const openMoveArmiesWindow = function() {
         document.querySelector("#move-aircraft").style.display = "flex";
     }
     
+    
+    
     if (destroyerSelected) {
         
         navalUnitPrecedence = true;
-        
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -112,9 +118,6 @@ const openMoveArmiesWindow = function() {
         
         landUnitPrecedence = true;
         
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
-        
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
         } else if (planetIndex == 2) {
@@ -129,12 +132,11 @@ const openMoveArmiesWindow = function() {
         document.querySelector("#move-marines").style.display = "flex";
     }
     
+    
+    
     if (submarineSelected) {
         
         navalUnitPrecedence = true;
-        
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -153,9 +155,6 @@ const openMoveArmiesWindow = function() {
     if (carrierSelected) {
         
         navalUnitPrecedence = true;
-        
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -176,9 +175,6 @@ const openMoveArmiesWindow = function() {
         
         landUnitPrecedence = true;
         
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
-        
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
         } else if (planetIndex == 2) {
@@ -193,12 +189,11 @@ const openMoveArmiesWindow = function() {
         document.querySelector("#move-space-infantry").style.display = "flex";
     }
     
+    
+    
     if (spaceMarineSelected) {
         
         landUnitPrecedence = true;
-        
-        cityID = document.querySelector("#city-index").textContent;
-        planetIndex = document.querySelector("#planet-index").textContent;
         
         if (planetIndex == 1) {
             // add the same code for planet 1 in this function and displayLandArmies
@@ -213,7 +208,9 @@ const openMoveArmiesWindow = function() {
         }
         document.querySelector("#move-space-marines").style.display = "flex";
     }
-    // make individual unit windows close when you click on the 'move' button a second time
+    
+    
+    // make individual unit windows close when you click on the 'open' button a second time
     // and make units stop appearing in the unit windows if they have not been selected
     // finally, units get auto-put into armies and fleets when they are moved up or down
     // on the slider, and add a new button to move armies out of the city
@@ -226,11 +223,16 @@ const openMoveArmiesWindow = function() {
         document.querySelector(".unit-move-interaction-air").style.display = "flex";
     }
     document.getElementById('move-army').setAttribute('onclick','closeMoveArmiesWindow()');
+    document.getElementById('move-army').textContent = "Close";
     $("#move-army").toggleClass("move-btn-open");
 }
 
 
 const closeMoveArmiesWindow = function() {
+  
+  cityID = document.querySelector("#city-index").textContent;
+  planetIndex = document.querySelector("#planet-index").textContent;
+  
   document.querySelector(".unit-move-interaction-land").style.display = "none";
   document.querySelector(".unit-move-interaction-naval").style.display = "none";
   document.querySelector(".unit-move-interaction-air").style.display = "none";
@@ -244,6 +246,15 @@ const closeMoveArmiesWindow = function() {
   document.querySelector("#move-tank").style.display = "none";
   document.querySelector("#move-infantry").style.display = "none";
   document.getElementById('move-army').setAttribute('onclick','openMoveArmiesWindow()');
+  document.getElementById('move-army').textContent = "Open";
+  
+  disembarkInfantry(cityID, planetIndex);
+  disembarkTanks(cityID, planetIndex);
+  disembarkAircraft(cityID, planetIndex);
+  disembarkMarines(cityID, planetIndex);
+  disembarkSpaceInfantry(cityID, planetIndex);
+  disembarkSpaceMarines(cityID, planetIndex);
+  
 }
 
 
@@ -485,7 +496,7 @@ const displayNavalFleets = function() {
           <img class="unit-icon" id="marines-unit-icon" src="public/images/marinesicon.png" onclick="marinesCitySelection()">
           <p class="unit-amount" id="marines-interact-amount">` + cityMarineAmount.toLocaleString() + `</p>
           <img class="embark-img-marines" src="public/images/port.png">
-          <button class="embark-button" id="embark-button-marines" onclick="embarkMarines()">Embark</button>
+          <button class="embark-button" id="embark-button-marines" onclick="embarkMarines(` + cityID + `, ` + planetIndex + `)">Embark</button>
         </div>`;
     }
     
@@ -524,6 +535,11 @@ const displayNavalFleets = function() {
     
     if (carrierSelected) {
         document.querySelector("#carrier-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (marineEmbarked) {
+      document.querySelector(".embark-img-marines").style.display = "block";
+      document.querySelector("#embark-button-marines").setAttribute("onclick","disembarkMarines(" + cityID + ", " + planetIndex + ")");
     }
         
         cityDestroyerAmount = 0;
@@ -568,7 +584,7 @@ const displaySpaceFleets = function() {
           <img class="unit-icon" id="space-infantry-unit-icon" src="public/images/spaceinfantryicon.png" onclick="spaceInfantryCitySelection()">
           <p class="unit-amount" id="space-infantry-interact-amount">` + citySpaceInfantryAmount.toLocaleString() + `</p>
           <img class="embark-img-space-infantry" src="public/images/port.png">
-          <button class="embark-button" id="embark-button-space-infantry" onclick="embarkSpaceInfantry()">Embark</button>
+          <button class="embark-button" id="embark-button-space-infantry" onclick="embarkSpaceInfantry(` + cityID + `, ` + planetIndex + `)">Embark</button>
         </div>`;
     }
     
@@ -579,7 +595,7 @@ const displaySpaceFleets = function() {
           <img class="unit-icon" id="space-marines-unit-icon" src="public/images/spacemarinesicon.png" onclick="spaceMarinesCitySelection()">
           <p class="unit-amount" id="space-marine-interact-amount">` + citySpaceMarineAmount.toLocaleString() + `</p>
           <img class="embark-img-space-marines" src="public/images/port.png">
-          <button class="embark-button" id="embark-button-space-marines" onclick="embarkSpaceMarines()">Embark</button>
+          <button class="embark-button" id="embark-button-space-marines" onclick="embarkSpaceMarines(` + cityID + `, ` + planetIndex + `)">Embark</button>
         </div>`;
     }
 
@@ -595,8 +611,14 @@ const displaySpaceFleets = function() {
         document.querySelector("#space-marines-unit-icon").style.boxShadow = "0px 0px 12px white";
     }
     
-    if (taskShipSelected) {
-        document.querySelector("#task-ship-unit-icon").style.boxShadow = "0px 0px 12px white";
+    if (spaceInfantryEmbarked) {
+      document.querySelector(".embark-img-space-infantry").style.display = "block";
+      document.querySelector("#embark-button-space-infantry").setAttribute("onclick","disembarkSpaceInfantry(" + cityID + ", " + planetIndex + ")");
+    }
+    
+    if (spaceMarineEmbarked) {
+      document.querySelector(".embark-img-space-marines").style.display = "block";
+      document.querySelector("#embark-button-space-marines").setAttribute("onclick","disembarkSpaceMarines(" + cityID + ", " + planetIndex + ")");
     }
         
         citySpaceInfantryAmount = 0;
@@ -635,7 +657,7 @@ const displayLandArmies = function() {
           <img class="unit-icon" id="infantry-unit-icon" src="public/images/infantryicon.png" onclick="infantryCitySelection()">
           <p class="unit-amount" id="infantry-interact-amount">` + cityInfantryAmount.toLocaleString() + `</p>
           <img class="embark-img-infantry" src="public/images/port.png">
-          <button class="embark-button" id="embark-button-infantry" onclick="embarkInfantry()">Embark</button>
+          <button class="embark-button" id="embark-button-infantry" onclick="embarkInfantry(` + cityID + `, ` + planetIndex + `)">Embark</button>
         </div>`;
     }
     
@@ -646,7 +668,7 @@ const displayLandArmies = function() {
           <img class="unit-icon" id="tank-unit-icon" src="public/images/tankicon.png" onclick="tankCitySelection()">
           <p class="unit-amount" id="tank-interact-amount">` + cityTankAmount.toLocaleString() + `</p>
           <img class="embark-img-tank" src="public/images/port.png">
-          <button class="embark-button" id="embark-button-tanks" onclick="embarkTanks()">Embark</button>
+          <button class="embark-button" id="embark-button-tanks" onclick="embarkTanks(` + cityID + `, ` + planetIndex + `)">Embark</button>
         </div>`;
     }
     
@@ -657,7 +679,7 @@ const displayLandArmies = function() {
           <img class="unit-icon" id="aircraft-unit-icon" src="public/images/mannedaircrafticon.png" onclick="aircraftCitySelection()">
           <p class="unit-amount" id="aircraft-interact-amount">` + cityAircraftAmount.toLocaleString() + `</p>
           <img class="embark-img-aircraft" src="public/images/port.png">
-          <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft()">Embark</button>
+          <button class="embark-button" id="embark-button-aircraft" onclick="embarkAircraft(` + cityID + `, ` + planetIndex + `)">Embark</button>
         </div>`;
     }
     
@@ -676,6 +698,21 @@ const displayLandArmies = function() {
     if (aircraftSelected) {
         document.querySelector("#embark-button-aircraft").style.display = "block";
         document.querySelector("#aircraft-unit-icon").style.boxShadow = "0px 0px 12px white";
+    }
+    
+    if (infantryEmbarked) {
+      document.querySelector(".embark-img-infantry").style.display = "block";
+      document.querySelector("#embark-button-infantry").setAttribute("onclick","disembarkInfantry(" + cityID + ", " + planetIndex + ")");
+    }
+    
+    if (tankEmbarked) {
+      document.querySelector(".embark-img-tank").style.display = "block";
+      document.querySelector("#embark-button-tanks").setAttribute("onclick","disembarkTanks(" + cityID + ", " + planetIndex + ")");
+    }
+    
+    if (aircraftEmbarked) {
+      document.querySelector(".embark-img-aircraft").style.display = "block";
+      document.querySelector("#embark-button-aircraft").setAttribute("onclick","disembarkAircraft(" + cityID + ", " + planetIndex + ")");
     }
         
         cityInfantryAmount = 0;
@@ -871,41 +908,551 @@ const taskShipCitySelection = function() {
 
 
 
-const embarkInfantry = function() {
-    document.querySelector(".embark-img-infantry").style.display = "block";
-    // change the infantry embark button so that it now becomes a disembark button
-    console.log("Embark as many infantry as destroyers and carriers will allow");
+const embarkInfantry = function(cityID, planetID) {
+    
+    if (planetID === 1) {
+      
+    } else if (planetID === 2) {
+      
+      if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
+        if (map2Cities[cityID].fleet.length === 0) {
+          // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
+          cityOwner = map2Cities[cityID].ownerID;
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+          // after we have created the new fleet object, we must now push the object so it is accessible glgobally and to the city
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        // now that we have either created a fleet for this city or we have one already in place, we must add these units to the fleet
+        map2Cities[cityID].infantry.forEach(infantryID => {
+          // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
+          if (cityOwner === map2Cities[cityID].infantryOwnerID[infantryID]) {
+            // check to see if the fleet has capacity then add them
+            if (navalFleets[currentFleetIndex].landEmbarkAmount <= (navalFleets[currentFleetIndex].landEmbarkCapacity - infantryFleetVolume)) {
+              // there is room for at least one more land unit in this fleet, so load this infantry unit into the fleet
+              infantryEmbarked = true;
+              navalFleets[currentFleetIndex].infantry.push(infantryID);
+              infantryUnits[infantryID].fleet = currentFleetIndex;
+              navalFleets[currentFleetIndex].landEmbarkAmount += infantryFleetVolume;
+            }
+          }
+        });
+        if (infantryEmbarked) {
+          document.querySelector(".embark-img-infantry").style.display = "block";
+          document.querySelector("#embark-button-infantry").setAttribute("onclick","disembarkInfantry(" + cityID + ", " + planetID + ")");
+        }
+        console.log(navalFleets[currentFleetIndex]);
+      }
+      
+    } else if (planetID === 3) {
+      
+    } else if (planetID === 4) {
+      
+    }
 }
 
-const embarkTanks = function() {
-    document.querySelector(".embark-img-tank").style.display = "block";
-    // change the tank embark button so that it now becomes a disembark button
-    console.log("Embark as many tanks as destroyers and carriers will allow");
+const embarkTanks = function(cityID, planetID) {
+    
+    if (planetID === 1) {
+      
+    } else if (planetID === 2) {
+      
+      if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
+        if (map2Cities[cityID].fleet.length === 0) {
+          // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
+          cityOwner = map2Cities[cityID].ownerID;
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        // now that we have either created a fleet for this city or we have one already in place, we must add these units to the fleet
+        map2Cities[cityID].tanks.forEach(tankID => {
+          // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
+          if (cityOwner === map2Cities[cityID].tanksOwnerID[tankID]) {
+            // check to see if the fleet has capacity then add them
+            if (navalFleets[currentFleetIndex].landEmbarkAmount <= (navalFleets[currentFleetIndex].landEmbarkCapacity - tankFleetVolume)) {
+              // there is room for at least one more land unit in this fleet, so load this infantry unit into the fleet
+              tankEmbarked = true;
+              navalFleets[currentFleetIndex].tanks.push(tankID);
+              tankUnits[tankID].fleet = currentFleetIndex;
+              navalFleets[currentFleetIndex].landEmbarkAmount += tankFleetVolume;
+            }
+          }
+        });
+        if (tankEmbarked) {
+          document.querySelector(".embark-img-tank").style.display = "block";
+          document.querySelector("#embark-button-tanks").setAttribute("onclick","disembarkTanks(" + cityID + ", " + planetID + ")");
+        }
+      }
+      
+    } else if (planetID === 3) {
+      
+    } else if (planetID === 4) {
+      
+    }
 }
 
-const embarkAircraft = function() {
-    document.querySelector(".embark-img-aircraft").style.display = "block";
-    // change the aircraft embark button so that it now becomes a disembark button
-    console.log("Embark as many aircraft as carriers will allow");
+const embarkAircraft = function(cityID, planetID) {
+    
+    if (planetID === 1) {
+      
+    } else if (planetID === 2) {
+      
+      if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
+        if (map2Cities[cityID].fleet.length === 0) {
+          // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
+          cityOwner = map2Cities[cityID].ownerID;
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        // now that we have either created a fleet for this city or we have one already in place, we must add these units to the fleet
+        map2Cities[cityID].planes.forEach(aircraftID => {
+          // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
+          if (cityOwner === map2Cities[cityID].planesOwnerID[aircraftID]) {
+            // check to see if the fleet has capacity then add them
+            if (navalFleets[currentFleetIndex].aircraft.length < navalFleets[currentFleetIndex].aircraftCapacity) {
+              // there is room for at least one more aircraft in this fleet, so load this aircraft
+              aircraftEmbarked = true;
+              navalFleets[currentFleetIndex].aircraft.push(aircraftID);
+              aircraftUnits[aircraftID].fleet = currentFleetIndex;
+            }
+          }
+        });
+        if (aircraftEmbarked) {
+          document.querySelector(".embark-img-aircraft").style.display = "block";
+          document.querySelector("#embark-button-aircraft").setAttribute("onclick","disembarkAircraft(" + cityID + ", " + planetID + ")");
+        }
+      }
+      
+    } else if (planetID === 3) {
+      
+    } else if (planetID === 4) {
+      
+    }
 }
 
-const embarkMarines = function() {
-    document.querySelector(".embark-img-marines").style.display = "block";
-    // change the marines embark button so that it now becomes a disembark button
-    console.log("Embark as many marines as destroyers carriers will allow which is double infantry");
+const embarkMarines = function(cityID, planetID) {
+    
+    if (planetID === 1) {
+      
+    } else if (planetID === 2) {
+      
+      if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
+        if (map2Cities[cityID].fleet.length === 0) {
+          // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
+          cityOwner = map2Cities[cityID].ownerID;
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        // now that we have either created a fleet for this city or we have one already in place, we must add these units to the fleet
+        map2Cities[cityID].marines.forEach(marineID => {
+          // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
+          if (cityOwner === map2Cities[cityID].marinesOwnerID[marineID]) {
+            // check to see if the fleet has capacity then add them
+            if (navalFleets[currentFleetIndex].landEmbarkAmount <= (navalFleets[currentFleetIndex].landEmbarkCapacity - marineFleetVolume)) {
+              // there is room for at least one more land unit in this fleet, so load this infantry unit into the fleet
+              marineEmbarked = true;
+              navalFleets[currentFleetIndex].marines.push(marineID);
+              marineUnits[marineID].fleet = currentFleetIndex;
+              navalFleets[currentFleetIndex].landEmbarkAmount += marineFleetVolume;
+            }
+          }
+        });
+        if (marineEmbarked) {
+          document.querySelector(".embark-img-marines").style.display = "block";
+          document.querySelector("#embark-button-marines").setAttribute("onclick","disembarkMarines(" + cityID + ", " + planetID + ")");
+        }
+      }
+      
+    } else if (planetID === 3) {
+      
+    } else if (planetID === 4) {
+      
+    }
 }
 
-const embarkSpaceInfantry = function() {
-    document.querySelector(".embark-img-space-infantry").style.display = "block";
-    // change the space infantry embark button so that it now becomes a disembark button
-    console.log("Embark as many space infantry as task ships will allow");
+const embarkSpaceInfantry = function(cityID, planetID) {
+    
+    if (planetID === 1) {
+      
+    } else if (planetID === 2) {
+      
+      if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
+        if (map2Cities[cityID].fleet.length === 0) {
+          // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
+          cityOwner = map2Cities[cityID].ownerID;
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        // now that we have either created a fleet for this city or we have one already in place, we must add these units to the fleet
+        map2Cities[cityID].spaceInfantry.forEach(spaceInfantryID => {
+          // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
+          if (cityOwner === map2Cities[cityID].spaceInfantryOwnerID[spaceInfantryID]) {
+            // check to see if the fleet has capacity then add them
+            if (navalFleets[currentFleetIndex].landEmbarkAmount <= (navalFleets[currentFleetIndex].landEmbarkCapacity - spaceInfantryFleetVolume)) {
+              // there is room for at least one more land unit in this fleet, so load this infantry unit into the fleet
+              spaceInfantryEmbarked = true;
+              navalFleets[currentFleetIndex].spaceInfantry.push(spaceInfantryID);
+              spaceInfantryUnits[spaceInfantryID].fleet = currentFleetIndex;
+              navalFleets[currentFleetIndex].landEmbarkAmount += spaceInfantryFleetVolume;
+              
+            }
+          }
+        });
+        if (spaceInfantryEmbarked) {
+          document.querySelector(".embark-img-space-infantry").style.display = "block";
+          document.querySelector("#embark-button-space-infantry").setAttribute("onclick","disembarkSpaceInfantry(" + cityID + ", " + planetID + ")");
+        }
+      }
+      
+    } else if (planetID === 3) {
+      
+    } else if (planetID === 4) {
+      
+    }
 }
 
-const embarkSpaceMarines = function() {
-    document.querySelector(".embark-img-space-marines").style.display = "block";
-    // change the space marines embark button so that it now becomes a disembark button
-    console.log("Embark as many space marines as task ships will allow");
+const embarkSpaceMarines = function(cityID, planetID) {
+    
+    if (planetID === 1) {
+      
+    } else if (planetID === 2) {
+      
+      if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
+        if (map2Cities[cityID].fleet.length === 0) {
+          // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
+          cityOwner = map2Cities[cityID].ownerID;
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        // now that we have either created a fleet for this city or we have one already in place, we must add these units to the fleet
+        map2Cities[cityID].spaceMarines.forEach(spaceMarineID => {
+          // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
+          if (cityOwner === map2Cities[cityID].spaceMarinesOwnerID[spaceMarineID]) {
+            // check to see if the fleet has capacity then add them
+            if (navalFleets[currentFleetIndex].landEmbarkAmount <= (navalFleets[currentFleetIndex].landEmbarkCapacity - spaceMarineFleetVolume)) {
+              // there is room for at least one more land unit in this fleet, so load this infantry unit into the fleet
+              spaceMarineEmbarked = true;
+              navalFleets[currentFleetIndex].spaceMarines.push(spaceMarineID);
+              spaceMarineUnits[spaceMarineID].fleet = currentFleetIndex;
+              navalFleets[currentFleetIndex].landEmbarkAmount += spaceMarineFleetVolume;
+            }
+          }
+        });
+        if (spaceMarineEmbarked) {
+          document.querySelector(".embark-img-space-marines").style.display = "block";
+          document.querySelector("#embark-button-space-marines").setAttribute("onclick","disembarkSpaceMarines(" + cityID + ", " + planetID + ")");
+        }
+      }
+      
+    } else if (planetID === 3) {
+      
+    } else if (planetID === 4) {
+      
+    }
 }
+
+
+
+
+const disembarkInfantry = function(cityID, planetID) {
+  
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    fleetID = map2Cities[cityID].fleet[0];
+    disembarkingInfantryArray = navalFleets[fleetID].infantry;
+    disembarkingInfantryArray.forEach(infantryID => {
+      
+      navalFleets[fleetID].infantry.shift();
+      navalFleets[fleetID].landEmbarkAmount -= infantryFleetVolume;
+      infantryUnits[infantryID].fleet = null;
+      
+    });
+    document.querySelector(".embark-img-infantry").style.display = "none";
+    document.querySelector("#embark-button-infantry").setAttribute("onclick","embarkInfantry(" + cityID + ", " + planetID + ")");
+    console.log(navalFleets[fleetID].infantry);
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  infantryEmbarked = false;
+}
+
+const disembarkTanks = function(cityID, planetID) {
+  
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    fleetID = map2Cities[cityID].fleet[0];
+    disembarkingTankArray = navalFleets[fleetID].tanks;
+    disembarkingTankArray.forEach(tankID => {
+      
+      navalFleets[fleetID].tanks.shift();
+      navalFleets[fleetID].landEmbarkAmount -= tankFleetVolume;
+      infantryUnits[tankID].fleet = null;
+      
+    });
+    document.querySelector(".embark-img-tank").style.display = "none";
+    document.querySelector("#embark-button-tanks").setAttribute("onclick","embarkTanks(" + cityID + ", " + planetID + ")");
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  tankEmbarked = false;
+}
+
+const disembarkAircraft = function(cityID, planetID) {
+  
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    fleetID = map2Cities[cityID].fleet[0];
+    disembarkingAircraftArray = navalFleets[fleetID].aircraft;
+    disembarkingAircraftArray.forEach(aircraftID => {
+      
+      navalFleets[fleetID].aircraft.shift();
+      aircraftUnits[aircraftID].fleet = null;
+      
+    });
+    document.querySelector(".embark-img-aircraft").style.display = "none";
+    document.querySelector("#embark-button-aircraft").setAttribute("onclick","embarkAircraft(" + cityID + ", " + planetID + ")");
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  aircraftEmbarked = false;
+}
+
+const disembarkMarines = function(cityID, planetID) {
+  
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    fleetID = map2Cities[cityID].fleet[0];
+    disembarkingMarinesArray = navalFleets[fleetID].marines;
+    disembarkingMarinesArray.forEach(marineID => {
+      
+      navalFleets[fleetID].marines.shift();
+      navalFleets[fleetID].landEmbarkAmount -= marineFleetVolume;
+      marineUnits[marineID].fleet = null;
+      
+    });
+    document.querySelector(".embark-img-marines").style.display = "none";
+    document.querySelector("#embark-button-marines").setAttribute("onclick","embarkMarines(" + cityID + ", " + planetID + ")");
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  marineEmbarked = false;
+}
+
+const disembarkSpaceInfantry = function(cityID, planetID) {
+  
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    fleetID = map2Cities[cityID].fleet[0];
+    disembarkingSpaceInfantryArray = navalFleets[fleetID].spaceInfantry;
+    disembarkingSpaceInfantryArray.forEach(spaceInfantryID => {
+      
+      navalFleets[fleetID].spaceInfantry.shift();
+      navalFleets[fleetID].landEmbarkAmount -= spaceInfantryFleetVolume;
+      spaceInfantryUnits[spaceInfantryID].fleet = null;
+      
+    });
+    document.querySelector(".embark-img-space-infantry").style.display = "none";
+    document.querySelector("#embark-button-space-infantry").setAttribute("onclick","embarkSpaceInfantry(" + cityID + ", " + planetID + ")");
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  spaceInfantryEmbarked = false;
+}
+
+const disembarkSpaceMarines = function(cityID, planetID) {
+  
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    fleetID = map2Cities[cityID].fleet[0];
+    disembarkingSpaceMarinesArray = navalFleets[fleetID].spaceMarines;
+    disembarkingSpaceMarinesArray.forEach(spaceMarineID => {
+      
+      navalFleets[fleetID].spaceMarines.shift();
+      navalFleets[fleetID].landEmbarkAmount -= spaceMarineFleetVolume;
+      spaceMarineUnits[spaceMarineID].fleet = null;
+      
+    });
+    document.querySelector(".embark-img-space-marines").style.display = "none";
+    document.querySelector("#embark-button-space-marines").setAttribute("onclick","embarkSpaceMarines(" + cityID + ", " + planetID + ")");
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  spaceMarineEmbarked = false;
+}
+
 
 
 

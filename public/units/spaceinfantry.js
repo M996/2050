@@ -15,8 +15,6 @@ let spaceInfantryUnits = [
       "fleet": null,
       "army": null,
       "spaceFleet": null,
-      "xpos": 0,
-      "ypos": 0,
       "health": 48,
       "morale": 0.3000,
       // maxHealth is equal to 80% infantry maxHealth

@@ -10,12 +10,8 @@ let carrierUnits = [
       "cityID": 0,
       "isDead": false,
       "fleet": null,
-      "xpos": 0,
-      "ypos": 0,
       "health": 720,
       "morale": 0.3000,
-      "carrying": 0,
-      "aircraftCarrying": 0,
       "currentManpower": 15000,
     },
 ]

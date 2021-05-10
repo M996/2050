@@ -48,7 +48,7 @@
     cursor: pointer;
 }
 
-.unit-move-btn {
+.unit-open-btn {
     padding: 10px 6px;
     margin-bottom: 6px;
     border: 2px solid grey;
@@ -58,7 +58,7 @@
     transition-duration: 100ms;
 }
 
-.unit-move-btn:hover {
+.unit-open-btn:hover {
     background: rgb(60,40,100);
     cursor: pointer;
 }
@@ -125,6 +125,8 @@
     font-family: sans-serif;
     margin-top: 2px;
     color: white;
+    background: rgb(60,60,60);
+    padding-top: 2px;
 }
 
 .unit-move-interaction-land {
@@ -277,7 +279,7 @@
     bottom: 0px;
     border-radius: 0px;
     border: none;
-    background: radial-gradient(rgb(0,0,200), rgb(0,0,200), rgb(0,0,200), rgb(40,40,40), rgb(40,40,40));
+    background: radial-gradient(rgb(0,0,200), rgb(0,0,200), rgb(0,0,200), rgba(40,40,40,0), rgba(40,40,40,0));
     color: white;
     padding: 8px;
     font-family: sans-serif;
@@ -285,7 +287,7 @@
 }
 
 .embark-button:hover {
-    background: radial-gradient(rgb(0,0,150), rgb(0,0,150), rgb(0,0,150), rgb(40,40,40), rgb(40,40,40));
+    background: radial-gradient(rgb(0,0,150), rgb(0,0,150), rgb(0,0,150), rgba(40,40,40,0), rgba(40,40,40,0));
     cursor: pointer;
 }
 
@@ -361,4 +363,47 @@
     transform: translateY(-2px);
     box-shadow: 2px 2px 4px black;
     background: rgb(80,0,20);
+}
+
+.unit-option-btns {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 8px;
+    margin-bottom: 8px;
+}
+
+.unit-option-btn-primary {
+    width: 4vw;
+    height: 4vh;
+    font-weight: bold;
+    color: white;
+    font-family: sans-serif;
+    background: rgb(0,100,20);
+    border-radius: 8px;
+}
+
+.unit-option-btn-primary:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 4px black;
+    background: rgb(10,120,40);
+}
+
+.unit-option-btn-secondary {
+    width: 5vw;
+    height: 4vh;
+    font-weight: bold;
+    color: white;
+    font-family: sans-serif;
+    background: rgb(120,20,0);
+    border-radius: 8px;
+}
+
+.unit-option-btn-secondary:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 4px black;
+    background: rgb(140,40,0);
 }
