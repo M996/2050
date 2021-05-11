@@ -25,8 +25,8 @@ navalFleets = [
         "spaceMarines": [],
         "aircraft": [],
         "landEmbarkAmount": 0,
-        "landEmbarkCapacity": 10,
-        "aircraftCapacity": 10,
+        "landEmbarkCapacity": 0,
+        "aircraftCapacity": 0,
         // to determine how close we are to aircraft capacity, simply read the length of the aircraft array
     },
 ]

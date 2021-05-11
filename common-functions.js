@@ -22,13 +22,18 @@ let nuclearValue = 3.0;
 
 
 
-infantryFleetVolume = 1;
-tankFleetVolume = 1.5;
-marineFleetVolume = 0.5;
-spaceInfantryFleetVolume = 0.5;
-spaceMarineFleetVolume = 0.5;
+let infantryFleetVolume = 1;
+let tankFleetVolume = 1.5;
+let marineFleetVolume = 0.5;
+let spaceInfantryFleetVolume = 0.5;
+let spaceMarineFleetVolume = 0.5;
 // these variables determine how much space each type of unit takes up inside of a fleet
 // and therefore how many of each unit type a single fleet can carry
+
+
+
+let destroyerCarryingCapacity = 2;
+let carrierCarryingCapacity = 4;
 
 
 

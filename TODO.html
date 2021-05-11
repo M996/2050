@@ -1,18 +1,22 @@
-- allow units to be embarked and disembarked
-
-- allow units to be disembarked even if their HTML elemnt is not on the page at the moment
+- fix broken disembarking function
 
 - make it so that ships have to get added into a fleet before you can embark land units into that fleet, and making ANY
 - change to the composition of a fleet with the sliders results in all land units being disembarked, forcing the player to
-- first decide on the size of the fleet he wants, and then embark units onto the established fleet. Closing
-- the fleet window should ALSO result in all land units disembarking
+- first decide on the size of the fleet he wants, and then embark units onto the established fleet.
 
 - make sure that moving armies out of a city closes that city window otherwise it may be possible to select an army which no longer
 - exists in the interface thus causing an error
 
 - allow units to be put into armies and fleets
 
+- maybe remove the ability to move guerilla armies from index.php?
+
 - allow armies and fleets to travel around the map with embarked units contained inside them
+
+- armies should know what country they are in by looking at the color of the pixel they are on, the default map color should be
+- fully brown, and in areas with hilly terrain the color of the province controller should be partially transparent so the brown
+- shows through, then armies will determine if they are in hilly terrain based on the transparency of the pixel, but the raw color
+- will still match the controlling country
 
 - Add in monthly maintenance costs for all owned units after resource production but before total resource tabulation that goes to
 - the player's screen

@@ -218,7 +218,7 @@ const openMoveArmiesWindow = function() {
         document.querySelector(".unit-move-interaction-naval").style.display = "flex";
     } else if (landUnitPrecedence) {
         document.querySelector(".unit-move-interaction-land").style.display = "flex";
-        
+        addSoldiersToArmy(cityID, planetIndex);
     } else {
         document.querySelector(".unit-move-interaction-air").style.display = "flex";
     }
@@ -735,13 +735,14 @@ const infantryCitySelection = function() {
         document.querySelector("#unit-move-infantry-slider").value = infantryUnitAmount;
         document.querySelector("#move-infantry").style.display = "flex";
     } else {
+        planetIndex = document.querySelector("#planet-index").textContent;
         infantrySelected = false;
+        disembarkInfantry(cityID, planetIndex);
         document.querySelector("#embark-button-infantry").style.display = "none";
         document.querySelector("#infantry-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-infantry").style.display = "none";
         document.querySelector("#move-infantry").style.display = "none";
         document.querySelector("#unit-move-infantry-slider").value = 0;
-        console.log("Deselect this infantry unit, remove them from the move window, and remove them from embarkment");
     }
 }
 
@@ -755,7 +756,9 @@ const tankCitySelection = function() {
         document.querySelector("#unit-move-tank-slider").value = tankUnitAmount;
         document.querySelector("#move-tank").style.display = "flex";
     } else {
+        planetIndex = document.querySelector("#planet-index").textContent;
         tankSelected = false;
+        disembarkTanks(cityID, planetIndex);
         document.querySelector("#embark-button-tanks").style.display = "none";
         document.querySelector("#tank-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-tank").style.display = "none";
@@ -774,7 +777,9 @@ const aircraftCitySelection = function() {
         document.querySelector("#unit-move-aircraft-slider").value = aircraftUnitAmount;
         document.querySelector("#move-aircraft").style.display = "flex";
     } else {
+        planetIndex = document.querySelector("#planet-index").textContent;
         aircraftSelected = false;
+        disembarkAircraft(cityID, planetIndex);
         document.querySelector("#embark-button-aircraft").style.display = "none";
         document.querySelector("#aircraft-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-aircraft").style.display = "none";
@@ -793,7 +798,9 @@ const marinesCitySelection = function() {
         document.querySelector("#unit-move-marines-slider").value = marineUnitAmount;
         document.querySelector("#move-marines").style.display = "flex";
     } else {
+        planetIndex = document.querySelector("#planet-index").textContent;
         marineSelected = false;
+        disembarkMarines(cityID, planetIndex);
         document.querySelector("#embark-button-marines").style.display = "none";
         document.querySelector("#marines-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-marines").style.display = "none";
@@ -812,7 +819,9 @@ const spaceInfantryCitySelection = function() {
         document.querySelector("#unit-move-space-infantry-slider").value = spaceInfantryUnitAmount;
         document.querySelector("#move-space-infantry").style.display = "flex";
     } else {
+        planetIndex = document.querySelector("#planet-index").textContent;
         spaceInfantrySelected = false;
+        disembarkSpaceInfantry(cityID, planetIndex);
         document.querySelector("#embark-button-space-infantry").style.display = "none";
         document.querySelector("#space-infantry-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-space-infantry").style.display = "none";
@@ -831,7 +840,9 @@ const spaceMarinesCitySelection = function() {
         document.querySelector("#unit-move-space-marines-slider").value = spaceMarinesUnitAmount;
         document.querySelector("#move-space-marines").style.display = "flex";
     } else {
+        planetIndex = document.querySelector("#planet-index").textContent;
         spaceMarineSelected = false;
+        disembarkSpaceMarines(cityID, planetIndex);
         document.querySelector("#embark-button-space-marines").style.display = "none";
         document.querySelector("#space-marines-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-space-marines").style.display = "none";
@@ -841,8 +852,11 @@ const spaceMarinesCitySelection = function() {
 }
 
 const destroyerCitySelection = function() {
+    cityID = document.querySelector("#city-index").textContent;
+    planetIndex = document.querySelector("#planet-index").textContent;
     if (!destroyerSelected) {
         destroyerSelected = true;
+        addDestroyersToFleet(cityID, planetIndex);
         document.querySelector("#destroyer-unit-icon").style.boxShadow = "0px 0px 12px white";
         destroyerUnitAmount = map2Cities[cityID].destroyers.length;
         document.querySelector("#unit-move-destroyer-slider").max = destroyerUnitAmount;
@@ -850,6 +864,7 @@ const destroyerCitySelection = function() {
         document.querySelector("#move-destroyer").style.display = "flex";
     } else {
         destroyerSelected = false;
+        removeDestroyersFromFleet(cityID, planetIndex);
         document.querySelector("#destroyer-unit-icon").style.boxShadow = "none";
         document.querySelector("#move-destroyer").style.display = "none";
         document.querySelector("#unit-move-destroyer-slider").value = 0;
@@ -857,8 +872,11 @@ const destroyerCitySelection = function() {
 }
 
 const submarineCitySelection = function() {
+    cityID = document.querySelector("#city-index").textContent;
+    planetIndex = document.querySelector("#planet-index").textContent;
     if (!submarineSelected) {
         submarineSelected = true;
+        addSubmarinesToFleet(cityID, planetIndex);
         document.querySelector("#submarine-unit-icon").style.boxShadow = "0px 0px 12px white";
         submarineUnitAmount = map2Cities[cityID].submarines.length;
         document.querySelector("#unit-move-submarines-slider").max = submarineUnitAmount;
@@ -866,6 +884,7 @@ const submarineCitySelection = function() {
         document.querySelector("#move-submarine").style.display = "flex";
     } else {
         submarineSelected = false;
+        removeSubmarinesFromFleet(cityID, planetIndex);
         document.querySelector("#submarine-unit-icon").style.boxShadow = "none";
         document.querySelector("#move-submarine").style.display = "none";
         document.querySelector("#unit-move-submarines-slider").value = 0;
@@ -873,8 +892,11 @@ const submarineCitySelection = function() {
 }
 
 const carrierCitySelection = function() {
+    cityID = document.querySelector("#city-index").textContent;
+    planetIndex = document.querySelector("#planet-index").textContent;
     if (!carrierSelected) {
         carrierSelected = true;
+        addCarriersToFleet(cityID, planetIndex);
         document.querySelector("#carrier-unit-icon").style.boxShadow = "0px 0px 12px white";
         carrierUnitAmount = map2Cities[cityID].aircraftCarriers.length;
         document.querySelector("#unit-move-carrier-slider").max = carrierUnitAmount;
@@ -882,6 +904,7 @@ const carrierCitySelection = function() {
         document.querySelector("#move-carrier").style.display = "flex";
     } else {
         carrierSelected = false;
+        removeCarriersFromFleet(cityID, planetIndex);
         document.querySelector("#carrier-unit-icon").style.boxShadow = "none";
         document.querySelector("#move-carrier").style.display = "none";
         document.querySelector("#unit-move-carrier-slider").value = 0;
@@ -910,6 +933,7 @@ const taskShipCitySelection = function() {
 
 const embarkInfantry = function(cityID, planetID) {
     
+    cityOwner = map2Cities[cityID].ownerID;
     if (planetID === 1) {
       
     } else if (planetID === 2) {
@@ -917,7 +941,6 @@ const embarkInfantry = function(cityID, planetID) {
       if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
         if (map2Cities[cityID].fleet.length === 0) {
           // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
-          cityOwner = map2Cities[cityID].ownerID;
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
           newFleetObject = {
@@ -978,6 +1001,7 @@ const embarkInfantry = function(cityID, planetID) {
 
 const embarkTanks = function(cityID, planetID) {
     
+    cityOwner = map2Cities[cityID].ownerID;
     if (planetID === 1) {
       
     } else if (planetID === 2) {
@@ -985,7 +1009,6 @@ const embarkTanks = function(cityID, planetID) {
       if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
         if (map2Cities[cityID].fleet.length === 0) {
           // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
-          cityOwner = map2Cities[cityID].ownerID;
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
           newFleetObject = {
@@ -1044,6 +1067,7 @@ const embarkTanks = function(cityID, planetID) {
 
 const embarkAircraft = function(cityID, planetID) {
     
+    cityOwner = map2Cities[cityID].ownerID;
     if (planetID === 1) {
       
     } else if (planetID === 2) {
@@ -1051,7 +1075,6 @@ const embarkAircraft = function(cityID, planetID) {
       if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
         if (map2Cities[cityID].fleet.length === 0) {
           // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
-          cityOwner = map2Cities[cityID].ownerID;
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
           newFleetObject = {
@@ -1109,6 +1132,7 @@ const embarkAircraft = function(cityID, planetID) {
 
 const embarkMarines = function(cityID, planetID) {
     
+    cityOwner = map2Cities[cityID].ownerID;
     if (planetID === 1) {
       
     } else if (planetID === 2) {
@@ -1116,7 +1140,6 @@ const embarkMarines = function(cityID, planetID) {
       if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
         if (map2Cities[cityID].fleet.length === 0) {
           // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
-          cityOwner = map2Cities[cityID].ownerID;
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
           newFleetObject = {
@@ -1175,6 +1198,7 @@ const embarkMarines = function(cityID, planetID) {
 
 const embarkSpaceInfantry = function(cityID, planetID) {
     
+    cityOwner = map2Cities[cityID].ownerID;
     if (planetID === 1) {
       
     } else if (planetID === 2) {
@@ -1182,7 +1206,6 @@ const embarkSpaceInfantry = function(cityID, planetID) {
       if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
         if (map2Cities[cityID].fleet.length === 0) {
           // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
-          cityOwner = map2Cities[cityID].ownerID;
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
           newFleetObject = {
@@ -1242,6 +1265,7 @@ const embarkSpaceInfantry = function(cityID, planetID) {
 
 const embarkSpaceMarines = function(cityID, planetID) {
     
+    cityOwner = map2Cities[cityID].ownerID;
     if (planetID === 1) {
       
     } else if (planetID === 2) {
@@ -1249,7 +1273,6 @@ const embarkSpaceMarines = function(cityID, planetID) {
       if (map2Cities[cityID].coastal || map2Cities[cityID].isSeaStead) {
         if (map2Cities[cityID].fleet.length === 0) {
           // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
-          cityOwner = map2Cities[cityID].ownerID;
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
           newFleetObject = {
@@ -1323,9 +1346,10 @@ const disembarkInfantry = function(cityID, planetID) {
       infantryUnits[infantryID].fleet = null;
       
     });
-    document.querySelector(".embark-img-infantry").style.display = "none";
-    document.querySelector("#embark-button-infantry").setAttribute("onclick","embarkInfantry(" + cityID + ", " + planetID + ")");
-    console.log(navalFleets[fleetID].infantry);
+    if (document.querySelector(".embark-img-infantry")) {
+      document.querySelector(".embark-img-infantry").style.display = "none";
+      document.querySelector("#embark-button-infantry").setAttribute("onclick","embarkInfantry(" + cityID + ", " + planetID + ")");
+    }
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
@@ -1348,8 +1372,10 @@ const disembarkTanks = function(cityID, planetID) {
       infantryUnits[tankID].fleet = null;
       
     });
-    document.querySelector(".embark-img-tank").style.display = "none";
-    document.querySelector("#embark-button-tanks").setAttribute("onclick","embarkTanks(" + cityID + ", " + planetID + ")");
+    if (document.querySelector(".embark-img-tank")) {
+      document.querySelector(".embark-img-tank").style.display = "none";
+      document.querySelector("#embark-button-tanks").setAttribute("onclick","embarkTanks(" + cityID + ", " + planetID + ")");
+    }
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
@@ -1371,8 +1397,10 @@ const disembarkAircraft = function(cityID, planetID) {
       aircraftUnits[aircraftID].fleet = null;
       
     });
-    document.querySelector(".embark-img-aircraft").style.display = "none";
-    document.querySelector("#embark-button-aircraft").setAttribute("onclick","embarkAircraft(" + cityID + ", " + planetID + ")");
+    if (document.querySelector(".embark-img-aircraft")) {
+      document.querySelector(".embark-img-aircraft").style.display = "none";
+      document.querySelector("#embark-button-aircraft").setAttribute("onclick","embarkAircraft(" + cityID + ", " + planetID + ")");
+    }
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
@@ -1389,14 +1417,16 @@ const disembarkMarines = function(cityID, planetID) {
     fleetID = map2Cities[cityID].fleet[0];
     disembarkingMarinesArray = navalFleets[fleetID].marines;
     disembarkingMarinesArray.forEach(marineID => {
-      
+      console.log('disembarking Marine #:' + marineID);
       navalFleets[fleetID].marines.shift();
       navalFleets[fleetID].landEmbarkAmount -= marineFleetVolume;
       marineUnits[marineID].fleet = null;
       
     });
-    document.querySelector(".embark-img-marines").style.display = "none";
-    document.querySelector("#embark-button-marines").setAttribute("onclick","embarkMarines(" + cityID + ", " + planetID + ")");
+    if (document.querySelector(".embark-img-marines")) {
+      document.querySelector(".embark-img-marines").style.display = "none";
+      document.querySelector("#embark-button-marines").setAttribute("onclick","embarkMarines(" + cityID + ", " + planetID + ")");
+    }
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
@@ -1419,8 +1449,10 @@ const disembarkSpaceInfantry = function(cityID, planetID) {
       spaceInfantryUnits[spaceInfantryID].fleet = null;
       
     });
-    document.querySelector(".embark-img-space-infantry").style.display = "none";
-    document.querySelector("#embark-button-space-infantry").setAttribute("onclick","embarkSpaceInfantry(" + cityID + ", " + planetID + ")");
+    if (document.querySelector(".embark-img-space-infantry")) {
+      document.querySelector(".embark-img-space-infantry").style.display = "none";
+      document.querySelector("#embark-button-space-infantry").setAttribute("onclick","embarkSpaceInfantry(" + cityID + ", " + planetID + ")");
+    }
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
@@ -1443,14 +1475,275 @@ const disembarkSpaceMarines = function(cityID, planetID) {
       spaceMarineUnits[spaceMarineID].fleet = null;
       
     });
-    document.querySelector(".embark-img-space-marines").style.display = "none";
-    document.querySelector("#embark-button-space-marines").setAttribute("onclick","embarkSpaceMarines(" + cityID + ", " + planetID + ")");
+    if (document.querySelector(".embark-img-space-marines")) {
+      document.querySelector(".embark-img-space-marines").style.display = "none";
+      document.querySelector("#embark-button-space-marines").setAttribute("onclick","embarkSpaceMarines(" + cityID + ", " + planetID + ")");
+    }
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
     
   }
   spaceMarineEmbarked = false;
+}
+
+
+
+
+
+const addDestroyersToFleet = function(cityID, planetID) {
+  
+  cityOwner = map2Cities[cityID].ownerID;
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    
+    if (map2Cities[cityID].fleet.length === 0) {
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        
+      map2Cities[cityID].destroyers.forEach(destroyerID => {
+      if (cityOwner === map2Cities[cityID].destroyersOwnerID[destroyerID]) {
+        // we need to make sure that the destroyer being put in this fleet actually belongs to the city owner I am
+        // not sure if this is neccesary since I am not sure if destroyers will be able to enter other cities yet
+        navalFleets[currentFleetIndex].destroyers.push(destroyerID);
+        destroyerUnits[destroyerID].fleet = currentFleetIndex;
+        navalFleets[currentFleetIndex].landEmbarkCapacity += (destroyerCarryingCapacity + countries[cityOwner].destroyerCarryingCapacityBonus);
+        // add new carrying capacity to the fleet now that this destroyer has been added, equal to the base plus any national bonus
+      }
+    });
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+}
+
+const addSubmarinesToFleet = function(cityID, planetID) {
+  
+  cityOwner = map2Cities[cityID].ownerID;
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    
+    if (map2Cities[cityID].fleet.length === 0) {
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        
+      map2Cities[cityID].submarines.forEach(submarineID => {
+      if (cityOwner === map2Cities[cityID].submarinesOwnerID[submarineID]) {
+        // we need to make sure that the submarine being put in this fleet actually belongs to the city owner I am
+        // not sure if this is neccesary since I am not sure if submarines will be able to enter other cities yet
+        navalFleets[currentFleetIndex].submarines.push(submarineID);
+        submarineUnits[submarineID].fleet = currentFleetIndex;
+        // add new carrying capacity to the fleet now that this destroyer has been added, equal to the base plus any national bonus
+      }
+    });
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+}
+
+const addCarriersToFleet = function(cityID, planetID) {
+  
+  cityOwner = map2Cities[cityID].ownerID;
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    
+    if (map2Cities[cityID].fleet.length === 0) {
+          navalFleetIndex++;
+          currentFleetIndex = navalFleetIndex;
+          newFleetObject = {
+            "id": navalFleetIndex,
+            "ownerID": cityOwner,
+            "planetID": 2,
+            "cityID": cityID,
+            "reEnterHomeCity": false,
+            "xpos": map2Cities[cityID].xpos,
+            "ypos": map2Cities[cityID].ypos,
+            "morale": countries[cityOwner].morale,
+            "destroyers": [],
+            "submarines": [],
+            "carriers": [],
+            "infantry": [],
+            "tanks": [],
+            "marines": [],
+            "spaceInfantry": [],
+            "spaceMarines": [],
+            "aircraft": [],
+            "landEmbarkAmount": 0,
+            "landEmbarkCapacity": 0,
+            "aircraftCapacity": 0,
+          }
+          navalFleets.push(newFleetObject);
+          map2Cities[cityID].fleet.push(newFleetObject);
+        } else {
+            currentFleetIndex = map2Cities[cityID].fleet[0];
+        }
+        
+      map2Cities[cityID].aircraftCarriers.forEach(carrierID => {
+      if (cityOwner === map2Cities[cityID].aircraftCarriersOwnerID[carrierID]) {
+        // we need to make sure that the carrier being put in this fleet actually belongs to the city owner I am
+        // not sure if this is neccesary since I am not sure if carriers will be able to enter other cities yet
+        navalFleets[currentFleetIndex].carriers.push(carrierID);
+        carrierUnits[carrierID].fleet = currentFleetIndex;
+        navalFleets[currentFleetIndex].landEmbarkCapacity += carrierCarryingCapacity;
+        navalFleets[currentFleetIndex].aircraftCapacity += (countries[cityOwner].aircraftCapacity + countries[cityOwner].carrierCarryingCapacityBonus);
+        // add new carrying capacity to the fleet now that this destroyer has been added, equal to the base plus any national bonus
+      }
+    });
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+}
+
+const removeDestroyersFromFleet = function(cityID, planetID) {
+  
+  cityOwner = map2Cities[cityID].ownerID;
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    
+      fleetID = map2Cities[cityID].fleet[0]; 
+      navalFleets[currentFleetIndex].destroyers.forEach(destroyerID => {
+        
+        navalFleets[fleetID].destroyers.shift();
+        destroyerUnits[destroyerID].fleet = null;
+        navalFleets[currentFleetIndex].landEmbarkCapacity -= (destroyerCarryingCapacity + countries[cityOwner].destroyerCarryingCapacityBonus);
+        
+    });
+      disembarkInfantry(cityID, planetIndex);
+      disembarkTanks(cityID, planetIndex);
+      disembarkAircraft(cityID, planetIndex);
+      disembarkMarines(cityID, planetIndex);
+      disembarkSpaceInfantry(cityID, planetIndex);
+      disembarkSpaceMarines(cityID, planetIndex);
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+}
+
+const removeSubmarineFromFleet = function(cityID, planetID) {
+  
+  cityOwner = map2Cities[cityID].ownerID;
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    
+      fleetID = map2Cities[cityID].fleet[0]; 
+      navalFleets[currentFleetIndex].submarines.forEach(submarineID => {
+        
+        navalFleets[fleetID].submarines.shift();
+        submarineUnits[submarineID].fleet = null;
+        
+    });
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+}
+
+const removeCarriersFromFleet = function(cityID, planetID) {
+  
+  cityOwner = map2Cities[cityID].ownerID;
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    
+      fleetID = map2Cities[cityID].fleet[0]; 
+      navalFleets[currentFleetIndex].carriers.forEach(carrierID => {
+        
+        navalFleets[fleetID].carriers.shift();
+        carrierUnits[carrierID].fleet = null;
+        navalFleets[currentFleetIndex].landEmbarkCapacity -= carrierCarryingCapacity;
+        navalFleets[currentFleetIndex].aircraftCapacity -= (countries[cityOwner].aircraftCapacity + countries[cityOwner].carrierCarryingCapacityBonus);
+        
+    });
+      disembarkInfantry(cityID, planetIndex);
+      disembarkTanks(cityID, planetIndex);
+      disembarkAircraft(cityID, planetIndex);
+      disembarkMarines(cityID, planetIndex);
+      disembarkSpaceInfantry(cityID, planetIndex);
+      disembarkSpaceMarines(cityID, planetIndex);
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+}
+
+const addSoldiersToArmy = function() {
+  
+}
+
+
+
+
+
+const updateArmyDestroyer = function() {
+  
 }
 
 

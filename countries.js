@@ -212,6 +212,8 @@ let countries = [
         "destroyerProcessedMetalMaintenance": 0.08,
         "destroyerCapitalMaintenance": 1.4,
         "destroyerEnergyMaintenance": 0.35,
+        "destroyerCarryingCapacityBonus": 0,
+        // this number increases the amount of land units you can carry (0.5 - 2)
         
         "carrierMaxHealth": 720,
         "carrierSmallArmsArmor": 1,
@@ -220,6 +222,8 @@ let countries = [
         "carrierKineticArmor": 0.1,
         "carrierSpeed": 45,
         "aircraftCapacity": 8,
+        "carrierCarryingCapacityBonus": 0,
+        // this number increases the amount of aircraft you can carry (1 - 6)
         "carrierCapitalMaintenance": 2.2,
         "carrierEnergyMaintenance": 0.6,
         
