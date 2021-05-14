@@ -436,7 +436,7 @@ require 'header.php';
         <div class="unit-move-options">
           <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-aircraft-slider" onchange="updateArmyAircraft(this.value)">
         </div>
-        <p class="current-move-amount"><span id="tank-move-amount">0</span> Units</p>
+        <p class="current-move-amount"><span id="aircraft-move-amount">0</span> Units</p>
       </div>
       <div class="unit-option-btns">
         <button class="unit-option-btn-primary" onclick="moveAircraft()">Move</button>

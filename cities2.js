@@ -42,7 +42,7 @@ let map2Cities = [
     "submarinesOwnerID": [0],
     "aircraftCarriers": [0],
     "aircraftCarriersOwnerID": [0],
-    "army": [0],
+    "army": [],
     "fleet": [0],
     "spaceFleet": [],
     "ICBMs": [],
