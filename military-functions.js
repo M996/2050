@@ -1002,6 +1002,33 @@ const addGuerrillasToArmy = function(cityID, planetID) {
 
 
 
+const removeInfantryFromArmy = function(cityID, planetID) {
+  if (planetID == 1) {
+    
+  } else if (planetID == 2) {
+    // we are acting on units on planet 2
+    armyID = map2Cities[cityID].army[0];
+    // find the first army in the city array, this will be the army this unit is a part of
+    detachingInfantryArray = landArmies[armyID].infantry;
+    
+    detachingInfantryArray.forEach(infantryID => {
+      infantryUnits[infantryID].army = null;
+      // change the 'army' property of these infantry so they no longer belong to this army
+    });
+    
+    landArmies[armyID].infantry = [];
+    // finally remove all infantry from this army
+  } else if (planetID == 3) {
+    
+  } else if (planetID == 4) {
+    
+  }
+  infantryEmbarked = false;
+}
+
+
+
+
 const infantryCitySelection = function() {
     
     cityID = document.querySelector("#city-index").textContent;
@@ -1019,9 +1046,9 @@ const infantryCitySelection = function() {
         document.querySelector('#infantry-move-amount').textContent = infantryUnitAmount;
         document.querySelector("#move-infantry").style.display = "flex";
     } else {
-        planetIndex = document.querySelector("#planet-index").textContent;
+        removeInfantryFromArmy(cityID, planetID);
         infantrySelected = false;
-        disembarkInfantry(cityID, planetIndex);
+        disembarkInfantry(cityID, planetID);
         document.querySelector("#embark-button-infantry").style.display = "none";
         document.querySelector("#infantry-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-infantry").style.display = "none";
@@ -1045,9 +1072,8 @@ const tankCitySelection = function() {
         document.querySelector('#tank-move-amount').textContent = tankUnitAmount;
         document.querySelector("#move-tank").style.display = "flex";
     } else {
-        planetIndex = document.querySelector("#planet-index").textContent;
         tankSelected = false;
-        disembarkTanks(cityID, planetIndex);
+        disembarkTanks(cityID, planetID);
         document.querySelector("#embark-button-tanks").style.display = "none";
         document.querySelector("#tank-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-tank").style.display = "none";
@@ -1070,9 +1096,8 @@ const aircraftCitySelection = function() {
         document.querySelector('#aircraft-move-amount').textContent = planeUnitAmount;
         document.querySelector("#move-aircraft").style.display = "flex";
     } else {
-        planetIndex = document.querySelector("#planet-index").textContent;
         aircraftSelected = false;
-        disembarkAircraft(cityID, planetIndex);
+        disembarkAircraft(cityID, planetID);
         document.querySelector("#embark-button-aircraft").style.display = "none";
         document.querySelector("#aircraft-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-aircraft").style.display = "none";
@@ -1096,9 +1121,8 @@ const marinesCitySelection = function() {
         document.querySelector('#marines-move-amount').textContent = marineUnitAmount;
         document.querySelector("#move-marines").style.display = "flex";
     } else {
-        planetIndex = document.querySelector("#planet-index").textContent;
         marineSelected = false;
-        disembarkMarines(cityID, planetIndex);
+        disembarkMarines(cityID, planetID);
         document.querySelector("#embark-button-marines").style.display = "none";
         document.querySelector("#marines-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-marines").style.display = "none";
@@ -1122,9 +1146,8 @@ const spaceInfantryCitySelection = function() {
         document.querySelector('#space-infantry-move-amount').textContent = spaceInfantryUnitAmount;
         document.querySelector("#move-space-infantry").style.display = "flex";
     } else {
-        planetIndex = document.querySelector("#planet-index").textContent;
         spaceInfantrySelected = false;
-        disembarkSpaceInfantry(cityID, planetIndex);
+        disembarkSpaceInfantry(cityID, planetID);
         document.querySelector("#embark-button-space-infantry").style.display = "none";
         document.querySelector("#space-infantry-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-space-infantry").style.display = "none";
@@ -1148,9 +1171,8 @@ const spaceMarinesCitySelection = function() {
         document.querySelector('#space-marines-move-amount').textContent = spaceMarineUnitAmount;
         document.querySelector("#move-space-marines").style.display = "flex";
     } else {
-        planetIndex = document.querySelector("#planet-index").textContent;
         spaceMarineSelected = false;
-        disembarkSpaceMarines(cityID, planetIndex);
+        disembarkSpaceMarines(cityID, planetID);
         document.querySelector("#embark-button-space-marines").style.display = "none";
         document.querySelector("#space-marines-unit-icon").style.boxShadow = "none";
         document.querySelector(".embark-img-space-marines").style.display = "none";
@@ -1293,13 +1315,16 @@ const embarkInfantry = function(cityID, planetID) {
               navalFleets[currentFleetIndex].infantry.push(infantryID);
               infantryUnits[infantryID].fleet = currentFleetIndex;
               navalFleets[currentFleetIndex].landEmbarkAmount += infantryFleetVolume;
+              infantryEmbarked = true;
             }
           }
         });
-        infantryEmbarked = true;
-        document.querySelector(".embark-img-infantry").style.display = "block";
-        document.querySelector("#embark-button-infantry").setAttribute("onclick","disembarkInfantry(" + cityID + ", " + planetID + ")");
+        if (infantryEmbarked) {
+          document.querySelector(".embark-img-infantry").style.display = "block";
+          document.querySelector("#embark-button-infantry").setAttribute("onclick","disembarkInfantry(" + cityID + ", " + planetID + ")");
+        }
         console.log(navalFleets[currentFleetIndex]);
+        // infantry display army and fleet information for testing purposes
       }
       
     } else if (planetID === 3) {
@@ -1358,12 +1383,14 @@ const embarkTanks = function(cityID, planetID) {
               navalFleets[currentFleetIndex].tanks.push(tankID);
               tankUnits[tankID].fleet = currentFleetIndex;
               navalFleets[currentFleetIndex].landEmbarkAmount += tankFleetVolume;
+              tankEmbarked = true;
             }
           }
         });
-        tankEmbarked = true;
-        document.querySelector(".embark-img-tank").style.display = "block";
-        document.querySelector("#embark-button-tanks").setAttribute("onclick","disembarkTanks(" + cityID + ", " + planetID + ")");
+        if (tankEmbarked) {
+          document.querySelector(".embark-img-tank").style.display = "block";
+          document.querySelector("#embark-button-tanks").setAttribute("onclick","disembarkTanks(" + cityID + ", " + planetID + ")");
+        }
       }
       
     } else if (planetID === 3) {
@@ -1421,12 +1448,14 @@ const embarkAircraft = function(cityID, planetID) {
               // there is room for at least one more aircraft in this fleet, so load this aircraft
               navalFleets[currentFleetIndex].aircraft.push(aircraftID);
               aircraftUnits[aircraftID].fleet = currentFleetIndex;
+              aircraftEmbarked = true;
             }
           }
         });
-        aircraftEmbarked = true;
-        document.querySelector(".embark-img-aircraft").style.display = "block";
-        document.querySelector("#embark-button-aircraft").setAttribute("onclick","disembarkAircraft(" + cityID + ", " + planetID + ")");
+        if (aircraftEmbarked) {
+          document.querySelector(".embark-img-aircraft").style.display = "block";
+          document.querySelector("#embark-button-aircraft").setAttribute("onclick","disembarkAircraft(" + cityID + ", " + planetID + ")");
+        }
       }
       
     } else if (planetID === 3) {
@@ -1485,12 +1514,14 @@ const embarkMarines = function(cityID, planetID) {
               navalFleets[currentFleetIndex].marines.push(marineID);
               marineUnits[marineID].fleet = currentFleetIndex;
               navalFleets[currentFleetIndex].landEmbarkAmount += marineFleetVolume;
+              marineEmbarked = true;
             }
           }
         });
-        marineEmbarked = true;
-        document.querySelector(".embark-img-marines").style.display = "block";
-        document.querySelector("#embark-button-marines").setAttribute("onclick","disembarkMarines(" + cityID + ", " + planetID + ")");
+        if (marineEmbarked) {
+          document.querySelector(".embark-img-marines").style.display = "block";
+          document.querySelector("#embark-button-marines").setAttribute("onclick","disembarkMarines(" + cityID + ", " + planetID + ")");
+        }
       }
       
     } else if (planetID === 3) {
@@ -1549,13 +1580,14 @@ const embarkSpaceInfantry = function(cityID, planetID) {
               navalFleets[currentFleetIndex].spaceInfantry.push(spaceInfantryID);
               spaceInfantryUnits[spaceInfantryID].fleet = currentFleetIndex;
               navalFleets[currentFleetIndex].landEmbarkAmount += spaceInfantryFleetVolume;
-              
+              spaceInfantryEmbarked = true;
             }
           }
         });
-        spaceInfantryEmbarked = true;
-        document.querySelector(".embark-img-space-infantry").style.display = "block";
-        document.querySelector("#embark-button-space-infantry").setAttribute("onclick","disembarkSpaceInfantry(" + cityID + ", " + planetID + ")");
+        if (spaceInfantryEmbarked) {
+          document.querySelector(".embark-img-space-infantry").style.display = "block";
+          document.querySelector("#embark-button-space-infantry").setAttribute("onclick","disembarkSpaceInfantry(" + cityID + ", " + planetID + ")");
+        }
       }
       
     } else if (planetID === 3) {
@@ -1614,12 +1646,14 @@ const embarkSpaceMarines = function(cityID, planetID) {
               navalFleets[currentFleetIndex].spaceMarines.push(spaceMarineID);
               spaceMarineUnits[spaceMarineID].fleet = currentFleetIndex;
               navalFleets[currentFleetIndex].landEmbarkAmount += spaceMarineFleetVolume;
+              spaceMarineEmbarked = true;
             }
           }
         });
-        spaceMarineEmbarked = true;
-        document.querySelector(".embark-img-space-marines").style.display = "block";
-        document.querySelector("#embark-button-space-marines").setAttribute("onclick","disembarkSpaceMarines(" + cityID + ", " + planetID + ")");
+        if (spaceMarineEmbarked) {
+          document.querySelector(".embark-img-space-marines").style.display = "block";
+          document.querySelector("#embark-button-space-marines").setAttribute("onclick","disembarkSpaceMarines(" + cityID + ", " + planetID + ")");
+        }
       }
       
     } else if (planetID === 3) {
@@ -1637,16 +1671,21 @@ const disembarkInfantry = function(cityID, planetID) {
   if (planetID == 1) {
     
   } else if (planetID == 2) {
+    // we are acting on units on planet 2
     fleetID = map2Cities[cityID].fleet[0];
+    // find the first fleet in the city array, this will be the fleet this unit is a part of
     disembarkingInfantryArray = navalFleets[fleetID].infantry;
     
     disembarkingInfantryArray.forEach(infantryID => {
       disembarkInfantryAmount += infantryFleetVolume;
       infantryUnits[infantryID].fleet = null;
+      // change the 'fleet' each unit belongs to into 'null' so the unit no longer thinks it is embarked
+      // and also increase the amount of embark space that will be freed up by these units leaving the fleet
     });
     
     navalFleets[fleetID].landEmbarkAmount -= disembarkInfantryAmount;
     navalFleets[fleetID].infantry = [];
+    // free up embark space and also finally remove all infantry units from the fleet
     
     if (document.querySelector(".embark-img-infantry")) {
       document.querySelector(".embark-img-infantry").style.display = "none";
