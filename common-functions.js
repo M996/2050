@@ -57,7 +57,7 @@ let currentPlayerID = 0;
 const closeInteractions = function() {
   
   cityID = document.querySelector("#city-index").textContent;
-  planetIndex = document.querySelector("#planet-index").textContent;
+  planetID = document.querySelector("#planet-index").textContent;
   
   document.querySelector(".unit-interaction").style.display = "none";
   document.querySelector(".city-interaction").style.display = "none";
@@ -74,12 +74,23 @@ const closeInteractions = function() {
   document.querySelector("#move-tank").style.display = "none";
   document.querySelector("#move-infantry").style.display = "none";
   
-  disembarkInfantry(cityID, planetIndex);
-  disembarkTanks(cityID, planetIndex);
-  disembarkAircraft(cityID, planetIndex);
-  disembarkMarines(cityID, planetIndex);
-  disembarkSpaceInfantry(cityID, planetIndex);
-  disembarkSpaceMarines(cityID, planetIndex);
+  disembarkInfantry(cityID, planetID);
+  disembarkTanks(cityID, planetID);
+  disembarkAircraft(cityID, planetID);
+  disembarkMarines(cityID, planetID);
+  disembarkSpaceInfantry(cityID, planetID);
+  disembarkSpaceMarines(cityID, planetID);
+  
+  removeDestroyersFromFleet(cityID, planetID, true);
+  removeSubmarinesFromFleet(cityID, planetID);
+  removeCarriersFromFleet(cityID, planetID, true);
+  
+  removeInfantryFromArmy(cityID, planetID);
+  removeTanksFromArmy(cityID, planetID);
+  aircraftSelected = false;
+  removeMarinesFromArmy(cityID, planetID);
+  removeSpaceInfantryFromArmy(cityID, planetID);
+  removeSpaceMarinesFromArmy(cityID, planetID);
   
 }
 
