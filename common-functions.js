@@ -81,16 +81,38 @@ const closeInteractions = function() {
   disembarkSpaceInfantry(cityID, planetID);
   disembarkSpaceMarines(cityID, planetID);
   
-  removeDestroyersFromFleet(cityID, planetID, true);
-  removeSubmarinesFromFleet(cityID, planetID);
-  removeCarriersFromFleet(cityID, planetID, true);
+  if (planetID == 1) {
+    
+  } else if(planetID == 2) {
+    if (map2Cities[cityID].fleet.length > 0) {
+      // if a fleet actually exists in this city, then make sure to remove all naval units from the fleet when closing the city
+      removeDestroyersFromFleet(cityID, planetID, true);
+      removeSubmarinesFromFleet(cityID, planetID);
+      removeCarriersFromFleet(cityID, planetID, true);
+    }
+  } else if(planetID == 3) {
+    
+  } else if(planetID == 4) {
+    
+  }
   
-  removeInfantryFromArmy(cityID, planetID);
-  removeTanksFromArmy(cityID, planetID);
-  aircraftSelected = false;
-  removeMarinesFromArmy(cityID, planetID);
-  removeSpaceInfantryFromArmy(cityID, planetID);
-  removeSpaceMarinesFromArmy(cityID, planetID);
+  if (planetID == 1) {
+    
+  } else if(planetID == 2) {
+    if (map2Cities[cityID].army.length > 0) {
+      // if an army actually exists in this city, then make sure to remove all land units from the army when closing the city
+      removeInfantryFromArmy(cityID, planetID);
+      removeTanksFromArmy(cityID, planetID);
+      aircraftSelected = false;
+      removeMarinesFromArmy(cityID, planetID);
+      removeSpaceInfantryFromArmy(cityID, planetID);
+      removeSpaceMarinesFromArmy(cityID, planetID);
+    }
+  } else if(planetID == 3) {
+    
+  } else if(planetID == 4) {
+    
+  } 
   
 }
 

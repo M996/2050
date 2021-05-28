@@ -1684,15 +1684,17 @@ const removeDestroyersFromFleet = function(cityID, planetID, cityClose) {
   } else if (planetID == 2) {
     
       fleetID = map2Cities[cityID].fleet[0]; 
-      navalFleets[currentFleetIndex].destroyers.forEach(destroyerID => {
+      navalFleets[fleetID].destroyers.forEach(destroyerID => {
         
-        navalFleets[fleetID].destroyers.shift();
         destroyerUnits[destroyerID].fleet = null;
-        navalFleets[currentFleetIndex].landEmbarkCapacity -= (destroyerCarryingCapacity + countries[cityOwner].destroyerCarryingCapacityBonus);
-        console.log(currentFleetIndex);
-        // currentFleetIndex is defined when we add units to the fleet but is not defined in this function, this needs to be fixed
+        // change each destroyer formerly in this fleet so it no longer is attached to the fleet at the unit level
+        navalFleets[fleetID].landEmbarkCapacity -= (destroyerCarryingCapacity + countries[cityOwner].destroyerCarryingCapacityBonus);
+        // remove the carrying capacity belonging to this fleet whe the destroyers are removed
         
     });
+      
+      navalFleets[fleetID].destroyers = [];
+      // set the destroyers property of the fleet object to be an empty array since all destroyers have been removed
       
       if (!cityClose) {
         // only disembark all units if this unit has been selected and the city is not being closed
@@ -1721,12 +1723,14 @@ const removeSubmarinesFromFleet = function(cityID, planetID) {
   } else if (planetID == 2) {
     
       fleetID = map2Cities[cityID].fleet[0]; 
-      navalFleets[currentFleetIndex].submarines.forEach(submarineID => {
+      navalFleets[fleetID].submarines.forEach(submarineID => {
         
-        navalFleets[fleetID].submarines.shift();
         submarineUnits[submarineID].fleet = null;
         
     });
+      
+      navalFleets[fleetID].submarines = [];
+      
   } else if (planetID == 3) {
     
   } else if (planetID == 4) {
@@ -1743,14 +1747,15 @@ const removeCarriersFromFleet = function(cityID, planetID, cityClose) {
   } else if (planetID == 2) {
     
       fleetID = map2Cities[cityID].fleet[0]; 
-      navalFleets[currentFleetIndex].carriers.forEach(carrierID => {
+      navalFleets[fleetID].carriers.forEach(carrierID => {
         
-        navalFleets[fleetID].carriers.shift();
         carrierUnits[carrierID].fleet = null;
-        navalFleets[currentFleetIndex].landEmbarkCapacity -= carrierCarryingCapacity;
-        navalFleets[currentFleetIndex].aircraftCapacity -= (countries[cityOwner].aircraftCapacity + countries[cityOwner].carrierCarryingCapacityBonus);
+        navalFleets[fleetID].landEmbarkCapacity -= carrierCarryingCapacity;
+        navalFleets[fleetID].aircraftCapacity -= (countries[cityOwner].aircraftCapacity + countries[cityOwner].carrierCarryingCapacityBonus);
         
     });
+      
+      navalFleets[fleetID].carriers = [];
       
       if (!cityClose) {
         disembarkInfantry(cityID, planetIndex);
