@@ -2,7 +2,7 @@
 // they use the same base stats for the infantry, and get a combat bonus when attacking
 // cities from the water
 
-marineIndex = 1;
+marineIndex = 2;
 let marineUnits = [
     {
       "id": 0,

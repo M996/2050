@@ -453,7 +453,7 @@ tellTime = function(t1) {
               }
               
               buildingElement2 = document.querySelector("#building-select-2");
-              if (buildingElement3) {
+              if (buildingElement2) {
                 buildingElement2 = document.querySelector("#building-select-2").src;
                 builtWordIndex = buildingElement2.search("built");
                 if (builtWordIndex != -1) {

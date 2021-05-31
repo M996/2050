@@ -1,5 +1,6 @@
 
-
+newCountryID = 1;
+// the number above should be equal to the total number of existing countries and will be used to
 let countries = [
     {
         "id": 0,
@@ -256,6 +257,28 @@ let countries = [
         "taskShipEnergyMaintenance": 1.8,
         // maintenance costs shouldn't actually be this high because they will be reduced based on ownership of skyhooks and space elevators
         
+        // ==== Guerrilla Spawn Stats ==============================================================================
+        "guerrillaPopPercent": 0.0075,
+        // this is the amount of guerillas that can spawn as a percentage of a city when they pop in a province
+        // if hostile seperatist guerrillas pop because of a foreign core then they will use x2 this number
+        "guerrillaHealthPercent": 0.8,
+        // the amount of Health that this country's guerrillas have proportional to their Infantry
+        "guerrillaMorale": 0.25,
+        "guerrillaSpeed": 0.75,
+        // the percentage of speed and distance these units can travel compared to infantry
+        "guerrillaSmallArmsDamage": 7,
+        "guerrillaExplosiveDamage": 3,
+        
+        "hostileGuerrillas": [0,1],
+        // this array contains all guerrillas which have spawned in a country in order to force a province to defect or force a new government
+        "hostileGuerrillasHomeCountry": [null,1],
+        // if guerrillas are fighting against their Host Country to liberate a province for another country, this shows their allegiance, if they
+        // are ideological guerrillas, then their spot in this array would be [null].
+        "hostileGuerrillasIdeology": [0,null],
+        // if guerrillas are not fighting to free a province for another country but rather for ideological reasons, then their ideology would
+        // appear in this array but the 'hostileGuerrillasHomeCountry' index spot for that army would be [null]
+        
+        
         "skyHookProcessedMineralsMaintenance": 0.1,
         "skyHookCapitalMaintenance": 3.2,
         "skyHookEnergyMaintenance": 3,
@@ -362,7 +385,7 @@ let countries = [
         "expansionLikelyOptions": ["offensive", "maritime"],
         "expansionPath": "none",
         "numberOfPorts": 0,
-        // ports must be kept track of so that we can know if this country is able to participate in intrernational trade
+        // ports must be kept track of so that we can know if this country is able to participate in international trade
         // with other countries on the same planet for raw resources such as food, processed minerals and metal, raw minerals
         // and metal, precious metals and oil
         "numberOfResearchFacilities": 0,
@@ -380,10 +403,6 @@ let countries = [
         "numberOfComSatellites2": 0,
         "numberOfComSatellites3": 0,
         "numberOfComSatellites4": 0,
-        "numberOfWeatherSatellites1": 0,
-        "numberOfWeatherSatellites2": 0,
-        "numberOfWeatherSatellites3": 0,
-        "numberOfWeatherSatellites4": 0,
         // we need to keep track of the number of solar satellites so the country can sell energy globally, the com satellites
         // are to maintain communications with distant units, cities, and keep up morale, and the weather satellites
         // are to control the weather in cretain provinces like keeping ice out of an ocean tile or increasing food production

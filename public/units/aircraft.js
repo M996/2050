@@ -7,7 +7,7 @@
 // certain percentage chance of destroying them based on their tracking and the
 // aircraft's evasion
 
-aircraftIndex = 0;
+aircraftIndex = 1;
 // this number should only be zero if the array is empty because the array starts at zero
 let aircraftUnits = [
     {

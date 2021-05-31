@@ -1,6 +1,6 @@
 // tanks units are stronger and more expensive than infantry
 
-tankIndex = 0;
+tankIndex = 1;
 let tankUnits = [
     {
       "id": 0,

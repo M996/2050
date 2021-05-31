@@ -20,6 +20,8 @@ mainCanvas2.renderOnAddRemove = false;
 // setting .objectCaching could also increase performance but may cause other difficulties so it is not currently
 // being done, disabling /objectCaching in the future could be experimented with
 
+labelNumber = 0;
+
 citySelector = new fabric.Circle({
   left: 0,
   top: 0,
@@ -47,6 +49,26 @@ mainCanvas2.add(citySelector);
         hoverCursor: 'pointer',
         __uid: city.id
     });
+    cityLabelText = ' ' + city.name + ' ';
+     window["cityLabels"+labelNumber]= new fabric.Text(cityLabelText, {
+      textBackgroundColor: 'rgba(40,40,40,0.8)',
+      left: (city.xpos - 12),
+      top: (city.ypos - 20),
+      fontSize: 16,
+      fill: 'white',
+      textAlign: 'center',
+      selectable: false,
+    });
+    cityDots.on('mouseover', function() {
+     mainCanvas2.add(window["cityLabels"+city.id]);
+     mainCanvas2.requestRenderAll();
+    });
+    cityDots.on('mouseout', function() {
+     mainCanvas2.remove(window["cityLabels"+city.id]);
+     mainCanvas2.requestRenderAll();
+    });
+    labelNumber++;
+    
     // below we will create an event listener so that when any city is clicked, the city interactions window pops up with all
     // relevant information for that city.
     cityDots.on('mouseup', function() {

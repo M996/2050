@@ -1,7 +1,7 @@
 const nationalIdeasExample = {
-    "manpowerModifier": 0.2,
+    "manpowerModifier": 0.2, //implemented
     // multiplier for manpower to determine max manpower
-    "manpowerGainModifier": 0.2,
+    "manpowerGainModifier": 0.2, //implemented
     // multiplier for manpower gain to determine how quickly manpower goes up
     "guerillaAmount": 0.2,
     // multiplier to determine how many guerillas spawn when a city is lost
@@ -171,4 +171,7 @@ const nationalIdeasExample = {
     // multiplier to determine how much more slowly corruption should gain when corruption is going up
     "nationalBaseDefense": 1,
     // Number to be added to the baseDefense of all owned cities, thus increasing ability to defend your own territory
+    
+    
+    // Add some Trade Bonuses here when trade is fleshed out
 }

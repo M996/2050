@@ -397,13 +397,6 @@ require 'header.php';
         </div>
         <p class="current-move-amount"><span id="tank-move-amount">0</span> Units</p>
       </div>
-      <div class="unit-type-move-container" id="move-guerrilla">
-        <img class="unit-move-icon" src="public/images/guerrillaicon.png">
-        <div class="unit-move-options">
-          <input type="range" min="0" max="10" class="unit-move-range" id="unit-move-guerrilla-slider" onchange="updateArmyGuerrilla(this.value)">
-        </div>
-        <p class="current-move-amount"><span id="guerrilla-move-amount">0</span> Units</p>
-      </div>
       <div class="unit-type-move-container" id="move-marines">
         <img class="unit-move-icon" src="public/images/marinesicon.png">
         <div class="unit-move-options">

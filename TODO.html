@@ -1,8 +1,21 @@
-- add mouseover to cities that tells you their name!
+- a function must fire that adds guerillas to a city and must also call another function (?) that launches
+- an attack on that city if an army or soliders are present, and if they are not present then instead it hands control of the city
+- to the attacking guerillas
 
-- give guerrillas an ideology alliance attribute
+- There are two types of Guerrillas, ones connected to the province, and ones connected to an Ideology. When province connected
+- guerrillas spawn, they will try to take control of cities in a province to force that province to belong to the country
+- they have allegiance to. These can either be defensive guerillas that help you fight a defensive war, or seperatist guerrillas
+- that try to occupy the province to force it over to the control of another country or ressurect one that has a core.
+- Ideological Guerillas will try to take over as many cities as possible to install a new government. Province guerrillas
+- spawn based on the defensive guerilla spawn properties of a country. Ideological guerrillas spawn based on the spawn properties
+- of their ideology, but both guerrillas will fight using their spawn country's infantry stats as their base. Both types of
+- guerrillas are contained within their spawn country's object in the countries array. Province Based guerrillas will spawn as
+- a percentage of the provinces supporting ethnicity if they are hostile, while ideological guerrillas will spawn as a percentage
+- of the provinces ideology
 
-- maybe remove the ability to move guerilla armies from index.php?
+- when a province is occupied, a timer start counting down and after 4 years at defects to the other side, if any city
+- in the province is taken by the other side the timer resets to 4 years and doesn't start counting again until all cities are
+- occupied by the opposing side
 
 - create slider functions and make sure they disembark when activated (if no fleet is present in the city don't run disembark)
 
@@ -94,6 +107,9 @@
 - Create Geostationary space zones that you can put Solar Satellites into, make it so only a limited number of Solar Satellites
 - can exist in each zone and only certain countries have building rights. Maybe 6 or 8 zones per world
 
+- make it so that the second and up aircraft technologies give far superior aircraft but also open aircraft up to being more vulnerable
+- to cyber attacks
+
 - maybe experiment with disabling object caching and see how that goes (main2.js)
 
 
@@ -149,13 +165,13 @@
 
 - Strongest Land Military Power (more points from land units and non-island provinces)
 
-- Strongest Naval Power (more points from naval units and island provinces)
+- Strongest Naval Power (more points from naval units and island provinces and seasteads)
 
 - Strongest Space Power (more points from space units and colonies)
 
 - Strongest Economic Power (more points from Trade and Corporations)
 
-- Strongest Diplomatic Power (more points from alliances and vassals)
+- Strongest Diplomatic Power (more points from alliances and vassals and other subjects)
 
 =========================================================================================================================
 

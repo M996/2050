@@ -45,6 +45,23 @@ let fireFlashesSpace = 0;
 
 
 
+let militaryBaseFixedCapital = 1;
+let militaryBaseFixedEnergy = 0.25;
+let portFixedCapital = 0.2;
+let missileSiloFixedCapital = 1.5;
+let missileSiloFixedEnergy = 0.75;
+let spaceElevatorFixedCapital = 2.2;
+let spaceElevatorFixedEnergy = 1.2;
+let orbitalLaunchPadFixedCapital = 2.2;
+let orbitalLaunchPadFixedEnergy = 1.2;
+let researchFacilityFixedCapital = 0.85;
+// The variables above dictate the fixed costs associated with buildings that can produce units with their own independent cost
+// Fixed costs are assigned to buildings because they produce units or because it is just more effecient to have their cost deducted
+// as a simple amount rather than as a cost of something they are producing. This should also mean that these types of buildings
+// cannot be 'deactivated' to save on costs, as the cost associated with them is not run as a process but rather a fixed expense
+
+
+
 let currentPlayerID = 0;
 // currentPlayerID is the id of the country the player is currently playing as.
 
@@ -124,8 +141,8 @@ const closeInteractions = function() {
 
 // This function is called when the city interactions window is open and at least one of the buildings in the city
 // have the word 'built' in them. This tells us that a building is being actively built on the player's screen and
-// this function is called the find the planet, city, and building index of that structure which is being built so
-// that the construction image can be updated every month in front of the player adn they don't have to close or
+// this function is called to find the planet, city, and building index of that structure which is being built so
+// that the construction image can be updated every month in front of the player and they don't have to close or
 // refresh the city window to see the timer ticking down on the building they are constructing
 const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) {
   if (planetIndex == 1) {
@@ -170,7 +187,9 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
       break;
     }
   } else if (planetIndex == 2) {
@@ -215,7 +234,9 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
       break;
     }
   } else if (planetIndex == 3) {
@@ -260,7 +281,9 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
       break;
     }
   } else {
@@ -305,7 +328,9 @@ const updateImage = function(buildingArrayIndex, srcImage, cityID, planetIndex) 
       default:
       document.querySelector('.city-interaction').style.display = 'none';
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
       break;
     }
   }
@@ -356,18 +381,17 @@ const buildQueueMinusOneMap2 = function(processID) {
 
 
 
-
 const showToolTip2 = function(building, title, image, description, buildingArrayIndex, cityID) {
   
   // This switch case assigns outputs and maintenance costs to buildings as displayed in the tooltip
   switch(building) {
     case 'port':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -0.2 <img src="public/images/capitalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -' + portFixedCapital + ' <img src="public/images/capitalicon.png" class="building-res-icn"></span>';
     break;
   case 'military-base':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -0.25 <img src="public/images/energyicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -1 <img src="public/images/capitalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -' + militaryBaseFixedEnergy + ' <img src="public/images/energyicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -' + militaryBaseFixedCapital + ' <img src="public/images/capitalicon.png" class="building-res-icn"></span>';
     break;
   case 'power-plant-1':
       output = '<span class="maintenance-tip-string"> +5 <img src="public/images/energyicon.png" class="building-res-icn"></span>';
@@ -435,12 +459,12 @@ const showToolTip2 = function(building, title, image, description, buildingArray
     break;
   case 'orbital-launch-pad':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -2.2 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -1.2 <img src="public/images/energyicon.png" class="building-res-icn"></span></span>';
+      maintenance = '<span class="maintenance-tip-string"> -' + orbitalLaunchPadFixedCapital + ' <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -' + orbitalLaunchPadFixedEnergy + ' <img src="public/images/energyicon.png" class="building-res-icn"></span></span>';
     break;
   // Skyhooks will not have a tooltip, you just click on them and they open up the build window right away
   case 'missile-silo':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -1.5 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -0.75 <img src="public/images/energyicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -' + missileSiloFixedCapital + ' <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -' + missileSiloFixedEnergy + ' <img src="public/images/energyicon.png" class="building-res-icn"></span>';
     break;
   case 'ground-defense-laser-1':
       output = '';
@@ -452,7 +476,7 @@ const showToolTip2 = function(building, title, image, description, buildingArray
     break;
   case 'research-facility':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -0.85 <img src="public/images/capitalicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -' + researchFacilityFixedCapital + ' <img src="public/images/capitalicon.png" class="building-res-icn"></span>';
     break;
   case 'ocean-rig':
       output = 'Allows <img src="public/images/oilicon.png" class="building-res-icn"> Extraction';
@@ -460,7 +484,7 @@ const showToolTip2 = function(building, title, image, description, buildingArray
     break;
   case 'space-elevator':
       output = '';
-      maintenance = '<span class="maintenance-tip-string"> -2.2 <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -1.2 <img src="public/images/energyicon.png" class="building-res-icn"></span>';
+      maintenance = '<span class="maintenance-tip-string"> -' + spaceElevatorFixedCapital + ' <img src="public/images/capitalicon.png" class="building-res-icn"></span> <br> <span class="maintenance-tip-string"> -' + spaceElevatorFixedEnergy + ' <img src="public/images/energyicon.png" class="building-res-icn"></span>';
     break;
   }
   
@@ -1465,10 +1489,11 @@ const constructBuilding2 = function(cityID, buildingModel) {
     closeBuildWindow();
     document.querySelector(".city-interaction").style.display = "none";
     document.querySelector('.unit-interaction').style.display = 'none';
-    document.querySelector(".unit-move-interaction").style.display = "none";
+    document.querySelector(".unit-move-interaction-land").style.display = "none";
+    document.querySelector(".unit-move-interaction-air").style.display = "none";
+    document.querySelector(".unit-move-interaction-naval").style.display = "none";
   }
 }
-
 
 
 
@@ -1480,12 +1505,12 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID,
   // determine what country owns this city
   if (buildingModel == 'military-base') {
     currentOwner = map2Cities[cityID].ownerID;
-    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 0.25);
-    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 1);
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - militaryBaseFixedEnergy);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - militaryBaseFixedCapital);
   } else if (buildingModel == 'missile-silo') {
     currentOwner = map2Cities[cityID].ownerID;
-    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 0.75);
-    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 1.5);
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - missileSiloFixedEnergy);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - missileSiloFixedCapital);
     map2Cities[cityID].ICBMs.forEach(function(ICBMID) {
       ICBMUnits[ICBMID].isDead = true;
       // make all of the ICBMs in this city be dead so the country no longer
@@ -1495,20 +1520,20 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID,
     // no more ICBMs are left in this city
   } else if (buildingModel == 'port') {
     currentOwner = map2Cities[cityID].ownerID;
-    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.2);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - portFixedCapital);
     countries[currentOwner].numberOfPorts = countries[currentOwner].numberOfPorts - 1;
   } else if (buildingModel == 'space-elevator') {
     currentOwner = map2Cities[cityID].ownerID;
-    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 1.2);
-    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 2.2);
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - spaceElevatorFixedEnergy);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - spaceElevatorFixedCapital);
     countries[currentOwner].numberOfSpaceElevators = countries[currentOwner].numberOfSpaceElevators - 1;
   } else if (buildingModel == 'orbital-launch-pad') {
     currentOwner = map2Cities[cityID].ownerID;
-    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - 1.2);
-    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 2.2);
+    countries[currentOwner].buildingEnergyExpense = (countries[currentOwner].buildingEnergyExpense - orbitalLaunchPadFixedEnergy);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - orbitalLaunchPadFixedCapital);
   } else if (buildingModel == 'research-facility') {
     currentOwner = map2Cities[cityID].ownerID;
-    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - 0.85);
+    countries[currentOwner].buildingCapitalExpense = (countries[currentOwner].buildingCapitalExpense - researchFacilityFixedCapital);
     countries[currentOwner].numberOfResearchFacilities = countries[currentOwner].numberOfResearchFacilities - 1;
   }
   // if a building the produces units and also has fixed expenses base was destroyed, erase the fixed expenses
@@ -1533,7 +1558,9 @@ const buildingDestroy2 = function(cityID, buildingArrayIndex, buildingProcessID,
     document.querySelector(".build-window-div").style.display = "none";
     document.querySelector(".city-interaction").style.display = "none";
     document.querySelector('.unit-interaction').style.display = 'none';
-    document.querySelector(".unit-move-interaction").style.display = "none";
+    document.querySelector(".unit-move-interaction-land").style.display = "none";
+    document.querySelector(".unit-move-interaction-air").style.display = "none";
+    document.querySelector(".unit-move-interaction-naval").style.display = "none";
   }
 }
 
@@ -1555,7 +1582,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'metal-processing-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1570,7 +1599,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'mineral-processing-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1586,7 +1617,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'mineral-processing-plant-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1601,7 +1634,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'nuclear-power-plant-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1615,7 +1650,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'nuclear-power-plant-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1630,7 +1667,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'railgun-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1645,7 +1684,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'railgun-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1661,7 +1702,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'missile-system-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1677,7 +1720,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'missile-system-2':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1692,7 +1737,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   case 'ground-defense-laser-1':
       currentCountryID = map2Cities[cityID].ownerID;
@@ -1708,7 +1755,9 @@ const buildingUpgrade2 = function(cityID, buildingArrayIndex, buildingModel, bui
       document.querySelector(".build-window-div").style.display = "none";
       document.querySelector(".city-interaction").style.display = "none";
       document.querySelector('.unit-interaction').style.display = 'none';
-      document.querySelector(".unit-move-interaction").style.display = "none";
+      document.querySelector(".unit-move-interaction-land").style.display = "none";
+      document.querySelector(".unit-move-interaction-air").style.display = "none";
+      document.querySelector(".unit-move-interaction-naval").style.display = "none";
     break;
   }
 }

@@ -4,7 +4,7 @@
 // blockading ports, seizing trade ships, invading coastal cities, and transporting troops
 // but can also be used directly to take control of food resources
 
-destroyerIndex = 0;
+destroyerIndex = 1;
 let destroyerUnits = [
     {
       "id": 0,
