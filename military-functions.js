@@ -1789,6 +1789,7 @@ const addInfantryToArmy = function(cityID, planetID) {
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
+        "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
         "reEnterHomeCity": false,
@@ -1834,6 +1835,7 @@ const addTanksToArmy = function(cityID, planetID) {
       newArmyObject = {
         "id": currentArmyIndex,
         "ownerID": cityOwner,
+        "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
         "reEnterHomeCity": false,
@@ -1877,6 +1879,7 @@ const addMarinesToArmy = function(cityID, planetID) {
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
+        "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
         "reEnterHomeCity": false,
@@ -1920,6 +1923,7 @@ const addSpaceInfantryToArmy = function(cityID, planetID) {
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
+        "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
         "reEnterHomeCity": false,
@@ -1963,6 +1967,7 @@ const addSpaceMarinesToArmy = function(cityID, planetID) {
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
+        "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
         "reEnterHomeCity": false,
@@ -2008,6 +2013,7 @@ const addGuerrillasToArmy = function(cityID, planetID) {
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
+        "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
         "reEnterHomeCity": false,
@@ -2201,6 +2207,71 @@ const infantryArmyMax = function() {
 const updateArmyInfantry = function() {
     
 }
+
+
+
+
+
+const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaType) {
+  
+  if (planetID == 1) {
+    
+    
+    
+  } else if (planetID == 2) {
+    
+    guerrillaHealth = countries[countryID].infantryMaxHealth * countries[countryID].guerrillaHealthPercent;
+    
+    if (guerrillaType == 0) {
+      // the guerrillas are provincial
+      guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * (countries[countryID].guerrillaPopPercent * 2))/10000);
+      // the guerrilla spawn amount is the population times the country's spawn rate times 2 divided by 10,000 rounded to the nearest
+      // whole number to determine the number of hostile armies which will spawn
+      guerrillaMorale = countries[countryID].guerrillaMorale;
+    } else {
+      // the guerrillas are ideological
+      guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * ideologies[guerrillaType].guerrillaPopPercent)/10000);
+      guerrillaMorale = ideologies[guerrillaType].guerrillaMorale;
+    }
+    
+    for (i = 0; i < guerrillaSpawnAmount; i++) {
+      guerrillaUnits.push(
+        {
+          "id": guerrillaIndex,
+          "ownerID": countryID,
+          "planetID": 2,
+          "cityID": cityID,
+          "army": null,
+          "health": guerrillaHealth,
+          "morale": guerrillaMorale,
+          "currentManpower": 10000,
+        }
+      );
+      countries[countryID].hostileGuerrillas.push(guerrillaIndex);
+      countries[countryID].hostileGuerrillasIdeology.push(guerrillaType);
+      // ideological guerrillas will have their morale updated every month based on their ideology not on their spawn country
+      // so the ideology of each unit gets kept track of here
+      map2Cities[cityID].guerrillas.push(guerrillaIndex);
+      map2Cities[cityID].guerrillasOwnerID.push(countryID);
+      guerrillaIndex++;
+    }
+    
+    if (guerrillaSpawnAmount > 0) {
+      map2Cities[cityID].hostileGuerrillasPresent = true;
+    }
+    
+  } else if (planetID == 3) {
+    
+    
+    
+  } else if (planetID == 4) {
+    
+    
+    
+  }
+  
+}
+
 
 
 

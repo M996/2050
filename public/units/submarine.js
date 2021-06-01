@@ -12,7 +12,6 @@ let submarineUnits = [
       "ownerID": 0,
       "planetID": 2,
       "cityID": 0,
-      "isDead": false,
       "fleet": null,
       "health": 120,
       "morale": 0.3000,

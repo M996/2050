@@ -79,7 +79,31 @@ tellTime = function(t1) {
     case 14: 
         tickTime++;
     break;
-    case 15: 
+    case 15:
+      
+      countries.forEach(function(country) {
+        
+        country.ownedProvinces1.forEach(function(province) {
+          
+          // disease spread between provinces
+          
+          // ideology spread between provinces
+          
+          // ethnicity spread between provinces
+          
+          // provincial unrest and guerrillas
+          factorUnrest1(country.id, province.id, province.unrest, province.civilUnrest);
+          
+          factorUnrest2(country.id, province.id, province.unrest, province.civilUnrest);
+          
+          factorUnrest3(country.id, province.id, province.unrest, province.civilUnrest);
+          
+          factorUnrest4(country.id, province.id, province.unrest, province.civilUnrest);
+          
+        });
+        
+      });
+      
         tickTime++;
     break;
     case 16:

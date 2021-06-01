@@ -6,6 +6,9 @@ landArmies = [
     {
         "id": 0,
         "ownerID": 0,
+        "guerrillaArmyIdeology": null,
+        // if an army is made up of ideological guerrillas, then they have to renew their morale
+        // from their ideology not from their country, so the ideology id is located here
         "planetID": 2,
         "cityID": 0,
         "reEnterHomeCity": false,

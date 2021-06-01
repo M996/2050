@@ -153,6 +153,7 @@ let countries = [
         "infantry": [],
         "marines": [],
         "guerrillas": [],
+        "hostileGuerrillas": [],
         "spaceInfantry": [],
         "spaceMarines": [],
         "tanks": [],
@@ -269,14 +270,13 @@ let countries = [
         "guerrillaSmallArmsDamage": 7,
         "guerrillaExplosiveDamage": 3,
         
-        "hostileGuerrillas": [0,1],
+        "hostileGuerrillas": [],
         // this array contains all guerrillas which have spawned in a country in order to force a province to defect or force a new government
-        "hostileGuerrillasHomeCountry": [null,1],
-        // if guerrillas are fighting against their Host Country to liberate a province for another country, this shows their allegiance, if they
-        // are ideological guerrillas, then their spot in this array would be [null].
-        "hostileGuerrillasIdeology": [0,null],
-        // if guerrillas are not fighting to free a province for another country but rather for ideological reasons, then their ideology would
-        // appear in this array but the 'hostileGuerrillasHomeCountry' index spot for that army would be [null]
+        "hostileGuerrillasIdeology": [],
+        // if guerrillas are not fighting to free a province for another country but rather for ideological reasons, then their ideology would appear here
+        "hostileGuerrillasBackingCountry": [],
+        // this is  alist of countries who do not have to fight guerrillas this country spawns because they are enemies with the Host Country
+        // or allied directly with the Guerrillas
         
         
         "skyHookProcessedMineralsMaintenance": 0.1,

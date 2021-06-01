@@ -12,7 +12,6 @@ let skyhookUnits = [
       "ownerID": 0,
       "planetID": 2,
       // skyhooks can never stop at a space tower so they can never have a city id
-      "isDead": false,
       "xpos": 0,
       "ypos": 0,
       "health": 15,

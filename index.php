@@ -508,6 +508,7 @@ require 'header.php';
 <script src="fabric-4.3.0.min.js"></script>
 <script src="common-functions.js"></script>
 <script src="political-functions.js"></script>
+<script src="economic-functions.js"></script>
 <script src="build-window-functions.js"></script>
 <script src="military-functions.js"></script>
 <script src="ranged-weapon-functions.js"></script>
@@ -527,6 +528,7 @@ require 'header.php';
 <script src="public/units/submarine.js"></script>
 <script src="public/units/tank.js"></script>
 <script src="public/units/taskship.js"></script>
+<script src="public/units/guerrilla.js"></script>
 <script src="public/units/weaponsplatform.js"></script>
 <script src="public/units/landarmies.js"></script>
 <script src="public/units/navalfleet.js"></script>

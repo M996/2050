@@ -171,6 +171,8 @@ const nationalIdeasExample = {
     // multiplier to determine how much more slowly corruption should gain when corruption is going up
     "nationalBaseDefense": 1,
     // Number to be added to the baseDefense of all owned cities, thus increasing ability to defend your own territory
+    "unrestReduction": 2, // implemented!
+    // reduces unrest in all provinces by this amount
     
     
     // Add some Trade Bonuses here when trade is fleshed out

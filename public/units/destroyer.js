@@ -11,7 +11,6 @@ let destroyerUnits = [
       "ownerID": 0,
       "planetID": 2,
       "cityID": 0,
-      "isDead": false,
       "fleet": null,
       "health": 400,
       "morale": 0.3000,

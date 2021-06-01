@@ -1481,7 +1481,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "army": null,
                         "health": marineHealth,
@@ -1566,7 +1565,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "health": country.carrierMaxHealth,
                         "morale": country.morale,
@@ -1632,7 +1630,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "health": country.destroyerMaxHealth,
                         "morale": country.morale,
@@ -1701,7 +1698,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "health": 60,
                         "morale": country.morale,
@@ -1758,7 +1754,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "army": null,
                         "health": country.infantryMaxHealth,
@@ -1819,7 +1814,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "army": null,
                         "health": country.tankMaxHealth,
@@ -1884,7 +1878,6 @@ const runBuildingProcesses2 = function(country) {
                         "planetID": 2,
                         "cityID": thisCity,
                         "fleet": null,
-                        "isDead": false,
                       }
                     );
                     country.aircraft.push(aircraftIndex);
@@ -1951,7 +1944,6 @@ const runBuildingProcesses2 = function(country) {
                         "planetID": 2,
                         "cityID": thisCity,
                         "orbitalWeaponsPlatformID": null,
-                        "isDead": false,
                         "xpos": 0,
                         "ypos": 0,
                       }
@@ -1991,7 +1983,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "army": null,
                         "spaceFleet": null,
@@ -2050,7 +2041,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "fleet": null,
                         "army": null,
                         "spaceFleet": null,
@@ -2204,7 +2194,6 @@ const runBuildingProcesses2 = function(country) {
                         "id": taskShipIndex,
                         "ownerID": country.id,
                         "planetID": 2,
-                        "isDead": false,
                         "spaceFleet": null,
                         "health": country.taskShipMaxHealth,
                       }
@@ -2266,7 +2255,6 @@ const runBuildingProcesses2 = function(country) {
                         "id": skyHookIndex,
                         "ownerID": country.id,
                         "planetID": 2,
-                        "isDead": false,
                         "xpos": 0,
                         "ypos": 0,
                         "health": skyHookHealth,
@@ -2315,7 +2303,6 @@ const runBuildingProcesses2 = function(country) {
                         "ownerID": country.id,
                         "planetID": 2,
                         "cityID": thisCity,
-                        "isDead": false,
                         "spaceFleet": null,
                         "health": weaponsPlatformHealth,
                         "kinetic": false,
@@ -2523,7 +2510,7 @@ const runBuildingProcesses2 = function(country) {
                                                                                     buildingImageParentDiv = document.querySelector("#building-select-" + buildingIndex + "").parentNode;
                                                                                     buildingImageParentDiv.style.display = "none";
                                                                                     map2Cities[targetCityID].ICBMs.forEach(function(ICBMID) {
-                                                                                        ICBMUnits[ICBMID].isDead = true;
+                                                                                        ICBMUnits[ICBMID] = null;
                                                                                         // make all of the ICBMs in this city be dead so the country no longer
                                                                                         // has to pay maintenance and we can ignore these objects
                                                                                     });

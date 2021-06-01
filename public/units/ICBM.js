@@ -15,7 +15,6 @@ let ICBMUnits = [
       "cityID": 0,
       "orbitalWeaponsPlatformID": 0,
       // ICBMs can be carried inside either a city or an orbital weapon's platform
-      "isDead": false,
       "xpos": 0,
       "ypos": 0,
       // any other stats that should be in here that are not in here currently,

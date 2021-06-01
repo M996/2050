@@ -1,11 +1,10 @@
 guerrillaIndex = 1;
-let guerillaUnits = [
+let guerrillaUnits = [
     {
       "id": 0,
       "ownerID": 0,
       "planetID": 2,
       "cityID": 0,
-      "isDead": false,
       "army": null,
       "health": 66,
       // guerilla morale is either 25% if these are province guerrillas or based on theri Ideology if these
@@ -14,7 +13,7 @@ let guerillaUnits = [
       // maxHealth is equal to 80% infantry maxHealth
       // smallArmsDamage is found in Host Country Guerrilla Stats
       // explosiveDamage is found in Host Country Guerrilla Stats
-      // moraleDamage is equal to 120% of infantry
+      // moraleDamage is equal to 90% of infantry
       // speed is equal to 75% of infantry
       // smallArmsArmor is equal to -0.08 infantry
       // explosiveArmor is equal to -0.10 infantry

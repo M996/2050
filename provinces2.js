@@ -27,7 +27,7 @@ let map2Provinces = [
         "unrest": 0,
         "civilUnrest": false,
         // when unrest is high a province has a chance of being pushed up into civil unrest
-        // this means that rebels now have a percentage chance of popping equal to the province's unrest
+        // this means that rebels now have a percentage chance of popping equal to the province's unrest + 5
         "controlledPercent": 1.00,
         "gdpPerCapita": 1.48,
         "disease": "",

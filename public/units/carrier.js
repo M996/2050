@@ -8,7 +8,6 @@ let carrierUnits = [
       "ownerID": 0,
       "planetID": 2,
       "cityID": 0,
-      "isDead": false,
       "fleet": null,
       "health": 720,
       "morale": 0.3000,

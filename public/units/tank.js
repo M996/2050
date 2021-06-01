@@ -7,7 +7,6 @@ let tankUnits = [
       "ownerID": 0,
       "planetID": 2,
       "cityID": 0,
-      "isDead": false,
       "fleet": null,
       "army": null,
       "health": 120,

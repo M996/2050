@@ -1,6 +1,10 @@
-- a function must fire that adds guerillas to a city and must also call another function (?) that launches
-- an attack on that city if an army or soliders are present, and if they are not present then instead it hands control of the city
-- to the attacking guerillas
+- create function that determines what types of rebels are going to spawn in what city belonging to what country,
+- take into account unrest, civilUnrest, and also
+
+- when guerrillas spawn in a city and are defeated, they should have theri city changed to a different city in that same province
+- so that the next month they will be detected again and fight again for a different city. If no more cities are available then
+- they should spawn in a random spot in the province maybe 2 months later (or maybe just keep fighting in that one city
+- until all of hem are finally killed)
 
 - There are two types of Guerrillas, ones connected to the province, and ones connected to an Ideology. When province connected
 - guerrillas spawn, they will try to take control of cities in a province to force that province to belong to the country
@@ -21,6 +25,13 @@
 
 - maybe change morale to be based on army and fleet and not by unit then figure out how that would factor into city combat
 
+- in city combat, if an enemy units enters a hostile city it is assumed that defending units are in the hostile city, so gather
+- together all defending units and put them in defending arrays. If all of those arrays are empty, then hand over the city to the invader.
+- when a country is at war, it should always check the 'countriesPresent' array of any city it enters to see if hostile forces are there
+- if they are fight them, but if they are not then ignore it. When at peace only check to see if their are hostileGuerrillas.
+
+- when any type of unit dies, replace its spot in the Units array with 'null' to save space in memory
+
 - create fleet elements on canvas and give them the ability to move around
 
 - create land unit elements on canvas
@@ -32,7 +43,7 @@
 
 - create aircraft combat mechanics
 
-- Create Land Combat
+- create Land Combat
 
 - create land attrition
 
@@ -84,6 +95,8 @@
 
 - add government interactions and internal politics
 
+- create a policy that allows you to select whether or not to fight hostile guerrillas belonging to your enemy when in their territory
+
 - add Unions
 
 - Add unrest/rebel mechanics and rebel popping
@@ -111,6 +124,8 @@
 - to cyber attacks
 
 - maybe experiment with disabling object caching and see how that goes (main2.js)
+
+- maybe change it so that when buildings are destroyed, the building process they were attached to is replaced with 'null' so memory doesn't get too full
 
 
 
