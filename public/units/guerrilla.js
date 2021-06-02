@@ -3,6 +3,7 @@ let guerrillaUnits = [
     {
       "id": 0,
       "ownerID": 0,
+      "ideology": 3,
       "planetID": 2,
       "cityID": 0,
       "army": null,

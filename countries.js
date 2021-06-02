@@ -113,7 +113,7 @@ let countries = [
         // go to war with another country
         "hasPort": true,
         "hasSpacePort": false,
-        "ideology": "Turenga",
+        "ideology": 4,
         "mainEthnicity": "Roque",
         "baseRights": null,
         "baseRightsOverlord": [],
@@ -270,9 +270,9 @@ let countries = [
         "guerrillaSmallArmsDamage": 7,
         "guerrillaExplosiveDamage": 3,
         
-        "hostileGuerrillas": [],
+        "hostileGuerrillas": [0],
         // this array contains all guerrillas which have spawned in a country in order to force a province to defect or force a new government
-        "hostileGuerrillasIdeology": [],
+        "hostileGuerrillasIdeology": [3],
         // if guerrillas are not fighting to free a province for another country but rather for ideological reasons, then their ideology would appear here
         "hostileGuerrillasBackingCountry": [],
         // this is  alist of countries who do not have to fight guerrillas this country spawns because they are enemies with the Host Country

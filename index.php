@@ -18,7 +18,7 @@ require 'header.php';
 
 
 <body style="margin: 0;">
-  <div class="main-div"> <!-- oncontextmenu="return false;" uncomment this and add to main div to prevent people from right-clicking on screen -->
+  <div class="main-div"> <!--  uncomment this and add to main div to prevent people from right-clicking on screen -->
   <div class="ui-resource-container">
     <div class="top-resource-div">
       <div class="capital-tooltip">

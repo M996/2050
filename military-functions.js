@@ -2222,8 +2222,8 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     
     guerrillaHealth = countries[countryID].infantryMaxHealth * countries[countryID].guerrillaHealthPercent;
     
-    if (guerrillaType == 0) {
-      // the guerrillas are provincial
+    if (guerrillaType == 0 || guerrillaType == 1) {
+      // the guerrillas are seperatists or particularists
       guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * (countries[countryID].guerrillaPopPercent * 2))/10000);
       // the guerrilla spawn amount is the population times the country's spawn rate times 2 divided by 10,000 rounded to the nearest
       // whole number to determine the number of hostile armies which will spawn
@@ -2239,6 +2239,7 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
         {
           "id": guerrillaIndex,
           "ownerID": countryID,
+          "ideology": guerrillaType,
           "planetID": 2,
           "cityID": cityID,
           "army": null,
@@ -2251,13 +2252,16 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
       countries[countryID].hostileGuerrillasIdeology.push(guerrillaType);
       // ideological guerrillas will have their morale updated every month based on their ideology not on their spawn country
       // so the ideology of each unit gets kept track of here
-      map2Cities[cityID].guerrillas.push(guerrillaIndex);
-      map2Cities[cityID].guerrillasOwnerID.push(countryID);
+      map2Cities[cityID].hostileGuerrillas.push(guerrillaIndex);
+      map2Cities[cityID].hostileGuerrillasOwnerID.push(countryID);
       guerrillaIndex++;
     }
     
     if (guerrillaSpawnAmount > 0) {
-      map2Cities[cityID].hostileGuerrillasPresent = true;
+      // if hostile guerrillas are present in a city any army entering the city will be made aware of this immediately and will
+      // fight them, this value will be set to false when all the guerrillas have been defeated
+      cityFightGuerrilla(planetID, cityID, countryID);
+      // start a fight in the city between the country which owns the city and the hostile guerrillas which we have just spawned
     }
     
   } else if (planetID == 3) {
@@ -2269,6 +2273,12 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     
     
   }
+  
+}
+
+const cityFightGuerrilla = function(planetID, cityID, countryID) {
+  
+  
   
 }
 

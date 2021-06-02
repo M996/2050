@@ -39,25 +39,38 @@ factorUnrest2(countryID, provinceID, unrestAmount, civilUnrest) {
         
         if (rebellion < rebellionPercent) {
             
-            if (map2Provinces[provinceID].ideology.some('Positivist-Dirigist') {
+            guerrillaIdeology = false;
+            // set this variable to false to begin with, it will be set to the proper ideology to spawn guerrillas
+            // if such an ideology is found suitable in this province
+            ideologyArrayIndex = 0;
+            map2Provinces[provinceID].ideology.forEach(function(ideology) {
+                if (ideology != countries[countryID].ideology) {
+                    // the ideology in this list is not endorsed by the Host Country
+                    if (map2Provinces[provinceID].ideologyPercent[ideologyArrayIndex] > 0.5) {
+                        // this ideology is over 50% of the province so they can now spawn their own guerrillas
+                        guerrillaIdeology = ideology;
+                    }
+                }
+                ideologyArrayIndex++;
+            });
+            
+            if (map2Provinces[provinceID].ideology.some(2) {
                 // if at least one of the ideologies present in this province is Positivist Dirigism then every guerrilla
                 // that can spawn here must fight for Positivist Dirigism first and foremost
-                guerrillaType = 1;
+                guerrillaType = 2;
             } else if (!map2Provinces[provinceID].cores.every(countryID) {
                 // if not every core in the cores list for this province is belonging to its host country, then a
-                // foreign country must have a core, therefore the guerrillas that will spawn here will be provincial
+                // foreign country must have a core, therefore the guerrillas that will spawn here will be seperatist
                 // guerrillas loyal to that foreign country
                 guerrillaType = 0;
-            } else if () {
-                // in this final guerrillaType section, determine if an ideology exists in this province with more than 50%
-                // control of the province and is not the endorsed ideology of the country. If this is the case, assign
-                // guerrillas to this ideology
-                guerrillaType = ?;
+            } else if (guerrillaIdeology) {
+                // An ideology in this province holds over 50% of the population and is not adopted by the Host Country
+                // as we determined in the code above therefore the guerrillas that spawn here will belong to this ideological group
+                guerrillaType = guerrillaIdeology;
             } else {
                 // if Positivist Dirigists are not in the province, and no foreign cores are held, and no significant ideology
-                // exists in the area that wants to assume control, then the guerrillas spawning should be particularists so
-                // figure out what that is going to look like withint the Guerrilla mechanics
-                guerrillaType = ?;
+                // exists in the area that wants to assume control, then the guerrillas spawning should be particularists
+                guerrillaType = 1;
             }
             
             map2Provinces[provinceID].cities.forEach(function(city) {
