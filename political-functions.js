@@ -2,13 +2,13 @@
 
 
 
-factorUnrest1(countryID, provinceID, unrestAmount, civilUnrest) {
+const factorUnrest1 = function(countryID, provinceID, unrestAmount, civilUnrest) {
     
     
     
 }
 
-factorUnrest2(countryID, provinceID, unrestAmount, civilUnrest) {
+const factorUnrest2 = function(countryID, provinceID, unrestAmount, civilUnrest) {
     
     if (!civilUnrest) {
         if (countries[countryID].unrestReduction !== undefined) {
@@ -38,8 +38,8 @@ factorUnrest2(countryID, provinceID, unrestAmount, civilUnrest) {
         rebellion = Math.floor(Math.random() * 100);
         
         if (rebellion < rebellionPercent) {
-            
             guerrillaIdeology = false;
+            seperatistID = false;
             // set this variable to false to begin with, it will be set to the proper ideology to spawn guerrillas
             // if such an ideology is found suitable in this province
             ideologyArrayIndex = 0;
@@ -54,14 +54,22 @@ factorUnrest2(countryID, provinceID, unrestAmount, civilUnrest) {
                 ideologyArrayIndex++;
             });
             
-            if (map2Provinces[provinceID].ideology.some(2) {
+            if (map2Provinces[provinceID].ideology.includes(2)) {
                 // if at least one of the ideologies present in this province is Positivist Dirigism then every guerrilla
                 // that can spawn here must fight for Positivist Dirigism first and foremost
                 guerrillaType = 2;
-            } else if (!map2Provinces[provinceID].cores.every(countryID) {
+            } else if (map2Provinces[provinceID].cores.length > 1) {
                 // if not every core in the cores list for this province is belonging to its host country, then a
                 // foreign country must have a core, therefore the guerrillas that will spawn here will be seperatist
                 // guerrillas loyal to that foreign country
+                seperatistID = countryID;
+                while (seperatistID == countryID) {
+                    map2Provinces[provinceID].cores.forEach(function(coreCountryID) {
+                        seperatistID = coreCountryID;
+                    });
+                }
+                // the code above will iterate through countries that have cores looking for the oldest country to have
+                // a core in this province, and then spawning rebels will be associated with this country
                 guerrillaType = 0;
             } else if (guerrillaIdeology) {
                 // An ideology in this province holds over 50% of the population and is not adopted by the Host Country
@@ -74,7 +82,7 @@ factorUnrest2(countryID, provinceID, unrestAmount, civilUnrest) {
             }
             
             map2Provinces[provinceID].cities.forEach(function(city) {
-                spawnHostileGuerrillas(2, city.id, countryID, guerrillaType);
+                spawnHostileGuerrillas(2, city, countryID, guerrillaType, seperatistID);
             });
             
             map2Provinces[provinceID].civilUnrest = false;
@@ -93,13 +101,13 @@ factorUnrest2(countryID, provinceID, unrestAmount, civilUnrest) {
     
 }
 
-factorUnrest3(countryID, provinceID, unrestAmount, civilUnrest) {
+const factorUnrest3 = function(countryID, provinceID, unrestAmount, civilUnrest) {
     
     
     
 }
 
-factorUnrest4(countryID, provinceID, unrestAmount, civilUnrest) {
+const factorUnrest4 = function(countryID, provinceID, unrestAmount, civilUnrest) {
     
     
     

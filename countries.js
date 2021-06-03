@@ -274,10 +274,9 @@ let countries = [
         // this array contains all guerrillas which have spawned in a country in order to force a province to defect or force a new government
         "hostileGuerrillasIdeology": [3],
         // if guerrillas are not fighting to free a province for another country but rather for ideological reasons, then their ideology would appear here
-        "hostileGuerrillasBackingCountry": [],
-        // this is  alist of countries who do not have to fight guerrillas this country spawns because they are enemies with the Host Country
+        "hostileGuerrillasNeutral": [],
+        // this is a list of countries who do not have to fight guerrillas this country spawns because they are enemies with the Host Country
         // or allied directly with the Guerrillas
-        
         
         "skyHookProcessedMineralsMaintenance": 0.1,
         "skyHookCapitalMaintenance": 3.2,

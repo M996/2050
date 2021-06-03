@@ -94,10 +94,43 @@ tellTime = function(t1) {
           // provincial unrest and guerrillas
           factorUnrest1(country.id, province.id, province.unrest, province.civilUnrest);
           
-          factorUnrest2(country.id, province.id, province.unrest, province.civilUnrest);
+        });
+        
+        country.ownedProvinces2.forEach(function(provinceID) {
+          // I am calling the forEach loop here on a single value array instead of the array of province objects
+          // disease spread between provinces
           
+          // ideology spread between provinces
+          
+          // ethnicity spread between provinces
+          
+          // provincial unrest and guerrillas
+          factorUnrest2(country.id, provinceID, map2Provinces[provinceID].unrest, map2Provinces[provinceID].civilUnrest);
+          
+        });
+        
+        country.ownedProvinces3.forEach(function(province) {
+          
+          // disease spread between provinces
+          
+          // ideology spread between provinces
+          
+          // ethnicity spread between provinces
+          
+          // provincial unrest and guerrillas
           factorUnrest3(country.id, province.id, province.unrest, province.civilUnrest);
           
+        });
+        
+        country.ownedProvinces4.forEach(function(province) {
+          
+          // disease spread between provinces
+          
+          // ideology spread between provinces
+          
+          // ethnicity spread between provinces
+          
+          // provincial unrest and guerrillas
           factorUnrest4(country.id, province.id, province.unrest, province.civilUnrest);
           
         });

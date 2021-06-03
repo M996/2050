@@ -21,11 +21,11 @@ let map2Provinces = [
         "occupiedBy": "",
         "ownerID": 0,
         "occupierID": null,
-        "cores": [0],
+        "cores": [0,1],
         "claims": [],
         "isSeaZone": false,
-        "unrest": 0,
-        "civilUnrest": false,
+        "unrest": 20,
+        "civilUnrest": true,
         // when unrest is high a province has a chance of being pushed up into civil unrest
         // this means that rebels now have a percentage chance of popping equal to the province's unrest + 5
         "controlledPercent": 1.00,

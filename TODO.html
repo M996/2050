@@ -122,9 +122,17 @@
 - make it so that the second and up aircraft technologies give far superior aircraft but also open aircraft up to being more vulnerable
 - to cyber attacks
 
+
+
+
 - maybe experiment with disabling object caching and see how that goes (main2.js)
 
 - maybe change it so that when buildings are destroyed, the building process they were attached to is replaced with 'null' so memory doesn't get too full
+
+- WebSockets will be needed to connect the browser to the server and facilitate multiplayer gameplay
+- WebWorkers will be needed to create a PWA and allow offline mode for the game, in addition to utilizing multiple cores
+- Pointer Lock API can be used to get the coordinates of a mouse at any given moment
+
 
 
 
@@ -132,7 +140,7 @@
 
 
 ===== Trade Mechanics =============================================================================================
-- Every country can send resources out every month or every other month
+- Every country can send resources out every 3 months
 
 - Only major Trade Powers can suck resources in and give money to the countries that sold them those resources
 - this means that instead of multiplying 200 X 200 when looking for trade partners on a planet, you will only have
@@ -140,8 +148,9 @@
 - and this can become a source of tension between large nations
 
 - When a small country sends resources out, it choose a random country in one of the 10 Trade Powers to send the resources
-- to. If the country is a land neighbor then no ships is sent and the trade is instant. When the ship reaches a port belonging
-- to the trade power, the small nation receives money directly from the corporation of that nation. Corporations in turn
+- to (unless it is some sort of vassal). If the country is a land neighbor then no ship is sent and the trade is instant.
+- When the ship reaches a port belonging to the trade power, the small
+- nation receives money directly from the corporation of that nation. Corporations in turn
 - can liquidate resources when they have too much of them for 10% more than they bought them for, so although the corporation
 - might lose money in the short term, they gain money in the long run.
 
@@ -161,7 +170,7 @@
 - system should be mostly self balancing. Faction events should be one of the mainways countries lose corporation shares
 
 - Corporations can pick a side and prop up factions within a country. Usually a corporation only exists at the mercy of its
-- owner nation but this is a chance for the corporation to help or hurt its host nation.
+- owner nation but this is a chance for the corporation to help or hurt its host nation, or other nations in which it operates.
 
 - Factions will feature heavily in government mechanics, most mechanics within a government should be tied to a faction
 - in one way or another. This is another way to punish nations that only have one faction.
@@ -189,6 +198,48 @@
 
 =========================================================================================================================
 
+
+
+
+==== Possible Policies ==================================================================================================
+// polices that incease the production of one resource at the expense of another resource are useful for playing tall because
+// large sprawling empires will usually be more likely to have an even mix of resources
+
+- Food Increase 1: +10% Food for (-20% oil)(25 Influence)
+- Food Increase 2: +20% Food for (-33% oil)(30 Influence. Must have Food Increase 1 for at least 5 years)
+- Food Increase 3: +40% Food for (-50% oil) (20 Influence. Only available to certain Authoritarian governments)
+
+- Oil Increase 1: +10% Oil for (-20% food)(25 Influence)
+- Oil Increase 2: +20% Oil for (-33% food)(30 Influence. Must have Food Increase 1 for at least 5 years)
+- Oil Increase 3: +40% Oil for (-50% food) (20 Influence. Only available to certain Authoritarian governments)
+
+- Minerals Increase 1: +10% Minerals for (-20% Metals)(25 Influence)
+- Minerals Increase 2: +20% Minerals for (-33% Metals)(30 Influence. Must have Minerals Increase 1 for at least 5 years)
+- Minerals Increase 3: +40% Minerals for (-50% Metals) (20 Influence. Only available to certain Authoritarian governments)
+
+- Metals Increase 1: +10% Metals for (-20% Minerals)(25 Influence)
+- Metals Increase 2: +20% Metals for (-33% Minerals)(30 Influence. Must have Metals Increase 1 for at least 5 years)
+- Metals Increase 3: +40% Metals for (-50% Minerals) (20 Influence. Only available to certain Authoritarian governments)
+
+- Processed Minerals Increase 1: +10% Processed Minerals for (-20% Processed Metals)(25 Influence)
+- Processed Minerals Increase 2: +20% Processed Minerals for (-33% Processed Metals)(30 Influence. Must have Processed Minerals Increase 1 for at least 5 years)
+- Processed Minerals Increase 3: +40% Processed Minerals for (-50% Processed Metals) (20 Influence. Only available to certain Authoritarian governments)
+
+- Processed Metals Increase 1: +10% Processed Metals for (-20% Processed Minerals)(25 Influence)
+- Processed Metals Increase 2: +20% Processed Metals for (-33% Processed Minerals)(30 Influence. Must have Processed Metals Increase 1 for at least 5 years)
+- Processed Metals Increase 3: +40% Processed Metals for (-50% Processed Minerals) (20 Influence. Only available to certain Authoritarian governments)
+
+- Precious Metals Increase 1: +10% Precious Metals for (-20% Nuclear Materials)(25 Influence)
+- Precious Metals Increase 2: +20% Precious Metals for (-33% Nuclear Materials)(30 Influence. Must have Precious Metals Increase 1 for at least 5 years)
+- Precious Metals Increase 3: +40% Precious Metals for (-50% Nuclear Materials) (20 Influence. Only available to certain Authoritarian governments)
+
+- Nuclear Materials Increase 1: +10% Nuclear Materials for (-20% Precious Metals)(25 Influence)
+- Nuclear Materials Increase 2: +20% Nuclear Materials for (-33% Precious Metals)(30 Influence. Must have Nuclear Materials Increase 1 for at least 5 years)
+- Nuclear Materials Increase 3: +40% Nuclear Materials for (-50% Precious Metals) (20 Influence. Only available to certain Authoritarian governments)
+
+- Reduce Unrest: -1 influence (-0.5 Capital per province) for every -1 unrest
+
+==========================================================================================================================
 
 
 

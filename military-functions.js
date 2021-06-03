@@ -2212,7 +2212,7 @@ const updateArmyInfantry = function() {
 
 
 
-const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaType) {
+const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaType, seperatistID) {
   
   if (planetID == 1) {
     
@@ -2240,6 +2240,7 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
           "id": guerrillaIndex,
           "ownerID": countryID,
           "ideology": guerrillaType,
+          "seperatistID": seperatistID,
           "planetID": 2,
           "cityID": cityID,
           "army": null,
@@ -2260,7 +2261,7 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     if (guerrillaSpawnAmount > 0) {
       // if hostile guerrillas are present in a city any army entering the city will be made aware of this immediately and will
       // fight them, this value will be set to false when all the guerrillas have been defeated
-      cityFightGuerrilla(planetID, cityID, countryID);
+      beginFightingHostileGuerrillas(planetID, cityID, countryID, [countryID]);
       // start a fight in the city between the country which owns the city and the hostile guerrillas which we have just spawned
     }
     
@@ -2275,13 +2276,3 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
   }
   
 }
-
-const cityFightGuerrilla = function(planetID, cityID, countryID) {
-  
-  
-  
-}
-
-
-
-

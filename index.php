@@ -511,6 +511,7 @@ require 'header.php';
 <script src="economic-functions.js"></script>
 <script src="build-window-functions.js"></script>
 <script src="military-functions.js"></script>
+<script src="seperate-military-functions.js"></script>
 <script src="ranged-weapon-functions.js"></script>
 <script src="unions.js"></script>
 <script src="countries.js"></script>
