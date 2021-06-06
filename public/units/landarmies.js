@@ -11,6 +11,7 @@ landArmies = [
         // from their ideology not from their country, so the ideology id is located here
         "planetID": 2,
         "cityID": 0,
+        "general": 0,
         "reEnterHomeCity": false,
         // this value is used to determine if a unit is elgible to re-enter the city it just left,
         // if it is just now being moved out of that city, then it should not re-enter the same city

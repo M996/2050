@@ -24,7 +24,7 @@ let map2Provinces = [
         "cores": [0,1],
         "claims": [],
         "isSeaZone": false,
-        "unrest": 20,
+        "unrest": 40,
         "civilUnrest": true,
         // when unrest is high a province has a chance of being pushed up into civil unrest
         // this means that rebels now have a percentage chance of popping equal to the province's unrest + 5

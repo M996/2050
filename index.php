@@ -230,152 +230,152 @@ require 'header.php';
     </div>
     
     <div class="city-combat-screen">
-      <div class="enemy-stats">
-        <div class="enemy-name-info-container">
-          <p class="enemy-name">Tuetoro</p>
+      <div class="attacker-stats">
+        <div class="attacker-name-info-container">
+          <p class="attacker-name">Tuetoro</p>
         </div>
-        <div class="enemy-units-info">
+        <div class="attacker-units-info">
           <div class="unit-display-container">
-            <div class="enemy-infantry-info">
-              <img class="combat-unit-img" id="enemy-unit" src="public/images/infantryicon.png">
-              <p class="enemy-infantry-manpower" id="enemy-infantry">10,000</p>
+            <div class="attacker-infantry-info">
+              <img class="combat-unit-img" id="attacker-unit" src="public/images/infantryicon.png">
+              <p class="attacker-infantry-manpower" id="attacker-infantry">10,000</p>
             </div>
-            <div class="enemy-infantry-info">
-              <img class="combat-unit-img" id="enemy-unit" src="public/images/tankicon.png">
-              <p class="enemy-tank-manpower" id="enemy-tank">100</p>
+            <div class="attacker-infantry-info">
+              <img class="combat-unit-img" id="attacker-unit" src="public/images/tankicon.png">
+              <p class="attacker-tank-manpower" id="attacker-tank">100</p>
             </div>
-            <div class="enemy-infantry-info">
-              <img class="combat-unit-img" id="enemy-unit" src="public/images/guerrillaicon.png">
-              <p class="enemy-tank-manpower" id="enemy-guerrilla">10,000</p>
+            <div class="attacker-infantry-info">
+              <img class="combat-unit-img" id="attacker-unit" src="public/images/guerrillaicon.png">
+              <p class="attacker-tank-manpower" id="attacker-guerrilla">10,000</p>
             </div>
-            <div class="enemy-infantry-info">
-              <img class="combat-unit-img" id="enemy-unit" src="public/images/marinesicon.png">
-              <p class="enemy-tank-manpower" id="enemy-marines">8,000</p>
+            <div class="attacker-infantry-info">
+              <img class="combat-unit-img" id="attacker-unit" src="public/images/marinesicon.png">
+              <p class="attacker-tank-manpower" id="attacker-marines">8,000</p>
             </div>
-            <div class="enemy-infantry-info">
-              <img class="combat-unit-img" id="enemy-unit" src="public/images/spaceinfantryicon.png">
-              <p class="enemy-tank-manpower" id="enemy-space-infantry">500</p>
+            <div class="attacker-infantry-info">
+              <img class="combat-unit-img" id="attacker-unit" src="public/images/spaceinfantryicon.png">
+              <p class="attacker-tank-manpower" id="attacker-space-infantry">500</p>
             </div>
-            <div class="enemy-infantry-info">
-              <img class="combat-unit-img" id="enemy-unit" src="public/images/spacemarinesicon.png">
-              <p class="enemy-tank-manpower" id="enemy-space-marines">300</p>
+            <div class="attacker-infantry-info">
+              <img class="combat-unit-img" id="attacker-unit" src="public/images/spacemarinesicon.png">
+              <p class="attacker-tank-manpower" id="attacker-space-marines">300</p>
             </div>
           </div>
         </div>
       </div>
       <div class="combat-action-screen">
-        <div class="enemy-morale-div"><div class="current-enemy-morale"></div></div>
+        <div class="attacker-morale-div"><div class="current-attacker-morale"></div></div>
         <!-- The morale bars appear here and are filled in with the values of an army's current morale status -->
         <div class="combat-window">
           
           <div class="combat-roll-window">
-            <div class="enemy-rolls-div">
-              <p class="enemy-roll">8</p>
-              <p class="enemy-bonus">0</p>
+            <div class="defender-rolls-div">
+              <p class="defender-roll">8</p>
+              <p class="defender-bonus">0</p>
             </div>
-            <div class="allied-rolls-div">
-              <p class="ally-bonus">1</p>
-              <p class="ally-roll">7</p>
+            <div class="attacker-rolls-div">
+              <p class="attacker-bonus">1</p>
+              <p class="attacker-roll">7</p>
             </div>
           </div>
           <div class="combat-units-window">
-            <div class="enemy-combat-units">
-              <div class="enemy-row">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
+            <div class="defender-combat-units">
+              <div class="defender-row">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="enemy-row">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
+              <div class="defender-row">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="enemy-row">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
+              <div class="defender-row">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="enemy-row">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
+              <div class="defender-row">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="enemy-row">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
-                <img class="enemy-unit" src="public/images/infantryicon.png">
+              <div class="defender-row">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" src="public/images/infantryicon.png">
               </div>
             </div>
-            <div class="ally-combat-units">
-              <div class="ally-row">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
+            <div class="attacker-combat-units">
+              <div class="attacker-row">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="ally-row">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
+              <div class="attacker-row">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="ally-row">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
+              <div class="attacker-row">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="ally-row">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
+              <div class="attacker-row">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
               </div>
-              <div class="ally-row">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
-                <img class="ally-unit" src="public/images/infantryicon.png">
+              <div class="attacker-row">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" src="public/images/infantryicon.png">
               </div>
             </div>
           </div>
         </div>
-        <div class="ally-morale-div"><div class="current-ally-morale"></div></div>
+        <div class="defender-morale-div"><div class="current-defender-morale"></div></div>
       </div>
-      <div class="ally-stats">
-        <div class="ally-name-info-container">
-          <p class="ally-name">Tehlike Empire</p>
+      <div class="defender-stats">
+        <div class="defender-name-info-container">
+          <p class="defender-name">Tehlike Empire</p>
         </div>
-        <div class="ally-units-info">
+        <div class="defender-units-info">
           <div class="unit-display-container">
-            <div class="ally-infantry-info">
-              <img class="combat-unit-img" id="ally-unit" src="public/images/infantryicon.png">
-              <p class="ally-infantry-manpower">10,000</p>
+            <div class="defender-infantry-info">
+              <img class="combat-unit-img" id="defender-unit" src="public/images/infantryicon.png">
+              <p class="defender-infantry-manpower">10,000</p>
             </div>
-            <div class="ally-infantry-info">
-              <img class="combat-unit-img" id="ally-unit" src="public/images/tankicon.png">
-              <p class="ally-tank-manpower">100</p>
+            <div class="defender-infantry-info">
+              <img class="combat-unit-img" id="defender-unit" src="public/images/tankicon.png">
+              <p class="defender-tank-manpower">100</p>
             </div>
-            <div class="ally-infantry-info">
-              <img class="combat-unit-img" id="ally-unit" src="public/images/guerrillaicon.png">
-              <p class="ally-tank-manpower">10,000</p>
+            <div class="defender-infantry-info">
+              <img class="combat-unit-img" id="defender-unit" src="public/images/guerrillaicon.png">
+              <p class="defender-tank-manpower">10,000</p>
             </div>
-            <div class="ally-infantry-info">
-              <img class="combat-unit-img" id="ally-unit" src="public/images/marinesicon.png">
-              <p class="ally-tank-manpower">8,000</p>
+            <div class="defender-infantry-info">
+              <img class="combat-unit-img" id="defender-unit" src="public/images/marinesicon.png">
+              <p class="defender-tank-manpower">8,000</p>
             </div>
-            <div class="ally-infantry-info">
-              <img class="combat-unit-img" id="ally-unit" src="public/images/spaceinfantryicon.png">
-              <p class="ally-tank-manpower">500</p>
+            <div class="defender-infantry-info">
+              <img class="combat-unit-img" id="defender-unit" src="public/images/spaceinfantryicon.png">
+              <p class="defender-tank-manpower">500</p>
             </div>
-            <div class="ally-infantry-info">
-              <img class="combat-unit-img" id="ally-unit" src="public/images/spacemarinesicon.png">
-              <p class="ally-tank-manpower">300</p>
+            <div class="defender-infantry-info">
+              <img class="combat-unit-img" id="defender-unit" src="public/images/spacemarinesicon.png">
+              <p class="defender-tank-manpower">300</p>
             </div>
           </div>
         </div>
@@ -513,10 +513,13 @@ require 'header.php';
 <script src="military-functions.js"></script>
 <script src="seperate-military-functions.js"></script>
 <script src="ranged-weapon-functions.js"></script>
+<script src="ideologies.js"></script>
 <script src="unions.js"></script>
 <script src="countries.js"></script>
 <script src="corporations.js"></script>
 
+<script src="public/units/general.js"></script>
+<script src="public/units/admiral.js"></script>
 <script src="public/units/aircraft.js"></script>
 <script src="public/units/carrier.js"></script>
 <script src="public/units/destroyer.js"></script>

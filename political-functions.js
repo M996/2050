@@ -39,15 +39,15 @@ const factorUnrest2 = function(countryID, provinceID, unrestAmount, civilUnrest)
         
         if (rebellion < rebellionPercent) {
             guerrillaIdeology = false;
-            seperatistID = false;
+            seperatistID = null;
             // set this variable to false to begin with, it will be set to the proper ideology to spawn guerrillas
             // if such an ideology is found suitable in this province
             ideologyArrayIndex = 0;
             map2Provinces[provinceID].ideology.forEach(function(ideology) {
                 if (ideology != countries[countryID].ideology) {
                     // the ideology in this list is not endorsed by the Host Country
-                    if (map2Provinces[provinceID].ideologyPercent[ideologyArrayIndex] > 0.5) {
-                        // this ideology is over 50% of the province so they can now spawn their own guerrillas
+                    if (map2Provinces[provinceID].ideologyPercent[ideologyArrayIndex] > 0.3) {
+                        // this ideology is over 30% of the province so they can now spawn their own guerrillas
                         guerrillaIdeology = ideology;
                     }
                 }

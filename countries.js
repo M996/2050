@@ -1,6 +1,6 @@
 
 newCountryID = 1;
-// the number above should be equal to the total number of existing countries and will be used to
+// the number above should be equal to the total number of existing countries
 let countries = [
     {
         "id": 0,

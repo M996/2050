@@ -76,67 +76,70 @@ tellTime = function(t1) {
     case 13: 
         tickTime++;
     break;
-    case 14: 
+    case 14:
+      
+        countries.forEach(function(country) {
+          
+          country.ownedProvinces1.forEach(function(province) {
+            
+            // disease spread between provinces
+            
+            // ideology spread between provinces
+            
+            // ethnicity spread between provinces
+            
+            // provincial unrest and guerrillas
+            factorUnrest1(country.id, province.id, province.unrest, province.civilUnrest);
+            
+          });
+          
+          country.ownedProvinces2.forEach(function(provinceID) {
+            // I am calling the forEach loop here on a single value array instead of the array of province objects
+            // disease spread between provinces
+            
+            // ideology spread between provinces
+            
+            // ethnicity spread between provinces
+            
+            // provincial unrest and guerrillas
+            // add function to calculate unrest, probably by adding an unrestEffects array to each province and mapping the effects
+            // to a timer or policy, and each month verifying that the time has not yet passed or the policy is still in effect
+            // and then re-calculating how much unrest should rightfully be in that province. Ideology must also be taken into account
+            factorUnrest2(country.id, provinceID, map2Provinces[provinceID].unrest, map2Provinces[provinceID].civilUnrest);
+            
+          });
+          
+          country.ownedProvinces3.forEach(function(province) {
+            
+            // disease spread between provinces
+            
+            // ideology spread between provinces
+            
+            // ethnicity spread between provinces
+            
+            // provincial unrest and guerrillas
+            factorUnrest3(country.id, province.id, province.unrest, province.civilUnrest);
+            
+          });
+          
+          country.ownedProvinces4.forEach(function(province) {
+            
+            // disease spread between provinces
+            
+            // ideology spread between provinces
+            
+            // ethnicity spread between provinces
+            
+            // provincial unrest and guerrillas
+            factorUnrest4(country.id, province.id, province.unrest, province.civilUnrest);
+            
+          });
+          
+        });
+        
         tickTime++;
     break;
     case 15:
-      
-      countries.forEach(function(country) {
-        
-        country.ownedProvinces1.forEach(function(province) {
-          
-          // disease spread between provinces
-          
-          // ideology spread between provinces
-          
-          // ethnicity spread between provinces
-          
-          // provincial unrest and guerrillas
-          factorUnrest1(country.id, province.id, province.unrest, province.civilUnrest);
-          
-        });
-        
-        country.ownedProvinces2.forEach(function(provinceID) {
-          // I am calling the forEach loop here on a single value array instead of the array of province objects
-          // disease spread between provinces
-          
-          // ideology spread between provinces
-          
-          // ethnicity spread between provinces
-          
-          // provincial unrest and guerrillas
-          factorUnrest2(country.id, provinceID, map2Provinces[provinceID].unrest, map2Provinces[provinceID].civilUnrest);
-          
-        });
-        
-        country.ownedProvinces3.forEach(function(province) {
-          
-          // disease spread between provinces
-          
-          // ideology spread between provinces
-          
-          // ethnicity spread between provinces
-          
-          // provincial unrest and guerrillas
-          factorUnrest3(country.id, province.id, province.unrest, province.civilUnrest);
-          
-        });
-        
-        country.ownedProvinces4.forEach(function(province) {
-          
-          // disease spread between provinces
-          
-          // ideology spread between provinces
-          
-          // ethnicity spread between provinces
-          
-          // provincial unrest and guerrillas
-          factorUnrest4(country.id, province.id, province.unrest, province.civilUnrest);
-          
-        });
-        
-      });
-      
         tickTime++;
     break;
     case 16:

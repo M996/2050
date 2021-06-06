@@ -18,50 +18,52 @@
     min-height: 490px;
 }
 
-.enemy-stats {
-    height: 33%;
+.defender-stats {
+    height: 30%;
     width: 96%;
 }
 
 .combat-action-screen {
-    height: 33%;
+    height: 36%;
     width: 96%;
     overflow: hidden;
 }
 
-.ally-stats {
-    height: 33%;
+.attacker-stats {
+    height: 30%;
     width: 96%;
 }
 
-.enemy-name-info-container {
+.defender-name-info-container {
     height: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.ally-name-info-container {
+.attacker-name-info-container {
     height: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.enemy-name {
+.defender-name {
     color: rgb(0,0,100);
     text-shadow: 0px 0px 6px rgb(85,85,85);
     font-size: 3vh;
     font-weight: bold;
     font-family: sans-serif;
+    margin-top: 1vh;
 }
 
-.ally-name {
+.attacker-name {
     color: green;
     text-shadow: 0px 0px 6px rgb(85,85,85);
     font-size: 3vh;
     font-weight: bold;
     font-family: sans-serif;
+    margin-top: 2vh;
 }
 
 .unit-display-container {
@@ -70,21 +72,21 @@
     overflow-x: auto;
 }
 
-.enemy-units-info {
+.defender-units-info {
     height: 80%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
 
-.ally-units-info {
+.attacker-units-info {
     height: 80%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
 
-.enemy-infantry-info {
+.defender-infantry-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,7 +96,7 @@
     padding-right: 4px;
 }
 
-.ally-infantry-info {
+.attacker-infantry-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,21 +107,21 @@
 }
 
 .combat-unit-img {
-    width: 6vw;
-    min-width: 68px;
+    width: 5vw;
+    min-width: 65px;
 }
 
-.enemy-infantry-manpower {
+.defender-infantry-manpower {
     color: white;
     font-size: 14px;
 }
 
-.ally-infantry-manpower {
+.attacker-infantry-manpower {
     color: white;
     font-size: 14px;
 }
 
-.enemy-tank-info {
+.defender-tank-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -127,7 +129,7 @@
     width: 32%;
 }
 
-.ally-tank-info {
+.attacker-tank-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -139,23 +141,23 @@
     width: 90%;
 }
 
-.enemy-tank-manpower {
+.defender-tank-manpower {
     color: white;
     font-size: 14px;
 }
 
-.ally-tank-manpower {
+.attacker-tank-manpower {
     color: white;
     font-size: 14px;
 }
 
-.enemy-morale-div {
+.defender-morale-div {
     width: 100%;
     height: 5px;
     background: red;
 }
 
-.current-enemy-morale {
+.current-defender-morale {
     width: 70%;
     height: 5px;
     background: green;
@@ -178,7 +180,7 @@
     justify-content: center;
 }
 
-.enemy-rolls-div {
+.defender-rolls-div {
     width: 40%;
     height: 100%;
     background: rgb(0,0,100);
@@ -189,7 +191,7 @@
     justify-content: flex-start;
 }
 
-.enemy-roll {
+.defender-roll {
     margin-right: 18px;
     margin-left: 8px;
     margin-top: 8px;
@@ -207,7 +209,7 @@
     font-size: 2vh;
 }
 
-.enemy-bonus {
+.defender-bonus {
     margin-right: 18px;
     margin-left: 8px;
     margin-top: 8px;
@@ -225,7 +227,7 @@
     font-size: 2vh;
 }
 
-.allied-rolls-div {
+.attacker-rolls-div {
     width: 40%;
     height: 100%;
     background: green;
@@ -236,7 +238,7 @@
     justify-content: flex-end;
 }
 
-.ally-roll {
+.attacker-roll {
     margin-left: 18px;
     margin-right: 8px;
     margin-top: 8px;
@@ -254,8 +256,8 @@
     font-size: 2vh;
 }
 
-.ally-bonus {
-        margin-left: 18px;
+.attacker-bonus {
+    margin-left: 18px;
     margin-right: 8px;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -272,13 +274,13 @@
     font-size: 2vh;
 }
 
-.ally-morale-div {
+.attacker-morale-div {
     width: 100%;
     height: 5px;
     background: red;
 }
 
-.current-ally-morale {
+.current-attacker-morale {
     width: 70%;
     height: 5px;
     background: green;
@@ -292,7 +294,7 @@
     width: 100%;
 }
 
-.enemy-combat-units {
+.defender-combat-units {
     height: 100%;
     width: 50%;
     margin-left: 0px;
@@ -302,7 +304,7 @@
     justify-content: flex-start;
 }
 
-.ally-combat-units {
+.attacker-combat-units {
     height: 100%;
     width: 50%;
     margin-left: auto;
@@ -312,29 +314,29 @@
     justify-content: flex-end;
 }
 
-.enemy-row {
+.defender-row {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.enemy-unit {
-    width: 18px;
+.defender-unit {
+    width: 20px;
     margin: 2px;
     margin-bottom: 10px;
     background: rgba(0,0,100,0.2);
 }
 
-.ally-row {
+.attacker-row {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.ally-unit {
-    width: 18px;
+.attacker-unit {
+    width: 20px;
     margin: 2px;
     margin-bottom: 10px;
     background: rgba(0,200,0,0.2);

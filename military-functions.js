@@ -1342,18 +1342,20 @@ const disembarkInfantry = function(cityID, planetID) {
     // we are acting on units on planet 2
     fleetID = map2Cities[cityID].fleet[0];
     // find the first fleet in the city array, this will be the fleet this unit is a part of
-    disembarkingInfantryArray = navalFleets[fleetID].infantry;
-    
-    disembarkingInfantryArray.forEach(infantryID => {
-      disembarkInfantryAmount += infantryFleetVolume;
-      infantryUnits[infantryID].fleet = null;
-      // change the 'fleet' each unit belongs to into 'null' so the unit no longer thinks it is embarked
-      // and also increase the amount of embark space that will be freed up by these units leaving the fleet
-    });
-    
-    navalFleets[fleetID].landEmbarkAmount -= disembarkInfantryAmount;
-    navalFleets[fleetID].infantry = [];
-    // free up embark space and also finally remove all infantry units from the fleet
+    if (fleetID != null){
+      disembarkingInfantryArray = navalFleets[fleetID].infantry;
+      
+      disembarkingInfantryArray.forEach(infantryID => {
+        disembarkInfantryAmount += infantryFleetVolume;
+        infantryUnits[infantryID].fleet = null;
+        // change the 'fleet' each unit belongs to into 'null' so the unit no longer thinks it is embarked
+        // and also increase the amount of embark space that will be freed up by these units leaving the fleet
+      });
+      
+      navalFleets[fleetID].landEmbarkAmount -= disembarkInfantryAmount;
+      navalFleets[fleetID].infantry = [];
+      // free up embark space and also finally remove all infantry units from the fleet
+    }
     
     if (document.querySelector(".embark-img-infantry")) {
       document.querySelector(".embark-img-infantry").style.display = "none";
@@ -1373,15 +1375,18 @@ const disembarkTanks = function(cityID, planetID) {
     
   } else if (planetID == 2) {
     fleetID = map2Cities[cityID].fleet[0];
-    disembarkingTanksArray = navalFleets[fleetID].tanks;
     
-    disembarkingTanksArray.forEach(tanksID => {
-      disembarkTankAmount += tankFleetVolume;
-      tankUnits[tanksID].fleet = null;
-    });
-    
-    navalFleets[fleetID].landEmbarkAmount -= disembarkTankAmount;
-    navalFleets[fleetID].tanks = [];
+    if (fleetID != null){
+      disembarkingTanksArray = navalFleets[fleetID].tanks;
+      
+      disembarkingTanksArray.forEach(tanksID => {
+        disembarkTankAmount += tankFleetVolume;
+        tankUnits[tanksID].fleet = null;
+      });
+      
+      navalFleets[fleetID].landEmbarkAmount -= disembarkTankAmount;
+      navalFleets[fleetID].tanks = [];
+    }
     
     if (document.querySelector(".embark-img-tank")) {
       document.querySelector(".embark-img-tank").style.display = "none";
@@ -1400,13 +1405,16 @@ const disembarkAircraft = function(cityID, planetID) {
     
   } else if (planetID == 2) {
     fleetID = map2Cities[cityID].fleet[0];
-    disembarkingAircraftArray = navalFleets[fleetID].aircraft;
     
-    disembarkingAircraftArray.forEach(aircraftID => {
-      aircraftUnits[aircraftID].fleet = null;
-    });
-    
-    navalFleets[fleetID].aircraft = [];
+    if (fleetID != null){
+      disembarkingAircraftArray = navalFleets[fleetID].aircraft;
+      
+      disembarkingAircraftArray.forEach(aircraftID => {
+        aircraftUnits[aircraftID].fleet = null;
+      });
+      
+      navalFleets[fleetID].aircraft = [];
+    }
     
     if (document.querySelector(".embark-img-aircraft")) {
       document.querySelector(".embark-img-aircraft").style.display = "none";
@@ -1427,15 +1435,18 @@ const disembarkMarines = function(cityID, planetID) {
     
   } else if (planetID == 2) {
     fleetID = map2Cities[cityID].fleet[0];
-    disembarkingMarinesArray = navalFleets[fleetID].marines;
     
-    disembarkingMarinesArray.forEach(marineID => {
-      disembarkMarineAmount += marineFleetVolume;
-      marineUnits[marineID].fleet = null;
-    });
-    
-    navalFleets[fleetID].landEmbarkAmount -= disembarkMarineAmount;
-    navalFleets[fleetID].marines = [];
+    if (fleetID != null){
+      disembarkingMarinesArray = navalFleets[fleetID].marines;
+      
+      disembarkingMarinesArray.forEach(marineID => {
+        disembarkMarineAmount += marineFleetVolume;
+        marineUnits[marineID].fleet = null;
+      });
+      
+      navalFleets[fleetID].landEmbarkAmount -= disembarkMarineAmount;
+      navalFleets[fleetID].marines = [];
+    }
     
     if (document.querySelector(".embark-img-marines")) {
       document.querySelector(".embark-img-marines").style.display = "none";
@@ -1456,15 +1467,18 @@ const disembarkSpaceInfantry = function(cityID, planetID) {
     
   } else if (planetID == 2) {
     fleetID = map2Cities[cityID].fleet[0];
-    disembarkingSpaceInfantryArray = navalFleets[fleetID].spaceInfantry;
     
-    disembarkingSpaceInfantryArray.forEach(spaceInfantryID => {
-      disembarkSpaceInfantryAmount += spaceInfantryFleetVolume;
-      spaceInfantryUnits[spaceInfantryID].fleet = null;
-    });
-    
-    navalFleets[fleetID].landEmbarkAmount -= disembarkSpaceInfantryAmount;
-    navalFleets[fleetID].spaceInfantry = [];
+    if (fleetID != null){
+      disembarkingSpaceInfantryArray = navalFleets[fleetID].spaceInfantry;
+      
+      disembarkingSpaceInfantryArray.forEach(spaceInfantryID => {
+        disembarkSpaceInfantryAmount += spaceInfantryFleetVolume;
+        spaceInfantryUnits[spaceInfantryID].fleet = null;
+      });
+      
+      navalFleets[fleetID].landEmbarkAmount -= disembarkSpaceInfantryAmount;
+      navalFleets[fleetID].spaceInfantry = [];
+    }
     
     if (document.querySelector(".embark-img-space-infantry")) {
       document.querySelector(".embark-img-space-infantry").style.display = "none";
@@ -1485,15 +1499,18 @@ const disembarkSpaceMarines = function(cityID, planetID) {
     
   } else if (planetID == 2) {
     fleetID = map2Cities[cityID].fleet[0];
-    disembarkingSpaceMarinesArray = navalFleets[fleetID].spaceMarines;
     
-    disembarkingSpaceMarinesArray.forEach(spaceMarineID => {
-      disembarkSpaceMarineAmount += spaceMarineFleetVolume;
-      spaceMarineUnits[spaceMarineID].fleet = null;
-    });
-    
-    navalFleets[fleetID].landEmbarkAmount -= disembarkSpaceMarineAmount;
-    navalFleets[fleetID].spaceMarines = [];
+    if (fleetID != null){
+      disembarkingSpaceMarinesArray = navalFleets[fleetID].spaceMarines;
+      
+      disembarkingSpaceMarinesArray.forEach(spaceMarineID => {
+        disembarkSpaceMarineAmount += spaceMarineFleetVolume;
+        spaceMarineUnits[spaceMarineID].fleet = null;
+      });
+      
+      navalFleets[fleetID].landEmbarkAmount -= disembarkSpaceMarineAmount;
+      navalFleets[fleetID].spaceMarines = [];
+    }
     
     if (document.querySelector(".embark-img-space-marines")) {
       document.querySelector(".embark-img-space-marines").style.display = "none";
@@ -1521,11 +1538,17 @@ const addDestroyersToFleet = function(cityID, planetID) {
     if (map2Cities[cityID].fleet.length === 0) {
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
+          if (map2Cities[cityID].admirals.length > 0) {
+            fleetAdmiral = map2Cities[cityID].admirals[1];
+          } else {
+            fleetAdmiral = null;
+          }
           newFleetObject = {
             "id": navalFleetIndex,
             "ownerID": cityOwner,
             "planetID": 2,
             "cityID": cityID,
+            "admiral": fleetAdmiral,
             "reEnterHomeCity": false,
             "xpos": map2Cities[cityID].xpos,
             "ypos": map2Cities[cityID].ypos,
@@ -1576,11 +1599,17 @@ const addSubmarinesToFleet = function(cityID, planetID) {
     if (map2Cities[cityID].fleet.length === 0) {
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
+          if (map2Cities[cityID].admirals.length > 0) {
+            fleetAdmiral = map2Cities[cityID].admirals[1];
+          } else {
+            fleetAdmiral = null;
+          }
           newFleetObject = {
             "id": navalFleetIndex,
             "ownerID": cityOwner,
             "planetID": 2,
             "cityID": cityID,
+            "admiral": fleetAdmiral,
             "reEnterHomeCity": false,
             "xpos": map2Cities[cityID].xpos,
             "ypos": map2Cities[cityID].ypos,
@@ -1630,11 +1659,17 @@ const addCarriersToFleet = function(cityID, planetID) {
     if (map2Cities[cityID].fleet.length === 0) {
           navalFleetIndex++;
           currentFleetIndex = navalFleetIndex;
+          if (map2Cities[cityID].admirals.length > 0) {
+            fleetAdmiral = map2Cities[cityID].admirals[1];
+          } else {
+            fleetAdmiral = null;
+          }
           newFleetObject = {
             "id": navalFleetIndex,
             "ownerID": cityOwner,
             "planetID": 2,
             "cityID": cityID,
+            "admiral": fleetAdmiral,
             "reEnterHomeCity": false,
             "xpos": map2Cities[cityID].xpos,
             "ypos": map2Cities[cityID].ypos,
@@ -1786,12 +1821,18 @@ const addInfantryToArmy = function(cityID, planetID) {
     if (map2Cities[cityID].army.length === 0) {
       landArmyIndex++;
       currentArmyIndex = landArmyIndex;
+      if (map2Cities[cityID].generals.length > 0) {
+        armyGeneral = map2Cities[cityID].generals[1];
+      } else {
+        armyGeneral = null;
+      }
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
         "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
+        "general": armyGeneral,
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
@@ -1832,12 +1873,18 @@ const addTanksToArmy = function(cityID, planetID) {
     if (map2Cities[cityID].army.length === 0) {
       landArmyIndex++;
       currentArmyIndex = landArmyIndex;
+      if (map2Cities[cityID].generals.length > 0) {
+        armyGeneral = map2Cities[cityID].generals[1];
+      } else {
+        armyGeneral = null;
+      }
       newArmyObject = {
         "id": currentArmyIndex,
         "ownerID": cityOwner,
         "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
+        "general": armyGeneral,
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
@@ -1876,12 +1923,18 @@ const addMarinesToArmy = function(cityID, planetID) {
     if (map2Cities[cityID].army.length === 0) {
       landArmyIndex++;
       currentArmyIndex = landArmyIndex;
+      if (map2Cities[cityID].generals.length > 0) {
+        armyGeneral = map2Cities[cityID].generals[1];
+      } else {
+        armyGeneral = null;
+      }
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
         "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
+        "general": armyGeneral,
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
@@ -1920,12 +1973,18 @@ const addSpaceInfantryToArmy = function(cityID, planetID) {
     if (map2Cities[cityID].army.length === 0) {
       landArmyIndex++;
       currentArmyIndex = landArmyIndex;
+      if (map2Cities[cityID].generals.length > 0) {
+        armyGeneral = map2Cities[cityID].generals[1];
+      } else {
+        armyGeneral = null;
+      }
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
         "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
+        "general": armyGeneral,
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
@@ -1964,12 +2023,18 @@ const addSpaceMarinesToArmy = function(cityID, planetID) {
     if (map2Cities[cityID].army.length === 0) {
       landArmyIndex++;
       currentArmyIndex = landArmyIndex;
+      if (map2Cities[cityID].generals.length > 0) {
+        armyGeneral = map2Cities[cityID].generals[1];
+      } else {
+        armyGeneral = null;
+      }
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
         "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
+        "general": armyGeneral,
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
@@ -2010,12 +2075,18 @@ const addGuerrillasToArmy = function(cityID, planetID) {
       // we have now determined that in this city, on this planet, the city is either coastal or a SeaStead and it doesn't have a fleet
       landArmyIndex++;
       currentArmyIndex = landArmyIndex;
+      if (map2Cities[cityID].generals.length > 0) {
+        armyGeneral = map2Cities[cityID].generals[1];
+      } else {
+        armyGeneral = null;
+      }
       newArmyObject = {
         "id": landArmyIndex,
         "ownerID": cityOwner,
         "guerrillaArmyIdeology": null,
         "planetID": 2,
         "cityID": cityID,
+        "general": armyGeneral,
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
@@ -2260,8 +2331,8 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     
     if (guerrillaSpawnAmount > 0) {
       // if hostile guerrillas are present in a city any army entering the city will be made aware of this immediately and will
-      // fight them, this value will be set to false when all the guerrillas have been defeated
-      beginFightingHostileGuerrillas(planetID, cityID, countryID, [countryID]);
+      // fight them
+      beginFightingHostileGuerrillas(planetID, cityID, countryID, []);
       // start a fight in the city between the country which owns the city and the hostile guerrillas which we have just spawned
     }
     

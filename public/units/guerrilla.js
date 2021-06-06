@@ -4,6 +4,11 @@ let guerrillaUnits = [
       "id": 0,
       "ownerID": 0,
       "ideology": 3,
+      // the ideology attribute is the ideology this guerrilla group is loyal to
+      // if the guerrilla has no ideology this will be 'false'
+      "seperatistID": null,
+      // the seperatis ID is the country this guerrilla is trying to liberate provinces for
+      // if the guerrilla has no seperatist host nation this will be 'null'
       "planetID": 2,
       "cityID": 0,
       "army": null,
