@@ -78,6 +78,7 @@ const closeInteractions = function() {
   
   document.querySelector(".unit-interaction").style.display = "none";
   document.querySelector(".city-interaction").style.display = "none";
+  document.querySelector(".city-combat-screen").style.display = "none";
   document.querySelector(".unit-move-interaction-land").style.display = "none";
   document.querySelector(".unit-move-interaction-naval").style.display = "none";
   document.querySelector(".unit-move-interaction-air").style.display = "none";

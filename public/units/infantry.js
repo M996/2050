@@ -11,7 +11,8 @@ let infantryUnits = [
       "fleet": null,
       "army": null,
       "health": 60,
-      "morale": 0.3000,
+      "currentMorale": 18,
+      "maxMorale": 18,
       "currentManpower": 10000,
     },
 ]

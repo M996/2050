@@ -88,7 +88,15 @@ mainCanvas2.add(citySelector);
         document.querySelector('.city-interaction').style.display = 'flex';
         // this causes the city interactions window to display
         
-        // Here we have to figure out what units are currently positioned in this stiy before we open the unit interactions window
+        if (city.combatDefendingInfantry.length > 0 || city.combatDefendingMarines.length > 0 || city.combatDefendingGuerrillas.length > 0
+        || city.combatDefendingSpaceInfantry.length > 0 || city.combatDefendingSpaceMarines.length > 0 || city.combatDefendingTanks.length > 0) {
+         
+         document.querySelector('.city-combat-screen').style.display = 'flex';
+         
+        }
+        // if any units are actively defending this city then
+        
+        // Here we have to figure out what units are currently positioned in this city before we open the unit interactions window
         
         // figure out what units are positioned in the city
         

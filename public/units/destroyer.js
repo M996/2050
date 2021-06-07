@@ -13,7 +13,8 @@ let destroyerUnits = [
       "cityID": 0,
       "fleet": null,
       "health": 400,
-      "morale": 0.3000,
+      "currentMorale": 120,
+      "maxMorale": 120,
       "currentManpower": 5500,
     },
 ]

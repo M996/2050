@@ -18,7 +18,8 @@ landArmies = [
         // even though it spawns on top of it, otherwise it can never leave the city
         "xpos": 0,
         "ypos": 0,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],

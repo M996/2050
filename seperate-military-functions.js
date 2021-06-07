@@ -54,6 +54,11 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
           if (!map2Cities[cityID].combatDefendingGuerrillas.includes(hostileGuerrillaID)) {
             map2Cities[cityID].combatDefendingGuerrillas.push(hostileGuerrillaID);
           }
+        } else {
+          // this guerrilla is not a Seperatist or a Rebel so it must be a particularist 
+          if (!map2Cities[cityID].combatDefendingGuerrillas.includes(hostileGuerrillaID)) {
+            map2Cities[cityID].combatDefendingGuerrillas.push(hostileGuerrillaID);
+          }
         }
       }
       cityGuerrillaIndex++;
@@ -119,6 +124,13 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       
       console.log(map2Cities[cityID]);
       // now engage the two array groups in combat and display said combat in the city combat screen
+      window["cityLabels"+cityID].textBackgroundColor = "rgba(180,0,0,0.6)";
+      mainCanvas2.add(window["cityLabels"+cityID]);
+      mainCanvas2.requestRenderAll();
+      // display all cities where active fighting against Guerrillas is currently happening
+      
+      // add up guerrilla morale into morale property of city and also add the host nations units morale together
+      // then start displaying all of these values in the combat screen when a fighting city is clicked on
       
     }
 

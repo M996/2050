@@ -14,7 +14,8 @@ let submarineUnits = [
       "cityID": 0,
       "fleet": null,
       "health": 120,
-      "morale": 0.3000,
+      "currentMorale": 36,
+      "maxMorale": 36,
       "currentManpower": 3000,
     },
 ]

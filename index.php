@@ -554,5 +554,9 @@ require 'header.php';
 <script src="main2.js"></script>
 <script src="main3.js"></script>
 <script src="main4.js"></script>
+<script src="cityBattles.js"></script>
+<script src="landBattles.js"></script>
+<script src="navalBattles.js"></script>
+
 
 <script src="play.js"></script>

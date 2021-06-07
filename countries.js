@@ -298,7 +298,6 @@ let countries = [
         // Damage done to a unit after armor is accounted for is first subtracted from the unit health and then subtracted
         // from the collective morale poll for all units in the battle. After the battle is over the
         // 'morale' property for that battle will become the new morale amount for all units that participated in that battle.
-        // Certain types of units will do extra morale damage such as marines, Space Infantry and Space Marines.
         "landCombatWidth": 20,
         "navalCombatWidth": 20,
         "landQuality": 0,
@@ -413,5 +412,24 @@ let countries = [
         // Multiplayer ========================================================================
         "barterPoints": 100,
         "points": 0
+    },
+    {
+        "id": 0,
+        "name": "Panera",
+        "color": "rgb(247,111,134)",
+        "nameColored": "<span color='rgb(247,111,134)'>Panera</span>",
+        "homePlanet": "Medera",
+        "homeContinent": "Turen",
+        "isPlayer": false,
+        "isOtherPlayer": '',
+        "isDead": false,
+        "ownedProvinces1": [],
+        "ownedProvinces2": [],
+        "ownedProvinces3": [],
+        "ownedProvinces4": [],
+        "buildingProcess1": [],
+        "buildingProcess2": [],
+        "buildingProcess3": [],
+        "buildingProcess4": [],
     },
 ]

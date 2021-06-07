@@ -12,7 +12,8 @@ let marineUnits = [
       "fleet": null,
       "army": null,
       "health": 66,
-      "morale": 0.3000,
+      "currentMorale": 20,
+      "maxMorale": 20,
       // maxHealth is equal to 110% infantry maxHealth
       // smallArmsDamage is eqaul to 110% infantry
       // explosiveDamage is equal to 110% infantry
@@ -33,7 +34,7 @@ let marineUnits = [
       "fleet": null,
       "army": null,
       "health": 66,
-      "morale": 0.3000,
+      "maxMorale": 20,
       // maxHealth is equal to 110% infantry maxHealth
       // smallArmsDamage is eqaul to 110% infantry
       // explosiveDamage is equal to 110% infantry

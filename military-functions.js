@@ -1836,7 +1836,8 @@ const addInfantryToArmy = function(cityID, planetID) {
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],
@@ -1853,6 +1854,8 @@ const addInfantryToArmy = function(cityID, planetID) {
       // the code being executed here, is extremely similar to the code executed in 'iterateXAmount()' functions at the top of the page
       if (cityOwner === map2Cities[cityID].infantryOwnerID[infantryID]) {
         landArmies[currentArmyIndex].infantry.push(infantryID);
+        landArmies[currentArmyIndex].morale += infantryUnits[infantryID].currentMorale;
+        landArmies[currentArmyIndex].maxMorale += infantryUnits[infantryID].maxMorale;
         infantryUnits[infantryID].army = currentArmyIndex;
       }
     });
@@ -1888,7 +1891,8 @@ const addTanksToArmy = function(cityID, planetID) {
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],
@@ -1904,6 +1908,8 @@ const addTanksToArmy = function(cityID, planetID) {
       map2Cities[cityID].tanks.forEach(tankID => {
       if (cityOwner === map2Cities[cityID].tanksOwnerID[tankID]) {
         landArmies[currentArmyIndex].tanks.push(tankID);
+        landArmies[currentArmyIndex].morale += tankUnits[tankID].currentMorale;
+        landArmies[currentArmyIndex].maxMorale += tankUnits[tankID].maxMorale;
         tankUnits[tankID].army = currentArmyIndex;
       }
     });
@@ -1938,7 +1944,8 @@ const addMarinesToArmy = function(cityID, planetID) {
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],
@@ -1954,6 +1961,8 @@ const addMarinesToArmy = function(cityID, planetID) {
       map2Cities[cityID].marines.forEach(marineID => {
       if (cityOwner === map2Cities[cityID].marinesOwnerID[marineID]) {
         landArmies[currentArmyIndex].marines.push(marineID);
+        landArmies[currentArmyIndex].morale += marineUnits[marineID].currentMorale;
+        landArmies[currentArmyIndex].maxMorale += marineUnits[marineID].maxMorale;
         marineUnits[marineID].army = currentArmyIndex;
       }
     });
@@ -1988,7 +1997,8 @@ const addSpaceInfantryToArmy = function(cityID, planetID) {
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],
@@ -2004,6 +2014,8 @@ const addSpaceInfantryToArmy = function(cityID, planetID) {
       map2Cities[cityID].spaceInfantry.forEach(spaceInfantryID => {
       if (cityOwner === map2Cities[cityID].spaceInfantryOwnerID[spaceInfantryID]) {
         landArmies[currentArmyIndex].spaceInfantry.push(spaceInfantryID);
+        landArmies[currentArmyIndex].morale += spaceInfantryUnits[spaceInfantryID].currentMorale;
+        landArmies[currentArmyIndex].maxMorale += spaceInfantryUnits[spaceInfantryID].maxMorale;
         spaceInfantryUnits[spaceInfantryID].army = currentArmyIndex;
       }
     });
@@ -2038,7 +2050,8 @@ const addSpaceMarinesToArmy = function(cityID, planetID) {
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],
@@ -2054,6 +2067,8 @@ const addSpaceMarinesToArmy = function(cityID, planetID) {
       map2Cities[cityID].spaceMarines.forEach(spaceMarineID => {
       if (cityOwner === map2Cities[cityID].spaceMarinesOwnerID[spaceMarineID]) {
         landArmies[currentArmyIndex].spaceMarines.push(spaceMarineID);
+        landArmies[currentArmyIndex].morale += spaceMarineUnits[spaceMarineID].currentMorale;
+        landArmies[currentArmyIndex].maxMorale += spaceMarineUnits[spaceMarineID].maxMorale;
         spaceMarineUnits[spaceMarineID].army = currentArmyIndex;
       }
     });
@@ -2090,7 +2105,8 @@ const addGuerrillasToArmy = function(cityID, planetID) {
         "reEnterHomeCity": false,
         "xpos": map2Cities[cityID].xpos,
         "ypos": map2Cities[cityID].ypos,
-        "morale": 0.3000,
+        "morale": 0,
+        "maxMorale": 0,
         "infantry": [],
         "tanks": [],
         "marines": [],
@@ -2110,7 +2126,9 @@ const addGuerrillasToArmy = function(cityID, planetID) {
       if (cityOwner === map2Cities[cityID].guerillasOwnerID[guerrillaID]) {
         // check to see if the fleet has capacity then add them
         // there is room for at least one more land unit in this fleet, so load this infantry unit into the fleet
-        landArmies[currentArmyIndex].guerilla.push(guerillaID);
+        landArmies[currentArmyIndex].guerilla.push(guerrillaID);
+        landArmies[currentArmyIndex].morale += guerrillaUnits[guerrillaID].currentMorale;
+        landArmies[currentArmyIndex].maxMorale += guerrillaUnits[guerrillaID].maxMorale;
         guerillaUnits[guerrillaID].army = currentArmyIndex;
       }
     });
@@ -2298,10 +2316,18 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
       guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * (countries[countryID].guerrillaPopPercent * 2))/10000);
       // the guerrilla spawn amount is the population times the country's spawn rate times 2 divided by 10,000 rounded to the nearest
       // whole number to determine the number of hostile armies which will spawn
+      if (guerrillaType == 0) {
+        map2Cities[cityID].defenderName = countries[seperatistID].name + " Seperatists";
+      } else {
+        provinceID = map2Cities[cityID].provinceID;
+        map2Cities[cityID].defenderName = map2Provinces[provinceID].name + " Particularists";
+      }
       guerrillaMorale = countries[countryID].guerrillaMorale;
     } else {
       // the guerrillas are ideological
       guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * ideologies[guerrillaType].guerrillaPopPercent)/10000);
+      map2Cities[cityID].defenderName = ideologies[guerrillaType].name + " Rebels";
+      // the name of the defending party in this city will be 'Ideology' Rebels
       guerrillaMorale = ideologies[guerrillaType].guerrillaMorale;
     }
     
@@ -2316,7 +2342,8 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
           "cityID": cityID,
           "army": null,
           "health": guerrillaHealth,
-          "morale": guerrillaMorale,
+          "currentMorale": guerrillaMorale,
+          "maxMorale": guerrillaMorale,
           "currentManpower": 10000,
         }
       );

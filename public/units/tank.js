@@ -10,7 +10,8 @@ let tankUnits = [
       "fleet": null,
       "army": null,
       "health": 120,
-      "morale": 0.3000,
+      "currentMorale": 36,
+      "maxMorale": 36,
       "currentManpower": 4000,
       // tank manpower is how much manpower gets drained when a tank unit takes damage and needs
       // reinforcements. The number of 'troops' that should actually be shown when you click

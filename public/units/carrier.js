@@ -10,7 +10,8 @@ let carrierUnits = [
       "cityID": 0,
       "fleet": null,
       "health": 720,
-      "morale": 0.3000,
+      "currentMorale": 216,
+      "maxMorale": 216,
       "currentManpower": 15000,
     },
 ]
