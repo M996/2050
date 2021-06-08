@@ -15,8 +15,8 @@ let guerrillaUnits = [
       "health": 66,
       // guerilla morale is either 25% if these are province guerrillas or based on theri Ideology if these
       // are ideological guerrillas
-      "currentMorale": 17,
-      "maxMorale": 17,
+      "currentMorale": 12,
+      "maxMorale": 12,
       "morale": 0.2500,
       // maxHealth is equal to 80% infantry maxHealth
       // smallArmsDamage is found in Host Country Guerrilla Stats

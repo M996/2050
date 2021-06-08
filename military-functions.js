@@ -2322,13 +2322,13 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
         provinceID = map2Cities[cityID].provinceID;
         map2Cities[cityID].defenderName = map2Provinces[provinceID].name + " Particularists";
       }
-      guerrillaMorale = countries[countryID].guerrillaMorale;
+      guerrillaMorale = Math.round(guerrillaHealth * countries[countryID].guerrillaMorale);
     } else {
       // the guerrillas are ideological
       guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * ideologies[guerrillaType].guerrillaPopPercent)/10000);
       map2Cities[cityID].defenderName = ideologies[guerrillaType].name + " Rebels";
       // the name of the defending party in this city will be 'Ideology' Rebels
-      guerrillaMorale = ideologies[guerrillaType].guerrillaMorale;
+      guerrillaMorale = Math.round(guerrillaHealth * ideologies[guerrillaType].guerrillaMorale);
     }
     
     for (i = 0; i < guerrillaSpawnAmount; i++) {

@@ -1475,6 +1475,7 @@ const runBuildingProcesses2 = function(country) {
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
                     marineHealth = country.infantryMaxHealth * 1.1;
+                    currentMorale = Math.round(marineHealth * (country.morale * 1.1));
                     marineUnits.push(
                       {
                         "id": marineIndex,
@@ -1484,7 +1485,8 @@ const runBuildingProcesses2 = function(country) {
                         "fleet": null,
                         "army": null,
                         "health": marineHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 8000,
                       }
                     );
@@ -1559,6 +1561,7 @@ const runBuildingProcesses2 = function(country) {
                   break;
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
+                    currentMorale = Math.round(country.carrierMaxHealth * country.morale);
                     carrierUnits.push(
                       {
                         "id": carrierIndex,
@@ -1567,7 +1570,8 @@ const runBuildingProcesses2 = function(country) {
                         "cityID": thisCity,
                         "fleet": null,
                         "health": country.carrierMaxHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 12000,
                       } 
                     );
@@ -1624,6 +1628,7 @@ const runBuildingProcesses2 = function(country) {
                   break;
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
+                    currentMorale = Math.round(country.destroyerMaxHealth * country.morale);
                     destroyerUnits.push(
                       {
                         "id": destroyerIndex,
@@ -1632,7 +1637,8 @@ const runBuildingProcesses2 = function(country) {
                         "cityID": thisCity,
                         "fleet": null,
                         "health": country.destroyerMaxHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 8000,
                       } 
                     );
@@ -1700,7 +1706,6 @@ const runBuildingProcesses2 = function(country) {
                         "cityID": thisCity,
                         "fleet": null,
                         "health": 60,
-                        "morale": country.morale,
                         "currentManpower": 3000,
                       }
                     );
@@ -1748,6 +1753,7 @@ const runBuildingProcesses2 = function(country) {
                   break;
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
+                    currentMorale = Math.round(country.infantryMaxHealth * country.morale);
                     infantryUnits.push(
                       {
                         "id": infantryIndex,
@@ -1757,7 +1763,8 @@ const runBuildingProcesses2 = function(country) {
                         "fleet": null,
                         "army": null,
                         "health": country.infantryMaxHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 10000,
                       }
                     );
@@ -1808,6 +1815,7 @@ const runBuildingProcesses2 = function(country) {
                   break;
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
+                    currentMorale = Math.round(country.tankMaxHealth * country.morale);
                     tankUnits.push(
                       {
                         "id": tankIndex,
@@ -1817,7 +1825,8 @@ const runBuildingProcesses2 = function(country) {
                         "fleet": null,
                         "army": null,
                         "health": country.tankMaxHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 4000,
                       }
                     );
@@ -1977,6 +1986,7 @@ const runBuildingProcesses2 = function(country) {
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
                     spaceInfantryHealth = country.infantryMaxHealth * 0.8;
+                    currentMorale = Math.round(spaceInfantryHealth * (country.morale * 1.8));
                     spaceInfantryUnits.push(
                       {
                         "id": spaceInfantryIndex,
@@ -1987,7 +1997,8 @@ const runBuildingProcesses2 = function(country) {
                         "army": null,
                         "spaceFleet": null,
                         "health": spaceInfantryHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 500,
                       }
                     );
@@ -2035,6 +2046,7 @@ const runBuildingProcesses2 = function(country) {
                   break;
                   case 1:
                     thisCity = map2BuildingProcess[processID].city;
+                    currentMorale = Math.round(country.infantryMaxHealth * (country.morale * 2));
                     spaceMarineUnits.push(
                       {
                         "id": spaceMarineIndex,
@@ -2045,7 +2057,8 @@ const runBuildingProcesses2 = function(country) {
                         "army": null,
                         "spaceFleet": null,
                         "health": country.infantryMaxHealth,
-                        "morale": country.morale,
+                        "currentMorale": currentMorale,
+                        "maxMorale": currentMorale,
                         "currentManpower": 300,
                       }
                     );

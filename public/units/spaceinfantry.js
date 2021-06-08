@@ -15,15 +15,15 @@ let spaceInfantryUnits = [
       "army": null,
       "spaceFleet": null,
       "health": 48,
-      "currentMorale": 14,
-      "maxMorale": 14,
+      "currentMorale": 26,
+      "maxMorale": 26,
       // maxHealth is equal to 80% infantry maxHealth
-      // smallArmsDamage is equal to 150% infantry
+      // smallArmsDamage is equal to 180% infantry
       // explosiveDamage is equal to 0.0
-      // moraleDamage is equal to 150% of infantry
+      // maxMorale is equal to 180% of infantry
       // speed is equal to 40% of infantry
-      // smallArmsArmor is equal to +0.30 infantry
-      // explosiveArmor is equal to +0.15 infantry
+      // smallArmsArmor is equal to +0.10 infantry
+      // explosiveArmor is equal to +0.2 infantry
       // directedEnergyArmor is equal to +0.3 infantry
       // kineticArmor is equal to +0.20 infantry
       // space infantry cost 160% maintenance of infantry multiplied by the orbital unit maintenance multiplier

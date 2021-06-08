@@ -13,9 +13,10 @@ let submarineUnits = [
       "planetID": 2,
       "cityID": 0,
       "fleet": null,
-      "health": 120,
-      "currentMorale": 36,
-      "maxMorale": 36,
+      "health": 60,
+      // while many units may split alliegance in a civil war based partly on morale, submarines will have
+      // a different alliegance splitting mechanic, and should be more likely then most untis to split alliegance
+      // and side with the underdog in a civil war
       "currentManpower": 3000,
     },
 ]

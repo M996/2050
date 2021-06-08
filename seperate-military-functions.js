@@ -46,17 +46,23 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
           // if the guerrillas have an ideology and it is not the same ideology as the attacking country
           // then add them to the combatGuerrilla array
           if (!map2Cities[cityID].combatDefendingGuerrillas.includes(hostileGuerrillaID)) {
+            map2Cities[cityID].defenderMorale += guerrillaUnits[hostileGuerrillaID].currentMorale;
+            map2Cities[cityID].defenderMaxMorale += guerrillaUnits[hostileGuerrillaID].maxMorale;
             map2Cities[cityID].combatDefendingGuerrillas.push(hostileGuerrillaID);
           }
         } else if (guerrillaUnits[hostileGuerrillaID].seperatistID != countryID) {
           // if they do not have an ideology or the ideologies do not match then check to see if they are seperatists
           // if they are and they do not back this country then add them to the combat array
           if (!map2Cities[cityID].combatDefendingGuerrillas.includes(hostileGuerrillaID)) {
+            map2Cities[cityID].defenderMorale += guerrillaUnits[hostileGuerrillaID].currentMorale;
+            map2Cities[cityID].defenderMaxMorale += guerrillaUnits[hostileGuerrillaID].maxMorale;
             map2Cities[cityID].combatDefendingGuerrillas.push(hostileGuerrillaID);
           }
         } else {
           // this guerrilla is not a Seperatist or a Rebel so it must be a particularist 
           if (!map2Cities[cityID].combatDefendingGuerrillas.includes(hostileGuerrillaID)) {
+            map2Cities[cityID].defenderMorale += guerrillaUnits[hostileGuerrillaID].currentMorale;
+            map2Cities[cityID].defenderMaxMorale += guerrillaUnits[hostileGuerrillaID].maxMorale;
             map2Cities[cityID].combatDefendingGuerrillas.push(hostileGuerrillaID);
           }
         }
@@ -71,6 +77,8 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].infantry.forEach(function(infantryID) {
         infantryOwnerID = map2Cities[cityID].infantryOwnerID[cityInfantryIndex];
         if (infantryOwnerID == countryID && !map2Cities[cityID].combatAttackingInfantry.includes(infantryID)) {
+          map2Cities[cityID].attackerMorale += infantryUnits[infantryID].currentMorale;
+          map2Cities[cityID].attackerMaxMorale += infantryUnits[infantryID].maxMorale;
           map2Cities[cityID].combatAttackingInfantry.push(infantryID);
         }
         cityInfantryIndex++;
@@ -81,6 +89,8 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].marines.forEach(function(marineID) {
         marineOwnerID = map2Cities[cityID].marinesOwnerID[cityMarineIndex];
         if (marineOwnerID == countryID && !map2Cities[cityID].combatAttackingMarines.includes(marineID)) {
+          map2Cities[cityID].attackerMorale += marineUnits[marineID].currentMorale;
+          map2Cities[cityID].attackerMaxMorale += marineUnits[marineID].maxMorale;
           map2Cities[cityID].combatAttackingMarines.push(marineID);
         }
         cityMarineIndex++;
@@ -90,6 +100,8 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].guerrillas.forEach(function(guerrillaID) {
         guerrillaOwnerID = map2Cities[cityID].guerrillasOwnerID[cityAttackingGuerrillasIndex];
         if (guerrillaOwnerID == countryID && !map2Cities[cityID].combatAttackingGuerrillas.includes(guerrillaID)) {
+          map2Cities[cityID].attackerMorale += guerrillaUnits[guerrillaID].currentMorale;
+          map2Cities[cityID].attackerMaxMorale += guerrillaUnits[guerrillaID].maxMorale;
           map2Cities[cityID].combatAttackingGuerrillas.push(guerrillaID);
         }
         cityAttackingGuerrillasIndex++;
@@ -99,6 +111,8 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].spaceInfantry.forEach(function(spaceInfantryID) {
         spaceInfantryOwnerID = map2Cities[cityID].spaceInfantryOwnerID[citySpaceInfantryIndex];
         if (spaceInfantryOwnerID == countryID && !map2Cities[cityID].combatAttackingSpaceInfantry.includes(spaceInfantryID)) {
+          map2Cities[cityID].attackerMorale += spaceInfantryUnits[spaceInfantryID].currentMorale;
+          map2Cities[cityID].attackerMaxMorale += spaceInfantryUnits[spaceInfantryID].maxMorale;
           map2Cities[cityID].combatAttackingSpaceInfantry.push(spaceInfantryID);
         }
         citySpaceInfantryIndex++;
@@ -108,6 +122,8 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].spaceMarines.forEach(function(spaceMarineID) {
         spaceMarineOwnerID = map2Cities[cityID].spaceMarinesOwnerID[citySpaceMarineIndex];
         if (spaceMarineOwnerID == countryID && !map2Cities[cityID].combatAttackingSpaceMarines.includes(spaceMarineID)) {
+          map2Cities[cityID].attackerMorale += spaceMarineUnits[spaceMarineID].currentMorale;
+          map2Cities[cityID].attackerMaxMorale += spaceMarineUnits[spaceMarineID].maxMorale;
           map2Cities[cityID].combatAttackingSpaceMarines.push(spaceMarineID);
         }
         citySpaceMarineIndex++;
@@ -117,6 +133,8 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].tanks.forEach(function(tankID) {
         tankOwnerID = map2Cities[cityID].tanksOwnerID[cityTankIndex];
         if (tankOwnerID == countryID && !map2Cities[cityID].combatAttackingTanks.includes(tankID)) {
+          map2Cities[cityID].attackerMorale += tankUnits[tankID].currentMorale;
+          map2Cities[cityID].attackerMaxMorale += tankUnits[tankID].maxMorale;
           map2Cities[cityID].combatAttackingTanks.push(tankID);
         }
         cityTankIndex++;
@@ -129,7 +147,6 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       mainCanvas2.requestRenderAll();
       // display all cities where active fighting against Guerrillas is currently happening
       
-      // add up guerrilla morale into morale property of city and also add the host nations units morale together
       // then start displaying all of these values in the combat screen when a fighting city is clicked on
       
     }
