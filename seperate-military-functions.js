@@ -148,9 +148,16 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       // display all cities where active fighting against Guerrillas is currently happening
       
       // then start displaying all of these values in the combat screen when a fighting city is clicked on
+      cityBattles.push(
+        {
+        "id": cityBattleIndex,
+        "planetID": 2,
+        "cityID": cityID,
+        }
+      );
+      cityBattleIndex++;
       
     }
-
   } else if (planetID == 3) {
     
     

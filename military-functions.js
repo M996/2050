@@ -2359,6 +2359,7 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     if (guerrillaSpawnAmount > 0) {
       // if hostile guerrillas are present in a city any army entering the city will be made aware of this immediately and will
       // fight them
+      map2Cities[cityID].attackerName = countries[countryID].nameColored;
       beginFightingHostileGuerrillas(planetID, cityID, countryID, []);
       // start a fight in the city between the country which owns the city and the hostile guerrillas which we have just spawned
     }

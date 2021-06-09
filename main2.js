@@ -90,11 +90,151 @@ mainCanvas2.add(citySelector);
         
         if (city.combatDefendingInfantry.length > 0 || city.combatDefendingMarines.length > 0 || city.combatDefendingGuerrillas.length > 0
         || city.combatDefendingSpaceInfantry.length > 0 || city.combatDefendingSpaceMarines.length > 0 || city.combatDefendingTanks.length > 0) {
+         // if combat is ongoing then open up to the combat screen
+         
+         defenderInfantryAmount = 0;
+         defenderTankAmount = 0;
+         defenderMarineAmount = 0;
+         defenderGuerrillaAmount = 0;
+         defenderSpaceInfantryAmount = 0;
+         defenderSpaceMarineAmount = 0;
+         
+         attackerInfantryAmount = 0;
+         attackerTankAmount = 0;
+         attackerMarineAmount = 0;
+         attackerGuerrillaAmount = 0;
+         attackerSpaceInfantryAmount = 0;
+         attackerSpaceMarineAmount = 0;
+         
+         city.combatDefendingInfantry.forEach(function(infantryID) {
+           defenderInfantryAmount += infantryUnits[infantryID].currentManpower;
+         });
+         city.combatDefendingTanks.forEach(function(tankID) {
+           defenderTankAmount += Math.round((tankUnits[tankID].currentManpower / 40));
+         });
+         city.combatDefendingMarines.forEach(function(marineID) {
+           defenderMarineAmount += marineUnits[marineID].currentManpower;
+         });
+         city.combatDefendingGuerrillas.forEach(function(guerrillaID) {
+           defenderGuerrillaAmount += guerrillaUnits[guerrillaID].currentManpower;
+         });
+         city.combatDefendingSpaceInfantry.forEach(function(spaceInfantryID) {
+           defenderSpaceInfantryAmount += spaceInfantryUnits[spaceInfantryID].currentManpower;
+         });
+         city.combatDefendingSpaceMarines.forEach(function(spaceMarineID) {
+           defenderSpaceMarineAmount += spaceMarineUnits[spaceMarineID].currentManpower;
+         });
+         
+         city.combatAttackingInfantry.forEach(function(infantryID) {
+           attackerInfantryAmount += infantryUnits[infantryID].currentManpower;
+         });
+         city.combatAttackingTanks.forEach(function(tankID) {
+           attackerTankAmount += Math.round((tankUnits[tankID].currentManpower / 40));
+         });
+         city.combatAttackingMarines.forEach(function(marineID) {
+           attackerMarineAmount += marineUnits[marineID].currentManpower;
+         });
+         city.combatAttackingGuerrillas.forEach(function(guerrillaID) {
+           attackerGuerrillaAmount += guerrillaUnits[guerrillaID].currentManpower;
+         });
+         city.combatAttackingSpaceInfantry.forEach(function(spaceInfantryID) {
+           attackerSpaceInfantryAmount += spaceInfantryUnits[spaceInfantryID].currentManpower;
+         });
+         city.combatAttackingSpaceMarines.forEach(function(spaceMarineID) {
+           attackerSpaceMarineAmount += spaceMarineUnits[spaceMarineID].currentManpower;
+         });
+         
+         $('.defender-name').html(city.defenderName);
+         if (defenderInfantryAmount > 0) {
+          $('#defender-infantry').text(defenderInfantryAmount.toLocaleString());
+          $('#defender-infantry-div').css("display","flex");
+         } else {
+          $('#defender-infantry-div').hide();
+         }
+         if (defenderTankAmount > 0) {
+          $('#defender-tanks').text(defenderTankAmount.toLocaleString());
+          $('#defender-tanks-div').css("display","flex");
+         } else {
+          $('#defender-tanks-div').hide();
+         }
+         if (defenderGuerrillaAmount > 0) {
+          $('#defender-guerrillas').text(defenderGuerrillaAmount.toLocaleString());
+          $('#defender-guerrillas-div').css("display","flex");
+         } else {
+          $('#defender-guerrillas-div').hide();
+         }
+         if (defenderMarineAmount > 0) {
+          $('#defender-marines').text(defenderMarineAmount.toLocaleString());
+          $('#defender-marines-div').css("display","flex");
+         } else {
+          $('#defender-marines-div').hide();
+         }
+         if (defenderSpaceInfantryAmount > 0) {
+          $('#defender-space-infantry').text(defenderSpaceInfantryAmount.toLocaleString());
+          $('#defender-space-infantry-div').css("display","flex");
+         } else {
+          $('#defender-space-infantry-div').hide();
+         }
+         if (defenderSpaceMarineAmount > 0) {
+          $('#defender-space-marines').text(defenderSpaceMarineAmount.toLocaleString());
+          $('#defender-space-marines-div').css("display","flex");
+         } else {
+          $('#defender-space-marines-div').hide();
+         }
+         
+         $('.attacker-name').html(city.attackerName);
+         if (attackerInfantryAmount > 0) {
+          $('#attacker-infantry').text(attackerInfantryAmount.toLocaleString());
+          $('#attacker-infantry-div').css("display","flex");
+         } else {
+          $('#attacker-infantry-div').hide();
+         }
+         if (attackerTankAmount > 0) {
+          $('#attacker-tanks').text(attackerTankAmount.toLocaleString());
+          $('#attacker-tanks-div').css("display","flex");
+         } else {
+          $('#attacker-tanks-div').hide();
+         }
+         if (attackerGuerrillaAmount > 0) {
+          $('#attacker-guerrillas').text(attackerGuerrillaAmount.toLocaleString());
+          $('#attacker-guerrillas-div').css("display","flex");
+         } else {
+          $('#attacker-guerrillas-div').hide();
+         }
+         if (attackerMarineAmount > 0) {
+          $('#attacker-marines').text(attackerMarineAmount.toLocaleString());
+          $('#attacker-marines-div').css("display","flex");
+         } else {
+          $('#attacker-marines-div').hide();
+         }
+         if (attackerSpaceInfantryAmount > 0) {
+          $('#attacker-space-infantry').text(attackerSpaceInfantryAmount.toLocaleString());
+          $('#attacker-space-infantry-div').css("display","flex");
+         } else {
+          $('#attacker-space-infantry-div').hide();
+         }
+         if (attackerSpaceMarineAmount > 0) {
+          $('#attacker-space-marines').text(attackerSpaceMarineAmount.toLocaleString());
+          $('#attacker-space-marines-div').css("display","flex");
+         } else {
+          $('#attacker-space-marines-div').hide();
+         }
+         
+         defenderMoralePercent = Math.round((city.defenderMorale / city.defenderMaxMorale) * 100);
+         attackerMoralePercent = Math.round((city.attackerMorale / city.attackerMaxMorale) * 100);
+         
+         document.querySelector('.current-defender-morale').style.width = defenderMoralePercent + "%";
+         document.querySelector('.current-attacker-morale').style.width = attackerMoralePercent + "%";
          
          document.querySelector('.city-combat-screen').style.display = 'flex';
          
+         // add attacker and defender colors to every city object, so that the proper color can be assigned to each side in combat
+         // also save the last set of dice rolls and possibly general dice rolls to the city as well, these need to be shown when opening
+         // the combat window also. Also figure out where units are positioned on the battlefield and if this has a role in their damage
+         // health in combat.
+         
         }
-        // if any units are actively defending this city then
+        
         
         // Here we have to figure out what units are currently positioned in this city before we open the unit interactions window
         

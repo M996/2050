@@ -38,8 +38,10 @@ tellTime = function(t1) {
         tickTime++;
     break; 
     case 2:
-        countries.forEach(function(country) {
-            
+        cityBattles.forEach(function(battle) {
+          
+          
+          
         });
         tickTime++;
     break;

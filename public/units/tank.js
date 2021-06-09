@@ -10,7 +10,7 @@ let tankUnits = [
       "fleet": null,
       "army": null,
       "health": 120,
-      "currentMorale": 36,
+      "currentMorale": 1,
       "maxMorale": 36,
       "currentManpower": 4000,
       // tank manpower is how much manpower gets drained when a tank unit takes damage and needs

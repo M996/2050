@@ -236,27 +236,27 @@ require 'header.php';
         </div>
         <div class="attacker-units-info">
           <div class="unit-display-container">
-            <div class="attacker-infantry-info">
+            <div class="attacker-infantry-info" id="attacker-infantry-div">
               <img class="combat-unit-img" id="attacker-unit" src="public/images/infantryicon.png">
               <p class="attacker-infantry-manpower" id="attacker-infantry">10,000</p>
             </div>
-            <div class="attacker-infantry-info">
+            <div class="attacker-infantry-info" id="attacker-tanks-div">
               <img class="combat-unit-img" id="attacker-unit" src="public/images/tankicon.png">
-              <p class="attacker-tank-manpower" id="attacker-tank">100</p>
+              <p class="attacker-tank-manpower" id="attacker-tanks">100</p>
             </div>
-            <div class="attacker-infantry-info">
+            <div class="attacker-infantry-info" id="attacker-guerrillas-div">
               <img class="combat-unit-img" id="attacker-unit" src="public/images/guerrillaicon.png">
-              <p class="attacker-tank-manpower" id="attacker-guerrilla">10,000</p>
+              <p class="attacker-tank-manpower" id="attacker-guerrillas">10,000</p>
             </div>
-            <div class="attacker-infantry-info">
+            <div class="attacker-infantry-info" id="attacker-marines-div">
               <img class="combat-unit-img" id="attacker-unit" src="public/images/marinesicon.png">
               <p class="attacker-tank-manpower" id="attacker-marines">8,000</p>
             </div>
-            <div class="attacker-infantry-info">
+            <div class="attacker-infantry-info" id="attacker-space-infantry-div">
               <img class="combat-unit-img" id="attacker-unit" src="public/images/spaceinfantryicon.png">
               <p class="attacker-tank-manpower" id="attacker-space-infantry">500</p>
             </div>
-            <div class="attacker-infantry-info">
+            <div class="attacker-infantry-info" id="attacker-space-marines-div">
               <img class="combat-unit-img" id="attacker-unit" src="public/images/spacemarinesicon.png">
               <p class="attacker-tank-manpower" id="attacker-space-marines">300</p>
             </div>
@@ -353,29 +353,29 @@ require 'header.php';
         </div>
         <div class="defender-units-info">
           <div class="unit-display-container">
-            <div class="defender-infantry-info">
+            <div class="defender-infantry-info" id="defender-infantry-div">
               <img class="combat-unit-img" id="defender-unit" src="public/images/infantryicon.png">
-              <p class="defender-infantry-manpower">10,000</p>
+              <p class="defender-infantry-manpower" id="defender-infantry">10,000</p>
             </div>
-            <div class="defender-infantry-info">
+            <div class="defender-infantry-info" id="defender-tanks-div">
               <img class="combat-unit-img" id="defender-unit" src="public/images/tankicon.png">
-              <p class="defender-tank-manpower">100</p>
+              <p class="defender-tank-manpower" id="defender-tanks">100</p>
             </div>
-            <div class="defender-infantry-info">
+            <div class="defender-infantry-info" id="defender-guerrillas-div">
               <img class="combat-unit-img" id="defender-unit" src="public/images/guerrillaicon.png">
-              <p class="defender-tank-manpower">10,000</p>
+              <p class="defender-tank-manpower" id="defender-guerrillas">10,000</p>
             </div>
-            <div class="defender-infantry-info">
+            <div class="defender-infantry-info" id="defender-marines-div">
               <img class="combat-unit-img" id="defender-unit" src="public/images/marinesicon.png">
-              <p class="defender-tank-manpower">8,000</p>
+              <p class="defender-tank-manpower" id="defender-marines">8,000</p>
             </div>
-            <div class="defender-infantry-info">
+            <div class="defender-infantry-info" id="defender-space-infantry-div">
               <img class="combat-unit-img" id="defender-unit" src="public/images/spaceinfantryicon.png">
-              <p class="defender-tank-manpower">500</p>
+              <p class="defender-tank-manpower" id="defender-space-infantry">500</p>
             </div>
-            <div class="defender-infantry-info">
+            <div class="defender-infantry-info" id="defender-space-marines-div">
               <img class="combat-unit-img" id="defender-unit" src="public/images/spacemarinesicon.png">
-              <p class="defender-tank-manpower">300</p>
+              <p class="defender-tank-manpower" id="defender-space-marines">300</p>
             </div>
           </div>
         </div>
