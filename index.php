@@ -5,7 +5,9 @@ require 'header.php';
 ?>
 
 <head>
-  <title>Page Title</title>
+  <title>2050 Game</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <style>

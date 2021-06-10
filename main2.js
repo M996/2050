@@ -49,14 +49,16 @@ mainCanvas2.add(citySelector);
         hoverCursor: 'pointer',
         __uid: city.id
     });
-    cityLabelText = ' ' + city.name + ' ';
+    cityLabelText = ' ' + city.name + '  ';
      window["cityLabels"+labelNumber]= new fabric.Text(cityLabelText, {
       textBackgroundColor: 'rgba(40,40,40,0.8)',
       left: (city.xpos - 12),
       top: (city.ypos - 20),
-      fontSize: 16,
+      fontSize: 15,
       fill: 'white',
       textAlign: 'center',
+      fontFamily: 'Raleway',
+      fontWeight: 'bold',
       selectable: false,
     });
     cityDots.on('mouseover', function() {
@@ -220,6 +222,23 @@ mainCanvas2.add(citySelector);
           $('#attacker-space-marines-div').hide();
          }
          
+         document.querySelector('.defender-rolls-div').style.background = city.defendingColor;
+         document.querySelector('.attacker-rolls-div').style.background = city.attackingColor;
+         
+         $('.defender-roll').text(city.defendingBattleRoll);
+         $('.attacker-roll').text(city.attackingBattleRoll);
+         
+         if (city.defendingGeneral != null) {
+          $('.defender-bonus').text(generalUnits[city.defendingGeneral].bonus);
+         } else {
+          $('.defender-bonus').text(0);
+         }
+         if (city.attackingGeneral != null) {
+          $('.attacker-bonus').text(generalUnits[city.attackingGeneral].bonus);
+         } else {
+          $('.attacker-bonus').text(0);
+         }
+         
          defenderMoralePercent = Math.round((city.defenderMorale / city.defenderMaxMorale) * 100);
          attackerMoralePercent = Math.round((city.attackerMorale / city.attackerMaxMorale) * 100);
          
@@ -228,10 +247,10 @@ mainCanvas2.add(citySelector);
          
          document.querySelector('.city-combat-screen').style.display = 'flex';
          
-         // add attacker and defender colors to every city object, so that the proper color can be assigned to each side in combat
-         // also save the last set of dice rolls and possibly general dice rolls to the city as well, these need to be shown when opening
-         // the combat window also. Also figure out where units are positioned on the battlefield and if this has a role in their damage
-         // health in combat.
+         // add attacker and defender colors to every city object, so that the proper color can be assigned
+         // to each side in combat also save the last set of dice rolls and possibly general dice rolls to the
+         // city as well, these need to be shown when opening the combat window also. Also figure out where units
+         // are positioned on the battlefield and if this has a role in their damage and health in combat.
          
         }
         

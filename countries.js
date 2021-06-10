@@ -150,6 +150,10 @@ let countries = [
         // Military ==========================================================================
         "enemies": [],
         // "enemies" denotes countries that are actively at war with this country right now
+        "armies": [],
+        "fleets": [],
+        // armies and fleets arrays will be used to find all units outside of cities to display them
+        // on the map to players
         "infantry": [],
         "marines": [],
         "guerrillas": [],

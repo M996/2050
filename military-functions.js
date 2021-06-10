@@ -2359,7 +2359,26 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     if (guerrillaSpawnAmount > 0) {
       // if hostile guerrillas are present in a city any army entering the city will be made aware of this immediately and will
       // fight them
+      
+      map2Cities[cityID].defendingColor = "black";
+      
+      bestGeneralID = null;
+      bestGeneralBonus = 0;
+      map2Cities[cityID].generals.forEach(function(generalID) {
+          generalOwner = generalUnits[generalID].ownerID;
+          if (generalOwner == countries[countryID].id) {
+            // this general belongs to the country spawning the rebels
+            if (generalUnits[generalID].bonus > bestGeneralBonus) {
+              bestGeneralID = generalID;
+              // if this general has a higher bonus than any other general in this city owned by
+              // this country, then put him in charge of the fight so his bonus can be applied
+            }
+          }
+      });
+      
+      map2Cities[cityID].attackingGeneral = bestGeneralID;
       map2Cities[cityID].attackerName = countries[countryID].nameColored;
+      map2Cities[cityID].attackingColor = countries[countryID].color;
       beginFightingHostileGuerrillas(planetID, cityID, countryID, []);
       // start a fight in the city between the country which owns the city and the hostile guerrillas which we have just spawned
     }

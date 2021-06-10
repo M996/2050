@@ -142,9 +142,9 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       
       console.log(map2Cities[cityID]);
       // now engage the two array groups in combat and display said combat in the city combat screen
-      window["cityLabels"+cityID].textBackgroundColor = "rgba(180,0,0,0.6)";
       mainCanvas2.add(window["cityLabels"+cityID]);
       mainCanvas2.requestRenderAll();
+      window["cityLabels"+cityID].set({fill: 'rgb(255,90,90)'});
       // display all cities where active fighting against Guerrillas is currently happening
       
       // then start displaying all of these values in the combat screen when a fighting city is clicked on

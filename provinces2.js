@@ -21,7 +21,8 @@ let map2Provinces = [
         "occupiedBy": "",
         "ownerID": 0,
         "occupierID": null,
-        "cores": [0,1],
+        "cores": [0],
+        // after a province is conquered, the old owner of that province retains a core for 20 years
         "claims": [],
         "isSeaZone": false,
         "unrest": 40,
