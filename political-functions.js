@@ -38,6 +38,13 @@ const factorUnrest2 = function(countryID, provinceID, unrestAmount, civilUnrest)
         rebellion = Math.floor(Math.random() * 100);
         
         if (rebellion < rebellionPercent) {
+            // a rebellion has occurred, we must first add a temporary unrest reduction to this province so more guerrillas don't spawn
+            newUnrestAmount = map2Provinces[provinceID].unrest - 20;
+            map2Provinces[provinceID].unrest = newUnrestAmount;
+            provinceUnrestModifier = provinceID + "-10";
+            countries[countryID].provincialUnrestReduction.push(provinceUnrestModifier);
+            console.log(map2Provinces[provinceID]);
+            
             guerrillaIdeology = false;
             seperatistID = null;
             // set this variable to false to begin with, it will be set to the proper ideology to spawn guerrillas

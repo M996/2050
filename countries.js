@@ -339,6 +339,7 @@ let countries = [
         "unrest": 0,
         "warExhaustion": 0,
         "warExhaustionDecrease": -0.1,
+        "provincialUnrestReduction": [],
         "ownedCities1": [],
         "ownedCities2": [0,1,2,3,4,5,6,7,8,33],
         "ownedCities3": [],
@@ -435,5 +436,6 @@ let countries = [
         "buildingProcess2": [],
         "buildingProcess3": [],
         "buildingProcess4": [],
+        "provincialUnrestReduction": [],
     },
 ]

@@ -719,6 +719,7 @@ tellTime = function(t1) {
               // Ethnic group spread?
               // points?
               
+              // Calculate Banckruptcy ====================================================================
               countries.forEach(function(country) {
                 if (country.isBankrupt) {
                   switch(country.isBankrupt) {
@@ -740,6 +741,30 @@ tellTime = function(t1) {
                   }
                 }
               });
+              
+              // Recalculate Provincial Unrest Modifiers from Rebel Spawns =================================
+              countries.forEach(function(country) {
+                
+                unrestInfoStringCounter = 0;
+                country.provincialUnrestReduction.forEach(function(provinceInfoString) {
+                  provinceInfo = provinceInfoString.split("-");
+                  if (provinceInfo[1] > 1) {
+                    provinceInfo[1]--;
+                    newProvinceInfo = provinceInfo[0] + "-" + provinceInfo[1];
+                    country.provincialUnrestReduction[unrestInfoStringCounter] = newProvinceInfo;
+                    // if we are still waiting for the unrest to return to normal, then subtract 1 year from the info string and
+                    // return the string to its position in this country's array
+                  } else {
+                    country.provincialUnrestReduction.splice(unrestInfoStringCounter,1);
+                    map2Provinces[provinceInfo[0]].unrest = map2Provinces[provinceInfo[0]].unrest + 20;
+                    // if the unrest was reduced 10 years ago, then return it to its normal state
+                  }
+                  unrestInfoStringCounter++;
+                });
+                console.log(country.provincialUnrestReduction);
+              });
+                
+                // update the global timer
                 currentYear = Number(document.querySelector(".current-year").textContent);
                 currentYear++;
                 document.querySelector(".current-year").textContent = currentYear;

@@ -142,21 +142,25 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       
       console.log(map2Cities[cityID]);
       // now engage the two array groups in combat and display said combat in the city combat screen
-      mainCanvas2.add(window["cityLabels"+cityID]);
-      mainCanvas2.requestRenderAll();
-      window["cityLabels"+cityID].set({fill: 'rgb(255,90,90)'});
-      // display all cities where active fighting against Guerrillas is currently happening
       
-      // then start displaying all of these values in the combat screen when a fighting city is clicked on
-      cityBattles.push(
-        {
-        "id": cityBattleIndex,
-        "planetID": 2,
-        "cityID": cityID,
-        }
-      );
-      cityBattleIndex++;
+      if (!window["cityLabels"+cityID].active) {
+        mainCanvas2.add(window["cityLabels"+cityID]);
+        mainCanvas2.requestRenderAll();
+        window["cityLabels"+cityID].set({active: true});
+        window["cityLabels"+cityID].set({fill: 'rgb(255,90,90)'});
+        // display all cities where active fighting against Guerrillas is currently happening
+      } // but only display those cities if the labels are not already active
       
+      
+      if (map2Cities[cityID].defenderMaxMorale == 0) {
+        // then add this ongoing battle to the battle array only if no other fighting is currently happening
+        cityBattles.push({
+          "id": cityBattleIndex,
+          "planetID": 2,
+          "cityID": cityID,
+        });
+        cityBattleIndex++;
+      }
     }
   } else if (planetID == 3) {
     

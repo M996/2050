@@ -1,20 +1,21 @@
+- make the correct icons show up in the city combat screen based on number of units fighting and what type of units they are
+
+- make it so that once every month the provincial unrest modifiers in each country reduce by 1 per year (10 years to get to zero)
+- then when the modifier reaches zero after 10 years add +20 unrest to that province to reset the modifier again
+
 - create city combat between hostileGuerrillas and Host Nation Militaries
 
-- detect when a specific city label is on screen already and don't let another copy of the object spawn when rebels pop
-
-- make it so when you click on a city label it also opens the city
-
-- when a Unit's health reaches zero, regardless of morale, don't forget to eleminate that unit, it is possible for
-- space infantry and space marines to have higher morale then they have health
+- when a Unit's health reaches zero, regardless of morale, don't forget to eliminate (permanently or putting them in spent reserves?)
+- that unit, it is possible for space infantry and space marines to have higher morale then they have health
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
 - so that the next month they will be detected again and fight again for a different city. If no more cities are available then
 - they should spawn in a random spot in the province maybe 2 months later (or maybe just keep fighting in that one city
 - until all of them are finally killed)
 
-- when city combat ends clear out the attacking and defending arrays in the city and thew combat screen will no longer appear.
+- when city combat ends clear out the attacking and defending arrays in the city and then combat screen will no longer appear.
 
-- Create mechanic to add unrest reduction to province when rebels spawn for a limited time
+- Make it so that when new mil units or other types of units are created, they fill in 'null' values in their respective arrays
 
 - an ideology should have at least 30% of the population of a province, then their unrest debuff kicks in
 
@@ -29,7 +30,7 @@
 - a percentage of the provinces supporting ethnicity if they are hostile, while ideological guerrillas will spawn as a percentage
 - of the provinces ideology
 
-- when a province is occupied, a timer start counting down and after 4 years at defects to the other side, if any city
+- when a province is occupied, a timer start counting down and after 4 years it defects to the other side, if any city
 - in the province is taken by the other side the timer resets to 4 years and doesn't start counting again until all cities are
 - occupied by the opposing side
 
@@ -41,8 +42,6 @@
 - together all defending units and put them in defending arrays. If all of those arrays are empty, then hand over the city to the invader.
 - when a country is at war, it should always check the 'countriesPresent' array of any city it enters to see if hostile forces are there
 - if they are fight them, but if they are not then ignore it. When at peace only check to see if their are hostileGuerrillas.
-
-- when any type of unit dies, replace its spot in the Units array with 'null' to save space in memory
 
 - add negative economic effects to cities or provinces that are in civil unrest and also add an icon letting you know that this is happening
 
@@ -84,6 +83,8 @@
 - allow pausing time and the game
 
 - add fullscreen option for the game which automatically F11s the screen to fullscreen
+
+- create 'damaged' versions of city images to display when cities take damage in fighting
 
 - Add corporations
 
