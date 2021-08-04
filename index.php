@@ -283,66 +283,66 @@ require 'header.php';
           <div class="combat-units-window">
             <div class="defender-combat-units">
               <div class="defender-row">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-17" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-18" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-19" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-20" src="public/images/infantryicon.png">
               </div>
               <div class="defender-row">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-13" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-14" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-15" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-16" src="public/images/infantryicon.png">
               </div>
               <div class="defender-row">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-9" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-10" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-11" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-12" src="public/images/infantryicon.png">
               </div>
               <div class="defender-row">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-5" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-6" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-7" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-8" src="public/images/infantryicon.png">
               </div>
               <div class="defender-row">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
-                <img class="defender-unit" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-1" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-2" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-3" src="public/images/infantryicon.png">
+                <img class="defender-unit" id="defend-4" src="public/images/infantryicon.png">
               </div>
             </div>
             <div class="attacker-combat-units">
               <div class="attacker-row">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-1" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-2" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-3" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-4" src="public/images/infantryicon.png">
               </div>
               <div class="attacker-row">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-5" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-6" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-7" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-8" src="public/images/infantryicon.png">
               </div>
               <div class="attacker-row">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-9" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-10" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-11" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-12" src="public/images/infantryicon.png">
               </div>
               <div class="attacker-row">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-13" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-14" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-15" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-16" src="public/images/infantryicon.png">
               </div>
               <div class="attacker-row">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
-                <img class="attacker-unit" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-17" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-18" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-19" src="public/images/infantryicon.png">
+                <img class="attacker-unit" id="attack-20" src="public/images/infantryicon.png">
               </div>
             </div>
           </div>

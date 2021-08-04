@@ -320,10 +320,10 @@
 }
 
 .defender-unit {
-    width: 20px;
-    margin: 2px;
+    width: 22px;
+    margin: 1px;
     margin-bottom: 10px;
-    background: rgba(0,0,100,0.2);
+    opacity: 0;
 }
 
 .attacker-row {
@@ -334,8 +334,8 @@
 }
 
 .attacker-unit {
-    width: 20px;
-    margin: 2px;
+    width: 22px;
+    margin: 1px;
     margin-bottom: 10px;
-    background: rgba(0,200,0,0.2);
+    opacity: 0;
 }

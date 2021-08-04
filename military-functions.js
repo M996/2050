@@ -227,7 +227,8 @@ const openMoveArmiesWindow = function() {
         document.querySelector(".unit-move-interaction-naval").style.display = "flex";
     } else if (landUnitPrecedence) {
         document.querySelector(".unit-move-interaction-land").style.display = "flex";
-        addSoldiersToArmy(cityID, planetIndex);
+        //addSoldiersToArmy(cityID, planetIndex);
+        console.log("If land units take precedence I used to have a function called 'addsoldiersToArmy' but I removed it cuz it isn't defined");
     } else {
         document.querySelector(".unit-move-interaction-air").style.display = "flex";
     }

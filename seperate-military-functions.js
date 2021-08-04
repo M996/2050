@@ -140,6 +140,81 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
         cityTankIndex++;
       });
       
+      
+      defendingPosition = 1;
+      map2Cities[cityID].combatDefendingGuerrillas.forEach(function(guerrillaID) {
+        if (defendingPosition < 20) {
+            defenderString = "guerrilla-" + guerrillaID;
+            map2Cities[cityID].combatDefendingPositions.push(defenderString);
+            defendingPosition++;
+        }
+      }); // take each defending guerrilla in the defending army and place them on the battlefield starting at position 1
+        // fill all defending combat positions with guerrillas until a max of 20 units have been placed
+      
+      
+      // now add units to thee attacking side, the string placed in the combat position will tell us what type of unit
+      // is on that position on the battlefield and what its ID is
+      attackingPosition = 1;
+      map2Cities[cityID].combatAttackingTanks.forEach(function(tankID) {
+        if (attackingPosition < 20) {
+            attackerString = "tank-" + tankID;
+            map2Cities[cityID].combatAttackingPositions.push(attackerString);
+            attackingPosition++;
+        }
+      });
+      // add tanks to the battlefield first, then if room is left for more units continue to add units
+      // in descending order of their strength, this will effect which units get attacked first on the battlefield
+      if (attackingPosition < 20) {
+        map2Cities[cityID].combatAttackingSpaceMarines.forEach(function(spaceMarineID) {
+          if (attackingPosition < 20) {
+              attackerString = "spaceMarine-" + spaceMarineID;
+              map2Cities[cityID].combatAttackingPositions.push(attackerString);
+              attackingPosition++;
+          }
+        });
+      }
+      
+      if (attackingPosition < 20) {
+        map2Cities[cityID].combatAttackingSpaceInfantry.forEach(function(spaceInfantryID) {
+          if (attackingPosition < 20) {
+              attackerString = "spaceInfantry-" + spaceInfantryID;
+              map2Cities[cityID].combatAttackingPositions.push(attackerString);
+              attackingPosition++;
+          }
+        });
+      }
+      
+      if (attackingPosition < 20) {
+        map2Cities[cityID].combatAttackingMarines.forEach(function(marineID) {
+          if (attackingPosition < 20) {
+              attackerString = "marine-" + marineID;
+              map2Cities[cityID].combatAttackingPositions.push(attackerString);
+              attackingPosition++;
+          }
+        });
+      }
+      
+      if (attackingPosition < 20) {
+        map2Cities[cityID].combatAttackingInfantry.forEach(function(infantryID) {
+          if (attackingPosition < 20) {
+              attackerString = "infantry-" + infantryID;
+              map2Cities[cityID].combatAttackingPositions.push(attackerString);
+              attackingPosition++;
+          }
+        });
+      }
+      
+      if (attackingPosition < 20) {
+        map2Cities[cityID].combatAttackingGuerrillas.forEach(function(guerrillaID) {
+          if (attackingPosition < 20) {
+              attackerString = "guerrilla-" + guerrillaID;
+              map2Cities[cityID].combatAttackingPositions.push(attackerString);
+              attackingPosition++;
+          }
+        });
+      }
+      
+      
       console.log(map2Cities[cityID]);
       // now engage the two array groups in combat and display said combat in the city combat screen
       
@@ -171,5 +246,12 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
     
     
   }
+  
+}
+
+
+
+
+const beginFightingHostileArmies = function(planetID, cityID, countryID, neutralCountryIDs) {
   
 }

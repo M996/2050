@@ -1,4 +1,4 @@
-cityBattleIndex = 1;
+cityBattleIndex = 0;
 let cityBattles = [
     /*{
         "id": 0,
