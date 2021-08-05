@@ -1,14 +1,9 @@
-- add attacker icons to match the defender icons
-
-- make it so that once every month the provincial unrest modifiers in each country reduce by 1 per year (10 years to get to zero)
-- then when the modifier reaches zero after 10 years add +20 unrest to that province to reset the modifier again
-
 - create city combat between hostileGuerrillas and Host Nation Militaries
 
-- when a Unit's health reaches zero, regardless of morale, don't forget to eliminate (permanently or putting them in spent reserves?)
+- when a Unit's health reaches zero, regardless of morale, don't forget to eliminate (permanently)
 - that unit, it is possible for space infantry and space marines to have higher morale then they have health
 
-- when reinforcing a military unit, make sure that manpower and health must go up together, because he units health on screen is
+- when reinforcing a military unit, make sure that manpower and health must go up together, because the units health on screen is
 - always displayed as a percentage of max manpower
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
@@ -16,7 +11,7 @@
 - they should spawn in a random spot in the province maybe 2 months later (or maybe just keep fighting in that one city
 - until all of them are finally killed)
 
-- when city combat ends clear out the attacking and defending arrays in the city and then combat screen will no longer appear.
+- when city combat ends clear out the attacking and defending arrays in the city and morale and then combat screen will no longer appear.
 
 - Make it so that when new mil units or other types of units are created, they fill in 'null' values in their respective arrays
 
@@ -86,6 +81,8 @@
 - allow pausing time and the game
 
 - add fullscreen option for the game which automatically F11s the screen to fullscreen
+
+- offload all front end functions and window opening and closing functions to seperate threads to free up main threads for background processing?
 
 - create 'damaged' versions of city images to display when cities take damage in fighting
 

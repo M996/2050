@@ -235,6 +235,8 @@ require 'header.php';
       <div class="attacker-stats">
         <div class="attacker-name-info-container">
           <p class="attacker-name">Tuetoro</p>
+          <div class="attacker-name-tooltip">
+          </div>
         </div>
         <div class="attacker-units-info">
           <div class="unit-display-container">
@@ -352,6 +354,8 @@ require 'header.php';
       <div class="defender-stats">
         <div class="defender-name-info-container">
           <p class="defender-name">Tehlike Empire</p>
+          <div class="defender-name-tooltip">
+          </div>
         </div>
         <div class="defender-units-info">
           <div class="unit-display-container">

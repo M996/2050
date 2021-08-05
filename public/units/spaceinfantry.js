@@ -27,6 +27,6 @@ let spaceInfantryUnits = [
       // directedEnergyArmor is equal to +0.3 infantry
       // kineticArmor is equal to +0.20 infantry
       // space infantry cost 160% maintenance of infantry multiplied by the orbital unit maintenance multiplier
-      "currentManpower": 412,
+      "currentManpower": 500,
     },
 ]

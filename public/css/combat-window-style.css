@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .attacker-name-info-container {
@@ -46,6 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .defender-name {
@@ -321,6 +323,7 @@
 
 .defender-unit {
     width: 22px;
+    margin-top: 2px;
     margin: 1px;
     margin-bottom: 10px;
     opacity: 0;
@@ -335,7 +338,48 @@
 
 .attacker-unit {
     width: 22px;
+    margin-top: 2px;
     margin: 1px;
     margin-bottom: 10px;
     opacity: 0;
+}
+
+.attacker-name-tooltip {
+  background-color: rgb(200,200,200);
+  color: black;
+  border-radius: 2px;
+  padding: 2px 12px;
+  top: -3vh;
+  opacity: 0;
+  position: absolute;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -ms-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
+  font-family: sans-serif;
+}
+
+.attacker-name-info-container:hover .attacker-name-tooltip {
+    opacity: 0.8;
+}
+
+.defender-name-tooltip {
+  background-color: rgb(200,200,200);
+  color: black;
+  border-radius: 2px;
+  padding: 2px 12px;
+  top: -2vh;
+  opacity: 0;
+  position: absolute;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -ms-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
+  font-family: sans-serif;
+}
+
+.defender-name-info-container:hover .defender-name-tooltip {
+    opacity: 0.8;
 }

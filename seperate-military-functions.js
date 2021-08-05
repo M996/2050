@@ -141,12 +141,19 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       });
       
       
-      defendingPosition = 1;
+      defendingPosition = map2Cities[cityID].combatDefendingPositions.length;
+      if (defendingPosition == 0) {
+        defendingPosition = 1;
+      }
       map2Cities[cityID].combatDefendingGuerrillas.forEach(function(guerrillaID) {
         if (defendingPosition < 20) {
-            defenderString = "guerrilla-" + guerrillaID;
+          defenderString = "guerrilla-" + guerrillaID;
+          if (!(map2Cities[cityID].combatDefendingPositions.indexOf(defenderString) >= 0)) {
+            // after making sure that no more than 20 units are on the battlefield, check to see if this unit specifically
+            // is on the battlefield if it is not then add it to the combatPositions array
             map2Cities[cityID].combatDefendingPositions.push(defenderString);
             defendingPosition++;
+          }
         }
       }); // take each defending guerrilla in the defending army and place them on the battlefield starting at position 1
         // fill all defending combat positions with guerrillas until a max of 20 units have been placed
@@ -154,12 +161,17 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       
       // now add units to thee attacking side, the string placed in the combat position will tell us what type of unit
       // is on that position on the battlefield and what its ID is
-      attackingPosition = 1;
+      attackingPosition = map2Cities[cityID].combatAttackingPositions.length;
+      if (attackingPosition == 0) {
+        attackingPosition = 1;
+      }
       map2Cities[cityID].combatAttackingTanks.forEach(function(tankID) {
         if (attackingPosition < 20) {
-            attackerString = "tank-" + tankID;
+          attackerString = "tank-" + tankID;
+          if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
             map2Cities[cityID].combatAttackingPositions.push(attackerString);
-            attackingPosition++;
+              attackingPosition++;
+          }
         }
       });
       // add tanks to the battlefield first, then if room is left for more units continue to add units
@@ -167,9 +179,11 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       if (attackingPosition < 20) {
         map2Cities[cityID].combatAttackingSpaceMarines.forEach(function(spaceMarineID) {
           if (attackingPosition < 20) {
-              attackerString = "spaceMarine-" + spaceMarineID;
+            attackerString = "spaceMarine-" + spaceMarineID;
+            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
+            }
           }
         });
       }
@@ -177,9 +191,11 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       if (attackingPosition < 20) {
         map2Cities[cityID].combatAttackingSpaceInfantry.forEach(function(spaceInfantryID) {
           if (attackingPosition < 20) {
-              attackerString = "spaceInfantry-" + spaceInfantryID;
+            attackerString = "spaceInfantry-" + spaceInfantryID;
+            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
+            }
           }
         });
       }
@@ -187,9 +203,11 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       if (attackingPosition < 20) {
         map2Cities[cityID].combatAttackingMarines.forEach(function(marineID) {
           if (attackingPosition < 20) {
-              attackerString = "marine-" + marineID;
+            attackerString = "marine-" + marineID;
+            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
+            }
           }
         });
       }
@@ -197,9 +215,11 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       if (attackingPosition < 20) {
         map2Cities[cityID].combatAttackingInfantry.forEach(function(infantryID) {
           if (attackingPosition < 20) {
-              attackerString = "infantry-" + infantryID;
+            attackerString = "infantry-" + infantryID;
+            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
+            }
           }
         });
       }
@@ -207,9 +227,11 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       if (attackingPosition < 20) {
         map2Cities[cityID].combatAttackingGuerrillas.forEach(function(guerrillaID) {
           if (attackingPosition < 20) {
-              attackerString = "guerrilla-" + guerrillaID;
+            attackerString = "guerrilla-" + guerrillaID;
+            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
+            }
           }
         });
       }

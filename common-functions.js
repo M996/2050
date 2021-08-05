@@ -70,7 +70,7 @@ let currentPlayerID = 0;
 
 
 
-const openCity = function(city, cityDots) {
+const openCity = function(city, cityDots, openFromMap) {
   if (event.ctrlKey) {
          selectTargetCity2(city.id);
         } else if (1 == 2) {
@@ -87,8 +87,50 @@ const openCity = function(city, cityDots) {
         document.querySelector('.city-interaction').style.display = 'flex';
         // this causes the city interactions window to display
         
-        if (city.defenderMaxMorale > 0) {
+        if (city.defenderMaxMorale > 0 && openFromMap) {
          // if combat is ongoing then open up to the combat screen
+         
+          $('#defend-1').css('opacity', 0);
+          $('#defend-2').css('opacity', 0);
+          $('#defend-3').css('opacity', 0);
+          $('#defend-4').css('opacity', 0);
+          $('#defend-5').css('opacity', 0);
+          $('#defend-6').css('opacity', 0);
+          $('#defend-7').css('opacity', 0);
+          $('#defend-8').css('opacity', 0);
+          $('#defend-9').css('opacity', 0);
+          $('#defend-10').css('opacity', 0);
+          $('#defend-11').css('opacity', 0);
+          $('#defend-12').css('opacity', 0);
+          $('#defend-13').css('opacity', 0);
+          $('#defend-14').css('opacity', 0);
+          $('#defend-15').css('opacity', 0);
+          $('#defend-16').css('opacity', 0);
+          $('#defend-17').css('opacity', 0);
+          $('#defend-18').css('opacity', 0);
+          $('#defend-19').css('opacity', 0);
+          $('#defend-20').css('opacity', 0);
+  
+          $('#attack-1').css('opacity', 0);
+          $('#attack-2').css('opacity', 0);
+          $('#attack-3').css('opacity', 0);
+          $('#attack-4').css('opacity', 0);
+          $('#attack-5').css('opacity', 0);
+          $('#attack-6').css('opacity', 0);
+          $('#attack-7').css('opacity', 0);
+          $('#attack-8').css('opacity', 0);
+          $('#attack-9').css('opacity', 0);
+          $('#attack-10').css('opacity', 0);
+          $('#attack-11').css('opacity', 0);
+          $('#attack-12').css('opacity', 0);
+          $('#attack-13').css('opacity', 0);
+          $('#attack-14').css('opacity', 0);
+          $('#attack-15').css('opacity', 0);
+          $('#attack-16').css('opacity', 0);
+          $('#attack-17').css('opacity', 0);
+          $('#attack-18').css('opacity', 0);
+          $('#attack-19').css('opacity', 0);
+          $('#attack-20').css('opacity', 0);
          
          defenderInfantryAmount = 0;
          defenderTankAmount = 0;
@@ -224,35 +266,35 @@ const openCity = function(city, cityDots) {
             switch(defender[0]) {
               case 'tank':
                 $('#defend-' + defenderSquare).attr("src", 'public/images/tankicon.png');
-                defenderColor = countries[tankUnits[defender[1]].ownerID].color;
+                defenderColor = countries[tankUnits[defender[1]].ownerID].color + '80';
                 $('#defend-' + defenderSquare).css('background', defenderColor);
                 defenderHealthPercent = Math.round((tankUnits[defender[1]].currentManpower / 4000) * 100);
                 $('#defend-' + defenderSquare).css('opacity', defenderHealthPercent + '%');
                 break;
               case 'spaceMarine':
                 $('#defend-' + defenderSquare).attr("src", 'public/images/spacemarinesicon.png');
-                defenderColor = countries[spaceMarineUnits[defender[1]].ownerID].color;
+                defenderColor = countries[spaceMarineUnits[defender[1]].ownerID].color + '80';
                 $('#defend-' + defenderSquare).css('background', defenderColor);
                 defenderHealthPercent = Math.round((spaceMarineUnits[defender[1]].currentManpower / 200) * 100);
                 $('#defend-' + defenderSquare).css('opacity', defenderHealthPercent + '%');
                 break;
               case 'spaceInfantry':
                 $('#defend-' + defenderSquare).attr("src", 'public/images/spaceinfantryicon.png');
-                defenderColor = countries[spaceInfantryUnits[defender[1]].ownerID].color;
+                defenderColor = countries[spaceInfantryUnits[defender[1]].ownerID].color + '80';
                 $('#defend-' + defenderSquare).css('background', defenderColor);
                 defenderHealthPercent = Math.round((spaceInfantryUnits[defender[1]].currentManpower / 500) * 100);
                 $('#defend-' + defenderSquare).css('opacity', defenderHealthPercent + '%');
                 break;
               case 'marine':
                 $('#defend-' + defenderSquare).attr("src", 'public/images/marinesicon.png');
-                defenderColor = countries[marineUnits[defender[1]].ownerID].color;
+                defenderColor = countries[marineUnits[defender[1]].ownerID].color + '80';
                 $('#defend-' + defenderSquare).css('background', defenderColor);
                 defenderHealthPercent = Math.round((marineUnits[defender[1]].currentManpower / 8000) * 100);
                 $('#defend-' + defenderSquare).css('opacity', defenderHealthPercent + '%');
                 break;
               case 'infantry':
                 $('#defend-' + defenderSquare).attr("src", 'public/images/infantryicon.png');
-                defenderColor = countries[infantryUnits[defender[1]].ownerID].color;
+                defenderColor = countries[infantryUnits[defender[1]].ownerID].color + '80';
                 $('#defend-' + defenderSquare).css('background', defenderColor);
                 defenderHealthPercent = Math.round((infantryUnits[defender[1]].currentManpower / 10000) * 100);
                 $('#defend-' + defenderSquare).css('opacity', defenderHealthPercent + '%');
@@ -263,12 +305,12 @@ const openCity = function(city, cityDots) {
                     if (city.hostileGuerrillas.indexOf(Number(defender[1])) >= 0 ) {
                         // if hostile guerrillas are in the city and the value of this unit is in the hostile guerrillas array
                         // then this unit is a hostile guerrilla and should be colored black, otherwise color it based on country
-                        defenderColor = 'rgba(0,0,0,0.2)';
+                        defenderColor = 'rgba(0,0,0,0.25)';
                     } else {
-                      defenderColor = countries[guerrillaUnits[defender[1]].ownerID].color;
+                      defenderColor = countries[guerrillaUnits[defender[1]].ownerID].color + '40';
                     }
                 } else {
-                  defenderColor = countries[guerrillaUnits[defender[1]].ownerID].color;
+                  defenderColor = countries[guerrillaUnits[defender[1]].ownerID].color + '40';
                 }
                 $('#defend-' + defenderSquare).css('background', defenderColor);
                 defenderHealthPercent = Math.round((guerrillaUnits[defender[1]].currentManpower / 10000) * 100);
@@ -276,6 +318,67 @@ const openCity = function(city, cityDots) {
                 break;
             }
             defenderSquare++;
+         });
+         
+         
+         attackerSquare = 1;
+         city.combatAttackingPositions.forEach(function(attackerString) {
+            attacker = attackerString.split("-");
+            switch(attacker[0]) {
+              case 'tank':
+                $('#attack-' + attackerSquare).attr("src", 'public/images/tankicon.png');
+                attackerColor = countries[tankUnits[attacker[1]].ownerID].color + '80';
+                $('#attack-' + attackerSquare).css('background', attackerColor);
+                attackerHealthPercent = Math.round((tankUnits[attacker[1]].currentManpower / 4000) * 100);
+                $('#attack-' + attackerSquare).css('opacity', attackerHealthPercent + '%');
+                break;
+              case 'spaceMarine':
+                $('#attack-' + attackerSquare).attr("src", 'public/images/spacemarinesicon.png');
+                attackerColor = countries[spaceMarineUnits[attacker[1]].ownerID].color + '80';
+                $('#attack-' + attackerSquare).css('background', attackerColor);
+                attackerHealthPercent = Math.round((spaceMarineUnits[attacker[1]].currentManpower / 200) * 100);
+                $('#attack-' + attackerSquare).css('opacity', attackerHealthPercent + '%');
+                break;
+              case 'spaceInfantry':
+                $('#attack-' + attackerSquare).attr("src", 'public/images/spaceinfantryicon.png');
+                attackerColor = countries[spaceInfantryUnits[attacker[1]].ownerID].color + '80';
+                $('#attack-' + attackerSquare).css('background', attackerColor);
+                attackerHealthPercent = Math.round((spaceInfantryUnits[attacker[1]].currentManpower / 500) * 100);
+                $('#attack-' + attackerSquare).css('opacity', attackerHealthPercent + '%');
+                break;
+              case 'marine':
+                $('#attack-' + attackerSquare).attr("src", 'public/images/marinesicon.png');
+                attackerColor = countries[marineUnits[attacker[1]].ownerID].color + '80';
+                $('#attack-' + attackerSquare).css('background', attackerColor);
+                attackerHealthPercent = Math.round((marineUnits[attacker[1]].currentManpower / 8000) * 100);
+                $('#attack-' + attackerSquare).css('opacity', attackerHealthPercent + '%');
+                break;
+              case 'infantry':
+                $('#attack-' + attackerSquare).attr("src", 'public/images/infantryicon.png');
+                attackerColor = countries[infantryUnits[attacker[1]].ownerID].color + '80';
+                $('#attack-' + attackerSquare).css('background', attackerColor);
+                attackerHealthPercent = Math.round((infantryUnits[attacker[1]].currentManpower / 10000) * 100);
+                $('#attack-' + attackerSquare).css('opacity', attackerHealthPercent + '%');
+                break;
+              case 'guerrilla':
+                $('#attack-' + attackerSquare).attr("src", 'public/images/guerrillaicon.png');
+                if (city.hostileGuerrillas.length > 0) {
+                    if (city.hostileGuerrillas.indexOf(Number(attacker[1])) >= 0 ) {
+                        // if hostile guerrillas are in the city and the value of this unit is in the hostile guerrillas array
+                        // then this unit is a hostile guerrilla and should be colored black, otherwise color it based on country
+                        attackerColor = 'rgba(0,0,0,0.25)';
+                    } else {
+                      attackerColor = countries[guerrillaUnits[attacker[1]].ownerID].color + '40';
+                    }
+                } else {
+                  attackerColor = countries[guerrillaUnits[attacker[1]].ownerID].color + '40';
+                }
+                $('#attack-' + attackerSquare).css('background', attackerColor);
+                attackerHealthPercent = Math.round((guerrillaUnits[attacker[1]].currentManpower / 10000) * 100);
+                $('#attack-' + attackerSquare).css('opacity', attackerHealthPercent + '%');
+                break;
+            }
+            attackerSquare++;
          });
          
          
@@ -287,13 +390,19 @@ const openCity = function(city, cityDots) {
          
          if (city.defendingGeneral != null) {
           $('.defender-bonus').text(generalUnits[city.defendingGeneral].bonus);
+          $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
+          $('.defender-bonus').css('opacity', 1);
          } else {
-          $('.defender-bonus').text(0);
+          $('.defender-bonus').css('opacity', 0);
+          $('.defender-name-tooltip').text("General: None");
          }
          if (city.attackingGeneral != null) {
           $('.attacker-bonus').text(generalUnits[city.attackingGeneral].bonus);
+          $('.attacker-name-tooltip').text("General: " + generalUnits[city.attackingGeneral].name);
+          $('.attacker-bonus').css('opacity', 1);
          } else {
-          $('.attacker-bonus').text(0);
+          $('.attacker-bonus').css('opacity', 0);
+          $('.attacker-name-tooltip').text("General: None");
          }
          
          defenderMoralePercent = Math.round((city.defenderMorale / city.defenderMaxMorale) * 100);
@@ -646,62 +755,110 @@ const closeInteractions = function() {
   cityID = document.querySelector("#city-index").textContent;
   planetID = document.querySelector("#planet-index").textContent;
   
-  document.querySelector(".unit-interaction").style.display = "none";
-  document.querySelector(".city-interaction").style.display = "none";
-  document.querySelector(".city-combat-screen").style.display = "none";
-  document.querySelector(".unit-move-interaction-land").style.display = "none";
-  document.querySelector(".unit-move-interaction-naval").style.display = "none";
-  document.querySelector(".unit-move-interaction-air").style.display = "none";
-  document.querySelector("#move-space-marines").style.display = "none";
-  document.querySelector("#move-space-infantry").style.display = "none";
-  document.querySelector("#move-carrier").style.display = "none";
-  document.querySelector("#move-submarine").style.display = "none";
-  document.querySelector("#move-marines").style.display = "none";
-  document.querySelector("#move-destroyer").style.display = "none";
-  document.querySelector("#move-aircraft").style.display = "none";
-  document.querySelector("#move-tank").style.display = "none";
-  document.querySelector("#move-infantry").style.display = "none";
+  $('#defend-1').css('opacity', 0);
+  $('#defend-2').css('opacity', 0);
+  $('#defend-3').css('opacity', 0);
+  $('#defend-4').css('opacity', 0);
+  $('#defend-5').css('opacity', 0);
+  $('#defend-6').css('opacity', 0);
+  $('#defend-7').css('opacity', 0);
+  $('#defend-8').css('opacity', 0);
+  $('#defend-9').css('opacity', 0);
+  $('#defend-10').css('opacity', 0);
+  $('#defend-11').css('opacity', 0);
+  $('#defend-12').css('opacity', 0);
+  $('#defend-13').css('opacity', 0);
+  $('#defend-14').css('opacity', 0);
+  $('#defend-15').css('opacity', 0);
+  $('#defend-16').css('opacity', 0);
+  $('#defend-17').css('opacity', 0);
+  $('#defend-18').css('opacity', 0);
+  $('#defend-19').css('opacity', 0);
+  $('#defend-20').css('opacity', 0);
   
-  disembarkInfantry(cityID, planetID);
-  disembarkTanks(cityID, planetID);
-  disembarkAircraft(cityID, planetID);
-  disembarkMarines(cityID, planetID);
-  disembarkSpaceInfantry(cityID, planetID);
-  disembarkSpaceMarines(cityID, planetID);
+  $('#attack-1').css('opacity', 0);
+  $('#attack-2').css('opacity', 0);
+  $('#attack-3').css('opacity', 0);
+  $('#attack-4').css('opacity', 0);
+  $('#attack-5').css('opacity', 0);
+  $('#attack-6').css('opacity', 0);
+  $('#attack-7').css('opacity', 0);
+  $('#attack-8').css('opacity', 0);
+  $('#attack-9').css('opacity', 0);
+  $('#attack-10').css('opacity', 0);
+  $('#attack-11').css('opacity', 0);
+  $('#attack-12').css('opacity', 0);
+  $('#attack-13').css('opacity', 0);
+  $('#attack-14').css('opacity', 0);
+  $('#attack-15').css('opacity', 0);
+  $('#attack-16').css('opacity', 0);
+  $('#attack-17').css('opacity', 0);
+  $('#attack-18').css('opacity', 0);
+  $('#attack-19').css('opacity', 0);
+  $('#attack-20').css('opacity', 0);
   
-  if (planetID == 1) {
+  if (document.querySelector(".city-combat-screen").style.display == 'flex') {
+    //if the city combat screen is currently open that open the city interactions screen instead of the combat sscreen before closing
+    document.querySelector(".city-combat-screen").style.display = "none";
+    document.querySelector(".city-interaction").style.display = "flex";
+  } else {
     
-  } else if(planetID == 2) {
-    if (map2Cities[cityID].fleet.length > 0) {
-      // if a fleet actually exists in this city, then make sure to remove all naval units from the fleet when closing the city
-      removeDestroyersFromFleet(cityID, planetID, true);
-      removeSubmarinesFromFleet(cityID, planetID);
-      removeCarriersFromFleet(cityID, planetID, true);
+    document.querySelector(".unit-interaction").style.display = "none";
+    document.querySelector(".city-interaction").style.display = "none";
+    document.querySelector(".city-combat-screen").style.display = "none";
+    document.querySelector(".unit-move-interaction-land").style.display = "none";
+    document.querySelector(".unit-move-interaction-naval").style.display = "none";
+    document.querySelector(".unit-move-interaction-air").style.display = "none";
+    document.querySelector("#move-space-marines").style.display = "none";
+    document.querySelector("#move-space-infantry").style.display = "none";
+    document.querySelector("#move-carrier").style.display = "none";
+    document.querySelector("#move-submarine").style.display = "none";
+    document.querySelector("#move-marines").style.display = "none";
+    document.querySelector("#move-destroyer").style.display = "none";
+    document.querySelector("#move-aircraft").style.display = "none";
+    document.querySelector("#move-tank").style.display = "none";
+    document.querySelector("#move-infantry").style.display = "none";
+    
+    disembarkInfantry(cityID, planetID);
+    disembarkTanks(cityID, planetID);
+    disembarkAircraft(cityID, planetID);
+    disembarkMarines(cityID, planetID);
+    disembarkSpaceInfantry(cityID, planetID);
+    disembarkSpaceMarines(cityID, planetID);
+    
+    if (planetID == 1) {
+      
+    } else if(planetID == 2) {
+      if (map2Cities[cityID].fleet.length > 0) {
+        // if a fleet actually exists in this city, then make sure to remove all naval units from the fleet when closing the city
+        removeDestroyersFromFleet(cityID, planetID, true);
+        removeSubmarinesFromFleet(cityID, planetID);
+        removeCarriersFromFleet(cityID, planetID, true);
+      }
+    } else if(planetID == 3) {
+      
+    } else if(planetID == 4) {
+      
     }
-  } else if(planetID == 3) {
     
-  } else if(planetID == 4) {
-    
+    if (planetID == 1) {
+      
+    } else if(planetID == 2) {
+      if (map2Cities[cityID].army.length > 0) {
+        // if an army actually exists in this city, then make sure to remove all land units from the army when closing the city
+        removeInfantryFromArmy(cityID, planetID);
+        removeTanksFromArmy(cityID, planetID);
+        aircraftSelected = false;
+        removeMarinesFromArmy(cityID, planetID);
+        removeSpaceInfantryFromArmy(cityID, planetID);
+        removeSpaceMarinesFromArmy(cityID, planetID);
+      }
+    } else if(planetID == 3) {
+      
+    } else if(planetID == 4) {
+      
+    }   
   }
-  
-  if (planetID == 1) {
-    
-  } else if(planetID == 2) {
-    if (map2Cities[cityID].army.length > 0) {
-      // if an army actually exists in this city, then make sure to remove all land units from the army when closing the city
-      removeInfantryFromArmy(cityID, planetID);
-      removeTanksFromArmy(cityID, planetID);
-      aircraftSelected = false;
-      removeMarinesFromArmy(cityID, planetID);
-      removeSpaceInfantryFromArmy(cityID, planetID);
-      removeSpaceMarinesFromArmy(cityID, planetID);
-    }
-  } else if(planetID == 3) {
-    
-  } else if(planetID == 4) {
-    
-  } 
-  
 }
 
 

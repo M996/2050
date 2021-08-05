@@ -5,8 +5,8 @@ let countries = [
     {
         "id": 0,
         "name": "Tehlike Empire",
-        "color": "rgb(57,135,35)",
-        "nameColored": "<span style='color:rgb(57,135,35)'>Tehlike Empire</span>",
+        "color": "#39EB23",
+        "nameColored": "<span style='color:#39EB23'>Tehlike Empire</span>",
         "homePlanet": "Medera",
         "homeContinent": "Turen",
         "isPlayer": true,
@@ -421,8 +421,8 @@ let countries = [
     {
         "id": 0,
         "name": "Panera",
-        "color": "rgb(247,111,134)",
-        "nameColored": "<span style='color:rgb(247,111,134)'>Panera</span>",
+        "color": "#F76F86",
+        "nameColored": "<span style='color:V'>Panera</span>",
         "homePlanet": "Medera",
         "homeContinent": "Turen",
         "isPlayer": false,
