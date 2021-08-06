@@ -40,7 +40,7 @@ tellTime = function(t1) {
     case 2:
         cityBattles.forEach(function(battle) {
           
-          
+          cityBattle(battle);
           
         });
         tickTime++;
@@ -54,7 +54,12 @@ tellTime = function(t1) {
     case 5: 
         tickTime++;
     break;
-    case 6: 
+    case 6:
+        cityBattles.forEach(function(battle) {
+          
+          cityBattle(battle);
+          
+        });
         tickTime++;
     break;
     case 7: 
@@ -66,7 +71,12 @@ tellTime = function(t1) {
     case 9: 
         tickTime++;
     break;
-    case 10: 
+    case 10:
+        cityBattles.forEach(function(battle) {
+          
+          cityBattle(battle);
+          
+        });
         tickTime++;
     break;
     case 11: 
@@ -136,6 +146,12 @@ tellTime = function(t1) {
             factorUnrest4(country.id, province.id, province.unrest, province.civilUnrest);
             
           });
+          
+        });
+        
+        cityBattles.forEach(function(battle) {
+          
+          cityBattle(battle);
           
         });
         

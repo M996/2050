@@ -76,7 +76,7 @@ mainCanvas2.add(citySelector);
     // below we will create an event listener so that when any city is clicked, the city interactions window pops up with all
     // relevant information for that city.
     cityDots.on('mouseup', function() {
-        openCity(city, cityDots, true);
+        openCity(city, cityDots);
     });
     mainCanvas2.add(cityDots);
     // we have now rendered every single city, and can display the cities full stats when you click on them, add them to the canvas!
@@ -84,7 +84,7 @@ mainCanvas2.add(citySelector);
     
     // replicate all city dot functionality inside of the city labels, so that clicking either one has the same result
     window["cityLabels"+labelNumber].on('mouseup', function() {
-        openCity(city, cityDots, true);
+        openCity(city, cityDots);
     });
     labelNumber++;
     
