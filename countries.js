@@ -300,8 +300,8 @@ let countries = [
         "annualPopulationGrowth": 0.02,
         "morale": 0.3000,
         // Damage done to a unit after armor is accounted for is first subtracted from the unit health and then subtracted
-        // from the collective morale poll for all units in the battle. After the battle is over the
-        // 'morale' property for that battle will become the new morale amount for all units that participated in that battle.
+        // from the unit's morale pool and the army morale pool. Once morale reaches zero for a unit it will be pulled off
+        // the battlefied
         "landCombatWidth": 20,
         "navalCombatWidth": 20,
         "landQuality": 0,
@@ -336,6 +336,7 @@ let countries = [
         "government": "Turengan-Empire",
         "averageGdpPerCapita": 1.32,
         "annualGdpPerCapitaGrowth": 0.05,
+        "corruption": 12,
         "unrest": 0,
         "warExhaustion": 0,
         "warExhaustionDecrease": -0.1,

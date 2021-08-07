@@ -87,7 +87,7 @@ const openCity = function(city, cityDots) {
         document.querySelector('.city-interaction').style.display = 'flex';
         // this causes the city interactions window to display
         
-        updateCombatWindow(city, null, null);
+        updateCombatWindow(city);
         
         // Here we have to figure out what units are currently positioned in this city before we open the unit interactions window
         

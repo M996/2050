@@ -198,7 +198,7 @@
     margin-bottom: 8px;
     height: 3vh;
     width: 3vh;
-    background: rgb(200,200,200);
+    background: rgb(200,200,210);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,7 +216,7 @@
     margin-bottom: 8px;
     height: 3vh;
     width: 3vh;
-    background: rgb(255,255,200);
+    background: rgb(225,225,180);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,7 +245,7 @@
     margin-bottom: 8px;
     height: 3vh;
     width: 3vh;
-    background: rgb(200,200,200);
+    background: rgb(200,200,210);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -382,4 +382,44 @@
 
 .defender-name-info-container:hover .defender-name-tooltip {
     opacity: 0.8;
+}
+
+.defender-morale-tooltip {
+  background-color: rgb(200,200,200);
+  font-family: sans-serif;
+  color: black;
+  padding: 1px 4px;
+  opacity: 0;
+  position: absolute;
+  margin-top: -15px;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -ms-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
+  font-family: sans-serif;
+}
+
+.defender-morale-div:hover .defender-morale-tooltip {
+    opacity: 0.6;
+}
+
+.attacker-morale-tooltip {
+  background-color: rgb(200,200,200);
+  font-family: sans-serif;
+  color: black;
+  padding: 1px 4px;
+  opacity: 0;
+  position: absolute;
+  margin-top: -15px;
+  -webkit-transition: opacity 200ms;
+  -moz-transition: opacity 200ms;
+  -ms-transition: opacity 200ms;
+  -o-transition: opacity 200ms;
+  transition: opacity 200ms;
+  font-family: sans-serif;
+}
+
+.attacker-morale-div:hover .attacker-morale-tooltip {
+    opacity: 0.6;
 }

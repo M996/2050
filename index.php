@@ -268,7 +268,7 @@ require 'header.php';
         </div>
       </div>
       <div class="combat-action-screen">
-        <div class="attacker-morale-div"><div class="current-attacker-morale"></div></div>
+        <div class="attacker-morale-div"><div class="current-attacker-morale"></div><div class="attacker-morale-tooltip"></div></div>
         <!-- The morale bars appear here and are filled in with the values of an army's current morale status -->
         <div class="combat-window">
           
@@ -349,7 +349,7 @@ require 'header.php';
             </div>
           </div>
         </div>
-        <div class="defender-morale-div"><div class="current-defender-morale"></div></div>
+        <div class="defender-morale-div"><div class="current-defender-morale"></div><div class="defender-morale-tooltip"></div></div>
       </div>
       <div class="defender-stats">
         <div class="defender-name-info-container">
@@ -523,6 +523,7 @@ require 'header.php';
 <script src="ideologies.js"></script>
 <script src="unions.js"></script>
 <script src="countries.js"></script>
+<script src="country-colors.js"></script>
 <script src="corporations.js"></script>
 
 <script src="public/units/general.js"></script>
