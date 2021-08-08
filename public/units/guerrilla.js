@@ -23,8 +23,8 @@ let guerrillaUnits = [
       // explosiveDamage is found in Host Country Guerrilla Stats
       // moraleDamage is equal to 90% of infantry
       // speed is equal to 75% of infantry
-      // smallArmsArmor is equal to -0.08 infantry
-      // explosiveArmor is equal to -0.10 infantry
+      // smallArmsArmor is equal infantry
+      // explosiveArmor is equal to -0.05 infantry
       // directEnergyArmor and kineticArmor is infantryArmor for this value +0.1
       "currentManpower": 10000,
     }
