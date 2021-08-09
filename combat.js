@@ -12,6 +12,20 @@ const cityBattle = function(battle) {
         break;
         case 2:
             
+            if (map2Cities[battle.cityID].combatAttackingPositions.length == 0) {
+                console.log('Defender Victory through lack of Attackers');
+                cityBattles.splice(battle.id);
+                // remove the battle from active battles and clean out all battle properties from the city
+                return;
+            }
+            
+            if (map2Cities[battle.cityID].combatDefendingPositions.length == 0) {
+                console.log('Attacker Victory through lack of Defenders');
+                cityBattles.splice(battle.id);
+                // remove the battle from active battles and clean out all battle properties from the city
+                return;
+            }
+            
             map2Cities[battle.cityID].attackingBattleRoll = battleDiceAttacker;
             map2Cities[battle.cityID].defendingBattleRoll = battleDiceDefender;
             
@@ -21,6 +35,12 @@ const cityBattle = function(battle) {
                 updateCombatWindow(map2Cities[battle.cityID]);
                 // if the combat window for this city is currently open then update the window as the battle progresses
             }
+            
+            
+            
+            
+            console.log(map2Cities[battle.cityID].combatDefendingPositions);
+            console.log(map2Cities[battle.cityID].combatAttackingPositions);
             
             
             
@@ -78,10 +98,10 @@ const cityBattle = function(battle) {
             }
             
             
-            map2Cities[battle.cityID].combatAttackingPositions.forEach(function() {
+            map2Cities[battle.cityID].combatAttackingPositions.forEach(function(attackerString) {
                         
                 attacker = attackerString.split("-");
-                // figure out who the dfending unit in this position is and determine their attack strength
+                // figure out who the attacking unit in this position is and determine their attack strength
                 switch(attacker[0]) {
                      case 'tank':
                       
@@ -98,6 +118,9 @@ const cityBattle = function(battle) {
                    attackerExplosiveDamage = attackerExplosiveDamage * 0.5;
                    // when fighting in cities, tanks do 50% less damage
                    
+                   attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                   attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
+                   
                   break; 
                   case 'spaceMarine':
                     
@@ -109,6 +132,8 @@ const cityBattle = function(battle) {
                      attackerSmallArmsDamage = attackerSmallArmsDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
                     
+                    attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                    attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
                     
                   break; 
                   case 'spaceInfantry':
@@ -120,6 +145,9 @@ const cityBattle = function(battle) {
                     if (spaceInfantryUnits[attacker[1]].health < (countries[spaceInfantryOwnerID].infantryMaxHealth * 0.4)) {
                      attackerSmallArmsDamage = attackerSmallArmsDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
+                 
+                    attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                    attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
                  
                   break; 
                   case 'marine':
@@ -133,6 +161,9 @@ const cityBattle = function(battle) {
                      attackerExplosiveDamage = attackerExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
                     
+                    attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                    attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
+                    
                   break; 
                   case 'infantry':
                     
@@ -144,6 +175,9 @@ const cityBattle = function(battle) {
                      attackerSmallArmsDamage = attackerSmallArmsDamage * 0.5;
                      attackerExplosiveDamage = attackerExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
+                    
+                    attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                    attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
                     
                    break; 
                   case 'hostileguerrilla':
@@ -157,6 +191,9 @@ const cityBattle = function(battle) {
                      attackerSmallArmsDamage = attackerSmallArmsDamage * 0.5;
                      attackerExplosiveDamage = attackerExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
+                    
+                    attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                    attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
                  
                   break; 
                    case 'guerrilla':
@@ -171,12 +208,15 @@ const cityBattle = function(battle) {
                      attackerExplosiveDamage = attackerExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
                     
+                    attackerSmallArmsDamage = attackerSmallArmsDamage * attackerDamageModifier;
+                    attackerExplosiveDamage = attackerExplosiveDamage * attackerDamageModifier;
+                    
                   break; 
                 }
                 
                 attackPosition = Math.floor(Math.random() * 30);
                    
-                if (attackPosition > 20) {
+                if (attackPosition > (map2Cities[battle.cityID].combatDefendingPositions.length - 1)) {
                     attackFrontPosition = Math.floor(Math.random() * 4);
                     attackPosition = attackFrontPosition;
                 } // if the attack position randomly selected is too high to be on the battlefield then this unit
@@ -187,9 +227,9 @@ const cityBattle = function(battle) {
                 // addition to possibly rolling a number of 0-3 (20%) which would also select a front row unit
                 // only rolling the numbers 4 - 20 will allow this unit to attack an enemy not in the front row
                 
+                // sometimes all enemy units have been destroyed when this code tries to run, check to see if any
+                // enemies are left before continuing the attack
                 victimString = map2Cities[battle.cityID].combatDefendingPositions[Number(attackPosition)];
-                console.log(map2Cities[battle.cityID].combatDefendingPositions);
-                // code is erroring out here
                 victim = victimString.split("-");
                 // figure out who the victim of the attack is and determine their armor, health, and morale
                 switch(victim[0]) {
@@ -202,31 +242,32 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
                         
-                        tankUnits[victim[1]].health = Math.round(tankUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        tankUnits[victim[1]].health = tankUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        tankUnits[victim[1]].currentMorale = Math.round(tankUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        tankUnits[victim[1]].currentMorale = tankUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].tankMaxHealth) * 4000);
                         tankUnits[victim[1]].currentManpower = tankUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].defenderLosses = cityBattles[battle.id].defenderLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (tankUnits[victim[1]].health < 1) {
+                        if (tankUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            console.log('a unit has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (tankUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                         
                       break;
@@ -239,31 +280,32 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
                         
-                        spaceMarineUnits[victim[1]].health = Math.round(spaceMarineUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        spaceMarineUnits[victim[1]].health = spaceMarineUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        spaceMarineUnits[victim[1]].currentMorale = Math.round(spaceMarineUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        spaceMarineUnits[victim[1]].currentMorale = spaceMarineUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 300);
                         spaceMarineUnits[victim[1]].currentManpower = spaceMarineUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (spaceMarineUnits[victim[1]].health < 1) {
+                        if (spaceMarineUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            console.log('a space marine has been destroyed');
+                            
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (spaceMarineUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -276,31 +318,32 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
                         
-                        spaceInfantryUnits[victim[1]].health = Math.round(spaceInfantryUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        spaceInfantryUnits[victim[1]].health = spaceInfantryUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        spaceInfantryUnits[victim[1]].currentMorale = Math.round(spaceInfantryUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        spaceInfantryUnits[victim[1]].currentMorale = spaceInfantryUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 500);
                         spaceInfantryUnits[victim[1]].currentManpower = spaceInfantryUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (spaceInfantryUnits[victim[1]].health < 1) {
+                        if (spaceInfantryUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            console.log('a space infantry has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (spaceInfantryUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -313,31 +356,32 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
                         
-                        marineUnits[victim[1]].health = Math.round(marineUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        marineUnits[victim[1]].health = marineUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        marineUnits[victim[1]].currentMorale = Math.round(marineUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        marineUnits[victim[1]].currentMorale = marineUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 8000);
                         marineUnits[victim[1]].currentManpower = marineUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (marineUnits[victim[1]].health < 1) {
+                        if (marineUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            console.log('a marine has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (marineUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -350,26 +394,32 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
                         
-                        infantryUnits[victim[1]].health = Math.round(infantryUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        infantryUnits[victim[1]].health = infantryUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        infantryUnits[victim[1]].currentMorale = Math.round(infantryUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        infantryUnits[victim[1]].currentMorale = infantryUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 10000);
                         infantryUnits[victim[1]].currentManpower = infantryUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (infantryUnits[victim[1]].health < 1) {
+                        if (infantryUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            console.log('a marine has been destroyed');
+                           
+                        }
+                        
+                        
+                        
+                        if (infantryUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -382,31 +432,32 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
                         
-                        guerrillaUnits[victim[1]].health = Math.round(guerrillaUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        guerrillaUnits[victim[1]].health = guerrillaUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        guerrillaUnits[victim[1]].currentMorale = Math.round(guerrillaUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        guerrillaUnits[victim[1]].currentMorale = guerrillaUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 10000);
                         guerrillaUnits[victim[1]].currentManpower = guerrillaUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
                         if (guerrillaUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a guerrilla has been destroyed');
+                            
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -419,37 +470,43 @@ const cityBattle = function(battle) {
                         attackerSmallArmsDamage = attackerSmallArmsDamage * (1 - victimSmallArmsArmor);
                         attackerExplosiveDamage = attackerExplosiveDamage * (1 - victimExplosiveArmor);
                         attackerTotalDamage = attackerSmallArmsDamage + attackerExplosiveDamage;
-                        if (attackerTotalDamage < 1) {
-                            attackerTotalDamage = 1;
-                        }
+                       
                         
-                        guerrillaUnits[victim[1]].health = Math.round(guerrillaUnits[victim[1]].health - attackerTotalDamage);
+                        
+                        guerrillaUnits[victim[1]].health = guerrillaUnits[victim[1]].health - attackerTotalDamage;
                         // subtract damage from health of unit
-                        guerrillaUnits[victim[1]].currentMorale = Math.round(guerrillaUnits[victim[1]].currentMorale - attackerTotalDamage);
+                        guerrillaUnits[victim[1]].currentMorale = guerrillaUnits[victim[1]].currentMorale - attackerTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - attackerTotalDamage);
+                        map2Cities[battle.cityID].defenderMorale = map2Cities[battle.cityID].defenderMorale - attackerTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((attackerTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 10000);
                         guerrillaUnits[victim[1]].currentManpower = guerrillaUnits[victim[1]].currentManpower - manpowerReductionAmount;
                         // reduce the manpower of this unit by the amount equivalent to the damage taken
-                        cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
+                        //cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
                         if (guerrillaUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a guerrilla has been destroyed');
+                            
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
                         
                       break;
                 }
                 
             });
+            
+            if (map2Cities[battle.cityID].defenderMorale < 1) {
+                //what happens when the attackers lose the battle?
+                 
+            }
             
             
             
@@ -509,7 +566,7 @@ const cityBattle = function(battle) {
             }
             
             
-            map2Cities[battle.cityID].combatDefendingPositions.forEach(function() {
+            map2Cities[battle.cityID].combatDefendingPositions.forEach(function(defenderString) {
                         
                 defender = defenderString.split("-");
                 // figure out who the dfending unit in this position is and determine their attack strength
@@ -529,6 +586,9 @@ const cityBattle = function(battle) {
                    defenderExplosiveDamage = defenderExplosiveDamage * 0.5;
                    // when fighting in cities, tanks do 50% less damage
                    
+                   defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                   defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
+                   
                   break; 
                   case 'spaceMarine':
                     
@@ -539,6 +599,9 @@ const cityBattle = function(battle) {
                     if (spaceMarineUnits[defender[1]].health < (countries[spaceMarineOwnerID].infantryMaxHealth * 0.5)) {
                      defenderSmallArmsDamage = defenderSmallArmsDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
+                    
+                    defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                    defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
                     
                     
                   break; 
@@ -551,6 +614,9 @@ const cityBattle = function(battle) {
                     if (spaceInfantryUnits[defender[1]].health < (countries[spaceInfantryOwnerID].infantryMaxHealth * 0.4)) {
                      defenderSmallArmsDamage = defenderSmallArmsDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
+                    
+                    defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                    defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
                  
                   break; 
                   case 'marine':
@@ -564,6 +630,9 @@ const cityBattle = function(battle) {
                      defenderExplosiveDamage = defenderExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
                     
+                    defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                    defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
+                    
                   break; 
                   case 'infantry':
                     
@@ -576,18 +645,24 @@ const cityBattle = function(battle) {
                      defenderExplosiveDamage = defenderExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
                     
+                    defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                    defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
+                    
                    break; 
                   case 'hostileguerrilla':
                     
                     guerrillaOwnerID = guerrillaUnits[defender[1]].ownerID;
                     defenderSmallArmsDamage = countries[guerrillaOwnerID].guerrillaSmallArmsDamage;
                     defenderExplosiveDamage = countries[guerrillaOwnerID].guerrillaExplosiveDamage;
-                   
+                    
                     if (guerrillaUnits[defender[1]].health <
                         ((countries[guerrillaOwnerID].infantryMaxHealth * countries[guerrillaOwnerID].guerrillaHealthPercent) * 0.5)) {
                      defenderSmallArmsDamage = defenderSmallArmsDamage * 0.5;
                      defenderExplosiveDamage = defenderExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
+                    
+                    defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                    defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
                  
                   break; 
                    case 'guerrilla':
@@ -602,12 +677,14 @@ const cityBattle = function(battle) {
                      defenderExplosiveDamage = defenderExplosiveDamage * 0.5;
                     } // if a unit is at less than half health then it will only do 50% normal damage
                     
+                    defenderSmallArmsDamage = defenderSmallArmsDamage * defenderDamageModifier;
+                    defenderExplosiveDamage = defenderExplosiveDamage * defenderDamageModifier;
+                    
                   break; 
                 }
                 
                 attackPosition = Math.floor(Math.random() * 30);
-                   
-                if (attackPosition > 20) {
+                if (attackPosition > (map2Cities[battle.cityID].combatAttackingPositions.length -1)) {
                     attackFrontPosition = Math.floor(Math.random() * 4);
                     attackPosition = attackFrontPosition;
                 } // if the attack position randomly selected is too high to be on the battlefield then this unit
@@ -618,11 +695,12 @@ const cityBattle = function(battle) {
                 // addition to possibly rolling a number of 0-3 (20%) which would also select a front row unit
                 // only rolling the numbers 4 - 20 will allow this unit to attack an enemy not in the front row
                     
-                victimString = map2Cities[battle.cityID].combatAttackingingPositions[attackPosition];
+                victimString = map2Cities[battle.cityID].combatAttackingPositions[Number(attackPosition)];
                 victim = victimString.split("-");
                 // figure out who the victim of the attack is and determine their armor, health, and morale
                 switch(victim[0]) {
                       case 'tank':
+                      
                       
                         victimOwnerID = tankUnits[victim[1]].ownerID;
                         victimSmallArmsArmor = countries[victimOwnerID].tankSmallArmsArmor;
@@ -631,15 +709,16 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        tankUnits[victim[1]].health = Math.round(tankUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        console.log('Defender Damage After Armor:');
+                        console.log(defenderTotalDamage);
+                        
+                        tankUnits[victim[1]].health = tankUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        tankUnits[victim[1]].currentMorale = Math.round(tankUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        tankUnits[victim[1]].currentMorale = tankUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].tankMaxHealth) * 4000);
                         tankUnits[victim[1]].currentManpower = tankUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -647,15 +726,24 @@ const cityBattle = function(battle) {
                         cityBattles[battle.id].attackerLosses = cityBattles[battle.id].attackerLosses + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
+                        console.log('Damage done to Tank:');
+                        console.log(defenderTotalDamage);
+                        console.log('Tank Morale:');
+                        console.log(tankUnits[victim[1]].currentMorale);
+                        console.log('Army Morale:');
+                        console.log(map2Cities[battle.cityID].attackerMorale);
                         
                         if (tankUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a unit has been destroyed');
+                            
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (tankUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                         
                       break;
@@ -668,15 +756,13 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        spaceMarineUnits[victim[1]].health = Math.round(spaceMarineUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        spaceMarineUnits[victim[1]].health = spaceMarineUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        spaceMarineUnits[victim[1]].currentMorale = Math.round(spaceMarineUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        spaceMarineUnits[victim[1]].currentMorale = spaceMarineUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 300);
                         spaceMarineUnits[victim[1]].currentManpower = spaceMarineUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -687,12 +773,15 @@ const cityBattle = function(battle) {
                         
                         if (spaceMarineUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a space marine has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (spaceMarineUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -705,15 +794,13 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        spaceInfantryUnits[victim[1]].health = Math.round(spaceInfantryUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        spaceInfantryUnits[victim[1]].health = spaceInfantryUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        spaceInfantryUnits[victim[1]].currentMorale = Math.round(spaceInfantryUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        spaceInfantryUnits[victim[1]].currentMorale = spaceInfantryUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 500);
                         spaceInfantryUnits[victim[1]].currentManpower = spaceInfantryUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -724,12 +811,15 @@ const cityBattle = function(battle) {
                         
                         if (spaceInfantryUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a space infantry has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (spaceInfantryUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -742,15 +832,13 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        marineUnits[victim[1]].health = Math.round(marineUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        marineUnits[victim[1]].health = marineUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        marineUnits[victim[1]].currentMorale = Math.round(marineUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        marineUnits[victim[1]].currentMorale = marineUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 8000);
                         marineUnits[victim[1]].currentManpower = marineUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -761,12 +849,15 @@ const cityBattle = function(battle) {
                         
                         if (marineUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a marine has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (marineUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -779,15 +870,13 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        infantryUnits[victim[1]].health = Math.round(infantryUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        infantryUnits[victim[1]].health = infantryUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        infantryUnits[victim[1]].currentMorale = Math.round(infantryUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        infantryUnits[victim[1]].currentMorale = infantryUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 10000);
                         infantryUnits[victim[1]].currentManpower = infantryUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -798,7 +887,15 @@ const cityBattle = function(battle) {
                         
                         if (infantryUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a marine has been destroyed');
+                           
+                        }
+                        
+                        
+                        
+                        if (infantryUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -811,15 +908,13 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        guerrillaUnits[victim[1]].health = Math.round(guerrillaUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        guerrillaUnits[victim[1]].health = guerrillaUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        guerrillaUnits[victim[1]].currentMorale = Math.round(guerrillaUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        guerrillaUnits[victim[1]].currentMorale = guerrillaUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 10000);
                         guerrillaUnits[victim[1]].currentManpower = guerrillaUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -830,12 +925,15 @@ const cityBattle = function(battle) {
                         
                         if (guerrillaUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a guerrilla has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        
+                        
+                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                       
                       break;
@@ -848,15 +946,13 @@ const cityBattle = function(battle) {
                         defenderSmallArmsDamage = defenderSmallArmsDamage * (1 - victimSmallArmsArmor);
                         defenderExplosiveDamage = defenderExplosiveDamage * (1 - victimExplosiveArmor);
                         defenderTotalDamage = defenderSmallArmsDamage + defenderExplosiveDamage;
-                        if (defenderTotalDamage < 1) {
-                            defenderTotalDamage = 1;
-                        }
                         
-                        guerrillaUnits[victim[1]].health = Math.round(guerrillaUnits[victim[1]].health - defenderTotalDamage);
+                        
+                        guerrillaUnits[victim[1]].health = guerrillaUnits[victim[1]].health - defenderTotalDamage;
                         // subtract damage from health of unit
-                        guerrillaUnits[victim[1]].currentMorale = Math.round(guerrillaUnits[victim[1]].currentMorale - defenderTotalDamage);
+                        guerrillaUnits[victim[1]].currentMorale = guerrillaUnits[victim[1]].currentMorale - defenderTotalDamage;
                         // subtract damage from unit morale
-                        map2Cities[battle.cityID].attackerMorale = Math.round(map2Cities[battle.cityID].attackerMorale - defenderTotalDamage);
+                        map2Cities[battle.cityID].attackerMorale = map2Cities[battle.cityID].attackerMorale - defenderTotalDamage;
                         // reduce the morale of the entire army to match new morale after attack
                         manpowerReductionAmount = Math.round((defenderTotalDamage / countries[victimOwnerID].infantryMaxHealth) * 10000);
                         guerrillaUnits[victim[1]].currentManpower = guerrillaUnits[victim[1]].currentManpower - manpowerReductionAmount;
@@ -867,18 +963,24 @@ const cityBattle = function(battle) {
                         
                         if (guerrillaUnits[victim[1]].health < 1) {
                             // what happens when a unit is destroyed?
-                            console.log('a guerrilla has been destroyed');
+                           
                         }
                         
-                        if (map2Cities[battle.cityID].attackerMorale < 1) {
-                            //what happens when the attackers lose the battle?
-                            console.log('attackers have lost the battle in a city');
+                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                            //what happens when this unit runs out of morale?
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
                         
                       break;
                 }
                 
             });
+            
+            if (map2Cities[battle.cityID].attackerMorale < 1) {
+                //what happens when the attackers lose the battle?
+                 
+            }
                
            
         break;

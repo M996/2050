@@ -173,8 +173,8 @@ let countries = [
         
         // Units Stats ======================
         "infantryMaxHealth": 60,
-        "infantrySmallArmsDamage": 8,
-        "infantryExplosiveDamage": 4,
+        "infantrySmallArmsDamage": 2,
+        "infantryExplosiveDamage": 1,
         "infantrySmallArmsArmor": 0.2,
         "infantryExplosiveArmor": 0.1,
         "infantryDirectedEnergyArmor": 0.5,
@@ -184,9 +184,9 @@ let countries = [
         "infantryEnergyMaintenance": 0.04,
         
         "tankMaxHealth": 100,
-        "tankSmallArmsDamage": 5,
-        "tankExplosiveDamage": 16,
-        "tankSmallArmsArmor": 0.8,
+        "tankSmallArmsDamage": 1,
+        "tankExplosiveDamage": 4,
+        "tankSmallArmsArmor": 0.7,
         "tankExplosiveArmor": 0.2,
         "tankDirectedEnergyArmor": 0.2,
         "tankKineticArmor": 0.1,
@@ -196,7 +196,7 @@ let countries = [
         "tankEnergyMaintenance": 0.18,
         
         "aircraftEvasion": 0.9,
-        "aircraftExplosiveDamage": 60,
+        "aircraftExplosiveDamage": 15,
         "aircraftSmallArmsArmor": 0.2,
         "aircraftExplosiveArmor": 0.1,
         "aircraftDirectedEnergyArmor": 0.1,
@@ -207,7 +207,7 @@ let countries = [
         "aircraftAttackPreference": 'units',
         
         "destroyerMaxHealth": 400,
-        "destroyerExplosiveDamage": 60,
+        "destroyerExplosiveDamage": 15,
         "destroyerSmallArmsArmor": 1,
         "destroyerExplosiveArmor": 0.3,
         "destroyerDirectedEnergyArmor": 0.4,
@@ -232,7 +232,7 @@ let countries = [
         "carrierEnergyMaintenance": 0.6,
         
         "submarineEvasion": 0.8,
-        "submarineExplosiveDamage": 400,
+        "submarineExplosiveDamage": 200,
         "submarineSmallArmsArmor": 1,
         "submarineExplosiveArmor": 0.1,
         "submarineDirectedEnergyArmor": 1,
@@ -269,8 +269,8 @@ let countries = [
         "guerrillaMorale": 0.25,
         "guerrillaSpeed": 0.75,
         // the percentage of speed and distance these units can travel compared to infantry
-        "guerrillaSmallArmsDamage": 7,
-        "guerrillaExplosiveDamage": 3,
+        "guerrillaSmallArmsDamage": 1.8,
+        "guerrillaExplosiveDamage": 0.8,
         
         "hostileGuerrillas": [0],
         // this array contains all guerrillas which have spawned in a country in order to force a province to defect or force a new government

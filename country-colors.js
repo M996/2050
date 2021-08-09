@@ -7,4 +7,4 @@ let countryColorList = ["#39EB23", "#F76F86"];
 
 
 
-let countryIdList = [1, 2];
+let countryIdList = [0, 1];

@@ -34,14 +34,14 @@ const armyMoralePercent = function(countryID, cityID, infoType) {
       } // if this country has a cyber network at less than 30% subtract -5% morale
       
       // DEFENSIVE: HOMELAND DEFENSE: +3% morale when in a tile owned by this army
-      if (map2Cities[cityID].ownerID == countryID && countries[countryID].techs.indexOf('homeland-defense') >= 0) {
+      if (map2Cities[cityID].ownerID == countryID && countries[countryID].techs.includes('homeland-defense')) {
         homeMoraleModifier = 0.03;
       } else { // this country owns the city in which we are fighting and has the 'Homeland Defense' Expansion Tech
         homeMoraleModifier = 0;
       }
       
       // MARITIME & ECONOMIC: MATERIALISM: -3% morale for all land units
-      if (!(countries[countryID].techs.indexOf('materialism') >= 0)) {
+      if (!(countries[countryID].techs.includes('materialism'))) {
         matMoraleModifier = 0;
       } else { // this country owns the city in which we are fighting and has the 'Homeland Defense' Expansion Tech
         matMoraleModifier = -0.03;
@@ -359,7 +359,7 @@ const updateCombatWindow = function(city) {
               case 'guerrilla':
                 $('#attack-' + attackerSquare).attr("src", 'public/images/guerrillaicon.png');
                 if (city.hostileGuerrillas.length > 0) {
-                    if (city.hostileGuerrillas.indexOf(Number(attacker[1])) >= 0 ) {
+                    if (city.hostileGuerrillas.includes(Number(attacker[1]))) {
                         // if hostile guerrillas are in the city and the value of this unit is in the hostile guerrillas array
                         // then this unit is a hostile guerrilla and should be colored black, otherwise color it based on country
                         attackerColor = 'rgba(0,0,0,0.25)';
@@ -467,17 +467,27 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
   } else if (planetID == 2) {
     
     if (map2Cities[cityID].defenderMaxMorale == 0) {
-        // add this ongoing battle to the battle array only if no other battle is currently happening
+        // check to see if a battle is ongoing in this city, if not then add a battle for this city
         cityBattles.push({
           "id": cityBattleIndex,
           "planetID": 2,
           "cityID": cityID,
-          "attackerLosses": 0,
-          "defenderLosses": 0,
-        });
+          "attackerInfantryLosses": 0,
+          "attackerTankLosses": 0,
+          "attackerMarineLosses": 0,
+          "attackerSpaceInfantryLosses": 0,
+          "attackerSpaceMarineLosses": 0,
+          "attackerGuerrillaLosses": 0,
+          "defenderInfantryLosses": 0,
+          "defenderTankLosses": 0,
+          "defenderMarineLosses": 0,
+          "defenderSpaceInfantryLosses": 0,
+          "defenderSpaceMarineLosses": 0,
+          "defenderGuerrillaLosses": 0,
+        }); 
         cityBattleIndex++;
       }
-    
+      
         // make sure that the attacking countryID (in this case your own country) is being accessed here
         // next we are going to iterate through every single hostile guerrilla in the city to see if their
         // ideology matches our ideology, or if the country they are backing (seperatists) is us. If either
@@ -521,7 +531,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
     });
     
     if (map2Cities[cityID].combatDefendingGuerrillas.length > 0) {
-      // there are now guerrillas in the combat array ready to fight our armies, so begin the fighting
+      // there are now hostile guerrillas in the combat array ready to fight our armies, so begin the fighting
       
       cityInfantryIndex = 0;
       map2Cities[cityID].infantry.forEach(function(infantryID) {
@@ -604,7 +614,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].combatDefendingGuerrillas.forEach(function(guerrillaID) {
         if (defendingPosition < 20) {
           defenderString = "hostileguerrilla-" + guerrillaID;
-          if (!(map2Cities[cityID].combatDefendingPositions.indexOf(defenderString) >= 0)) {
+          if (!(map2Cities[cityID].combatDefendingPositions.includes(defenderString))) {
             // after making sure that no more than 20 units are on the battlefield, check to see if this unit specifically
             // is on the battlefield if it is not then add it to the combatPositions array
             map2Cities[cityID].combatDefendingPositions.push(defenderString);
@@ -624,7 +634,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
       map2Cities[cityID].combatAttackingTanks.forEach(function(tankID) {
         if (attackingPosition < 20) {
           attackerString = "tank-" + tankID;
-          if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
+          if (!(map2Cities[cityID].combatAttackingPositions.includes(attackerString))) {
             map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
           }
@@ -636,7 +646,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
         map2Cities[cityID].combatAttackingSpaceMarines.forEach(function(spaceMarineID) {
           if (attackingPosition < 20) {
             attackerString = "spaceMarine-" + spaceMarineID;
-            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
+            if (!(map2Cities[cityID].combatAttackingPositions.includes(attackerString))) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
             }
@@ -648,7 +658,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
         map2Cities[cityID].combatAttackingSpaceInfantry.forEach(function(spaceInfantryID) {
           if (attackingPosition < 20) {
             attackerString = "spaceInfantry-" + spaceInfantryID;
-            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
+            if (!(map2Cities[cityID].combatAttackingPositions.includes(attackerString))) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
             }
@@ -660,7 +670,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
         map2Cities[cityID].combatAttackingMarines.forEach(function(marineID) {
           if (attackingPosition < 20) {
             attackerString = "marine-" + marineID;
-            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
+            if (!(map2Cities[cityID].combatAttackingPositions.includes(attackerString))) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
             }
@@ -672,7 +682,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
         map2Cities[cityID].combatAttackingInfantry.forEach(function(infantryID) {
           if (attackingPosition < 20) {
             attackerString = "infantry-" + infantryID;
-            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
+            if (!(map2Cities[cityID].combatAttackingPositions.includes(attackerString))) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
             }
@@ -684,7 +694,7 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
         map2Cities[cityID].combatAttackingGuerrillas.forEach(function(guerrillaID) {
           if (attackingPosition < 20) {
             attackerString = "guerrilla-" + guerrillaID;
-            if (!(map2Cities[cityID].combatAttackingPositions.indexOf(attackerString) >= 0)) {
+            if (!(map2Cities[cityID].combatAttackingPositions.includes(attackerString))) {
               map2Cities[cityID].combatAttackingPositions.push(attackerString);
               attackingPosition++;
             }

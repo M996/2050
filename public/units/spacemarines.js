@@ -17,7 +17,7 @@ let spaceMarineUnits = [
       // smallArmsDamage is equal to 200% infantry
       // explosiveDamage is equal to 0.0
       // maxMorale is equal to 200% of infantry
-      // speed is equal to 40% of infantry
+      // speed is equal to 120% of infantry
       // smallArmsArmor is equal to +0.2 infantry
       // explosiveArmor is equal to +0.3 infantry
       // directedEnergyArmor is equal to +0.4 infantry
