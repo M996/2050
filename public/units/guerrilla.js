@@ -6,6 +6,8 @@ let guerrillaUnits = [
       "ideology": 3,
       // the ideology attribute is the ideology this guerrilla group is loyal to
       // if the guerrilla has no ideology this will be 'false'
+      // ALL Hostile Guerrillas (ie Rebels) will have an ideology, so this value can be
+      // used to determine if a guerilla is hostrile or not
       "seperatistID": null,
       // the seperatis ID is the country this guerrilla is trying to liberate provinces for
       // if the guerrilla has no seperatist host nation this will be 'null'

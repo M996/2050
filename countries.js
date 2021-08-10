@@ -72,7 +72,7 @@ let countries = [
         "monthlyPreciousMetal": 0,
         "preciousMetalExpense": 0,
         "preciousMetalStored": 0,
-        "preciousMetalStorageCapacity": 99,
+        "preciousMetalStorageCapacity": 999,
         "monthlyNuclearMaterial": 0,
         "nuclearMaterialExpense": 0,
         "nuclearMaterialStored": 10,
@@ -80,7 +80,7 @@ let countries = [
         "monthlyAntiMatter": 0,
         "antiMatterExpense": 0,
         "antiMatterStored": 0,
-        "antiMatterStorageCapacity": 999,
+        "antiMatterStorageCapacity": 99,
         "monthlyExoticMatter": 0,
         "exoticMatterExpense": 0,
         "exoticMatterStored": 0,
@@ -106,9 +106,6 @@ let countries = [
         
         // Diplomatic ========================================================================
         "diplomaticInfluence": 0,
-        "currentLandPower": 0,
-        "currentNavalPower": 0,
-        "currentSpacePower": 0,
         // the current power level of a country will be used by the ai to determine if it should
         // go to war with another country
         "hasPort": true,
@@ -304,7 +301,6 @@ let countries = [
         "navalCombatWidth": 20,
         "landQuality": 0,
         "navalQuality": 0,
-        "spaceQuality": 0,
         "cyberNetwork": 100,
         "offensiveHackers": 0,
         "defensiveHackers": 0,
@@ -333,9 +329,15 @@ let countries = [
         // Internal ==============================================================================
         "government": "Turengan-Empire",
         "averageGdpPerCapita": 1.32,
-        "annualGdpPerCapitaGrowth": 0.05,
+        "annualGdpPerCapitaGrowth": 1.05,
         "corruption": 12,
         "unrest": 0,
+        "baseDefense": 6,
+        // baseDefense is the additional defense that all your cities receive
+        "GeneralBonus": 0,
+        // General Bonus is the additional bonus added to randomly generated Generals
+        "AdmiralBonus": 0,
+        // Admiral Bonus is the additional bonus added to randomly generated Admirals
         "warExhaustion": 0,
         "warExhaustionDecrease": -0.1,
         "provincialUnrestReduction": [],
@@ -349,7 +351,7 @@ let countries = [
         "ownedProvinces4": [],
         "policies": [],
         // add some more possible buffs/nerfs from policies down here
-        "techs": [],
+        "techs": ['military-parades', 'weak-defense-lines'],
         "powerPlantLevel": 2,
         // max 2
         "metalProcessingPlantLevel": 2,

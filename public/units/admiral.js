@@ -10,4 +10,4 @@ let admiralUnits = [
       "name": "Reis",
       "bonus": 3
     }
-]
+];

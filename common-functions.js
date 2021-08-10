@@ -1,3 +1,8 @@
+currentYear = 2050;
+
+
+
+
 let foodValue = 0.5;
 let mineralValue = 1.0;
 let metalValue = 1.5;

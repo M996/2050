@@ -35,9 +35,23 @@ const armyMoralePercent = function(countryID, cityID, infoType) {
       
       // DEFENSIVE: HOMELAND DEFENSE: +3% morale when in a tile owned by this army
       if (map2Cities[cityID].ownerID == countryID && countries[countryID].techs.includes('homeland-defense')) {
-        homeMoraleModifier = 0.03;
+        homeMoraleModifier = 0.05;
       } else { // this country owns the city in which we are fighting and has the 'Homeland Defense' Expansion Tech
         homeMoraleModifier = 0;
+      }
+      
+       // OFFENSIVE: MILITARY PARADES: +2% Morale for all armies
+      if (!(countries[countryID].techs.includes('military-parades'))) {
+        milParMoraleModifier = 0;
+      } else { // this country has the Combat Training Expansion Tech
+        milParMoraleModifier = 0.02;
+      }
+      
+      // SPACE: COMBAT TRAINING: +5% Morale for all armies
+      if (!(countries[countryID].techs.includes('combat-training'))) {
+        combatMoraleModifier = 0;
+      } else { // this country has the Combat Training Expansion Tech
+        combatMoraleModifier = 0.03;
       }
       
       // MARITIME & ECONOMIC: MATERIALISM: -3% morale for all land units
@@ -67,14 +81,14 @@ const armyMoralePercent = function(countryID, cityID, infoType) {
       if (infoType == 'display-percent') {
         
         armyMoraleModifier = Math.round((countries[countryID].morale + satMoraleModifier + cybMoraleModifier + homeMoraleModifier +
-        matMoraleModifier + corMoraleModifier) * 100);
+        matMoraleModifier + corMoraleModifier + combatMoraleModifier + milParMoraleModifier) * 100);
         
         return armyMoraleModifier;
         
       } else { // this function was called to display an army's morale percentage on screen
         
         armyMoraleModifier = 1 + satMoraleModifier + cybMoraleModifier + homeMoraleModifier +
-        matMoraleModifier + corMoraleModifier;
+        matMoraleModifier + corMoraleModifier + combatMoraleModifier;
         
         return armyMoraleModifier;
       } // this function was called to set an army's morale before a battle
@@ -385,12 +399,25 @@ const updateCombatWindow = function(city) {
          $('.attacker-roll').text(city.attackingBattleRoll);
          
          if (city.defendingGeneral != null) {
-          totalDefensiveBonus = city.baseDefense + generalUnits[city.defendingGeneral].bonus;
-          $('.defender-bonus').text(totalDefensiveBonus);
-          $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
+          defendingArmyType = city.combatDefendingPositions[0].split('-');
+          if (defendingArmyType[0] == 'hostileguerrilla') {
+            totalDefensiveBonus = city.baseDefense + generalUnits[city.defendingGeneral].bonus;
+            $('.defender-bonus').text(totalDefensiveBonus);
+            $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
+          } else {
+            totalDefensiveBonus = city.baseDefense + countries[city.ownerID].baseDefense + generalUnits[city.defendingGeneral].bonus;
+            $('.defender-bonus').text(totalDefensiveBonus);
+            $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
+          }
          } else {
-          $('.defender-bonus').text(city.baseDefense);
-          $('.defender-name-tooltip').text("General: None");
+          defendingArmyType = city.combatDefendingPositions[0].split('-');
+          if (defendingArmyType[0] == 'hostileguerrilla') {
+            $('.defender-bonus').text(city.baseDefense);
+            $('.defender-name-tooltip').text("General: None");
+          } else {
+            $('.defender-bonus').text((city.baseDefense + countries[city.ownerID].baseDefense));
+            $('.defender-name-tooltip').text("General: None");
+          }
          }
          if (city.attackingGeneral != null) {
           $('.attacker-bonus').text(generalUnits[city.attackingGeneral].bonus);
@@ -407,44 +434,49 @@ const updateCombatWindow = function(city) {
          document.querySelector('.current-defender-morale').style.width = currentDefenderMoralePercent + "%";
          document.querySelector('.current-attacker-morale').style.width = currentAttackerMoralePercent + "%";
          
-         defenderUnitType = city.combatDefendingPositions[0].split('-');
-         // pull the first unit defending the city from this array, determine what type of unit it is and use that to
-         // determine what kind of army is fighting, if it says 'hostileguerrilla' this is a rebel army
-          if (defenderUnitType[0] != 'hostileguerrilla') {
-            
-            attackingCountryColorPosition = countryColorList.indexOf(city.attackingColor);
-            attackingCountryID = countryIdList[attackingCountryColorPosition];
-            attackingCountryMoralePercent = armyMoralePercent(attackingCountryID, city.id, 'display-percent');
-            
-          } else { // determine what country is leading this defensive fight based on the color of the army
-            // then choose that country's ID from the color list and pass that info to armyMoralePercent() to display
-            // the army's Morale Percentage in the combat window
-            
-            rebelOwnerCountry = guerrillaUnits[defenderUnitType[1]].ownerID;
-            defendingCountryMoralePercent = (countries[rebelOwnerCountry].guerrillaMorale * 100);
-          }
+         
+         if (city.combatDefendingPositions.length > 0) {
+            defenderUnitType = city.combatDefendingPositions[0].split('-');
+            // pull the first unit defending the city from this array, determine what type of unit it is and use that to
+            // determine what kind of army is fighting, if it says 'hostileguerrilla' this is a rebel army
+             if (defenderUnitType[0] != 'hostileguerrilla') {
+             
+              attackingCountryColorPosition = countryColorList.indexOf(city.attackingColor);
+              attackingCountryID = countryIdList[attackingCountryColorPosition];
+              attackingCountryMoralePercent = armyMoralePercent(attackingCountryID, city.id, 'display-percent');
+              
+            } else { // determine what country is leading this defensive fight based on the color of the army
+              // then choose that country's ID from the color list and pass that info to armyMoralePercent() to display
+              // the army's Morale Percentage in the combat window
+              
+              rebelOwnerCountry = guerrillaUnits[defenderUnitType[1]].ownerID;
+              defendingCountryMoralePercent = (countries[rebelOwnerCountry].guerrillaMorale * 100);
+            }
+         }
           
           
-          attackerUnitType = city.combatAttackingPositions[0].split('-');
-         
-          if (attackerUnitType[0] != 'hostileguerrilla') {
+          if (city.combatAttackingPositions.length > 0) {
+            attackerUnitType = city.combatAttackingPositions[0].split('-');
             
-            attackingCountryColorPosition = countryColorList.indexOf(city.attackingColor);
-            attackingCountryID = countryIdList[attackingCountryColorPosition];
-            attackingCountryMoralePercent = armyMoralePercent(attackingCountryID, city.id, 'display-percent');
+            if (attackerUnitType[0] != 'hostileguerrilla') {
+              
+              attackingCountryColorPosition = countryColorList.indexOf(city.attackingColor);
+              attackingCountryID = countryIdList[attackingCountryColorPosition];
+              attackingCountryMoralePercent = armyMoralePercent(attackingCountryID, city.id, 'display-percent');
+              
+            } else {
+              
+              rebelOwnerCountry = guerrillaUnits[attackerUnitType[1]].ownerID;
+              attackingCountryMoralePercent = (countries[rebelOwnerCountry].guerrillaMorale * 100);
+            }
+          
+            defenderMoraleString = `Max: ${city.defenderMaxMorale.toLocaleString()} <b>(${defendingCountryMoralePercent}%)</b>`;
+            $('.defender-morale-tooltip').html(defenderMoraleString);
             
-          } else {
-            
-            rebelOwnerCountry = guerrillaUnits[attackerUnitType[1]].ownerID;
-            attackingCountryMoralePercent = (countries[rebelOwnerCountry].guerrillaMorale * 100);
+            attackerMoraleString = `Max: ${city.attackerMaxMorale.toLocaleString()} <b>(${attackingCountryMoralePercent}%)</b>`;
+            $('.attacker-morale-tooltip').html(attackerMoraleString);
           }
-         
-         defenderMoraleString = `Max: ${city.defenderMaxMorale.toLocaleString()} <b>(${defendingCountryMoralePercent}%)</b>`;
-         $('.defender-morale-tooltip').html(defenderMoraleString);
-         
-         attackerMoraleString = `Max: ${city.attackerMaxMorale.toLocaleString()} <b>(${attackingCountryMoralePercent}%)</b>`;
-         $('.attacker-morale-tooltip').html(attackerMoraleString);
-         
+          
          document.querySelector('.city-combat-screen').style.display = 'flex';
          
          // add attacker and defender colors to every city object, so that the proper color can be assigned
@@ -472,18 +504,23 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
           "id": cityBattleIndex,
           "planetID": 2,
           "cityID": cityID,
-          "attackerInfantryLosses": 0,
-          "attackerTankLosses": 0,
-          "attackerMarineLosses": 0,
-          "attackerSpaceInfantryLosses": 0,
-          "attackerSpaceMarineLosses": 0,
-          "attackerGuerrillaLosses": 0,
-          "defenderInfantryLosses": 0,
-          "defenderTankLosses": 0,
-          "defenderMarineLosses": 0,
-          "defenderSpaceInfantryLosses": 0,
-          "defenderSpaceMarineLosses": 0,
-          "defenderGuerrillaLosses": 0,
+          "attackCountry": countryID,
+          "attackGuerrilla": null,
+          "defendCountry": null,
+          "defendGuerrilla": guerrillaUnits[map2Cities[cityID].hostileGuerrillas[0]].ideology,
+          "attackInfantryLoss": 0,
+          "attackTankLoss": 0,
+          "attackMarineLoss": 0,
+          "attackSpaceInfantryLoss": 0,
+          "attackSpaceMarineLoss": 0,
+          "attackGuerrillaLoss": 0,
+          "defendInfantryLoss": 0,
+          "defendTankLoss": 0,
+          "defendMarineLoss": 0,
+          "defendSpaceInfantryLoss": 0,
+          "defendSpaceMarineLoss": 0,
+          "defendGuerrillaLoss": 0,
+          "finished": false,
         }); 
         cityBattleIndex++;
       }

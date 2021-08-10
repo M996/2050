@@ -39,9 +39,9 @@ tellTime = function(t1) {
     break; 
     case 2:
         cityBattles.forEach(function(battle) {
-          
-          cityBattle(battle);
-          
+          if (!battle.finished) {
+            cityBattle(battle);
+          }
         });
         tickTime++;
     break;
@@ -56,9 +56,9 @@ tellTime = function(t1) {
     break;
     case 6:
         cityBattles.forEach(function(battle) {
-          
-          cityBattle(battle);
-          
+          if (!battle.finished) {
+            cityBattle(battle);
+          }
         });
         tickTime++;
     break;
@@ -73,9 +73,9 @@ tellTime = function(t1) {
     break;
     case 10:
         cityBattles.forEach(function(battle) {
-          
-          cityBattle(battle);
-          
+          if (!battle.finished) {
+            cityBattle(battle);
+          }
         });
         tickTime++;
     break;
@@ -150,9 +150,9 @@ tellTime = function(t1) {
         });
         
         cityBattles.forEach(function(battle) {
-          
-          cityBattle(battle);
-          
+          if (!battle.finished) {
+            cityBattle(battle);
+          }
         });
         
         tickTime++;
@@ -731,9 +731,9 @@ tellTime = function(t1) {
               // things to calculate:
               // GDPPerCapitaGrowth
               // PopulationGrowth
-              // ideology spread?
-              // Ethnic group spread?
-              // points?
+              // ideology spread
+              // Ethnic group spread
+              // Points
               
               // Calculate Banckruptcy ====================================================================
               countries.forEach(function(country) {
@@ -777,12 +777,23 @@ tellTime = function(t1) {
                   }
                   unrestInfoStringCounter++;
                 });
-                console.log(country.provincialUnrestReduction);
               });
+              
+              // once per decade calculations will take place here:
+              
+              currentYear++;
+              
+              if (currentYear % 10) {
+                foodValue = foodValue * 1.1;
+                mineralValue = mineralValue * 1.1;
+                metalValue = metalValue * 1.1;
+                oilValue = oilValue * 1.1;
+                goldValue = goldValue * 1.15;
+                nuclearValue = nuclearValue * 1.1;
+              }
                 
                 // update the global timer
-                currentYear = Number(document.querySelector(".current-year").textContent);
-                currentYear++;
+                
                 document.querySelector(".current-year").textContent = currentYear;
                 document.querySelector(".current-month").textContent = 'January';
                 

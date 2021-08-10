@@ -1,14 +1,16 @@
-- finish filling out Expansion Paths starting at Maritime Ideas
+- make weak defense lines show up in the gui
 
-- check to see if enemy defenders or attackers exist before allowing a unit to actually continue attacking
-- the opposing side, if they keep attacking when all enemies have been killed it will cause errors
+- Expansion Techs to implement in combat: Weak Defense Lines, Offensive Dice Roll Buffs
 
-- make armies and all battle conditions be removed from battle of army morale drops below zero
+- record battle losses in the country object at the end of each year before dropping finished battles to null
+
+- make armies and all battle conditions be removed from city if army morale drops below zero
 - and for the combat window to close in that city on the next update
 
-- make it so that a unit whose health drops below zero is completely deleted
+- make it so that a unit whose health drops below zero is replaced with null and removed from city and country
+- and that new units can cycle into that battlefield if there are reserves
 
-- clean out all battle properties from a city once a battle has finished there
+- maybe have an array for units in need of repair?
 
 - battle instances should only be created if we can find units stationed in a city that are willing to fight
 - the rebels which have spawned, otherwise the city should be immediately handed over to the rebels
@@ -16,11 +18,11 @@
 - once a city is occupied it should be surrounded by a circle (similar to city selection circle or firing circles)
 - that is the color of the occupying force
 
-- Expansion Techs to consider: Weak Defense Lines, Offensive Dice Roll Buffs, Military Parades
-
 - Expansion Techs to consider for ranged combat: Good Neighbor Policy
 
-- Expansion Techs to consider for Economy: Self Sufficient Economic Focus
+- Expansion Techs to consider for Economy: Self Sufficient Economic Focus, (Everything in Economic and Maritime)
+
+- recalculate unrest when a province switches hands
 
 - when a Unit's health reaches zero, regardless of morale, don't forget to eliminate (permanently)
 - that unit, it is possible for space infantry and space marines to have higher morale then they have health

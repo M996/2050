@@ -10,4 +10,4 @@ let generalUnits = [
       "name": "Inonu",
       "bonus": 3
     }
-]
+];
