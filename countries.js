@@ -157,7 +157,7 @@ let countries = [
         "hostileGuerrillas": [],
         "spaceInfantry": [],
         "spaceMarines": [],
-        "tanks": [],
+        "tanks": [0],
         "aircraft": [],
         "destroyers": [],
         "submarines": [],
@@ -167,10 +167,25 @@ let countries = [
         "skyHooks": [],
         "ICBMs": [],
         // used to keep track of all units owned by this country. 3 land, 4 sea, 10 space, and 2 cyber eventually
+        "infantryReinforce": [],
+        "marinesReinforce": [],
+        "guerrillasReinforce": [],
+        "hostileGuerrillasReinforce": [],
+        "spaceInfantryReinforce": [],
+        "spaceMarinesReinforce": [],
+        "tanksReinforce": [0],
+        "aircraftReinforce": [],
+        "destroyersReinforce": [],
+        "aircraftCarriersReinforce": [],
+        "orbitalWeaponsPlatformsReinforce": [],
+        "taskShipsReinforce": [],
+        "skyHooksReinforce": [],
+        // These arrays are used to keep track of which units need reinforcements because they have taken damage
+        
         
         // Units Stats ======================
         "infantryMaxHealth": 60,
-        "infantrySmallArmsDamage": 2,
+        "infantrySmallArmsDamage": 2.3,
         "infantryExplosiveDamage": 1,
         "infantrySmallArmsArmor": 0.2,
         "infantryExplosiveArmor": 0.1,
@@ -257,6 +272,19 @@ let countries = [
         "taskShipEnergyMaintenance": 1.8,
         // maintenance costs shouldn't actually be this high because they will be reduced based on ownership of skyhooks and space elevators
         
+        // ==== Total Battle Losses ================================================================================
+        
+        "infantryLosses": 0,
+        "marineLosses": 0,
+        "spaceInfantryLosses": 0,
+        "spaceMarineLosses": 0,
+        "tankLosses": 0,
+        "aircraftLosses": 0,
+        "destroyerLosses": 0,
+        "carrierLosses": 0,
+        "submarineLosses": 0,
+        "taskShipLosses": 0,
+        
         // ==== Guerrilla Spawn Stats ==============================================================================
         "guerrillaPopPercent": 0.0075,
         // this is the amount of guerillas that can spawn as a percentage of a city when they pop in a province
@@ -297,8 +325,9 @@ let countries = [
         // Damage done to a unit after armor is accounted for is first subtracted from the unit health and then subtracted
         // from the unit's morale pool and the army morale pool. Once morale reaches zero for a unit it will be pulled off
         // the battlefied
-        "landCombatWidth": 20,
-        "navalCombatWidth": 20,
+        "offensiveBuff": null,
+        // offensiveBuff is set to null unless this country begins unlocking offensive buffs by going down
+        // the Offensive Expansion Route, then this value will appear as a number
         "landQuality": 0,
         "navalQuality": 0,
         "cyberNetwork": 100,

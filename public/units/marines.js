@@ -34,8 +34,8 @@ let marineUnits = [
       "fleet": null,
       "army": null,
       "health": 66,
-      "currentMorale": 20,
+      "currentMorale": 6,
       "maxMorale": 20,
       "currentManpower": 8000,
-    }
+    },
 ]

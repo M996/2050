@@ -1,49 +1,43 @@
-- make weak defense lines show up in the gui
+- Make it so new units can cycle into the battlefield if a spot opens up and a unit in reserve has full morale
 
-- Expansion Techs to implement in combat: Weak Defense Lines, Offensive Dice Roll Buffs
+- make it so rebels no longer spawn based on the guerrilla spawn rate for the country but from ahardcoded value
 
-- record battle losses in the country object at the end of each year before dropping finished battles to null
-
-- make armies and all battle conditions be removed from city if army morale drops below zero
-- and for the combat window to close in that city on the next update
-
-- make it so that a unit whose health drops below zero is replaced with null and removed from city and country
-- and that new units can cycle into that battlefield if there are reserves
-
-- maybe have an array for units in need of repair?
-
-- battle instances should only be created if we can find units stationed in a city that are willing to fight
-- the rebels which have spawned, otherwise the city should be immediately handed over to the rebels
-
-- once a city is occupied it should be surrounded by a circle (similar to city selection circle or firing circles)
-- that is the color of the occupying force
-
-- Expansion Techs to consider for ranged combat: Good Neighbor Policy
-
-- Expansion Techs to consider for Economy: Self Sufficient Economic Focus, (Everything in Economic and Maritime)
-
-- recalculate unrest when a province switches hands
-
-- when a Unit's health reaches zero, regardless of morale, don't forget to eliminate (permanently)
-- that unit, it is possible for space infantry and space marines to have higher morale then they have health
-
-- when reinforcing a military unit, make sure that manpower and health must go up together, because the units health on screen is
-- always displayed as a percentage of max manpower
+- clean out all battle properties from the city in finishCityCombat (seperate-military-functions) (including defender Morale
+- so combat window stops popping up) and create logic to determine who gets to occupy, what effects this has, etc.
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
 - so that the next month they will be detected again and fight again for a different city. If no more cities are available then
 - they should spawn in a random spot in the province maybe 2 months later (or maybe just keep fighting in that one city
 - until all of them are finally killed)
 
-- when city combat ends clear out the attacking and defending arrays in the city and morale and then combat screen will no longer appear.
+- make sure that new rebels spawning triggers new battles
+
+- maybe have an array for units in need of repair
+
+- battle instances should only be created if we can find units stationed in a city that are willing to fight
+- the rebels which have spawned, otherwise the city should be immediately handed over to the rebels
+
+- once a city is occupied it should be surrounded by a circle (similar to city selection circle or firing circles)
+- that is the color of the occupying force with a white ring around it to tell units not to walk over it
+
+- recalculate unrest when a province switches hands
+
+- When rolling an 8 or higher in Naval Combat, their should be a 2% chance of a magazine hit, instantly destroying the target
+- unless they have switched to only using railguns
+
+- carriers in the back, destroyers in the front
+
+- when reinforcing a military unit, make sure that manpower and health must go up together, because the units health on screen is
+- always displayed as a percentage of max manpower
 
 - Make it so that when new mil units or other types of units are created, they fill in 'null' values in their respective arrays
 
 - an ideology should have at least 30% of the population of a province, then their unrest debuff kicks in
 
-- there should be a roughly 1% chance of each destroyer receiving a magazine hit (one shot kill) everytime they are struck
-
 - REBEL UNITS CANNOT MIX WITH COUNTRY UNITS IN COMBAT
+
+- implement code to increase damage types and health by unit in accordance with National Ideas. This also means countries that are
+- created in the nation builder that I will develop should have theri base unit damage multiplied in accordance with national ideas
 
 - There are two types of Guerrillas, ones connected to the province, and ones connected to an Ideology. When province connected
 - guerrillas spawn, they will try to take control of cities in a province to force that province to belong to the country
@@ -61,8 +55,6 @@
 - occupied by the opposing side
 
 - create slider functions and make sure they disembark when activated (if no fleet is present in the city don't run disembark)
-
-- maybe change morale to be based on army and fleet and not by unit then figure out how that would factor into city combat
 
 - in city combat, if an enemy units enters a hostile city it is assumed that defending units are in the hostile city, so gather
 - together all defending units and put them in defending arrays. If all of those arrays are empty, then hand over the city to the invader.

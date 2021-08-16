@@ -33,21 +33,21 @@ const armyMoralePercent = function(countryID, cityID, infoType) {
         cybMoraleModifier = -0.05;
       } // if this country has a cyber network at less than 30% subtract -5% morale
       
-      // DEFENSIVE: HOMELAND DEFENSE: +3% morale when in a tile owned by this army
+      // DEFENSIVE: HOMELAND DEFENSE: +5% morale when in a tile owned by this army
       if (map2Cities[cityID].ownerID == countryID && countries[countryID].techs.includes('homeland-defense')) {
         homeMoraleModifier = 0.05;
       } else { // this country owns the city in which we are fighting and has the 'Homeland Defense' Expansion Tech
         homeMoraleModifier = 0;
       }
       
-       // OFFENSIVE: MILITARY PARADES: +2% Morale for all armies
+       // OFFENSIVE: MILITARY PARADES: +2% Morale for all land units
       if (!(countries[countryID].techs.includes('military-parades'))) {
         milParMoraleModifier = 0;
       } else { // this country has the Combat Training Expansion Tech
         milParMoraleModifier = 0.02;
       }
       
-      // SPACE: COMBAT TRAINING: +5% Morale for all armies
+      // SPACE: COMBAT TRAINING: +3% Morale for all land units
       if (!(countries[countryID].techs.includes('combat-training'))) {
         combatMoraleModifier = 0;
       } else { // this country has the Combat Training Expansion Tech
@@ -398,6 +398,37 @@ const updateCombatWindow = function(city) {
          $('.defender-roll').text(city.defendingBattleRoll);
          $('.attacker-roll').text(city.attackingBattleRoll);
          
+         if (city.attackingColor != 'black') {
+            attackerID = countryColorList.indexOf(city.attackingColor);
+            attackerID = countryIdList[attackerID];
+            
+            if ('battleDiceLandBonus' in countries[attackerID]) {
+               attackerLandBonus = countries[attackerID].battleDiceLandBonus;
+            } else {
+               attackerLandBonus = 0; 
+            }
+            
+         } else {
+          attackerLandBonus = 0; 
+         } // if this army does not belong to rebels and the owning country has a land bonus as a national idea
+         // then provide them with that bonus here so it shows up on the battle screen
+         
+         if (city.defendingColor != 'black') {
+            defenderID = countryColorList.indexOf(city.defendingColor);
+            defenderID = countryIdList[defenderID];
+            
+            if ('battleDiceLandBonus' in countries[defenderID]) {
+               defenderLandBonus = countries[defenderID].battleDiceLandBonus;
+            } else {
+               defenderLandBonus = 0; 
+            }
+            
+         } else {
+          defenderLandBonus = 0; 
+         }
+         
+         
+         
          if (city.defendingGeneral != null) {
           defendingArmyType = city.combatDefendingPositions[0].split('-');
           if (defendingArmyType[0] == 'hostileguerrilla') {
@@ -405,7 +436,16 @@ const updateCombatWindow = function(city) {
             $('.defender-bonus').text(totalDefensiveBonus);
             $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
           } else {
-            totalDefensiveBonus = city.baseDefense + countries[city.ownerID].baseDefense + generalUnits[city.defendingGeneral].bonus;
+            if (countries[city.ownerID].techs.includes('weak-defense-lines')) {
+              totalDefensiveBonus = (city.baseDefense + countries[city.ownerID].baseDefense + defenderLandBonus + generalUnits[city.defendingGeneral].bonus) - 1;
+              $('.defender-bonus').text(totalDefensiveBonus);
+              $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
+            } else {
+              totalDefensiveBonus = city.baseDefense + countries[city.ownerID].baseDefense + defenderLandBonus + generalUnits[city.defendingGeneral].bonus;
+              $('.defender-bonus').text(totalDefensiveBonus);
+              $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
+            }
+            totalDefensiveBonus = city.baseDefense + countries[city.ownerID].baseDefense + defenderLandBonus + generalUnits[city.defendingGeneral].bonus;
             $('.defender-bonus').text(totalDefensiveBonus);
             $('.defender-name-tooltip').text("General: " + generalUnits[city.defendingGeneral].name);
           }
@@ -415,14 +455,18 @@ const updateCombatWindow = function(city) {
             $('.defender-bonus').text(city.baseDefense);
             $('.defender-name-tooltip').text("General: None");
           } else {
-            $('.defender-bonus').text((city.baseDefense + countries[city.ownerID].baseDefense));
+            $('.defender-bonus').text((city.baseDefense + defenderLandBonus + countries[city.ownerID].baseDefense));
             $('.defender-name-tooltip').text("General: None");
           }
          }
          if (city.attackingGeneral != null) {
-          $('.attacker-bonus').text(generalUnits[city.attackingGeneral].bonus);
+          $('.attacker-bonus').text(generalUnits[city.attackingGeneral].bonus + attackerLandBonus);
           $('.attacker-name-tooltip').text("General: " + generalUnits[city.attackingGeneral].name);
           $('.attacker-bonus').css('opacity', 1);
+         } else if (attackerLandBonus > 0) {
+          $('.attacker-bonus').text(attackerLandBonus);
+          $('.attacker-bonus').css('opacity', 1);
+          $('.attacker-name-tooltip').text("General: None");
          } else {
           $('.attacker-bonus').css('opacity', 0);
           $('.attacker-name-tooltip').text("General: None");
@@ -767,5 +811,12 @@ const beginFightingHostileGuerrillas = function(planetID, cityID, countryID, neu
 
 
 const beginFightingHostileArmies = function(planetID, cityID, countryID, neutralCountryIDs) {
+  
+}
+
+
+
+
+const finishCityCombat = function(cityID) {
   
 }

@@ -3,11 +3,11 @@ const nationalIdeasExample = {
     // multiplier for manpower to determine max manpower
     "manpowerGainModifier": 0.2, //implemented
     // multiplier for manpower gain to determine how quickly manpower goes up
-    "guerillaAmount": 0.2,
+    "guerrillaAmount": 0.2,
     // multiplier to determine how many guerillas spawn when a city is lost
-    "guerillaHealth": 0.2
+    "guerrillaHealth": 0.2
     // multiplier to determine base health of guerillas
-    "guerillaSmallArmDamage": 0.2,
+    "guerrillaSmallArmDamage": 0.2,
     // multiplier to determine small arms damage of guerillas
     "infantryDistance": 0.2,
     // multiplier to determine distance that can be trvelled by Infantry and how quick
@@ -15,6 +15,12 @@ const nationalIdeasExample = {
     // multiplier for the capital maintenance cost of all infantry type units at all quality levels
     "infantrySmallArmDamage": 0.2,
     // multiplier for small arms damage done by Infantry
+    
+    // IMPORTANT: The way to implement damage modifiers that apply to specific units is to make it so that at game start,
+    // or whenever a new unit is unlocked and damage amounts are recorded in the country object, the amount of small arms
+    // or explosive or other damage (this also applies to heath) is multiplied by this multiplier here, so that the country
+    // in question can gain their combat edge in line with their national ideas
+    
     "infantrySmallArmHillDamage": 0.2,
     // multiplier for small arms damage done by infantry in hills
     "infantryExplosiveDamage": 0.2,

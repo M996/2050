@@ -6,6 +6,7 @@ const cityBattle = function(battle) {
     battleDiceAttacker = Math.floor(Math.random() * 11);
     battleDiceDefender = Math.floor(Math.random() * 11);
     
+    
     switch (battle.planetID) {
         case 1:
             
@@ -16,8 +17,44 @@ const cityBattle = function(battle) {
             map2Cities[battle.cityID].attackingBattleRoll = battleDiceAttacker;
             map2Cities[battle.cityID].defendingBattleRoll = battleDiceDefender;
             
+            if (countries[battle.attackCountry].offensiveBuff != null) {
+                switch (countries[battle.attackCountry].offensiveBuff) {
+                    case 1:
+                        offBuff = 0.1
+                    break;
+                    case 2:
+                        offBuff = 0.2
+                    break;
+                    case 3:
+                        offBuff = 0.25
+                    break;
+                    case 4:
+                        offBuff = 0.3
+                    break;
+                    case 5:
+                        offBuff = 0.35
+                    break;
+                    case 6:
+                        offBuff = 0.4
+                    break;
+                }
+            } else {
+                offBuff = 0;
+            }
             
-            attackerDamageModifier = map2Cities[battle.cityID].attackingGeneral + battleDiceAttacker;
+            
+            if (battle.attackCountry != null) {
+                if('battleDiceLandBonus' in countries[battle.attackCountry]){
+                    landBattleBonus = countries[battle.attackCountry].battleDiceBonus;
+                } else {
+                    landBattleBonus = 0;
+                }
+            } else {
+                landBattleBonus = 0;
+            }
+            
+            
+            attackerDamageModifier = map2Cities[battle.cityID].attackingGeneral + battleDiceAttacker + landBattleBonus;
             switch (attackerDamageModifier) {
                 case 0:
                     attackerDamageModifier = 0.5;
@@ -44,28 +81,28 @@ const cityBattle = function(battle) {
                     attackerDamageModifier = 1.05;
                 break;
                 case 8:
-                    attackerDamageModifier = 1.1;
+                    attackerDamageModifier = (1.1 + offBuff);
                 break;
                 case 9:
-                    attackerDamageModifier = 1.15;
+                    attackerDamageModifier = (1.15 + offBuff); 
                 break;
                 case 10:
-                    attackerDamageModifier = 1.2;
+                    attackerDamageModifier = (1.2 + offBuff); 
                 break;
                 case 11:
-                    attackerDamageModifier = 1.25;
+                    attackerDamageModifier = (1.25 + offBuff);
                 break;
                 case 12:
-                    attackerDamageModifier = 1.3;
+                    attackerDamageModifier = (1.3 + offBuff); 
                 break;
                 case 13:
-                    attackerDamageModifier = 1.4;
+                    attackerDamageModifier = (1.4 + offBuff); 
                 break;
                 case 14:
-                    attackerDamageModifier = 1.5;
+                    attackerDamageModifier = (1.5 + offBuff); 
                 break;
                 default:
-                    attackerDamageModifier = 1.6;
+                    attackerDamageModifier = (1.6 + offBuff); 
                 break;
             }
             
@@ -259,16 +296,41 @@ const cityBattle = function(battle) {
                         
                         if (tankUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (tankUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingTanks.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingTanks.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].tanks.indexOf(victim[1]);
+                           map2Cities[battle.cityID].tanks.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].tanksOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].tanksReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].tanksReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].tanks.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].tanks.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = tankUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].tanks.indexOf(victim[1]);
+                            landArmies[victimArmyID].tanks.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           tankUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (tankUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
                         }
+                        
                         
                       break;
                       case 'spaceMarine':
@@ -295,14 +357,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (spaceMarineUnits[victim[1]].health < 0) {
+                       if (spaceMarineUnits[victim[1]].health < 0) { 
                             // what happens when a unit is destroyed?
-                            
-                        }
-                        
-                        
-                        
-                        if (spaceMarineUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingSpaceMarines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingSpaceMarines.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].spaceMarines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].spaceMarines.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].spaceMarinesOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].spaceMarinesReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].spaceMarinesReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].spaceMarines.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].spaceMarines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = spaceMarineUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].spaceMarines.indexOf(victim[1]);
+                            landArmies[victimArmyID].spaceMarines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           spaceMarineUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (spaceMarineUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
@@ -333,14 +419,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (spaceInfantryUnits[victim[1]].health < 0) {
+                       if (spaceInfantryUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (spaceInfantryUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingSpaceInfantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingSpaceInfantry.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].spaceInfantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].spaceInfantry.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].spaceInfantryOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].spaceInfantryReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].spaceInfantryReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].spaceInfantry.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].spaceInfantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = spaceInfantryUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].spaceInfantry.indexOf(victim[1]);
+                            landArmies[victimArmyID].spaceInfantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           spaceInfantryUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (spaceInfantryUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
@@ -373,12 +483,36 @@ const cityBattle = function(battle) {
                         
                         if (marineUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (marineUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingMarines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingMarines.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].marines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].marines.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].marinesOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].marinesReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].marinesReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].marines.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].marines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = marineUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].marines.indexOf(victim[1]);
+                            landArmies[victimArmyID].marines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           marineUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (marineUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
@@ -411,12 +545,36 @@ const cityBattle = function(battle) {
                         
                         if (infantryUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (infantryUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingInfantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingInfantry.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].infantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].infantry.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].infantryOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].infantryReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].infantryReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].infantry.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].infantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = infantryUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].infantry.indexOf(victim[1]);
+                            landArmies[victimArmyID].infantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           infantryUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (infantryUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
@@ -447,14 +605,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (guerrillaUnits[victim[1]].health < 1) {
+                        if (guerrillaUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            
-                        }
-                        
-                        
-                        
-                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingGuerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingGuerrillas.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].guerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].guerrillas.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].guerrillasOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].guerrillasReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].guerrillasReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].guerrillas.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].guerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = guerrillaUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].guerrillas.indexOf(victim[1]);
+                            landArmies[victimArmyID].guerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           guerrillaUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (guerrillaUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
@@ -485,14 +667,39 @@ const cityBattle = function(battle) {
                         cityBattles[battle.id].defendGuerrillaLoss = cityBattles[battle.id].defendGuerrillaLoss + manpowerReductionAmount;
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
-                        console.log(battle.id);
-                        if (guerrillaUnits[victim[1]].health < 1) {
+                        
+                        if (guerrillaUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            
-                        }
-                        
-                        
-                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatDefendingGuerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatDefendingGuerrillas.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].hostileGuerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].hostileGuerrillas.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].hostileGuerrillasOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.defendCountry].hostileGuerrillasReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.defendCountry].hostileGuerrillasReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.defendCountry].hostileGuerrillas.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.defendCountry].hostileGuerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = guerrillaUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].guerrillas.indexOf(victim[1]);
+                            landArmies[victimArmyID].guerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           guerrillaUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (guerrillaUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatDefendingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatDefendingPositions.splice(deleteVictimID, 1); 
@@ -503,13 +710,28 @@ const cityBattle = function(battle) {
                 } else {
                     console.log('Attacker Victory through lack of Defenders');
                     cityBattles[battle.id].finished = true;
+                    finishCityCombat(battle.cityID);
+                    if (document.querySelector(".city-combat-screen").style.display == 'flex') {
+                        //if the city combat screen is currently open then open the city interactions screen instead
+                        document.querySelector(".city-combat-screen").style.display = "none";
+                        document.querySelector(".city-interaction").style.display = "flex";
+                    }
                     // remove the battle from active battles and clean out all battle properties from the city
+                    // END THE BATTLE AND CLOSE BATTLE WINDOW
                 }
             });
             
             if (map2Cities[battle.cityID].defenderMorale < 1) {
-                //The defenders have lost all their morale
-                 
+                console.log('Attacker Victory through lack of Defender Morale');
+                cityBattles[battle.id].finished = true;
+                finishCityCombat(battle.cityID);
+                if (document.querySelector(".city-combat-screen").style.display == 'flex') {
+                    //if the city combat screen is currently open then open the city interactions screen instead
+                    document.querySelector(".city-combat-screen").style.display = "none";
+                    document.querySelector(".city-interaction").style.display = "flex";
+                }
+            //The defenders have lost all their morale
+            // END THE BATTLE AND CLOSE BATTLE WINDOW
             }
             
             
@@ -765,18 +987,43 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (tankUnits[victim[1]].health < 1) {
+                        if (tankUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                            
-                        }
-                        
-                        
-                        
-                        if (tankUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingTanks.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingTanks.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].tanks.indexOf(victim[1]);
+                           map2Cities[battle.cityID].tanks.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].tanksOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].tanksReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].tanksReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].tanks.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].tanks.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = tankUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].tanks.indexOf(victim[1]);
+                            landArmies[victimArmyID].tanks.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           tankUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (tankUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
                         }
+                        
                         
                       break;
                       case 'spaceMarine':
@@ -803,14 +1050,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (spaceMarineUnits[victim[1]].health < 1) {
+                       if (spaceMarineUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (spaceMarineUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingSpaceMarines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingSpaceMarines.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].spaceMarines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].spaceMarines.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].spaceMarinesOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].spaceMarinesReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].spaceMarinesReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].spaceMarines.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].spaceMarines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = spaceMarineUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].spaceMarines.indexOf(victim[1]);
+                            landArmies[victimArmyID].spaceMarines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           spaceMarineUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (spaceMarineUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
@@ -841,14 +1112,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (spaceInfantryUnits[victim[1]].health < 1) {
+                        if (spaceInfantryUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (spaceInfantryUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingSpaceInfantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingSpaceInfantry.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].spaceInfantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].spaceInfantry.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].spaceInfantryOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].spaceInfantryReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].spaceInfantryReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].spaceInfantry.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].spaceInfantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = spaceInfantryUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].spaceInfantry.indexOf(victim[1]);
+                            landArmies[victimArmyID].spaceInfantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           spaceInfantryUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (spaceInfantryUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
@@ -879,14 +1174,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (marineUnits[victim[1]].health < 1) {
+                        if (marineUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (marineUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingMarines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingMarines.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].marines.indexOf(victim[1]);
+                           map2Cities[battle.cityID].marines.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].marinesOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].marinesReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].marinesReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].marines.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].marines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = marineUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].marines.indexOf(victim[1]);
+                            landArmies[victimArmyID].marines.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           marineUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (marineUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
@@ -917,14 +1236,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (infantryUnits[victim[1]].health < 1) {
+                        if (infantryUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (infantryUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingInfantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingInfantry.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].infantry.indexOf(victim[1]);
+                           map2Cities[battle.cityID].infantry.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].infantryOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].infantryReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].infantryReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].infantry.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].infantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = infantryUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].infantry.indexOf(victim[1]);
+                            landArmies[victimArmyID].infantry.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           infantryUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (infantryUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
@@ -955,14 +1298,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (guerrillaUnits[victim[1]].health < 1) {
+                        if (guerrillaUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        
-                        
-                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingGuerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingGuerrillas.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].guerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].guerrillas.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].guerrillasOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].guerrillasReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].guerrillasReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].guerrillas.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].guerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = guerrillaUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].guerrillas.indexOf(victim[1]);
+                            landArmies[victimArmyID].guerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           guerrillaUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (guerrillaUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
@@ -993,12 +1360,38 @@ const cityBattle = function(battle) {
                         // reflect the new total amount of casualties on the attacker side by adding the manpower loss of this unit
                         
                         
-                        if (guerrillaUnits[victim[1]].health < 1) {
+                        if (guerrillaUnits[victim[1]].health < 0) {
                             // what happens when a unit is destroyed?
-                           
-                        }
-                        
-                        if (guerrillaUnits[victim[1]].currentMorale < 0) {
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
+                           map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1);
+                           // remove this unit from the battlefield
+                           deleteVictimID = map2Cities[battle.cityID].combatAttackingGuerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].combatAttackingGuerrillas.splice(deleteVictimID, 1);
+                           // remove this unit from the reserves of this battle
+                           deleteVictimID = map2Cities[battle.cityID].hostileGuerrillas.indexOf(victim[1]);
+                           map2Cities[battle.cityID].hostileGuerrillas.splice(deleteVictimID, 1);
+                           map2Cities[battle.cityID].hostileGuerrillasOwnerID.splice(deleteVictimID, 1);
+                           // remove this unit from the city entirely
+                           deleteVictimReinforceID = countries[battle.attackCountry].hostileGuerrillasReinforce.indexOf(victim[1]);
+                           if (deleteVictimReinforceID => 0) {
+                            countries[battle.attackCountry].hostileGuerrillasReinforce.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the reinforcements array of their country
+                           deleteVictimInCountryID = countries[battle.attackCountry].hostileGuerrillas.indexOf(victim[1]);
+                           if (deleteVictimInCountryID => 0) {
+                            countries[battle.attackCountry].hostileGuerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from the country entirely
+                           victimArmyID = guerrillaUnits[victim[1]].army;
+                           if (victimArmyID != null) {
+                            deleteVictimID = landArmies[victimArmyID].guerrillas.indexOf(victim[1]);
+                            landArmies[victimArmyID].guerrillas.splice(deleteVictimID, 1);
+                           }
+                           // remove this unit from its army
+                           guerrillaUnits[victim[1]] = null;
+                           // remove this unit from existence entirely
+                           // this unit has been removed
+                        } else if (guerrillaUnits[victim[1]].currentMorale < 0) {
                             //what happens when this unit runs out of morale?
                            deleteVictimID = map2Cities[battle.cityID].combatAttackingPositions.indexOf(victimString);
                            map2Cities[battle.cityID].combatAttackingPositions.splice(deleteVictimID, 1); 
@@ -1011,14 +1404,28 @@ const cityBattle = function(battle) {
                      
                         console.log('Defender Victory through lack of Attackers');
                         cityBattles[battle.id].finished = true;
+                        finishCityCombat(battle.cityID);
+                        if (document.querySelector(".city-combat-screen").style.display == 'flex') {
+                            //if the city combat screen is currently open then open the city interactions screen instead
+                            document.querySelector(".city-combat-screen").style.display = "none";
+                            document.querySelector(".city-interaction").style.display = "flex";
+                        }
                         // remove the battle from active battles and clean out all battle properties from the city
-                        
+                        // END THE BATTLE AND CLOSE BATTLE WINDOW
                     }
             });
             
             if (map2Cities[battle.cityID].attackerMorale < 1) {
-                // The attackers have lost all morale
-                 
+                console.log('Defender Victory through lack of Attacker Morale');
+                cityBattles[battle.id].finished = true;
+                finishCityCombat(battle.cityID);
+                if (document.querySelector(".city-combat-screen").style.display == 'flex') {
+                    //if the city combat screen is currently open then open the city interactions screen instead
+                    document.querySelector(".city-combat-screen").style.display = "none";
+                    document.querySelector(".city-interaction").style.display = "flex";
+                }
+            // The attackers have lost all morale
+            // END THE BATTLE AND CLOSE BATTLE WINDOW
             }
                
            

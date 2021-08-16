@@ -9,7 +9,7 @@ let tankUnits = [
       "cityID": 0,
       "fleet": null,
       "army": null,
-      "health": 120,
+      "health": 100,
       "currentMorale": 30,
       "maxMorale": 30,
       "currentManpower": 4000,
