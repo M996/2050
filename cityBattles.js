@@ -8,7 +8,7 @@ let cityBattles = [
           "attackCountry": 0,
           "attackGuerrilla": null,
           // if the "attackCountry" property has a value it will be the id of the attacking country, otherwise it will be null
-          // ad this mean that the attacker was a Rebel Group instead. In this case the "attackGuerrilla" property should have
+          // and this mean that the attacker was a Rebel Group instead. In this case the "attackGuerrilla" property should have
           // a value instead and this value will be the id of the ideology the guerrillas fought for
           "defendCountry": null,
           "defendGuerrilla": 1,

@@ -2314,8 +2314,8 @@ const spawnHostileGuerrillas = function(planetID, cityID, countryID, guerrillaTy
     
     if (guerrillaType == 0 || guerrillaType == 1) {
       // the guerrillas are seperatists or particularists
-      guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * (countries[countryID].guerrillaPopPercent * 2))/10000);
-      // the guerrilla spawn amount is the population times the country's spawn rate times 2 divided by 10,000 rounded to the nearest
+      guerrillaSpawnAmount = Math.round((map2Cities[cityID].population * 0.015)/10000);
+      // the guerrilla spawn amount is the population times 1.5% divided by 10,000 rounded to the nearest
       // whole number to determine the number of hostile armies which will spawn
       if (guerrillaType == 0) {
         map2Cities[cityID].defenderName = countries[seperatistID].name + " Seperatists";

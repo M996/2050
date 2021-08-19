@@ -780,23 +780,25 @@ tellTime = function(t1) {
               });
               
               cityBattles.forEach(function(battle) {
-                if (battle.finished) {
-                  // tally all losses for attacker nations then defender nations
-                  if (battle.attackCountry != null) {
-                    countries[battle.attackCountry].infantryLosses = countries[battle.attackCountry].infantryLosses + battle.attackInfantryLoss;
-                    countries[battle.attackCountry].spaceInfantryLosses = countries[battle.attackCountry].spaceInfantryLosses + battle.attackSpaceInfantryLoss;
-                    countries[battle.attackCountry].spaceMarineLosses = countries[battle.attackCountry].spaceMarineLosses + battle.attackSpaceMarineLoss;
-                    countries[battle.attackCountry].marineLosses = countries[battle.attackCountry].marineLosses + battle.attackMarineLoss;
-                    countries[battle.attackCountry].tankLosses = countries[battle.attackCountry].tankLosses + battle.attackTankLoss;
+                if (battle != null) {
+                  if (battle.finished) {
+                    // tally all losses for attacker nations then defender nations
+                    if (battle.attackCountry != null) {
+                      countries[battle.attackCountry].infantryLosses = countries[battle.attackCountry].infantryLosses + battle.attackInfantryLoss;
+                      countries[battle.attackCountry].spaceInfantryLosses = countries[battle.attackCountry].spaceInfantryLosses + battle.attackSpaceInfantryLoss;
+                      countries[battle.attackCountry].spaceMarineLosses = countries[battle.attackCountry].spaceMarineLosses + battle.attackSpaceMarineLoss;
+                      countries[battle.attackCountry].marineLosses = countries[battle.attackCountry].marineLosses + battle.attackMarineLoss;
+                      countries[battle.attackCountry].tankLosses = countries[battle.attackCountry].tankLosses + battle.attackTankLoss;
+                    }
+                    if (battle.defendCountry != null) {
+                      countries[battle.defendCountry].infantryLosses = countries[battle.defendCountry].infantryLosses + battle.defendInfantryLoss;
+                      countries[battle.defendCountry].spaceInfantryLosses = countries[battle.defendCountry].spaceInfantryLosses + battle.defendSpaceInfantryLoss;
+                      countries[battle.defendCountry].spaceMarineLosses = countries[battle.defendCountry].spaceMarineLosses + battle.defendSpaceMarineLoss;
+                      countries[battle.defendCountry].marineLosses = countries[battle.defendCountry].marineLosses + battle.defendMarineLoss;
+                      countries[battle.defendCountry].tankLosses = countries[battle.defendCountry].tankLosses + battle.defendTankLoss;
+                    }
+                    cityBattles[battle.id] = null;
                   }
-                  if (battle.defendCountry != null) {
-                    countries[battle.defendCountry].infantryLosses = countries[battle.defendCountry].infantryLosses + battle.defendInfantryLoss;
-                    countries[battle.defendCountry].spaceInfantryLosses = countries[battle.defendCountry].spaceInfantryLosses + battle.defendSpaceInfantryLoss;
-                    countries[battle.defendCountry].spaceMarineLosses = countries[battle.defendCountry].spaceMarineLosses + battle.defendSpaceMarineLoss;
-                    countries[battle.defendCountry].marineLosses = countries[battle.defendCountry].marineLosses + battle.defendMarineLoss;
-                    countries[battle.defendCountry].tankLosses = countries[battle.defendCountry].tankLosses + battle.defendTankLoss;
-                  }
-                  cityBattles[battle.id] = null;
                 }
               });
               

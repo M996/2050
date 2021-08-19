@@ -1,9 +1,4 @@
-- Make it so new units can cycle into the battlefield if a spot opens up and a unit in reserve has full morale
-
-- make it so rebels no longer spawn based on the guerrilla spawn rate for the country but from ahardcoded value
-
-- clean out all battle properties from the city in finishCityCombat (seperate-military-functions) (including defender Morale
-- so combat window stops popping up) and create logic to determine who gets to occupy, what effects this has, etc.
+- create logic to determine who gets to occupy, what effects this has, etc.
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
 - so that the next month they will be detected again and fight again for a different city. If no more cities are available then
@@ -12,7 +7,7 @@
 
 - make sure that new rebels spawning triggers new battles
 
-- maybe have an array for units in need of repair
+- Have an array for units in need of reinforcements
 
 - battle instances should only be created if we can find units stationed in a city that are willing to fight
 - the rebels which have spawned, otherwise the city should be immediately handed over to the rebels
@@ -22,22 +17,26 @@
 
 - recalculate unrest when a province switches hands
 
-- When rolling an 8 or higher in Naval Combat, their should be a 2% chance of a magazine hit, instantly destroying the target
-- unless they have switched to only using railguns
-
-- carriers in the back, destroyers in the front
-
 - when reinforcing a military unit, make sure that manpower and health must go up together, because the units health on screen is
 - always displayed as a percentage of max manpower
 
 - Make it so that when new mil units or other types of units are created, they fill in 'null' values in their respective arrays
 
-- an ideology should have at least 30% of the population of a province, then their unrest debuff kicks in
+- an ideology should have at least 20% of the population of a province, then their unrest debuff kicks in
+
+- (Ideology unrest * 0.25) + (Ideology Unrest * (0.75 * province population percentage)) * ideology unrest modifier (Diplomatic)
+
+- then set up unrest for ethnic groups as well
+
+- When rolling an 8 or higher in Naval Combat, their should be a 2% chance of a magazine hit, instantly destroying the target
+- unless they have switched to only using railguns
+
+- carriers in the back, destroyers in the front
 
 - REBEL UNITS CANNOT MIX WITH COUNTRY UNITS IN COMBAT
 
 - implement code to increase damage types and health by unit in accordance with National Ideas. This also means countries that are
-- created in the nation builder that I will develop should have theri base unit damage multiplied in accordance with national ideas
+- created in the nation builder that I will develop should have their base unit damage multiplied in accordance with national ideas
 
 - There are two types of Guerrillas, ones connected to the province, and ones connected to an Ideology. When province connected
 - guerrillas spawn, they will try to take control of cities in a province to force that province to belong to the country

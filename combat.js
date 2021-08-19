@@ -13,9 +13,192 @@ const cityBattle = function(battle) {
         break;
         case 2:
             
+            allAttackersLength = map2Cities[battle.cityID].combatAttackingInfantry.length;
+            allAttackersLength += map2Cities[battle.cityID].combatAttackingMarines.length;
+            allAttackersLength += map2Cities[battle.cityID].combatAttackingGuerrillas.length;
+            allAttackersLength += map2Cities[battle.cityID].combatAttackingSpaceInfantry.length;
+            allAttackersLength += map2Cities[battle.cityID].combatAttackingSpaceMarines.length;
+            allAttackersLength += map2Cities[battle.cityID].combatAttackingTanks.length;
+            
+            if (map2Cities[battle.cityID].combatAttackingPositions.length <= allAttackersLength &&
+                map2Cities[battle.cityID].combatAttackingPositions.length < 20) {
+                        
+                    map2Cities[battle.cityID].combatAttackingInfantry.forEach(function(infantryID) {
+                        pushString = 'infantry-' + infantryID;
+                        if (infantryUnits[infantryID].currentMorale == infantryUnits[infantryID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatAttackingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatAttackingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatAttackingPositions.push(pushString);
+                            // if there are more available attacking units then what is currently on the battlefield
+                            // and some attacking units can be found which are still at full morale, then put them onto
+                            // the battlefield to continue the fight
+                            
+                        }
+                    });
+                
+                    map2Cities[battle.cityID].combatAttackingMarines.forEach(function(marineID) {
+                        pushString = 'marine-' + marineID;
+                        if (marineUnits[marineID].currentMorale == marineUnits[marineID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatAttackingPositions.includes(pushString) &&
+                              map2Cities[battle.cityID].combatAttackingPositions.length < 20)) {
+                            
+                            map2Cities[battle.cityID].combatAttackingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatAttackingGuerrillas.forEach(function(guerrillaID) {
+                         if (guerrillaUnits[guerrillaID].ideology != false) {
+                                pushString = 'hostileguerrilla-' + guerrillaID;
+                            } else {
+                                pushString = 'guerrilla-' + guerrillaID;
+                            }
+                        if (guerrillaUnits[guerrillaID].currentMorale == guerrillaUnits[guerrillaID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatAttackingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatAttackingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatAttackingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatAttackingSpaceInfantry.forEach(function(spaceInfantryID) {
+                        pushString = 'spaceInfantry-' + spaceInfantryID;
+                        if (spaceInfantryUnits[spaceInfantryID].currentMorale == spaceInfantryUnits[spaceInfantryID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatAttackingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatAttackingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatAttackingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatAttackingSpaceMarines.forEach(function(spaceMarineID) {
+                        pushString = 'spaceMarine-' + spaceMarineID;
+                        if (spaceMarineUnits[spaceMarineID].currentMorale == spaceMarineUnits[spaceMarineID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatAttackingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatAttackingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatAttackingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatAttackingTanks.forEach(function(tankID) {
+                        pushString = 'tank-' + tankID;
+                        if (tankUnits[tankID].currentMorale == tankUnits[tankID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatAttackingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatAttackingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatAttackingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+            }
+            
+            
+            
+            allDefendersLength = map2Cities[battle.cityID].combatDefendingInfantry.length;
+            allDefendersLength += map2Cities[battle.cityID].combatDefendingMarines.length;
+            allDefendersLength += map2Cities[battle.cityID].combatDefendingGuerrillas.length;
+            allDefendersLength += map2Cities[battle.cityID].combatDefendingSpaceInfantry.length;
+            allDefendersLength += map2Cities[battle.cityID].combatDefendingSpaceMarines.length;
+            allDefendersLength += map2Cities[battle.cityID].combatDefendingTanks.length;
+            
+            if (map2Cities[battle.cityID].combatDefendingPositions.length <= allDefendersLength &&
+                map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                
+                    map2Cities[battle.cityID].combatDefendingInfantry.forEach(function(infantryID) {
+                        pushString = 'infantry-' + infantryID;
+                        if (infantryUnits[infantryID].currentMorale == infantryUnits[infantryID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatDefendingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatDefendingPositions.push(pushString);
+                            // if there are more available Defending units then what is currently on the battlefield
+                            // and some Defending units can be found which are still at full morale, then put them onto
+                            // the battlefield to continue the fight
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatDefendingMarines.forEach(function(marineID) {
+                        pushString = 'marine-' + marineID;
+                        if (marineUnits[marineID].currentMorale == marineUnits[marineID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatDefendingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatDefendingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    console.log(`Number of guerrillas on battlefield: ${map2Cities[battle.cityID].combatDefendingPositions.length}`);
+                    map2Cities[battle.cityID].combatDefendingGuerrillas.forEach(function(guerrillaID) {
+                        if (guerrillaUnits[guerrillaID].ideology != false) {
+                                pushString = 'hostileguerrilla-' + guerrillaID;
+                            } else {
+                                pushString = 'guerrilla-' + guerrillaID;
+                            }
+                        if (guerrillaUnits[guerrillaID].currentMorale == guerrillaUnits[guerrillaID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatDefendingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatDefendingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatDefendingSpaceInfantry.forEach(function(spaceInfantryID) {
+                        pushString = 'spaceInfantry-' + spaceInfantryID;
+                        if (spaceInfantryUnits[spaceInfantryID].currentMorale == spaceInfantryUnits[spaceInfantryID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatDefendingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatDefendingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatDefendingSpaceMarines.forEach(function(spaceMarineID) {
+                        pushString = 'spaceMarine-' + spaceMarineID;
+                        if (spaceMarineUnits[spaceMarineID].currentMorale == spaceMarineUnits[spaceMarineID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatDefendingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatDefendingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+                
+                    map2Cities[battle.cityID].combatDefendingTanks.forEach(function(tankID) {
+                        pushString = 'tank-' + tankID;
+                        if (tankUnits[tankID].currentMorale == tankUnits[tankID].maxMorale &&
+                            !(map2Cities[battle.cityID].combatDefendingPositions.includes(pushString)) &&
+                            map2Cities[battle.cityID].combatDefendingPositions.length < 20) {
+                            
+                            map2Cities[battle.cityID].combatDefendingPositions.push(pushString);
+                            
+                        }
+                    });
+                
+            }
+            
             
             map2Cities[battle.cityID].attackingBattleRoll = battleDiceAttacker;
             map2Cities[battle.cityID].defendingBattleRoll = battleDiceDefender;
+            // after the random battle rolls have been determined above, this will be used to display them on the screen
             
             if (countries[battle.attackCountry].offensiveBuff != null) {
                 switch (countries[battle.attackCountry].offensiveBuff) {
@@ -708,9 +891,7 @@ const cityBattle = function(battle) {
                       break;
                     } 
                 } else {
-                    console.log('Attacker Victory through lack of Defenders');
-                    cityBattles[battle.id].finished = true;
-                    finishCityCombat(battle.cityID);
+                    finishCityCombat(battle,'attacker');
                     if (document.querySelector(".city-combat-screen").style.display == 'flex') {
                         //if the city combat screen is currently open then open the city interactions screen instead
                         document.querySelector(".city-combat-screen").style.display = "none";
@@ -721,10 +902,8 @@ const cityBattle = function(battle) {
                 }
             });
             
-            if (map2Cities[battle.cityID].defenderMorale < 1) {
-                console.log('Attacker Victory through lack of Defender Morale');
-                cityBattles[battle.id].finished = true;
-                finishCityCombat(battle.cityID);
+            if (map2Cities[battle.cityID].defenderMorale < 1 && cityBattles[battle.id].finished == false) {
+                finishCityCombat(battle,'attacker');
                 if (document.querySelector(".city-combat-screen").style.display == 'flex') {
                     //if the city combat screen is currently open then open the city interactions screen instead
                     document.querySelector(".city-combat-screen").style.display = "none";
@@ -1402,9 +1581,7 @@ const cityBattle = function(battle) {
                     
                     } else {
                      
-                        console.log('Defender Victory through lack of Attackers');
-                        cityBattles[battle.id].finished = true;
-                        finishCityCombat(battle.cityID);
+                        finishCityCombat(battle, 'defender');
                         if (document.querySelector(".city-combat-screen").style.display == 'flex') {
                             //if the city combat screen is currently open then open the city interactions screen instead
                             document.querySelector(".city-combat-screen").style.display = "none";
@@ -1415,10 +1592,8 @@ const cityBattle = function(battle) {
                     }
             });
             
-            if (map2Cities[battle.cityID].attackerMorale < 1) {
-                console.log('Defender Victory through lack of Attacker Morale');
-                cityBattles[battle.id].finished = true;
-                finishCityCombat(battle.cityID);
+            if (map2Cities[battle.cityID].attackerMorale < 1 && cityBattles[battle.id].finished == false) {
+                finishCityCombat(battle, 'defender');
                 if (document.querySelector(".city-combat-screen").style.display == 'flex') {
                     //if the city combat screen is currently open then open the city interactions screen instead
                     document.querySelector(".city-combat-screen").style.display = "none";

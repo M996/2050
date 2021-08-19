@@ -25,7 +25,7 @@ let map2Provinces = [
         // after a province is conquered, the old owner of that province retains a core for 20 years
         "claims": [],
         "isSeaZone": false,
-        "unrest": 40,
+        "unrest": 60,
         "civilUnrest": true,
         // when unrest is high a province has a chance of being pushed up into civil unrest
         // this means that rebels now have a percentage chance of popping equal to the province's unrest + 5
