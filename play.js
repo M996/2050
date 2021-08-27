@@ -169,6 +169,55 @@ tellTime = function(t1) {
       
         countries.forEach(function(country) {
         if (!country.isDead) {
+            
+            // ======= PROVINCE OCCUPATION / SECESSION =======================================================================
+            secedingProvinceID1 = 0;
+            country.secedingProvinces1.forEach(function(provinceID) {
+              
+              secedingProvinceID1++;
+            }); 
+            
+            secedingProvinceID2 = 0;
+            country.secedingProvinces2.forEach(function(provinceID) {
+              if (map2Provinces[provinceID].occupierID != null) {
+                map2Provinces[provinceID].monthsUntilDemandsEnforced--;
+                if (map2Provinces[provinceID].monthsUntilDemandsEnforced == 0) {
+                    // secede the province to the occupier of said province
+                    // this function will be created in political-functions.php
+                    // it has not yet been created, this is a TODO item
+                    // remember to refactor things like unrest
+                    if (map2Provinces[provinceID].occupierID == 'particularist') {
+                        map2Provinces[provinceID].autonomy = map2Provinces[provinceID].autonomy + 50;
+                        map2Provinces[provinceID].monthsUntilDemandsEnforced = null;
+                        map2Provinces[provinceID].occupiedBy = '';
+                        map2Provinces[provinceID].occupierID = null;
+                        country.secedingProvinces2.splice(provinceID, 1);
+                        
+                        // remove one policy that particularists don't like
+                        
+                    } else {
+                      console.log(`province ${provinceID} is now seceding!`);
+                      // this code will fire if the occupied province is for [seperatists] or [idealogues]
+                    }
+                }
+              } 
+              secedingProvinceID2++;
+            });
+            
+            secedingProvinceID3 = 0;
+            country.secedingProvinces3.forEach(function(provinceID) {
+              
+              secedingProvinceID3++;
+            });
+            
+            secedingProvinceID4 = 0;
+            country.secedingProvinces4.forEach(function(provinceID) {
+              
+              secedingProvinceID4++;
+            }); 
+            
+            // ===============================================================================================================
+            
             // Reset all recorded costs from last month, we want to make sure that when the month rolls over the recorded expenses are recent
             country.capitalExpense = country.buildingCapitalExpense;
             country.energyExpense = country.buildingEnergyExpense;

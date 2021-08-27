@@ -185,7 +185,7 @@ let countries = [
         
         // Units Stats ======================
         "infantryMaxHealth": 60,
-        "infantrySmallArmsDamage": 2.3,
+        "infantrySmallArmsDamage": 2.2,
         "infantryExplosiveDamage": 1,
         "infantrySmallArmsArmor": 0.2,
         "infantryExplosiveArmor": 0.1,
@@ -198,7 +198,7 @@ let countries = [
         "tankMaxHealth": 100,
         "tankSmallArmsDamage": 1,
         "tankExplosiveDamage": 4,
-        "tankSmallArmsArmor": 0.7,
+        "tankSmallArmsArmor": 0.6,
         "tankExplosiveArmor": 0.2,
         "tankDirectedEnergyArmor": 0.2,
         "tankKineticArmor": 0.1,
@@ -351,14 +351,14 @@ let countries = [
         "battleDiceLandBonus": 1,
         "manpowerModifier": 0.2,
         "manpowerGainModifier": 0.2,
-        "infantrySmallArmDamage": 0.15,
+        "infantrySmallArmDamage": 0.1,
         "timeToAnnexProvince": -1,
         
         
         // Internal ==============================================================================
         "government": "Turengan-Empire",
         "averageGdpPerCapita": 1.32,
-        "annualGdpPerCapitaGrowth": 1.05,
+        "annualGdpPerCapitaGrowth": 1.04,
         "corruption": 12,
         "unrest": 0,
         "baseDefense": 6,
@@ -378,6 +378,11 @@ let countries = [
         "ownedProvinces2": [0,1,2,3,15],
         "ownedProvinces3": [],
         "ownedProvinces4": [],
+        "secedingProvinces1": [],
+        "secedingProvinces2": [],
+        "secedingProvinces3": [],
+        "secedingProvinces4": [],
+        // when a province is on track to secede, it will appear in these arrays
         "policies": [],
         // add some more possible buffs/nerfs from policies down here
         "techs": ['military-parades', 'weak-defense-lines'],
@@ -458,6 +463,10 @@ let countries = [
         "isPlayer": false,
         "isOtherPlayer": '',
         "isDead": false,
+        "secedingProvinces1": [],
+        "secedingProvinces2": [],
+        "secedingProvinces3": [],
+        "secedingProvinces4": [],
         "ownedProvinces1": [],
         "ownedProvinces2": [],
         "ownedProvinces3": [],

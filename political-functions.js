@@ -119,3 +119,220 @@ const factorUnrest4 = function(countryID, provinceID, unrestAmount, civilUnrest)
     
     
 }
+
+
+
+
+
+const finishCityCombat = function(battle, victor) {
+  
+  
+  switch (battle.planetID) {
+    case 1:
+      
+    break;
+    case 2:
+      
+      map2Cities[battle.cityID].defenderName = '';
+      map2Cities[battle.cityID].attackererName = '';
+      map2Cities[battle.cityID].defendingGeneral = null;
+      map2Cities[battle.cityID].attackingGeneral = null;
+      map2Cities[battle.cityID].defendingColor = '';
+      map2Cities[battle.cityID].attackingColor = '';
+      map2Cities[battle.cityID].defenderMorale = 0;
+      map2Cities[battle.cityID].attackerMorale = 0;
+      map2Cities[battle.cityID].attackerMaxMorale = 0;
+      map2Cities[battle.cityID].defenderMaxMorale = 0;
+      map2Cities[battle.cityID].combatDefendingInfantry = [];
+      map2Cities[battle.cityID].combatDefendingMarines = [];
+      map2Cities[battle.cityID].combatDefendingGuerrillas = [];
+      map2Cities[battle.cityID].combatDefendingSpaceInfantry = [];
+      map2Cities[battle.cityID].combatDefendingSpaceMarines = [];
+      map2Cities[battle.cityID].combatDefendingTanks = [];
+      map2Cities[battle.cityID].combatAttackingInfantry = [];
+      map2Cities[battle.cityID].combatAttackingMarines = [];
+      map2Cities[battle.cityID].combatAttackingGuerrillas = [];
+      map2Cities[battle.cityID].combatAttackingSpaceInfantry = [];
+      map2Cities[battle.cityID].combatAttackingSpaceMarines = [];
+      map2Cities[battle.cityID].combatAttackingTanks = [];
+      map2Cities[battle.cityID].combatDefendingPositions = [];
+      map2Cities[battle.cityID].combatAttackingPositions = [];
+      // reset all city battle values
+      
+      if (victor == 'attacker') {
+        // the attacker was victorious
+        if (battle.attackCountry != null) {
+            // the attacker is a country
+            attackerName = countries[battle.attackCountry].name;
+            map2Cities[battle.cityID].occupiedBy = attackerName;
+            map2Cities[battle.cityID].occupierID = battle.attackCountry;
+            
+            occupyingProvinceCityArray = map2Provinces[map2Cities[battle.cityID].provinceID].cities;
+            allCitiesAreOccupied = true;
+          
+            occupyingProvinceCityArray.forEach(function(provincialCityID) {
+              if (map2Cities[provincialCityID].occupierID != battle.attackCountry) {
+                  allCitiesAreOccupied = false;
+              }
+            });
+            
+            // if all cities in this province are now occupied and the province is not under occupation then start the countdown to enforce demands
+            if (allCitiesAreOccupied && !(countries[map2Provinces[map2Cities[battle.cityID].provinceID].ownerID].secedingProvinces2.includes(map2Cities[battle.cityID].provinceID))) {
+                
+                if (map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilSecession == null) {
+                    occupiedProvinceID = map2Cities[battle.cityID].provinceID;
+                    map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilSecession = 48;
+                    map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = attackerName;
+                    map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = battle.attackCountry;
+                    countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);
+                    // this province is now counting down to seccession in 4 years
+                }
+            }
+                
+        } else {
+          // the attacker is a rebel group
+          attackerName = ideologies[battle.attackGuerrilla].name;
+          map2Cities[battle.cityID].occupiedBy = attackerName;
+          map2Cities[battle.cityID].occupierID = battle.attackGuerrilla;
+          
+          occupyingProvinceCityArray = map2Provinces[map2Cities[battle.cityID].provinceID].cities;
+          allCitiesAreOccupied = true;
+          
+          occupyingProvinceCityArray.forEach(function(provincialCityID) {
+            if (map2Cities[provincialCityID].occupierID != battle.attackGuerrilla) {
+                allCitiesAreOccupied = false;
+            }
+          });
+          
+          // if all cities in this province are now occupied and the province is not under occupation then start the countdown to enforce demands
+          if (allCitiesAreOccupied && !(countries[map2Provinces[map2Cities[battle.cityID].provinceID].ownerID].secedingProvinces2.includes(map2Cities[battle.cityID].provinceID))) {
+            if (battle.attackGuerrilla == 0) {
+                // the guerrillas are seperatists
+                
+                if (map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilSecession == null) {
+                    rebelCounter = 0;
+                    seperatistNotFound = true;
+                    while (seperatistNotFound) {
+                        hostileGuerrillaID = map2Cities[battle.cityID].hostileGuerrillas[rebelCounter];
+                        if (guerrillaUnits[hostileGuerrillaID].seperatistID != null) {
+                            seperatistNotFound = false;
+                            occupiedProvinceID = map2Cities[battle.cityID].provinceID;
+                            map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 48;
+                            map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = attackerName;
+                            map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = guerrillaUnits[hostileGuerrillaID].seperatistID;
+                            countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);
+                            // this province is now counting down to seccession in 4 years
+                        } else {
+                            rebelCounter++;
+                            // if the first guerrilla in the city is not a seperatist then keep looking until the seperatists are found
+                        }
+                    }
+                }
+                
+            } else if (battle.attackGuerrilla == 1) {
+                // the guerrillas are particularists
+                
+                rebelCounter = 0;
+                particularistNotFound = true;
+                while (particularistNotFound) {
+                    hostileGuerrillaID = map2Cities[battle.cityID].hostileGuerrillas[rebelCounter];
+                    if (guerrillaUnits[hostileGuerrillaID].ideology == 1) {
+                        particularistNotFound = false;
+                        occupiedProvinceID = map2Cities[battle.cityID].provinceID;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 36;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = attackerName;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = 'particularist';
+                        countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);
+                        // this province is now counting down to autonomy increase and policy change in 4 years
+                    } else {
+                        rebelCounter++;
+                        // if the first guerrilla in the city is not a seperatist then keep looking until the seperatists are found
+                    }
+                }
+                
+            } else {
+                // the guerrillas belong to a specific ideology, we should check the ideology array for a list of their demands
+            }
+          }
+        }
+      } else {
+        if (battle.defendCountry == null) {
+          // the defender is a rebel group
+          defenderName = ideologies[battle.defendGuerrilla].name;
+          map2Cities[battle.cityID].occupiedBy = defenderName;
+          map2Cities[battle.cityID].occupierID = battle.defendGuerrilla;
+          
+          occupyingProvinceCityArray = map2Provinces[map2Cities[battle.cityID].provinceID].cities;
+          allCitiesAreOccupied = true;
+          
+          occupyingProvinceCityArray.forEach(function(provincialCityID) {
+            if (map2Cities[provincialCityID].occupierID != battle.defendGuerrilla) {
+                allCitiesAreOccupied = false;
+            }
+          });
+          
+          // if all cities in this province are now occupied and the province is not under occupation then start the countdown to enforce demands
+          if (allCitiesAreOccupied && !(countries[map2Provinces[map2Cities[battle.cityID].provinceID].ownerID].secedingProvinces2.includes(map2Cities[battle.cityID].provinceID))) {
+            if (battle.defendGuerrilla == 0) {
+                // the guerrillas are seperatists
+                
+                if (map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilSecession == null) {
+                    rebelCounter = 0;
+                    seperatistNotFound = true;
+                    while (seperatistNotFound) {
+                        hostileGuerrillaID = map2Cities[battle.cityID].hostileGuerrillas[rebelCounter];
+                        if (guerrillaUnits[hostileGuerrillaID].seperatistID != null) {
+                            seperatistNotFound = false;
+                            occupiedProvinceID = map2Cities[battle.cityID].provinceID;
+                            map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 48;
+                            map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = defenderName;
+                            map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = guerrillaUnits[hostileGuerrillaID].seperatistID;
+                            countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);
+                            // this province is now counting down to seccession in 4 years
+                        } else {
+                            rebelCounter++;
+                            // if the first guerrilla in the city is not a seperatist then keep looking until the seperatists are found
+                        }
+                    }
+                }
+                
+            } else if (battle.defendGuerrilla == 1) {
+                // the guerrillas are particularists
+                
+                rebelCounter = 0;
+                particularistNotFound = true;
+                while (particularistNotFound) {
+                    hostileGuerrillaID = map2Cities[battle.cityID].hostileGuerrillas[rebelCounter];
+                    if (guerrillaUnits[hostileGuerrillaID].ideology == 1) {
+                        particularistNotFound = false;
+                        occupiedProvinceID = map2Cities[battle.cityID].provinceID;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 36;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = defenderName;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = 'particularist';
+                        countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);
+                        // this province is now counting down to autonomy increase and policy change in 4 years
+                    } else {
+                        rebelCounter++;
+                        // if the first guerrilla in the city is not a seperatist then keep looking until the seperatists are found
+                    }
+                }
+                
+            } else {
+                // the guerrillas belong to a specific ideology, we should check the ideology array for a list of their demands
+            }
+          }
+        } 
+      }
+      
+    break;
+    case 3:
+      
+    break;
+    case 4:
+      
+    break;
+  }
+  
+  battle.finished = true;
+  // finally conclude the city battle so that this battle can be removed from the battle array at the end of the year
+}

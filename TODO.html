@@ -1,4 +1,7 @@
-- create logic to determine who gets to occupy, what effects this has, etc.
+- calculate a country's monthlyCapital, and monthlyManpower when an occupation happens and once every
+- year when gdpPerCapita updates and factor in autonomy from provinces
+
+- make occupation circles appear around occupied cities
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
 - so that the next month they will be detected again and fight again for a different city. If no more cities are available then
@@ -12,10 +15,9 @@
 - battle instances should only be created if we can find units stationed in a city that are willing to fight
 - the rebels which have spawned, otherwise the city should be immediately handed over to the rebels
 
-- once a city is occupied it should be surrounded by a circle (similar to city selection circle or firing circles)
-- that is the color of the occupying force with a white ring around it to tell units not to walk over it
+- create a function to have provinces be ceded on line 200 of play.js
 
-- recalculate unrest when a province switches hands
+- make it so that when an occupation of particularists is completed, a policy can be removed from the country
 
 - when reinforcing a military unit, make sure that manpower and health must go up together, because the units health on screen is
 - always displayed as a percentage of max manpower
@@ -33,7 +35,14 @@
 
 - carriers in the back, destroyers in the front
 
+- make a way to remove province seccessions from a province by retaking a city
+
+- make it so that provinces being occupied by a country turn the occupiers color to make reinforcements work properly
+
 - REBEL UNITS CANNOT MIX WITH COUNTRY UNITS IN COMBAT
+
+- add demands to ideologies, such as policies ideologies will try to enact or governments they will try to
+- establish if they take over a country, and add a list of policies to particularism that particularists would want to get rid of
 
 - implement code to increase damage types and health by unit in accordance with National Ideas. This also means countries that are
 - created in the nation builder that I will develop should have their base unit damage multiplied in accordance with national ideas
@@ -90,10 +99,14 @@
 - if a land army takes too much attrition for it to handle (like in mountains or with a HUGE stack) half of it will break and dissappear
 - and the units will re-appear in the last city they came from in their '.cityID' property
 
-- Make Railguns have less health but more damage and cheaper construction cost and missiles have signifcantly more health because destroying missile bunkers
+- Make Railguns have less health but more damage and cheaper construction cost and missiles have significantly more health because destroying missile bunkers
 - would be harder than destroying a large railgun in real life
 
 - allow military units to capture cities
+
+- make it so when a country is in a war with other countries as allies, captured cities leading to a captured province
+- exchanges hands so the province can actually become occupied by a particular country (probably the country which has
+- the most occupied cities)
 
 - Allow players to zoom the map out (fabricjs tutorial part 5)
 
