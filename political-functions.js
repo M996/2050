@@ -42,7 +42,7 @@ const factorUnrest2 = function(countryID, provinceID, unrestAmount, civilUnrest)
             newUnrestAmount = map2Provinces[provinceID].unrest - 20;
             map2Provinces[provinceID].unrest = newUnrestAmount;
             provinceUnrestModifier = provinceID + "-10";
-            countries[countryID].provincialUnrestReduction.push(provinceUnrestModifier);
+            countries[countryID].provincialUnrestReduction2.push(provinceUnrestModifier);
             console.log(map2Provinces[provinceID]);
             
             guerrillaIdeology = false;

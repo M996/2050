@@ -805,29 +805,48 @@ tellTime = function(t1) {
                     break;
                   }
                 }
-              });
-              
-              // Recalculate Provincial Unrest Modifiers from Rebel Spawns =================================
-              countries.forEach(function(country) {
                 
+                // Recalculate Provincial Unrest Modifiers from Rebel Spawns =================================
                 unrestInfoStringCounter = 0;
-                country.provincialUnrestReduction.forEach(function(provinceInfoString) {
+                country.provincialUnrestReduction2.forEach(function(provinceInfoString) {
                   provinceInfo = provinceInfoString.split("-");
                   if (provinceInfo[1] > 1) {
                     provinceInfo[1]--;
                     newProvinceInfo = provinceInfo[0] + "-" + provinceInfo[1];
-                    country.provincialUnrestReduction[unrestInfoStringCounter] = newProvinceInfo;
+                    country.provincialUnrestReduction2[unrestInfoStringCounter] = newProvinceInfo;
                     // if we are still waiting for the unrest to return to normal, then subtract 1 year from the info string and
                     // return the string to its position in this country's array
                   } else {
-                    country.provincialUnrestReduction.splice(unrestInfoStringCounter,1);
+                    country.provincialUnrestReduction2.splice(unrestInfoStringCounter,1);
                     map2Provinces[provinceInfo[0]].unrest = map2Provinces[provinceInfo[0]].unrest + 20;
                     // if the unrest was reduced 10 years ago, then return it to its normal state
                   }
                   unrestInfoStringCounter++;
                 });
+                
+                // here we will recalculate the gdppercapita of a province and also the population size, and then calculate also
+                // the benefits of these two numbers in each province
+                country.ownedProvinces1.forEach(function(provinceID) {
+                
+                });
+                
+                country.ownedProvinces2.forEach(function(provinceID) {
+                  recalculateProvincePopulation2(provinceID);
+                  recalculateProvinceGDP2(provinceID);
+                  calculateCountryCapital(country.id);
+                  calculateCountryManpower(country.id);
+                });
+                
+                country.ownedProvinces3.forEach(function(provinceID) {
+                
+                });
+                
+                country.ownedProvinces4.forEach(function(provinceID) {
+                
+                });
               });
               
+              // Add casualties from battle this year and clear out battle arrays
               cityBattles.forEach(function(battle) {
                 if (battle != null) {
                   if (battle.finished) {
@@ -851,11 +870,13 @@ tellTime = function(t1) {
                 }
               });
               
+              
+              
+              
               // once per decade calculations will take place here:
               
               currentYear++;
-              
-              if (currentYear % 10) {
+              if ((currentYear % 10) == 0) {
                 foodValue = foodValue * 1.1;
                 mineralValue = mineralValue * 1.1;
                 metalValue = metalValue * 1.1;

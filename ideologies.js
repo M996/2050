@@ -23,7 +23,7 @@ let ideologies = [
         "spreadSpeed": 0.15,
         "unrest": 5,
         // ideologies only cause unrest while the country has not adopted said ideology
-        "popGrowthIncrease": 0.0,
+        "popGrowthIncrease": -0.001,
         "gdpGrowthIncrease": -0.004,
         "addPolicies": [],
         "removePolicies": [],

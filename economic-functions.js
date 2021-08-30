@@ -101,8 +101,128 @@ const endFamine = function(countryID) {
 
 
 
+const recalculateProvincePopulation1 = function(provinceID) {
+  
+}
 
-const calculateManpower = function(countryID) {
-  // deterine the monthly Manpower gain and manpower storage capacity based on current state population
-  console.log('calculate manpower');
+
+
+
+const recalculateProvincePopulation2 = function(provinceID) {
+  ownerID = map2Provinces[provinceID].ownerID;
+  provincePopGrowthModifier = ethnicities[countries[ownerID].mainEthnicity].popGrowthIncrease;
+  // modify pop growth based on the ethnic group
+  provincePopGrowthModifier = provincePopGrowthModifier + ideologies[countries[ownerID].ideology].popGrowthIncrease;
+  // further modify pop growth based on the ideology
+  map2Provinces[provinceID].cities.forEach(function(cityID) {
+    map2Cities[cityID].population = Math.round(map2Cities[cityID].population * (countries[ownerID].annualPopulationGrowth + provincePopGrowthModifier));
+  });
+  // finally change the actual populations of each city based upon the growth modifier
+}
+
+
+
+
+const recalculateProvincePopulation3 = function(provinceID) {
+  
+}
+
+
+
+
+const recalculateProvincePopulation4 = function(provinceID) {
+  
+}
+
+
+
+
+const recalculateProvinceGDP1 = function(provinceID) {
+  
+}
+
+
+
+
+const recalculateProvinceGDP2 = function(provinceID) {
+  ownerID = map2Provinces[provinceID].ownerID;
+  provinceGDPGrowthModifier = ideologies[countries[ownerID].ideology].gdpGrowthIncrease;
+  // modify gdp growth based on the ideology
+  map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * (countries[ownerID].annualGdpPerCapitaGrowth + provinceGDPGrowthModifier);
+  // finally change the actual gdppercapita of the province
+}
+
+
+
+
+const recalculateProvinceGDP3 = function(provinceID) {
+  
+}
+
+
+
+
+const recalculateProvinceGDP4 = function(provinceID) {
+  
+}
+
+
+
+
+const calculateCountryCapital = function(countryID) {
+  countryResourceIncome = 0;
+  countryTaxIncome = 0;
+  // here we are running calculations for this country's holdings in world 2, other worlds have not yet been added
+  countries[countryID].ownedCities2.forEach(function(cityID) {
+    gdpPerCapita = map2Provinces[map2Cities[cityID].provinceID].gdpPerCapita;
+    countryTaxIncome += (map2Cities[cityID].population / 5000000) * gdpPerCapita * (1 - map2Provinces[map2Cities[cityID].provinceID].autonomy);
+    cityResource = map2Provinces[map2Cities[cityID].provinceID].resource;
+        switch(cityResource) { 
+            case "<img src='public/images/foodicon.png' class='tile-res-icn'>": 
+                resourceValue = foodValue;
+            break; 
+            case "<img src='public/images/mineralicon.png' class='tile-res-icn'>": 
+                resourceValue = mineralValue;
+            break;
+            case "<img src='public/images/metalicon.png' class='tile-res-icn'>": 
+                resourceValue = metalValue;
+            break;
+            case "<img src='public/images/oilicon.png' class='tile-res-icn'>": 
+                resourceValue = oilValue;
+            break;
+            case "<img src='public/images/preciousmetalicon.png' class='tile-res-icn'>": 
+                resourceValue = goldValue;
+            break;
+            case "<img src='public/images/nuclearicon.png' class='tile-res-icn'>": 
+                resourceValue = nuclearValue;
+            break;
+        } 
+    countryResourceIncome += (map2Cities[cityID].corporateResourceModifier * 2) * (map2Provinces[map2Cities[cityID].provinceID].resourceAmount * (resourceValue * 0.8));
+  });
+  
+  countries[countryID].monthlyCapital = countryResourceIncome + countryTaxIncome;
+  // here we are adding together resources collected + taxes collected, in the future we are going to want to add
+  // in capital from Trade and Corporate Stocks
+  countries[countryID].capitalStorageCapacity = countries[countryID].monthlyCapital * 60;
+  
+}
+
+
+
+
+const calculateCountryManpower = function(countryID) {
+  countryTotalPopulation = 0;
+  countryTotalManpower = 0;
+  // here we are running calculations for this country's holdings in world 2, other worlds have not yet been added
+  countries[countryID].ownedCities2.forEach(function(cityID) {
+    countryTotalPopulation += map2Cities[cityID].population;
+    countryTotalManpower += map2Cities[cityID].population + (1 - map2Provinces[map2Cities[cityID].provinceID].autonomy);
+  });
+  
+  countries[countryID].totalPopulation = countryTotalPopulation;
+  countries[countryID].manpowerStorageCapacity = countryTotalManpower * 0.03;
+  // the manpower storage pool is equal to 3% of the total population multiplied by national multipliers
+  countries[countryID].monthlyManpower = countries[countryID].manpowerStorageCapacity / 120;
+  // it should take 10 years to refill a country when totally depleted of manpower
+  
 }

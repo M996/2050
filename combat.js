@@ -141,7 +141,7 @@ const cityBattle = function(battle) {
                     });
                 
                 
-                    console.log(`Number of guerrillas on battlefield: ${map2Cities[battle.cityID].combatDefendingPositions.length}`);
+                     
                     map2Cities[battle.cityID].combatDefendingGuerrillas.forEach(function(guerrillaID) {
                         if (guerrillaUnits[guerrillaID].ideology != false) {
                                 pushString = 'hostileguerrilla-' + guerrillaID;

@@ -520,6 +520,7 @@ require 'header.php';
 <script src="military-functions.js"></script>
 <script src="seperate-military-functions.js"></script>
 <script src="ranged-weapon-functions.js"></script>
+<script src="ethnicities.js"></script>
 <script src="ideologies.js"></script>
 <script src="unions.js"></script>
 <script src="countries.js"></script>

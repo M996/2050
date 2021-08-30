@@ -120,8 +120,8 @@ const openCity = function(city, cityDots) {
         
         document.querySelector('#city-population').textContent = 'Population: ' + popNumber;
         gdpPerCapita = map2Provinces[city.provinceID].gdpPerCapita;
-        populationIncome = (city.population / 5000000) * gdpPerCapita;
-        document.querySelector('#city-gdp-per-capita').textContent = 'GDP Per Capita: ' + gdpPerCapita;
+        populationIncome = (city.population / 5000000) * gdpPerCapita * (1 - map2Provinces[city.provinceID].autonomy);
+        document.querySelector('#city-gdp-per-capita').textContent = 'GDP Per Capita: ' + gdpPerCapita.toFixed(2);
         document.querySelector('#city-pop-income').textContent = 'Tax Income: ' + populationIncome.toFixed(2);
         // above we have determined the population of the city, calculated it with the gdp per capita of its province
         // and determined how much capital income this city will generate from raw population

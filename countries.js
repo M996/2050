@@ -24,7 +24,7 @@ let countries = [
         // barracks increase the monthly energy expense
         "energyStored": 10,
         "energyStorageCapacity": 100,
-        "monthlyCapital": 31.13,
+        "monthlyCapital": 29.15,
         "buildingCapitalExpense": 4,
         "capitalExpense": 0,
         // ports, barracks, and missile silos increase the monthly capital expense
@@ -111,7 +111,7 @@ let countries = [
         "hasPort": true,
         "hasSpacePort": false,
         "ideology": 4,
-        "mainEthnicity": "Roque",
+        "mainEthnicity": 0,
         "baseRights": null,
         "baseRightsOverlord": [],
         "territory": null,
@@ -320,7 +320,7 @@ let countries = [
         "monthlyManpower": 16808,
         // monthly manpower is equal to 1/120th of the total manpower storage capacity
         "manpowerExpense": 0,
-        "annualPopulationGrowth": 0.02,
+        "annualPopulationGrowth": 1.01,
         "morale": 0.3000,
         // Damage done to a unit after armor is accounted for is first subtracted from the unit health and then subtracted
         // from the unit's morale pool and the army morale pool. Once morale reaches zero for a unit it will be pulled off
@@ -358,7 +358,8 @@ let countries = [
         // Internal ==============================================================================
         "government": "Turengan-Empire",
         "averageGdpPerCapita": 1.32,
-        "annualGdpPerCapitaGrowth": 1.04,
+        "annualGdpPerCapitaGrowth": 1.03,
+        // the average gdppercapita growth on Earth is 2%, on other planets that standard might be higher or lower
         "corruption": 12,
         "unrest": 0,
         "baseDefense": 6,
@@ -369,7 +370,10 @@ let countries = [
         // Admiral Bonus is the additional bonus added to randomly generated Admirals
         "warExhaustion": 0,
         "warExhaustionDecrease": -0.1,
-        "provincialUnrestReduction": [],
+        "provincialUnrestReduction1": [],
+        "provincialUnrestReduction2": [],
+        "provincialUnrestReduction3": [],
+        "provincialUnrestReduction4": [],
         "ownedCities1": [],
         "ownedCities2": [0,1,2,3,4,5,6,7,8,33],
         "ownedCities3": [],
@@ -460,9 +464,14 @@ let countries = [
         "nameColored": "<span style='color:V'>Panera</span>",
         "homePlanet": "Medera",
         "homeContinent": "Turen",
+        "mainEthnicity": 1,
         "isPlayer": false,
         "isOtherPlayer": '',
         "isDead": false,
+        "provincialUnrestReduction1": [],
+        "provincialUnrestReduction2": [],
+        "provincialUnrestReduction3": [],
+        "provincialUnrestReduction4": [],
         "secedingProvinces1": [],
         "secedingProvinces2": [],
         "secedingProvinces3": [],

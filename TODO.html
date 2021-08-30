@@ -1,6 +1,9 @@
 - calculate a country's monthlyCapital, and monthlyManpower when an occupation happens and once every
 - year when gdpPerCapita updates and factor in autonomy from provinces
 
+- when a province is lost check each city for buildings with Capital maintenance and remember to subtract those
+- buildings capital maintenance and other properties from the country losing the province
+
 - make occupation circles appear around occupied cities
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
@@ -10,6 +13,8 @@
 
 - make sure that new rebels spawning triggers new battles
 
+- have ethnic groups now have an impact on unrest based on their share of the population
+
 - Have an array for units in need of reinforcements
 
 - battle instances should only be created if we can find units stationed in a city that are willing to fight
@@ -18,6 +23,8 @@
 - create a function to have provinces be ceded on line 200 of play.js
 
 - make it so that when an occupation of particularists is completed, a policy can be removed from the country
+
+- add provincial unrest reduction in play.js for provinces on the other 3 planets as well
 
 - when reinforcing a military unit, make sure that manpower and health must go up together, because the units health on screen is
 - always displayed as a percentage of max manpower
@@ -169,6 +176,8 @@
 
 - make it so that the second and up aircraft technologies give far superior aircraft but also open aircraft up to being more vulnerable
 - to cyber attacks
+
+- add running functions for all worlds in calculateCountryCapital in economic-functions. Right now only world 2 is being calculated
 
 
 
