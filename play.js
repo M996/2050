@@ -187,7 +187,11 @@ tellTime = function(t1) {
                     // it has not yet been created, this is a TODO item
                     // remember to refactor things like unrest
                     if (map2Provinces[provinceID].occupierID == 'particularist') {
-                        map2Provinces[provinceID].autonomy = map2Provinces[provinceID].autonomy + 50;
+                      console.log(`incresing autonomy in province ${provinceID}`);
+                        map2Provinces[provinceID].autonomy = map2Provinces[provinceID].autonomy + 0.50;
+                        if (map2Provinces[provinceID].autonomy > 1) {
+                            map2Provinces[provinceID].autonomy = 1;
+                        }
                         map2Provinces[provinceID].monthsUntilDemandsEnforced = null;
                         map2Provinces[provinceID].occupiedBy = '';
                         map2Provinces[provinceID].occupierID = null;
@@ -196,7 +200,7 @@ tellTime = function(t1) {
                         // remove one policy that particularists don't like
                         
                     } else {
-                      console.log(`province ${provinceID} is now seceding!`);
+                      console.log(`province ${provinceID} has been succesfully occupied by seperatists or idealogues!`);
                       // this code will fire if the occupied province is for [seperatists] or [idealogues]
                     }
                 }
@@ -255,9 +259,16 @@ tellTime = function(t1) {
                 }
                 country.debt = country.debt - debtPayment;
                 
+                // if in a Depression temporarily reduce the income by 10%
+                if (country.inDepression) {
+                  depressionModifier = 0.9;
+                } else {
+                  depressionModifier = 1;
+                }
+                
                 // now that we have applied interest to loans and figured out what the debt payment is,
                 // we apply the debt payment to the expenses.
-                capitalChange = country.monthlyCapital - (debtPayment + country.buildingCapitalExpense);
+                capitalChange = (country.monthlyCapital * depressionModifier) - (debtPayment + country.buildingCapitalExpense);
                 capitalAmount = country.capitalStored + capitalChange;
                 if (capitalAmount > country.capitalStorageCapacity) {
                     country.capitalStored = country.capitalStorageCapacity;
@@ -272,7 +283,15 @@ tellTime = function(t1) {
                 }
                 
             } else {
-              capitalChange = country.monthlyCapital - country.buildingCapitalExpense;
+              
+              // if in a Depression temporarily reduce the income by 10%
+              if (country.inDepression) {
+                depressionModifier = 0.9;
+              } else {
+                depressionModifier = 1;
+              }
+              
+              capitalChange = (country.monthlyCapital * depressionModifier) - country.buildingCapitalExpense;
               capitalAmount = country.capitalStored + capitalChange;
               if (capitalAmount > country.capitalStorageCapacity) {
                 country.capitalStored = country.capitalStorageCapacity;
@@ -778,13 +797,108 @@ tellTime = function(t1) {
               // Do not forget that population growth should not take place if the isStarving property is set to TRUE
               
               // things to calculate:
-              // GDPPerCapitaGrowth
-              // PopulationGrowth
+              // GDPPerCapitaGrowth / done
+              // PopulationGrowth / done
+              // add Depression mechanics for maps 1,3, and 4
               // ideology spread
               // Ethnic group spread
               // Points
               
-              // Calculate Banckruptcy ====================================================================
+              // ==== Global Depression Mechanics =====================================================================
+              
+              countries.forEach(function(country) {
+                if (country.inDepression) {
+                  if (country.techs.includes('economic')) {
+                    country.inDepression = false;
+                    // if this country chose the Economic Expansion Path then remove the Depression after 1 year
+                  } else {
+                    if (country.corruption < 50) { // countries with low corruption have a 30% chance of recovering
+                      // from a Depression while countries with high corruption have a 20% chance of recovering
+                      recoveryChance = Math.floor(Math.random() * 3);
+                      if (recoveryChance == 1) {
+                        country.inDepression = false;
+                      }
+                    } else {
+                      recoveryChance = Math.floor(Math.random() * 5);
+                      if (recoveryChance == 1) {
+                        country.inDepression = false;
+                      }
+                    }
+                  }
+                }
+              });
+              
+              if (map1LastDepression >= (currentYear - 25)) {
+                // it has been less than 25 years since the last Depression so a new Depression cannot happen
+              } else if (map1LastDepression <= (currentYear - 50)) {
+                // it has been 50 years or more since the last Depression so start one right away
+              } else {
+                // it has been between 25 and 50 years since a Depression, their is a 5% chance of having one this year
+              }
+              
+              if (map2LastDepression >= (currentYear - 25)) {
+                // it has been less than 25 years since the last Depression so a new Depression cannot happen
+              } else if (map2LastDepression <= (currentYear - 50)) {
+                console.log(`A Global depression has been triggered due to time since last one`);
+                map2LastDepression = currentYear;
+                // it has been 50 years or more since the last Depression so start one right away
+                countries.forEach(function(country) {
+                  if (country.ownedProvinces2.length > 0) {
+                    country.inDepression = true;
+                    country.ownedProvinces2.forEach(function(provinceID) {
+                      if (country.averageGdpPerCapita > map2GDPPerCapita) {
+                        // this is a rich country, so they will be more affected by the Depression
+                        map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * 0.94;
+                        
+                        // In Depressions Rich countries lose -6% of gdpPerCapita in the first year and -3%
+                        // every year after that until they pull out of the Depression, poor countries
+                        // lose -3% the first year then -1.5% every year after
+                        
+                      } else {
+                        map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * 0.97;
+                      }
+                    });
+                  }
+                });
+              } else {
+                // it has been between 25 and 50 years since a Depression, their is a 5% chance of having one this year
+                depressionChance = Math.floor(Math.random() * 20);
+                if (depressionChance == 20) {
+                  console.log(`A Global depression has been triggered`);
+                  map2LastDepression = currentYear;
+                  countries.forEach(function(country) {
+                    if (country.ownedProvinces2.length > 0) {
+                      country.inDepression = true;
+                      country.ownedProvinces2.forEach(function(provinceID) {
+                        if (country.averageGdpPerCapita > map2GDPPerCapita) {
+                          // this is a rich country, so they will be more affected by the Depression
+                          map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * 0.94;
+                        } else {
+                          map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * 0.98;
+                        }
+                      });
+                    }
+                  });
+                }
+              }
+              
+              if (map3LastDepression >= (currentYear - 25)) {
+                // it has been less than 25 years since the last Depression so a new Depression cannot happen
+              } else if (map3LastDepression <= (currentYear - 50)) {
+                // it has been 50 years or more since the last Depression so start one right away
+              } else {
+                // it has been between 25 and 50 years since a Depression, their is a 5% chance of having one this year
+              }
+              
+              if (map4LastDepression >= (currentYear - 25)) {
+                // it has been less than 25 years since the last Depression so a new Depression cannot happen
+              } else if (map4LastDepression <= (currentYear - 50)) {
+                // it has been 50 years or more since the last Depression so start one right away
+              } else {
+                // it has been between 25 and 50 years since a Depression, their is a 5% chance of having one this year
+              }
+              
+              // Calculate Economics and Unrest ==============================================================
               countries.forEach(function(country) {
                 if (country.isBankrupt) {
                   switch(country.isBankrupt) {
@@ -831,10 +945,28 @@ tellTime = function(t1) {
                 });
                 
                 country.ownedProvinces2.forEach(function(provinceID) {
+                  if (map2Provinces[provinceID].autonomy > 0.025) {
+                    map2Provinces[provinceID].autonomy -= (0.025 + countries[map2Provinces[provinceID].ownerID].autonomyDecrease);
+                  } else if (map2Provinces[provinceID].autonomy > 0) {
+                    map2Provinces[provinceID].autonomy = 0;
+                  } // if the province has any level of autonomy, decrease it by about 2.5% every year
                   recalculateProvincePopulation2(provinceID);
                   recalculateProvinceGDP2(provinceID);
+                  
+                  cumulativeGDPPerCapita = 0;
+                  country.ownedProvinces2.forEach(function(provinceID) {
+                    cumulativeGDPPerCapita += map2Provinces[provinceID].gdpPerCapita;
+                  });
+                  country.averageGdpPerCapita = cumulativeGDPPerCapita / country.ownedProvinces2.length;
+                  map2CountryIndexPosition = countryIDList2.indexOf(country.id);
+                  countryGDPPerCapita2[map2CountryIndexPosition] = country.averageGdpPerCapita;
+                  // update the country's averageGDPPerCapita
+                  
+                  
+                  
                   calculateCountryCapital(country.id);
                   calculateCountryManpower(country.id);
+                  // update population and gdppercapita in all provinces once per year so the country can experience growth
                 });
                 
                 country.ownedProvinces3.forEach(function(provinceID) {
@@ -845,6 +977,12 @@ tellTime = function(t1) {
                 
                 });
               });
+              
+              map2GDPPerCapita = 0;
+              countryGDPPerCapita2.forEach(function(gdpPerCapita) {
+                map2GDPPerCapita += gdpPerCapita;
+              });
+              map2GDPPerCapita = map2GDPPerCapita / countryGDPPerCapita2.length;
               
               // Add casualties from battle this year and clear out battle arrays
               cityBattles.forEach(function(battle) {

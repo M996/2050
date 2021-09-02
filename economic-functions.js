@@ -146,10 +146,45 @@ const recalculateProvinceGDP1 = function(provinceID) {
 
 const recalculateProvinceGDP2 = function(provinceID) {
   ownerID = map2Provinces[provinceID].ownerID;
+  map2Provinces[provinceID].gdpPerCapita = (map2GDPPerCapita + (map2Provinces[provinceID].gdpPerCapita * 99)) / 100;
+  // here we add the province gdpPerCapita together with the global average gdp. The way the provincial gdp is being
+  // calculated makes it so that richer countries get a growth debuff while poorer countries get a growth buff
+  
+  // Being X2 the global average GDPPerCapita = -1% growth
+  // Being X4 the global average GDPPerCapita = -2% growth
+  // Being 1/2 the global average GDPPerCapita = +1% growth
+  // Being 1/4 the global average GDPPerCapita = +2% growth
+  
+  // this effect is seen also in Global Depressions where richer countries take a harder hit to their GDP
+  
+  // next we modify the GDPPerCapita of the province by comparing it to a random neighbor, if it has neighbors
+  if (map2Provinces[provinceID].landNeighbors.length > 0) {
+    randomNeighborID = Math.floor(Math.random() * map2Provinces[provinceID].landNeighbors.length);
+    map2Provinces[provinceID].gdpPerCapita = (map2Provinces[randomNeighborID].gdpPerCapita + (map2Provinces[provinceID].gdpPerCapita * 99)) / 100;
+    // the neighbor bonus functions mechanically exactly the same as the global average gdppercapita bonus
+    // however with both of these bonuses functioning together and at the same time their effect is watered down
+    // this means that a poor province with an equally poor neighbor will receive only half of its growth bonus
+    // it would normally receive if that neighbor is randomly selected to be paired with this province this year
+    // so if the average gdppercapta on the planet is 2 and this province only has 1 it would normally receive a +1% growth bonus
+    // but if it is paired with a neighboring province that also has 1 then it will only effectively receive a bonus of +0.5%
+    
+    // this is still made up for in Depressions where rich countries are beaten down and poor countries are not
+  }
+  
   provinceGDPGrowthModifier = ideologies[countries[ownerID].ideology].gdpGrowthIncrease;
   // modify gdp growth based on the ideology
   map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * (countries[ownerID].annualGdpPerCapitaGrowth + provinceGDPGrowthModifier);
   // finally change the actual gdppercapita of the province
+  
+  if (countries[ownerID].inDepression) {
+    if (map2Provinces[provinceID].gdpPerCapita > map2GDPPerCapita) {
+        map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * 0.97;
+    } else {
+      map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * 0.985;
+    }
+    // if the country is in a depression the gdppercapita should trend down every year the depression continues
+    // rich provinces will decrease -3% poor provinces will decrease -1.5%
+  }
 }
 
 

@@ -1,1 +1,2 @@
-- 'tech-icbm-1'
+'economic'
+// You get this technology unlocked as soon as you choose the Economic Expansion Path

@@ -3,6 +3,15 @@
 // is in charge of a battle based on what color is assigned to that battle
 
 let countryIdList = [0, 1];
+// a /ist of all countries
+let countryIDList1 = [];
+// a list of all countries in map 1
+let countryIDList2 = [0,1];
+// a list of all countries in map 2
+let countryIDList3 = [];
+// a list of all countries in map 3
+let countryIDList4 = [];
+// a list of all countries in map 4
 
 
 
@@ -40,6 +49,14 @@ let countrySpacePower1 = [];
 let countrySpacePower2 = [];
 let countrySpacePower3 = [];
 let countrySpacePower4 = [];
+
+
+
+
+let map1GDPPerCapita = 0;
+let map2GDPPerCapita = 1.1;
+let map3GDPPerCapita = 0;
+let map4GDPPerCapita = 0;
 
 
 

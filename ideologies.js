@@ -10,7 +10,7 @@ let ideologies = [
         "name": "Particularists",
         // if a guerrilla group has the ideology id of 1 that means the guerrillas are aligned
         // with the Host Country and will seek autonomy or policy changes
-        "addPolicies": [],
+        "addPolicies": ['decentralize-control'],
         // this is a list of policies that this type of Rebel will want to enact
         "removePolicies": [],
         // this is a list of policies that this type of rebel will want to remove as part of enforcing demands

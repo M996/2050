@@ -1,19 +1,30 @@
 const nationalIdeasExample = {
+    "autonomyDecrease": 0.025, // implemented
+    // increases the speed at which autonomy decreases after autonomy in a province has been raised
+    // setting this to -0.025 will prevent autonomy from decreasing ever
+    
     "manpowerModifier": 0.2, //implemented
     // multiplier for manpower to determine max manpower
+    
     "manpowerGainModifier": 0.2, //implemented
     // multiplier for manpower gain to determine how quickly manpower goes up
-    "guerrillaAmount": 0.2,
+    
+    "guerrillaAmount": 0.2, // implemented in standard country properties
     // multiplier to determine how many guerillas spawn when a city is lost
-    "guerrillaHealth": 0.2
+    
+    "guerrillaHealth": 0.2 // implemented in standard country properties
     // multiplier to determine base health of guerillas
-    "guerrillaSmallArmDamage": 0.2,
+    
+    "guerrillaSmallArmDamage": 0.2, // implemented in standard country properties
     // multiplier to determine small arms damage of guerillas
-    "infantryDistance": 0.2,
+    
+    "infantryDistance": 0.2, // implemented in standard country properties
     // multiplier to determine distance that can be trvelled by Infantry and how quick
-    "infantryCapitalMaintenance": -0.2,
+    
+    "infantryCapitalMaintenance": -0.2, // implemented in standard country properties
     // multiplier for the capital maintenance cost of all infantry type units at all quality levels
-    "infantrySmallArmDamage": 0.2,
+    
+    "infantrySmallArmDamage": 0.2, // implemented in standard country properties
     // multiplier for small arms damage done by Infantry
     
     // IMPORTANT: The way to implement damage modifiers that apply to specific units is to make it so that at game start,
@@ -23,14 +34,18 @@ const nationalIdeasExample = {
     
     "infantrySmallArmHillDamage": 0.2,
     // multiplier for small arms damage done by infantry in hills
-    "infantryExplosiveDamage": 0.2,
+    "infantryExplosiveDamage": 0.2, // implemented in standard country properties
     // multiplier for explosive damage done by Infantry, more effective against tanks than small arms
-    "infantrySmallArmsArmor": 0.2,
+    
+    "infantrySmallArmsArmor": 0.2, // implemented in standard country properties
     // percentage of extra armor against small arms damage for infantry
-    "infantryExplosiveArmor": 0.2,
+    
+    "infantryExplosiveArmor": 0.2, // implemented in standard country properties
     // percentage of extra armor against explosive damage for infantry
-    "infantryHealth": 0.2
+    
+    "infantryHealth": 0.2 // implemented in standard country properties
     // multiplier for infantry Health
+    
     "marineCapitalMaintenance": -0.2,
     // multiplier for marine maintenance
     "marineHealth": 0.2,

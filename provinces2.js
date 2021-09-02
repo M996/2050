@@ -134,7 +134,7 @@ let map2Provinces = [
         "isSeaZone": false,
         "unrest": 0,
         "civilUnrest": false,
-        "gdpPerCapita": 1.11,
+        "gdpPerCapita": 0.11,
         "disease": "",
         "diseasePercent": 0.00,
         "cities": [6,7],

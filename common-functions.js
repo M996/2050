@@ -27,6 +27,16 @@ let nuclearValue = 3.0;
 
 
 
+let map1LastDepression = 2020;
+let map2LastDepression = 2060;
+let map3LastDepression = 2050;
+let map4LastDepression = 2050;
+// these variables show when the last Depression occured on each map
+// map 1 should enter a Depression not long after game start
+
+
+
+
 let infantryFleetVolume = 1;
 let tankFleetVolume = 1.5;
 let marineFleetVolume = 0.5;

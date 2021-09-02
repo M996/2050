@@ -1,10 +1,24 @@
-- calculate a country's monthlyCapital, and monthlyManpower when an occupation happens and once every
-- year when gdpPerCapita updates and factor in autonomy from provinces
+- update military unit capital cost based on national gdppercapita
+
+- replace Capital hard cap with a soft cap
+
+- calculate a country's monthlyCapital, and monthlyManpower when an occupation happens and remove that province from country ownership
+- that is to say, run the calculate functions for these values (also bear in mind how depressions will effect this)
 
 - when a province is lost check each city for buildings with Capital maintenance and remember to subtract those
 - buildings capital maintenance and other properties from the country losing the province
 
 - make occupation circles appear around occupied cities
+
+- When particularists finish occupying a province, give it back to the country
+
+- when rebel demands are enforced, disband that type of rebel from each city and search for other types of rebels
+- so they can enforce demands next
+
+- add policies to the game so that rebel groups have something to enforce besides autonomy
+
+- add a policy to force a Depression to end right away in exchane for more individual freedoms (autonomy being one)
+- this can also be a policy that particularists want to enact
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
 - so that the next month they will be detected again and fight again for a different city. If no more cities are available then
@@ -13,9 +27,22 @@
 
 - make sure that new rebels spawning triggers new battles
 
+- make corporations and corporate stock suffer significantly from Depressions, also Trade
+- stock should reduce in value 25% and trade and resource sales should be about 20%
+- corporate population income should go down by about 30% and resource income and resources by 20%
+
+- when a country or corp sells a corp back its own stock, it can push the corp into debt to pa for the stock
+- which could bankrupt the corp causing HUGE penalties to income and Mercantile Battle
+- owning enough Corp stock can also grant the entity control over the corp and owning 51 or more
+- can allow a country to take ownership of a corp
+
+- corporations can affect the gdppercapita of provinces and also the buildings somehow (figure these mechanics out)
+
 - have ethnic groups now have an impact on unrest based on their share of the population
 
 - Have an array for units in need of reinforcements
+
+- when armies are defeated by rebels they should flee the city upon defeat
 
 - battle instances should only be created if we can find units stationed in a city that are willing to fight
 - the rebels which have spawned, otherwise the city should be immediately handed over to the rebels
@@ -93,6 +120,9 @@
 
 - create land attrition
 
+- when a war is declared, the countries involved should be given a debuff to their annualgdppercapitagrowth
+- this debuff should possibly be made more severe when fighting happens in your owned territory
+
 - armies should know what country they are in by looking at the color of the pixel they are on, the default map color should be
 - fully brown, and in areas with hilly terrain the color of the province controller should be partially transparent so the brown
 - shows through, then armies will determine if they are in hilly terrain based on the transparency of the pixel, but the raw color
@@ -102,6 +132,10 @@
 - the player's screen
 
 - create Space Control GUI screen
+
+- Minarchist governments, especially seasteads should have a -0.02 autonomy decrease idea and start with very high autonomy
+- provinces, this will cause autonomy to decrease extremely slowly over time thus forcing the Minarchist government to
+- rely on corporations and stock and tradew as its primary source of income
 
 - if a land army takes too much attrition for it to handle (like in mountains or with a HUGE stack) half of it will break and dissappear
 - and the units will re-appear in the last city they came from in their '.cityID' property

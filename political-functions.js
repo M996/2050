@@ -239,7 +239,7 @@ const finishCityCombat = function(battle, victor) {
                     if (guerrillaUnits[hostileGuerrillaID].ideology == 1) {
                         particularistNotFound = false;
                         occupiedProvinceID = map2Cities[battle.cityID].provinceID;
-                        map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 36;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 24;
                         map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = attackerName;
                         map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = 'particularist';
                         countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);
@@ -306,7 +306,7 @@ const finishCityCombat = function(battle, victor) {
                     if (guerrillaUnits[hostileGuerrillaID].ideology == 1) {
                         particularistNotFound = false;
                         occupiedProvinceID = map2Cities[battle.cityID].provinceID;
-                        map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 36;
+                        map2Provinces[map2Cities[battle.cityID].provinceID].monthsUntilDemandsEnforced = 24;
                         map2Provinces[map2Cities[battle.cityID].provinceID].occupiedBy = defenderName;
                         map2Provinces[map2Cities[battle.cityID].provinceID].occupierID = 'particularist';
                         countries[map2Provinces[occupiedProvinceID].ownerID].secedingProvinces2.push(occupiedProvinceID);

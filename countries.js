@@ -354,15 +354,17 @@ let countries = [
         "infantrySmallArmDamage": 0.1,
         "timeToAnnexProvince": -1,
         
-        
         // Internal ==============================================================================
         "government": "Turengan-Empire",
         "averageGdpPerCapita": 1.32,
         "annualGdpPerCapitaGrowth": 1.03,
         // the average gdppercapita growth on Earth is 2%, on other planets that standard might be higher or lower
+        "inDepression": false,
         "corruption": 12,
         "unrest": 0,
-        "baseDefense": 6,
+        "autonomyDecrease": 0.0,
+        // autonomyDecrease determines how quickly your province autonomy goes down after it has been increased
+        "baseDefense": 0,
         // baseDefense is the additional defense that all your cities receive
         "GeneralBonus": 0,
         // General Bonus is the additional bonus added to randomly generated Generals
@@ -389,7 +391,7 @@ let countries = [
         // when a province is on track to secede, it will appear in these arrays
         "policies": [],
         // add some more possible buffs/nerfs from policies down here
-        "techs": ['military-parades', 'weak-defense-lines'],
+        "techs": [],
         "powerPlantLevel": 2,
         // max 2
         "metalProcessingPlantLevel": 2,
