@@ -261,18 +261,44 @@ tellTime = function(t1) {
                 
                 // if in a Depression temporarily reduce the income by 10%
                 if (country.inDepression) {
-                  depressionModifier = 0.9;
+                  fullTaxModifier = country.taxModifier - 0.1;
                 } else {
-                  depressionModifier = 1;
+                  fullTaxModifier = country.taxModifier;
                 }
                 
                 // now that we have applied interest to loans and figured out what the debt payment is,
                 // we apply the debt payment to the expenses.
-                capitalChange = (country.monthlyCapital * depressionModifier) - (debtPayment + country.buildingCapitalExpense);
+                
+                if (country.capitalStored > country.capitalStorageCapacity) {
+                    fullCoffersPenalty = country.capitalStored / country.capitalStorageCapacity;
+                    // the Capital we are storing is greater than what our government can reasonably handle
+                    // because of that we must apply the full coffers penalty, this is made better by some expansion
+                    // technologies and worse by corruption and some other techs
+                    // apply modifiers to the Full Coffers Penalty below
+                    if (country.techs.includes('global-investment-economy')) {
+                        // +25%
+                        fullCoffersPenalty -= 1;
+                        fullCoffersPenalty = fullCoffersPenalty * 1.25;
+                        fullCoffersPenalty += 1;
+                    } else if (country.techs.includes('large-investments')) {
+                        // -40%
+                        fullCoffersPenalty -= 1;
+                        fullCoffersPenalty = fullCoffersPenalty * 0.6;
+                        fullCoffersPenalty += 1;
+                    } else if (country.techs.includes('internal-investments')) {
+                        // -50%
+                        fullCoffersPenalty -= 1;
+                        fullCoffersPenalty = fullCoffersPenalty * 0.5;
+                        fullCoffersPenalty += 1;
+                    }
+                    monthlyCapital = country.monthlyCapital * fullCoffersPenalty;
+                } else {
+                  monthlyCapital = country.monthlyCapital;
+                }
+                
+                capitalChange = (monthlyCapital * fullTaxModifier) - (debtPayment + country.buildingCapitalExpense);
                 capitalAmount = country.capitalStored + capitalChange;
-                if (capitalAmount > country.capitalStorageCapacity) {
-                    country.capitalStored = country.capitalStorageCapacity;
-                } else if (capitalAmount < 0 && country.capitalStored < 0) {
+                 if (capitalAmount < 0 && country.capitalStored < 0) {
                     country.debt = country.debt - capitalAmount;
                     country.capitalStored = 0;
                     if (country.debt > country.maxDebt) {
@@ -286,16 +312,41 @@ tellTime = function(t1) {
               
               // if in a Depression temporarily reduce the income by 10%
               if (country.inDepression) {
-                depressionModifier = 0.9;
+                fullTaxModifier = country.taxModifier - 0.1;
               } else {
-                depressionModifier = 1;
+                fullTaxModifier = country.taxModifier;
               }
               
-              capitalChange = (country.monthlyCapital * depressionModifier) - country.buildingCapitalExpense;
+              if (country.capitalStored > country.capitalStorageCapacity) {
+                    fullCoffersPenalty = country.capitalStored / country.capitalStorageCapacity;
+                    // the Capital we are storing is greater than what our government can reasonably handle
+                    // because of that we must apply the full coffers penalty, this is made better by some expansion
+                    // technologies and worse by corruption and some other techs
+                    // apply modifiers to the Full Coffers Penalty below
+                    if (country.techs.includes('global-investment-economy')) {
+                        // +25%
+                        fullCoffersPenalty -= 1;
+                        fullCoffersPenalty = fullCoffersPenalty * 1.25;
+                        fullCoffersPenalty += 1;
+                    } else if (country.techs.includes('large-investments')) {
+                        // -40%
+                        fullCoffersPenalty -= 1;
+                        fullCoffersPenalty = fullCoffersPenalty * 0.6;
+                        fullCoffersPenalty += 1;
+                    } else if (country.techs.includes('internal-investments')) {
+                        // -50%
+                        fullCoffersPenalty -= 1;
+                        fullCoffersPenalty = fullCoffersPenalty * 0.5;
+                        fullCoffersPenalty += 1;
+                    }
+                    monthlyCapital = country.monthlyCapital / fullCoffersPenalty;
+                } else {
+                  monthlyCapital = country.monthlyCapital;
+                }
+              
+              capitalChange = (monthlyCapital * fullTaxModifier ) - country.buildingCapitalExpense;
               capitalAmount = country.capitalStored + capitalChange;
-              if (capitalAmount > country.capitalStorageCapacity) {
-                country.capitalStored = country.capitalStorageCapacity;
-              } else if (capitalAmount < 0 && country.capitalStored < 0) {
+               if (capitalAmount < 0 && country.capitalStored < 0) {
                   country.debt = country.debt - capitalAmount;
                   country.capitalStored = 0;
                 } else {
@@ -634,6 +685,14 @@ tellTime = function(t1) {
                 }
                 document.querySelector("#country-capital-amount").textContent = country.capitalStored.toFixed(0);
                 
+                if (country.inDepression) {
+                  document.querySelector("#country-capital-amount").style.color = "rgb(255,200,200)";
+                  document.querySelector("#country-capital-amount").style.textShadow = "0px 0px 4px rgb(255,100,100)";
+                } else {
+                  document.querySelector("#country-capital-amount").style.color = "white";
+                  document.querySelector("#country-capital-amount").style.textShadow = "0px 0px 4px transparent";
+                }
+                
                 if (influenceChange < 0) {
                   document.querySelector("#country-influence-growth").innerHTML = "<span style='color:rgb(255,50,50);'>" + influenceChange.toFixed(2) + "</span>";
                 } else {
@@ -759,6 +818,27 @@ tellTime = function(t1) {
         currentMonth = document.querySelector(".current-month").textContent;
         switch(currentMonth) {
             case 'January':
+                countries.forEach(function(country) {
+                  
+                  if (country.inDepression) {
+                    fullTaxModifier = country.taxModifier - 0.1;
+                  } else {
+                    fullTaxModifier = country.taxModifier;
+                  }
+                  
+                  incomeLevel = country.monthlyCapital * fullTaxModifier;
+                  fullCoffersCorruptionPenalty = 1 + (country.corruption / 100);
+                  country.capitalStorageCapacity = (incomeLevel * 24) / fullCoffersCorruptionPenalty;
+                  // the fullCoffersPenalty begins at 2 years stored capital with 0 corruption or 1 year
+                  // stored Capital with 100 corruption
+                  country.maxDebt = incomeLevel * 60;
+                  // the amount of debt a country can store is always equal to it's monthly income distributed
+                  // over 5 years
+                  
+                });
+                // every year after income is recalculated, we must then recalculate maximum
+                // capital storage and maximum debt as well since these are based on income
+                
                 document.querySelector(".current-month").textContent = 'February';
             break;
             case 'February':
@@ -940,10 +1020,11 @@ tellTime = function(t1) {
                 
                 // here we will recalculate the gdppercapita of a province and also the population size, and then calculate also
                 // the benefits of these two numbers in each province
-                country.ownedProvinces1.forEach(function(provinceID) {
+                /*country.ownedProvinces1.forEach(function(provinceID) {
                 
-                });
+                }); */
                 
+                cumulativeGDPPerCapita = 0;
                 country.ownedProvinces2.forEach(function(provinceID) {
                   if (map2Provinces[provinceID].autonomy > 0.025) {
                     map2Provinces[provinceID].autonomy -= (0.025 + countries[map2Provinces[provinceID].ownerID].autonomyDecrease);
@@ -953,29 +1034,30 @@ tellTime = function(t1) {
                   recalculateProvincePopulation2(provinceID);
                   recalculateProvinceGDP2(provinceID);
                   
-                  cumulativeGDPPerCapita = 0;
-                  country.ownedProvinces2.forEach(function(provinceID) {
-                    cumulativeGDPPerCapita += map2Provinces[provinceID].gdpPerCapita;
-                  });
-                  country.averageGdpPerCapita = cumulativeGDPPerCapita / country.ownedProvinces2.length;
-                  map2CountryIndexPosition = countryIDList2.indexOf(country.id);
-                  countryGDPPerCapita2[map2CountryIndexPosition] = country.averageGdpPerCapita;
-                  // update the country's averageGDPPerCapita
+                  cumulativeGDPPerCapita += map2Provinces[provinceID].gdpPerCapita;
                   
-                  
-                  
-                  calculateCountryCapital(country.id);
-                  calculateCountryManpower(country.id);
-                  // update population and gdppercapita in all provinces once per year so the country can experience growth
                 });
+                country.averageGdpPerCapita = cumulativeGDPPerCapita / country.ownedProvinces2.length;
+                map2CountryIndexPosition = countryIDList2.indexOf(country.id);
+                countryGDPPerCapita2[map2CountryIndexPosition] = country.averageGdpPerCapita;
+                // update the country's averageGDPPerCapita for nation and planet
                 
-                country.ownedProvinces3.forEach(function(provinceID) {
+                updateMilitaryUnitCapitalCosts(country.id);
+                // now that we have figured out the latest averageGdpPerCapita for this country
+                // we want to know how much military units should get paid in Capital
+                
+                calculateCountryCapital(country.id);
+                // figure out what the monthlyCapital is for this country
+                calculateCountryManpower(country.id);
+                // figure out what the monthlyManpower is for this country
+                
+                /*country.ownedProvinces3.forEach(function(provinceID) {
                 
                 });
                 
                 country.ownedProvinces4.forEach(function(provinceID) {
                 
-                });
+                }); */
               });
               
               map2GDPPerCapita = 0;

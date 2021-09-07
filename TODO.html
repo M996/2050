@@ -1,9 +1,7 @@
-- update military unit capital cost based on national gdppercapita
-
-- replace Capital hard cap with a soft cap
+- update space Infantry and Space Marines production cost based on construction scenario (build-window-functions.js line 313)
 
 - calculate a country's monthlyCapital, and monthlyManpower when an occupation happens and remove that province from country ownership
-- that is to say, run the calculate functions for these values (also bear in mind how depressions will effect this)
+- that is to say, run the calculate functions for these values
 
 - when a province is lost check each city for buildings with Capital maintenance and remember to subtract those
 - buildings capital maintenance and other properties from the country losing the province
@@ -17,8 +15,16 @@
 
 - add policies to the game so that rebel groups have something to enforce besides autonomy
 
-- add a policy to force a Depression to end right away in exchane for more individual freedoms (autonomy being one)
+- add a policy to force a Depression to end right away in exchange for more individual freedoms (autonomy being one)
 - this can also be a policy that particularists want to enact
+
+- test lag on spawning tens of thousands of rebels
+
+- determine what type of soft cap to add to rebel spawn to match resource limitations on military units
+- and more importantly handle any lag caused by rebel spawn (recommend a Capital based soft cap)
+
+- rare events in the game should allow fully independent countries that do not have a corporation to spawn
+- their own corporation
 
 - when guerrillas spawn in a city and are defeated, they should have their city changed to a different city in that same province
 - so that the next month they will be detected again and fight again for a different city. If no more cities are available then
@@ -104,6 +110,8 @@
 - if they are fight them, but if they are not then ignore it. When at peace only check to see if their are hostileGuerrillas.
 
 - add negative economic effects to cities or provinces that are in civil unrest and also add an icon letting you know that this is happening
+
+- create policy interactions screen, and make taxModifier policy change gdppercapita by amount specified in the countries object
 
 - create fleet elements on canvas and give them the ability to move around
 
@@ -216,12 +224,10 @@
 
 
 
-- Add Civil Wars maybe as part of a DLC?
-
 - POTENTIAL BUG: Test later to see if regular army and rebel armies display morale correctly when a rebel army is fighting offensively
 
-- Orbital Mass Driver should give the ability to launch orbital units directly into High Orbit? This means that iff Kessler Syndrome
-- is too strong in low orbit that orbital plane can be entirely skipped thus allowing some nations to still launch orbital units
+- Orbital Mass Driver should give the ability to launch orbital units directly into High Orbit? This means that if Kessler Syndrome
+- is too strong in low orbit that orbital sphere can be entirely skipped thus allowing some nations to still launch orbital units
 
 - maybe experiment with disabling object caching and see how that goes (main2.js)
 
@@ -231,12 +237,18 @@
 - WebWorkers will be needed to create a PWA and allow offline mode for the game, in addition to utilizing multiple cores
 - Pointer Lock API can be used to get the coordinates of a mouse at any given moment
 
-- 2050.game is available on namecheap for $250 a year, 2050.io is available on godaddy for $63 a year as well as 2050.cc for $16 a year
-- or you can purchase an IPFS domain of 2050.zil for $800 and own it, but people can only get to it if they can access IPFS
 
 
 
 
+
+Things that your alert window should alert you to:
+- A province being occupied by the enemy
+- A Depression beginning
+- A famine beginning
+- War being declared on you / by an ally
+- A new technology being discovered
+- 
 
 
 
@@ -349,39 +361,73 @@
 
 ======================================= DLC ===================================================================
 
+===== MILITARY DLC ===============================================================================================
+
+- <basegame> Introduce Unit Stealth mechanics </basegame>
+
+- <basegame> Submarines only exist after this DLC </basegame>
+
+- Ability to customize military units stats (base game will only use default stats)
+
+- Ability to commit genocides
+
+- Generals get attributes that effect the armies they lead
+
+- Civil War mechanics
+
+===================================================================================================================
+
+==== DISEASE DLC =================================================================================================
+
+- disease mechanics can be present in the game
+
+- disease can spawn naturally or be created to be super deadly
+
+- other natural disasters such as Hurricanes or Earthquakes or Tsunamis or Solar Flares can occur
+
+==================================================================================================================
+
 ==== DIPLOMATIC DLC ========================================================================================
 
 Conciliat being able to form a fully controlled vassal swarm will be locked behind this DLC as well as being able to
 play as the United Nations and WIL when that comes out (probably another DLC)
 
-<basegame>Coalitions can be formed for multiple countries to join wars together</basegame>
+<basegame> Coalitions can be formed for multiple countries to join wars together </basegame>
 
 Sanctions can be placed on countries stopping them from buying from certain corporations and stopping trade flow into
 but not out of them
 
 Theocracy Mechanics of having prophecies and a messianic figure return to conquer the planet?
 
-<basegame>More Faction and Ideology mechanics (at least a couple)</basegame>
+<basegame> More Faction and Ideology mechanics (at least a couple)</basegame>
 
-===================================================================================================================
+=================================================================================================================
 
-===== MILITARY DLC ===============================================================================================
+==== SPACE DLC ==================================================================================================
 
-Sky Marines can be built if you already have both Marines and Space Infantry
+- <basegame> Ability to Harvest Exotic matter </basegame>
 
-Ability to customize military units stats (base game will only use default stats)
+- <basegame> Ability to build Wormholes to other Solar Systems </basegame>
 
-Introduce Unit Stealth mechanics
+- Maybe large Beam weapons to use against land countries if you have enough Solar Stations?
 
-???Submarines only exist after this DLC???
+- Sky Marines can be built if you already have both Marines and Space Infantry
 
-Ability to commit genocides
+- Ability to build Antimatter factories on Gas Giants
 
-Generals get attributes that effect the armies they lead
+=================================================================================================================
 
-===================================================================================================================
+==== CUSTOM NATION DLC ==========================================================================================
 
-=== CYBERWAREFARE DLC =============================================================================================
+- <basegame> Global leaderboard for singleplayer and multiplayer games </basegame>
+
+- Ability to Create a Custom Nation and choose its starting provinces and national ideas
+
+- ability to use custom nations in multiplayer games
+
+==================================================================================================================
+
+=== CYBERWAREFARE DLC ============================================================================================
 
 Viruses to create:
 Hijack Satellite
@@ -419,27 +465,15 @@ Probably Internet trade and digital assets fall inside this DLC
 
 ===============================================================================================================
 
-==== SPACE DLC ================================================================================================
+==== ECONOMIC DLC ================================================================================================
 
-- <basegame>Ability to build Solar Stations (base game should only have Asteroid Stations)</basegame>
+- Give Corporations Widget to sell to countries providing them with buffs or bonuses?
 
-- <basegame>Ability to build Antimatter factories on Gas Giants</basegame>
+- Give Corporations the ability to purchase Mercenaries and take control of territory
 
-- <basegame>Ability to Harvest Exotic matter</basegame>
+- give countries and coporations the ability to buy soveriegn nation's debt and use it as leverage over them
 
-- Ability to build Wormholes to other Solar Systems
-
-- Maybe large Beam weapons to use against land countries if you have enough Solar Stations?
-
-=================================================================================================================
-
-==== CUSTOM NATION DLC ==========================================================================================
-
-- <basegame>Global leaderboard for singleplayer and multiplayer games</basegame>
-
-- Ability to Create a Custom Nation and choose its starting provinces and national idea
-
-- ability to use custom nations in multiplayer games
+- Create Independent Seasteads that occur naturally or at game start
 
 ==================================================================================================================
 
@@ -449,5 +483,9 @@ Probably Internet trade and digital assets fall inside this DLC
 
 - custom flags for custom nations as an extra paid feature (or attaching the flag of your custom country to
 - your profile)
+
+- Set up a Patreon for people to pay for continued development
+
+- Have a Kickstarter Campaign and allow people to name a country and add national ideas if they pay enough ($60)
 
 ==================================================================================================================

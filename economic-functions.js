@@ -173,6 +173,25 @@ const recalculateProvinceGDP2 = function(provinceID) {
   
   provinceGDPGrowthModifier = ideologies[countries[ownerID].ideology].gdpGrowthIncrease;
   // modify gdp growth based on the ideology
+  if (countries[ownerID].taxModifier == 0.6) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier + 0.01;
+    // Very Low Taxes = +1% gdpPerCapitaGrowth
+  } else if (countries[ownerID].taxModifier == 0.8) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier + 0.005;
+    // Low Taxes = +0.5% gdpPerCapitaGrowth
+  } if (countries[ownerID].taxModifier == 1) {
+    // Normal Taxes
+  } if (countries[ownerID].taxModifier == 1.2) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier - 0.005;
+    // High Taxes = -0.5% gdpPerCapitaGrowth
+  } if (countries[ownerID].taxModifier == 1.4) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier - 0.01;
+    // Very High Taxes = -1% gdpPerCapitaGrowth
+  } if (countries[ownerID].taxModifier == 0.8) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier + 0.02;
+    // Minarchist Taxes = +2% gdpPerCapitaGrowth
+  }
+  // modify the gdp growth based on the tax policy
   map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * (countries[ownerID].annualGdpPerCapitaGrowth + provinceGDPGrowthModifier);
   // finally change the actual gdppercapita of the province
   
@@ -207,6 +226,8 @@ const recalculateProvinceGDP4 = function(provinceID) {
 const calculateCountryCapital = function(countryID) {
   countryResourceIncome = 0;
   countryTaxIncome = 0;
+  countries[countryID].ownedCities1.forEach(function(cityID) {});
+  // add world 1 later
   // here we are running calculations for this country's holdings in world 2, other worlds have not yet been added
   countries[countryID].ownedCities2.forEach(function(cityID) {
     gdpPerCapita = map2Provinces[map2Cities[cityID].provinceID].gdpPerCapita;
@@ -238,8 +259,6 @@ const calculateCountryCapital = function(countryID) {
   countries[countryID].monthlyCapital = countryResourceIncome + countryTaxIncome;
   // here we are adding together resources collected + taxes collected, in the future we are going to want to add
   // in capital from Trade and Corporate Stocks
-  countries[countryID].capitalStorageCapacity = countries[countryID].monthlyCapital * 60;
-  
 }
 
 
@@ -261,3 +280,59 @@ const calculateCountryManpower = function(countryID) {
   // it should take 10 years to refill a country when totally depleted of manpower
   
 }
+
+
+
+
+const updateMilitaryUnitCapitalCosts = function(countryID) {
+  
+  infantryCapitalConstructionCost = 0.5 + (countries[countryID].averageGdpPerCapita / 10);
+  countries[countryID].infantryCapitalCost = infantryCapitalConstructionCost.toFixed(2);
+  infantryCapitalMaintenanceCost = 0.15 + (countries[countryID].averageGdpPerCapita / 20);
+  countries[countryID].infantryCapitalMaintenance = infantryCapitalMaintenanceCost.toFixed(2);
+  
+  marineCapitalConstructionCost = 0.6 + (countries[countryID].averageGdpPerCapita / 9);
+  countries[countryID].marineCapitalCost = marineCapitalConstructionCost.toFixed(2);
+  marineCapitalMaintenanceCost = 0.2 + (countries[countryID].averageGdpPerCapita / 19);
+  countries[countryID].marineCapitalMaintenance = marineCapitalMaintenanceCost.toFixed(2);
+  
+  spaceInfantryCapitalConstructionCost = 0.5 + (countries[countryID].averageGdpPerCapita / 9);
+  countries[countryID].spaceInfantryCapitalCost = spaceInfantryCapitalConstructionCost.toFixed(2);
+  spaceInfantryCapitalMaintenanceCost = 0.2 + (countries[countryID].averageGdpPerCapita / 18);
+  countries[countryID].spaceInfantryCapitalMaintenance = spaceInfantryCapitalMaintenanceCost.toFixed(2);
+  
+  spaceMarineCapitalConstructionCost = 1.8 + (countries[countryID].averageGdpPerCapita / 8);
+  countries[countryID].spaceMarineCapitalCost = spaceMarineCapitalConstructionCost.toFixed(2);
+  spaceMarineCapitalMaintenanceCost = 0.5 + (countries[countryID].averageGdpPerCapita / 16);
+  countries[countryID].spaceMarineCapitalMaintenance = spaceMarineCapitalMaintenanceCost.toFixed(2);
+  
+  tankCapitalConstructionCost = 1.4 + (countries[countryID].averageGdpPerCapita / 9);
+  countries[countryID].tankCapitalCost = tankCapitalConstructionCost.toFixed(2);
+  tankCapitalMaintenanceCost = 0.5 + (countries[countryID].averageGdpPerCapita / 20);
+  countries[countryID].tankCapitalMaintenance = tankCapitalMaintenanceCost.toFixed(2);
+  
+  aircraftCapitalConstructionCost = 1.4 + (countries[countryID].averageGdpPerCapita / 9);
+  countries[countryID].aircraftCapitalCost = aircraftCapitalConstructionCost.toFixed(2);
+  aircraftCapitalMaintenanceCost = 0.55 + (countries[countryID].averageGdpPerCapita / 18);
+  countries[countryID].aircraftCapitalMaintenance = aircraftCapitalMaintenanceCost.toFixed(2);
+  
+  destroyerCapitalConstructionCost = 1.5 + (countries[countryID].averageGdpPerCapita / 8);
+  countries[countryID].destroyerCapitalCost = destroyerCapitalConstructionCost.toFixed(2);
+  destroyerCapitalMaintenanceCost = 1.25 + (countries[countryID].averageGdpPerCapita / 10);
+  countries[countryID].destroyerCapitalMaintenance = destroyerCapitalMaintenanceCost.toFixed(2);
+  
+  carrierCapitalConstructionCost = 2.2 + (countries[countryID].averageGdpPerCapita / 6);
+  countries[countryID].carrierCapitalCost = carrierCapitalConstructionCost.toFixed(2);
+  carrierCapitalMaintenanceCost = 2 + (countries[countryID].averageGdpPerCapita / 14);
+  countries[countryID].carrierCapitalMaintenance = carrierCapitalMaintenanceCost.toFixed(2);
+  
+  submarineCapitalConstructionCost = 1.6 + (countries[countryID].averageGdpPerCapita / 7);
+  countries[countryID].submarineCapitalCost = submarineCapitalConstructionCost.toFixed(2);
+  submarineCapitalMaintenanceCost = 1.6 + (countries[countryID].averageGdpPerCapita / 10);
+  countries[countryID].submarineCapitalMaintenance = submarineCapitalMaintenanceCost.toFixed(2);
+  
+}
+
+
+
+

@@ -527,7 +527,7 @@ require 'header.php';
 <script src="country-colors.js"></script>
 <script src="corporations.js"></script>
 
-<script src="public/units/admiral.js"></script>
+<script src="public/units/admirals.js"></script>
 <script src="public/units/general.js"></script>
 <script src="public/units/aircraft.js"></script>
 <script src="public/units/carrier.js"></script>

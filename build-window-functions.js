@@ -12,7 +12,7 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
   nuclearStorageDiv = false;
   // The nuclear storage div only appears if the building is a Missile Silo, and displays stored nuclear ICBMs
   switch(buildingModel) {
-    // this switch case is used to deermine the name and picture of a building based on its model, as well as all production options
+    // this switch case is used to determine the name and picture of a building based on its model, as well as all production options
     // associated with that building ie. what you can build
     case 'construction':
       buildingName = 'Under Construction';
@@ -25,21 +25,21 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
       buildingImg = 'public/images/portBuilding.png';
       if (countries[buildingOwner].hasMarines) {
          buildButtons += `<div class="build-btn-grouper">
-                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'marine',1,['processed-metal','manpower','capital','energy'],[0.4,5500,0.8,0.4],2,0)"
-                          onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,5500,0.8,0.4],2,0)">Marine</button>
+                          <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'marine',1,['processed-metal','manpower','capital','energy'],[0.4,5500,${countries[buildingOwner].marineCapitalCost},0.4],2,0)"
+                          onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,5500,${countries[buildingOwner].marineCapitalCost},0.4],2,0)">Marine</button>
                         </div>`;
       }
       if (countries[buildingOwner].hasCarriers) {
         buildButtons += `<div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'carrier',1,['processed-metal','manpower','capital','energy'],[2.2,6000,2.4,1],9,0)"
-                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[2.2,6000,2.4,1],9,0)">Aircraft Carrier</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'carrier',1,['processed-metal','manpower','capital','energy'],[2.2,6000,${countries[buildingOwner].carrierCapitalCost},1],9,0)"
+                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[2.2,6000,${countries[buildingOwner].carrierCapitalCost},1],9,0)">Aircraft Carrier</button>
                       </div>`;
       } 
       buildButtons += `<div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'destroyer',1,['processed-metal','manpower','capital','energy'],[1.8,4000,1.6,0.75],5,0)"
-                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.8,4000,1.6,0.75],5,0)">Destroyer</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'submarine',1,['processed-metal','manpower','capital','energy'],[1.2,2000,1.8,0.8],6,0)"
-                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.2,2000,1.8,0.8],6,0)">Submarine</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'destroyer',1,['processed-metal','manpower','capital','energy'],[1.8,4000,${countries[buildingOwner].destroyerCapitalCost},0.75],5,0)"
+                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.8,4000,${countries[buildingOwner].destroyerCapitalCost},0.75],5,0)">Destroyer</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'submarine',1,['processed-metal','manpower','capital','energy'],[1.2,2000,${countries[buildingOwner].submarineCapitalCost},0.8],6,0)"
+                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.2,2000,${countries[buildingOwner].submarineCapitalCost},0.8],6,0)">Submarine</button>
                         </div>`;
     break;
     case 'military-base':
@@ -52,14 +52,14 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
                         <button class="build-window-btn" onclick="activateBuildingProcess2(` + buildingProcess + `, 0)">De-activate</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'infantry',1,['processed-metal','manpower','capital','energy'],[0.4,6000,0.6,0.3],2,0)"
-                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,6000,0.6,0.3],2,0)">Infantry</button>
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'tank',1,['processed-metal','manpower','capital','energy'],[1.4,3000,1.5,0.6],3,0)"
-                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.4,3000,1.5,0.6],3,0)">Tank Division</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'infantry',1,['processed-metal','manpower','capital','energy'],[0.4,6000,${countries[buildingOwner].infantryCapitalCost},0.3],2,0)"
+                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[0.4,6000,${countries[buildingOwner].infantryCapitalCost},0.3],2,0)">Infantry</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'tank',1,['processed-metal','manpower','capital','energy'],[1.4,3000,${countries[buildingOwner].tankCapitalCost},0.6],3,0)"
+                        onmouseover="buildingCostToolTip(['processed-metal','manpower','capital','energy'],[1.4,3000,${countries[buildingOwner].tankCapitalCost},0.6],3,0)">Tank Division</button>
                         </div>
                         <div class="build-btn-grouper">
-                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'aircraft',1,['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,1.5,1.2],4,0)"
-                        onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,1.5,1.2],4,0)">Aircraft</button>
+                        <button class="build-window-btn" onclick="manipulateBuildingProcess2(` + buildingProcess + `, 'aircraft',1,['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,${countries[buildingOwner].aircraftCapitalCost},1.2],4,0)"
+                        onmouseover="buildingCostToolTip(['processed-metal','processed-minerals','manpower','capital','energy'],[0.8,0.1,500,${countries[buildingOwner].aircraftCapitalCost},1.2],4,0)">Aircraft</button>
                         </div>`;
     break;
     case 'power-plant-1':
@@ -309,6 +309,9 @@ const openBuildWindow2 = function(buildingArrayIndex, buildingModel, buildingImg
       if (map2Cities[thisCity].isAsteroidHabitat) {
         // THIS LAUNCH PAD IS ON A NASTEROID, THUS COSTS TILL BE LOWER MCUH LIKE IF IT WERE ON A SOLAR CYLINDER
         // MOON CITIES WILL BE A BIT MORE EXPENSIVE AND ORDINARY PLANETS WILL BE THE MOST EXPENSIVE
+        
+        // calculate the cost of spaceInfantry and SpaceMarines for each potential construction scenario
+        
         buildingName = 'Orbital Launch Pad';
         buildingImg = 'public/images/launchpad.png';
         if (countries[buildingOwner].hasSolarPowerStation) {

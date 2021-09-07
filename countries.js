@@ -29,25 +29,29 @@ let countries = [
         "capitalExpense": 0,
         // ports, barracks, and missile silos increase the monthly capital expense
         // base Capital for all countries is +2
-        "capitalStored": 100,
-        "capitalStorageCapacity": 1867.8,
-        // capital storage is equal to 5 years capital income, past this the full coffers penalty should apply, updated annual
-        "debt": 30,
-        "maxDebt": 3735.6,
-        // maxDebt equal to 20 years income if the total debt surpasses this amount the country enters bankruptcy.
+        "capitalStored": 350,
+        "capitalStorageCapacity": 699.6,
+        // capital storage is equal to 2 years capital income, past this the full coffers penalty should apply, updated annual
+        "debt": 0,
+        "maxDebt": 1749,
+        // maxDebt equal to 5 years income if the total debt surpasses this amount the country enters bankruptcy.
         "debtInterestRate": 0.06,
+        "debtOwner": [],
+        "debtOwnerAmount": [],
+        // debt owner and debtowner amount will be used to track countries and corporations that buy
+        // this country's debt and how much they have purchased
         "isBankrupt": '',
         "monthlyInfluence": 3,
         "influenceExpense": 0,
         // base Influence for all countries is +3
         "influenceStored": 0,
         "influenceStorageCapacity": 999,
-        "monthlyFood": 12,
+        "monthlyFood": 12, 
         "foodExpense": 2.6892,
         // base Food for all countries is +2. Food is consumed at a rate of 0.00000003 per population
         "foodStored": 10,
         "foodStorageCapacity": 100,
-        "isStarving": false,
+        "isStarving": false, 
         "buildingProcess1": [],
         "buildingProcess2": [1,2,4,8,40],
         "buildingProcess3": [],
@@ -194,6 +198,16 @@ let countries = [
         "infantrySpeed": 30,
         "infantryCapitalMaintenance": 0.2,
         "infantryEnergyMaintenance": 0.04,
+        "infantryCapitalCost": 0.6,
+        
+        "marineCapitalCost": 0.8,
+        "marineCapitalMaintenance": 0.2,
+        
+        "spaceInfantryCapitalCost": 1.8,
+        "spaceInfantryCapitalMaintenance": 0.5,
+        
+        "spaceMarineCapitalCost": 2.2,
+        "spaceMarineCapitalMaintenance": 0.6,
         
         "tankMaxHealth": 100,
         "tankSmallArmsDamage": 1,
@@ -206,6 +220,7 @@ let countries = [
         "tankProcessedMetalMaintenance": 0.04,
         "tankCapitalMaintenance": 0.6,
         "tankEnergyMaintenance": 0.18,
+        "tankCapitalCost": 1.5,
         
         "aircraftEvasion": 0.9,
         "aircraftExplosiveDamage": 15,
@@ -216,6 +231,7 @@ let countries = [
         "aircraftSpeed": 120,
         "aircraftCapitalMaintenance": 0.65,
         "aircraftEnergyMaintenance": 0.2,
+        "aircraftCapitalCost": 1.5,
         "aircraftAttackPreference": 'units',
         
         "destroyerMaxHealth": 400,
@@ -228,6 +244,7 @@ let countries = [
         "destroyerProcessedMetalMaintenance": 0.08,
         "destroyerCapitalMaintenance": 1.4,
         "destroyerEnergyMaintenance": 0.35,
+        "destroyerCapitalCost": 1.6,
         "destroyerCarryingCapacityBonus": 0,
         // this number increases the amount of land units you can carry (0.5 - 2)
         
@@ -242,6 +259,7 @@ let countries = [
         // this number increases the amount of aircraft you can carry (1 - 6)
         "carrierCapitalMaintenance": 2.2,
         "carrierEnergyMaintenance": 0.6,
+        "carrierCapitalCost": 2.4,
         
         "submarineEvasion": 0.8,
         "submarineExplosiveDamage": 200,
@@ -252,6 +270,7 @@ let countries = [
         "submarineSpeed": 25,
         "submarineCapitalMaintenance": 1.8,
         "submarineEnergyMaintenance": 0.4,
+        "submarineCapitalCost": 1.8,
         
         "taskShipMaxHealth": 10,
         "taskShipEvasion": 0.95,
@@ -359,8 +378,26 @@ let countries = [
         "averageGdpPerCapita": 1.32,
         "annualGdpPerCapitaGrowth": 1.03,
         // the average gdppercapita growth on Earth is 2%, on other planets that standard might be higher or lower
+        "taxModifier": 0.6,
+        // tax modifier can be set to:
+        // 1.4 = -0.01 annualGdpPerCapitaGrowth (-1%) (evens out after 33 years)
+        // 1.2 = -0.005 annualGdpPerCapitaGrowth (-0.5%) (evens out after 36 years)
+        // 1 = 0 change
+        // 0.8 = +0.005 annualGdpPerCapitaGrowth (+0.5%) (evens out difference after after 45 years)
+        // 0.6 = +0.01 annualGdpPerCapitaGrowth (+1%) (evens out difference after 52 years)
+        "taxChangeYear": 2000,
+        // this records the last year in which taxes were changed, once a tax policy is changed it cannot be
+        // changed again for at least 10 years even if it is changed through events spawned by high corruption
         "inDepression": false,
-        "corruption": 12,
+        "corruption": 10,
+        // corruption:
+        // increases unrest
+        // increases time to recover from Depressions
+        // increases full coffers penalty
+        // decreases chance to discover new technologies
+        // decreases morale
+        // causes negative events to randomly spawn
+        // causes discord in internal politics
         "unrest": 0,
         "autonomyDecrease": 0.0,
         // autonomyDecrease determines how quickly your province autonomy goes down after it has been increased
