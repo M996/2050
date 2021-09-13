@@ -380,11 +380,13 @@ let countries = [
         // the average gdppercapita growth on Earth is 2%, on other planets that standard might be higher or lower
         "taxModifier": 0.6,
         // tax modifier can be set to:
-        // 1.4 = -0.01 annualGdpPerCapitaGrowth (-1%) (evens out after 33 years)
-        // 1.2 = -0.005 annualGdpPerCapitaGrowth (-0.5%) (evens out after 36 years)
-        // 1 = 0 change
-        // 0.8 = +0.005 annualGdpPerCapitaGrowth (+0.5%) (evens out difference after after 45 years)
-        // 0.6 = +0.01 annualGdpPerCapitaGrowth (+1%) (evens out difference after 52 years)
+        // Socialist   2 = -0.02 annualGdpPerCapitaGrowth (-2%) (evens out after 34 years)
+        // Very High   1.4 = -0.01 annualGdpPerCapitaGrowth (-1%) (evens out after 33 years)
+        // High        1.2 = -0.005 annualGdpPerCapitaGrowth (-0.5%) (evens out after 36 years)
+        // Normal      1 = 0 change
+        // Low         0.8 = +0.005 annualGdpPerCapitaGrowth (+0.5%) (evens out difference after after 45 years)
+        // Very Low    0.6 = +0.01 annualGdpPerCapitaGrowth (+1%) (evens out difference after 52 years)
+        // Minarchist  0.2 = +0.025 annualGdpPerCapitaGrowth (+2.5%) (evens out after 66 years)
         "taxChangeYear": 2000,
         // this records the last year in which taxes were changed, once a tax policy is changed it cannot be
         // changed again for at least 10 years even if it is changed through events spawned by high corruption

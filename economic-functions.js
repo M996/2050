@@ -179,21 +179,29 @@ const recalculateProvinceGDP2 = function(provinceID) {
   } else if (countries[ownerID].taxModifier == 0.8) {
     provinceGDPGrowthModifier = provinceGDPGrowthModifier + 0.005;
     // Low Taxes = +0.5% gdpPerCapitaGrowth
-  } if (countries[ownerID].taxModifier == 1) {
+  } else if (countries[ownerID].taxModifier == 1) {
     // Normal Taxes
-  } if (countries[ownerID].taxModifier == 1.2) {
+  } else if (countries[ownerID].taxModifier == 1.2) {
     provinceGDPGrowthModifier = provinceGDPGrowthModifier - 0.005;
     // High Taxes = -0.5% gdpPerCapitaGrowth
-  } if (countries[ownerID].taxModifier == 1.4) {
+  } else if (countries[ownerID].taxModifier == 1.4) {
     provinceGDPGrowthModifier = provinceGDPGrowthModifier - 0.01;
     // Very High Taxes = -1% gdpPerCapitaGrowth
-  } if (countries[ownerID].taxModifier == 0.8) {
-    provinceGDPGrowthModifier = provinceGDPGrowthModifier + 0.02;
-    // Minarchist Taxes = +2% gdpPerCapitaGrowth
-  }
+  } else if (countries[ownerID].taxModifier == 2) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier - 0.02;
+    // Socialist Taxes = -2% gdpPerCapitaGrowth
+  } else if (countries[ownerID].taxModifier == 0.2) {
+    provinceGDPGrowthModifier = provinceGDPGrowthModifier + 0.025;
+    // Minarchist Taxes = +2.5% gdpPerCapitaGrowth
+  } 
   // modify the gdp growth based on the tax policy
-  map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * (countries[ownerID].annualGdpPerCapitaGrowth + provinceGDPGrowthModifier);
+  fullProvinceGDPGrowthModifier = countries[ownerID].annualGdpPerCapitaGrowth + provinceGDPGrowthModifier;
+  
+  map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita * fullProvinceGDPGrowthModifier;
   // finally change the actual gdppercapita of the province
+  
+  map2Provinces[provinceID].gdpPerCapita = map2Provinces[provinceID].gdpPerCapita.toFixed(4);
+  map2Provinces[provinceID].gdpPerCapita = Number(map2Provinces[provinceID].gdpPerCapita);
   
   if (countries[ownerID].inDepression) {
     if (map2Provinces[provinceID].gdpPerCapita > map2GDPPerCapita) {
@@ -296,12 +304,12 @@ const updateMilitaryUnitCapitalCosts = function(countryID) {
   marineCapitalMaintenanceCost = 0.2 + (countries[countryID].averageGdpPerCapita / 19);
   countries[countryID].marineCapitalMaintenance = marineCapitalMaintenanceCost.toFixed(2);
   
-  spaceInfantryCapitalConstructionCost = 0.5 + (countries[countryID].averageGdpPerCapita / 9);
+  spaceInfantryCapitalConstructionCost = 0.9 + (countries[countryID].averageGdpPerCapita / 9);
   countries[countryID].spaceInfantryCapitalCost = spaceInfantryCapitalConstructionCost.toFixed(2);
   spaceInfantryCapitalMaintenanceCost = 0.2 + (countries[countryID].averageGdpPerCapita / 18);
   countries[countryID].spaceInfantryCapitalMaintenance = spaceInfantryCapitalMaintenanceCost.toFixed(2);
   
-  spaceMarineCapitalConstructionCost = 1.8 + (countries[countryID].averageGdpPerCapita / 8);
+  spaceMarineCapitalConstructionCost = 1.75 + (countries[countryID].averageGdpPerCapita / 8);
   countries[countryID].spaceMarineCapitalCost = spaceMarineCapitalConstructionCost.toFixed(2);
   spaceMarineCapitalMaintenanceCost = 0.5 + (countries[countryID].averageGdpPerCapita / 16);
   countries[countryID].spaceMarineCapitalMaintenance = spaceMarineCapitalMaintenanceCost.toFixed(2);

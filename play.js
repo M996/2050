@@ -818,6 +818,7 @@ tellTime = function(t1) {
         currentMonth = document.querySelector(".current-month").textContent;
         switch(currentMonth) {
             case 'January':
+              
                 countries.forEach(function(country) {
                   
                   if (country.inDepression) {
@@ -834,6 +835,10 @@ tellTime = function(t1) {
                   country.maxDebt = incomeLevel * 60;
                   // the amount of debt a country can store is always equal to it's monthly income distributed
                   // over 5 years
+                  
+                  updateMilitaryUnitCapitalCosts(country.id);
+                  // now that we have figured out the latest averageGdpPerCapita for this country last month
+                  // we want to know how much military units should get paid in Capital
                   
                 });
                 // every year after income is recalculated, we must then recalculate maximum
@@ -1034,17 +1039,18 @@ tellTime = function(t1) {
                   recalculateProvincePopulation2(provinceID);
                   recalculateProvinceGDP2(provinceID);
                   
-                  cumulativeGDPPerCapita += map2Provinces[provinceID].gdpPerCapita;
+                  cumulativeGDPPerCapita = parseFloat(cumulativeGDPPerCapita) + parseFloat(map2Provinces[provinceID].gdpPerCapita);
                   
                 });
-                country.averageGdpPerCapita = cumulativeGDPPerCapita / country.ownedProvinces2.length;
-                map2CountryIndexPosition = countryIDList2.indexOf(country.id);
-                countryGDPPerCapita2[map2CountryIndexPosition] = country.averageGdpPerCapita;
-                // update the country's averageGDPPerCapita for nation and planet
                 
-                updateMilitaryUnitCapitalCosts(country.id);
-                // now that we have figured out the latest averageGdpPerCapita for this country
-                // we want to know how much military units should get paid in Capital
+                if (country.ownedProvinces2.length > 0) {
+                  country.averageGdpPerCapita = cumulativeGDPPerCapita / country.ownedProvinces2.length;
+                  map2CountryIndexPosition = countryIDList2.indexOf(country.id);
+                  countryGDPPerCapita2[map2CountryIndexPosition] = country.averageGdpPerCapita;
+                  // update the country's averageGDPPerCapita for nation and planet
+                }
+                
+                
                 
                 calculateCountryCapital(country.id);
                 // figure out what the monthlyCapital is for this country
